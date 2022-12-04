@@ -1,0 +1,195 @@
+<html lang="en-US">
+    <head>
+        <title>Mario Royale Deluxe</title>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" id="meta-zoom" content="width=device-width">
+        <link rel='icon' href='img/home/icon.png'>
+        <link rel='stylesheet' type='text/css' href='css/queries.css'>
+        <link rel='stylesheet' type='text/css' href='css/index.css'>
+        <script>
+          /* Back in the golden days this was supposed to prevent iOS users from moving their page fuckily */
+          /* But then Apple made it so that this was fucking ignored so it didn't work. Handled with CSS now. */
+          /* There may be some archaic web browser that relies on this and the CSS solution doesn't work, so L. */
+          document.addEventListener('touchmove', function(event) {
+            event = event.originalEvent || event;
+            if (event.scale !== undefined) { event.preventDefault(); }
+          }, false);
+        </script>
+    </head>
+    <body id='body' ondragstart="return false;" ondrop="return false;" style='display: none; opacity: 1;'>
+      <!-- Links -->
+      <div id='link'>
+        <div class="link-r">
+          <div class="link-github" onclick="window.open('https://github.com/mroyale')"></div>
+          <div class="link-discord" onclick="window.open('https://discord.gg/kV72ezsQwt')"></div>
+        </div>
+        <!-- <div class="link-l">
+          <div class="rtfpn2"></div>
+          <div class="link-patch" onclick="window.open('./patch.html')">v1.0.0 Patch Notes</div>
+        </div> -->
+        <div class="link-w">
+          <div id='win' class="win" style="display: none"></div>
+        </div>
+        <!-- <div class="link-b">
+          <div class="rtfpn"></div>
+          <div class="link-con" onclick="window.open('./control.html')"></div>
+        </div> -->
+      </div>
+            
+      <!-- Warning -->
+      <div id='warn' class='warn'></div>
+      
+      <!-- Error -->
+      <div id='error' class='container-center'>
+        <div id ='error-message' class='error'></div>
+      </div>
+      
+      <!-- Disclaimer -->
+      <div id='disclaim' class='container-center'>
+        <div class='dis-lg'>Hi, I’m Saul Goodman</div>
+        <div class='dis-sm'>Did you know that you have rights?</div>
+        <div class='dis-sm'>The constitution says you do</div>
+        <div class='dis-sm'>And so do I</div>
+        <div class='dis-sm'>I believe that until proven guilty, every man, woman and child in this country is innocent. <i>And that’s why I fight for you, Albuquerque!</i></div>
+
+        <!-- Trick the user into interacting with the site so we can play title music -->
+        <div class="dis-next" id="next">Continue</div>
+      </div>
+      
+      <!-- Loading Screen -->
+      <div id='load' class='container-center'>
+        <div id='loader'></div>
+      </div>
+      
+      <!-- Main Menu -->
+      <div id='main' class='container-center'>
+        <div class='title'>Mario Royale</div>
+        <div class="container-launch">
+          <div id="main-launch" class="launch">
+            <img src="./img/home/play.png" class="launch-img">
+          </div>
+
+          <div class="main-buttons">
+            <img id="main-settings" src="./img/home/settings.png" class="launch-settings">
+            <img id="main-controls" src="./img/home/controls.png" class="launch-controls">
+            <img id="main-changelog" src="./img/home/changelog.png" class="launch-changelog">
+          </div>
+
+          <div class="main-buttons">
+            <img id="main-discord" class="launch-discord" src="./img/home/discord.png">
+            <img id="main-editor" class="launch-editor" src="./img/home/editor.png"> 
+          </div>
+        </div>
+      </div>
+      
+      <!-- Enter Name -->
+      <div id='name' class='container-center'>
+        <div class='name'><input id='name-input' type='text' class='name-input' maxlength="20" placeholder='Name'/></div>
+        <div class='team'><input id='team-input' type='text' class='team-input' maxlength="3" placeholder='Squad Code'/></div>
+          <div class='container-go'>
+          <span id ='name-launch' class='launch'>Go!</span> <span class='launch'>|</span> <span id='name-private' class='launch'>Private</span>
+        </div>
+      </div>
+
+      <!-- World Selection -->
+      <div id='worlds' class='container-private' style="display: none;">
+        <p>World Select</p>
+        <select name='levels' id='levels'><option disabled value="" selected>-- Select World --</option></select>
+        <p><span id="updone">Custom</span> <input type="file" id="levelSelectInput" name="levelSelectInput[]" accept=".json,.game,.txt"></p>
+      </div>
+
+      <!-- Message Block -->
+      <div id='messageBlock' class='container-private' style="display: none; transition: all .2s ease-in-out;">
+        
+      </div>
+      
+      <!-- Game -->
+      <div id='game' class='fullscreen' oncontextmenu="return false">
+          <canvas id="game-canvas" width="320" height="240">
+            Your browser doesn’t appear to support the <code>&lt;canvas&gt;</code> element.
+          </canvas>
+      </div>
+      
+      <!-- Libs -->
+      <script src='js/lib/jquery/jquery-3.1.1.min.js'></script>
+      <script src='js/lib/cookie/js.cookie.min.js'></script>
+      <script src="https://unpkg.com/gifler@0.1.0/gifler.min.js"></script>
+      
+      <!-- Util -->
+      <script src='js/app/util/util.js'></script>
+      <script src='js/app/util/frame.js'></script>
+      <script src='js/app/util/byteme.js'></script>
+      <script src='js/app/util/squar.js'></script>
+      <script src='js/app/util/url.js'></script>
+      
+      <!-- Menus -->
+      <script src='js/app/menu.js'></script>
+      <script src='js/app/menu/menu-warn.js'></script>
+      <script src='js/app/menu/menu-error.js'></script>
+      <script src='js/app/menu/menu-load.js'></script>
+      <script src='js/app/menu/menu-disclaim.js'></script>
+      <script src='js/app/menu/menu-main.js'></script>
+      <script src='js/app/menu/menu-name.js'></script>
+      <script src='js/app/menu/menu-game.js'></script>
+      
+      <!-- Game Core -->
+      <script src='js/app/net/network.js'></script>
+      <script src='js/app/net/state-login.js'></script>
+      <script src='js/app/net/state-game.js'></script>
+      <script src='js/app/game/object/object.js'></script>
+      <script src='js/app/game/object/player.js'></script>
+      <script src='js/app/game/object/goomba.js'></script>
+      <script src='js/app/game/object/koopa.js'></script>
+      <script src='js/app/game/object/troopa.js'></script>
+      <script src='js/app/game/object/goombrat.js'></script>
+      <script src='js/app/game/object/spiny.js'></script>
+      <script src='js/app/game/object/plant.js'></script>
+      <script src='js/app/game/object/fish.js'></script>
+      <script src='js/app/game/object/bro.js'></script>
+      <script src='js/app/game/object/firebro.js'></script>
+      <script src='js/app/game/object/bowser.js'></script>
+      <script src='js/app/game/object/platform.js'></script>
+      <script src='js/app/game/object/bus.js'></script>
+      <script src='js/app/game/object/spring.js'></script>
+      <script src='js/app/game/object/flag.js'></script>
+      <script src='js/app/game/object/fire.js'></script>
+      <script src='js/app/game/object/blast.js'></script>
+      <script src='js/app/game/object/launcher.js'></script>
+      <script src='js/app/game/object/bullet.js'></script>
+      <script src='js/app/game/object/fireball.js'></script>
+      <script src='js/app/game/object/beetle.js'></script>
+      <script src='js/app/game/object/firebreath.js'></script>
+      <script src='js/app/game/object/hammer.js'></script>
+      <script src='js/app/game/object/item.js'></script>
+      <script src='js/app/game/object/mushroom.js'></script>
+      <script src='js/app/game/object/flower.js'></script>
+      <script src='js/app/game/object/star.js'></script>
+      <script src='js/app/game/object/life.js'></script>
+      <script src='js/app/game/object/axe.js'></script>
+      <script src='js/app/game/object/poison.js'></script>
+      <script src='js/app/game/object/coin.js'></script>
+      <script src='js/app/game/object/checkmark.js'></script>
+      <script src='js/app/game/object/text.js'></script>
+      <script src='js/app/game/effect/effect.js'></script>
+      <script src='js/app/game/effect/break.js'></script>
+      <script src='js/app/game/effect/coin.js'></script>
+      <script src='js/app/game/effect/dust.js'></script>
+      <script src='js/app/game/input.js'></script>
+      <script src='js/app/util/snitch.js'></script>
+      <script src='js/app/game/display/resource.js'></script>
+      <script src='js/app/game/display/camera.js'></script>
+      <script src='js/app/game/audio/data.js'></script>
+      <script src='js/app/game/audio/instance.js'></script>
+      <script src='js/app/game/audio.js'></script>
+      <script src='js/app/game/display.js'></script>
+      <script src='js/app/game/world.js'></script>
+      <script src='js/app/game/game.js'></script>
+      <script src='js/app/game/lobby.js'></script>
+      <script src='js/app/game/jail.js'></script>
+      
+      <!-- Main Exec -->
+      <script src='js/app/app.js'></script>
+    </body>        
+</html>

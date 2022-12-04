@@ -1,0 +1,79 @@
+@media (prefers-color-scheme: dark) {
+  :root {
+    --toolbar-background: #2E2F37 !important;
+    --toolbar-border: #1B1C24 !important
+  }
+  html, body {
+    background: #44454D;
+    color: #FFF
+  }
+  .toolbar-button-top:hover, .list-zone:hover {
+    background: #42434B !important
+  }
+  .toolbar-button-top:active, .list-zone:active {
+    background: #57585E !important
+  }
+  .tool-button {
+    color: #000
+  }
+}
+
+:root {
+  --toolbar-background: #F9F1F0;
+  --toolbar-border: #EBE3E3
+}
+
+.file-error {
+  background: #999;
+  border: 1px var(--toolbar-border) solid
+}
+
+.panel-top {
+  border-bottom: 1px solid var(--toolbar-border)
+}
+
+#editor-top {
+  background: var(--toolbar-background)
+}
+
+.toolbar-button-top:hover, .list-zone:hover {
+  background: #EDE5E5
+}
+
+.toolbar-button-top:active, .list-zone:active {
+  background: #EFE8E8
+}
+
+.list-world {
+  background: var(--toolbar-background);
+  border-bottom: 1px solid var(--toolbar-border)
+}
+
+.list-zone {
+  background: var(--toolbar-background);
+  border-bottom: 1px solid var(--toolbar-border)
+}
+
+.tool-button {
+  background: #FBFBFB;
+  border: 1px solid #767676
+}
+
+.tool-button:hover {
+  background: #E1E1E1;
+  border-color: #6A6A6A
+}
+
+.tool-button:active {
+  background: #C8C8C8;
+  border-color: #5E5E5E
+}
+
+.warn {
+  background: #00000070;
+  color: #FFF
+}
+
+.container-center {
+  color: #FFF
+}

@@ -1,0 +1,15 @@
+{
+	"tileAnim":[
+		{"name": "Grass", "startTile": 36, "tiles":[36, 37, 38, 39, 40, 41, 42], "delay": 8},
+		{"name": "Vine", "startTile": 87, "tiles":[87, 88, 89, 90], "delay": 10},
+		{"name": "VineBottom", "startTile": 91, "tiles":[91, 92, 93, 94], "delay": 10},
+		{"name": "WaterBottom", "startTile": 68, "tiles":[68, 69, 70, 71], "delay": 8},
+		{"name": "WaterTop", "startTile": 72, "tiles":[72, 73, 74, 75, 76, 77, 78, 79], "delay": 8},
+		{"name": "MysteryBox", "startTile": 110, "tiles":[110, 111, 112, 113], "delay": 8},
+		{"name": "CloudLeft", "startTile": 136, "tiles":[136, 136, 139, 142, 142, 145, 145], "delay": 16},
+		{"name": "CloudMiddle", "startTile": 137, "tiles":[137, 137, 140, 143, 143, 146, 146], "delay": 16},
+		{"name": "CloudRight", "startTile": 138, "tiles":[138, 138, 141, 144, 144, 147, 147], "delay": 16},
+		{"name": "Spike", "startTile": 107, "tiles":[107, 108, 109, 110], "delay": 4},
+		{"name": "Bubble", "startTile": 31, "tiles":[31, 64, 32, 65], "delay": 4}
+	]
+}

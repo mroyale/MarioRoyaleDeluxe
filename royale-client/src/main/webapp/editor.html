@@ -1,0 +1,496 @@
+<html lang="en-US">
+    <head>
+        <title>Editor - Mario Royale Deluxe</title>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" id="meta-zoom" content="width=device-width">
+        <link rel='icon' href='img/home/icon.png'>
+        <link rel='stylesheet' type='text/css' href='css/queries.css'>
+        <link rel='stylesheet' type='text/css' href='css/editor.css'>
+        <link rel='stylesheet' type='text/css' href='css/editor-themes.css'>
+    </head>
+    
+    <body id='body' style='display: none;'>
+      <!-- Warning -->
+      <div id='warn' class='warn' style='display:none'></div>
+      
+      <!-- Error -->
+      <div id='error' class='container-center' style='display:none'>
+        <div id ='error-message' class='error'></div>
+      </div>
+      
+      <!-- File -->
+      <div id="file" style='display:none'>
+        <div><button type="file" id="file-new" class="tool-button">New World</button><input type="file" id="file-input" accept=".json,.game,.txt"/></div>
+        <div class="file-error" id="file-error">...</div>
+        <div class="ek-info">
+          This EK is intended for those somewhat knowledgeable of programming/modding.<br>
+          All values listed as “byte” or “bit” are in unsigned decimal format.<br>
+          Which means a byte is a value from 0 to 255 and so on.<br><br>
+          All zones should have a height of 14. This is a general style rule for the game.<br>
+          If you plan to try and make a map, please study the existing maps carefully!<br><br>
+          If you make a level that looks solid, you can share it in <a href="https://discord.gg/kV72ezsQwt">our Discord server</a>!<br>
+          We will only be adding the W. Remember to save often and good luck!
+        </div>
+      </div>
+      
+      <!-- Editor -->
+      <div id='editor' class="box" style='display:none'>
+        <div id='editor-top' class="row header panel-top unselectable">
+          <span id='editor-top-resources' class="toolbar-button-top left">Resources</span>
+          <span id='editor-top-world' class="toolbar-button-top left">World</span>
+          <span id='editor-top-level' class="toolbar-button-top left">Level</span>
+          <span id='editor-top-zone' class="toolbar-button-top left">Zone</span>
+          <span id='editor-top-tile' class="toolbar-button-top left">Tile</span>
+          <span id='editor-top-object' class="toolbar-button-top left">Object</span>
+          <span id='editor-top-warp' class="toolbar-button-top left">Warp</span>
+          <span id='editor-top-copy' class="toolbar-button-top left">Clone</span>
+          <span id='editor-top-rep' class="toolbar-button-top left">Replace</span>
+          <span id='editor-top-ref' class="toolbar-button-top left">Reference</span>
+          <span id='editor-top-bg' class="toolbar-button-top left">Background</span>
+          <span id='editor-top-about' class="toolbar-button-top right">About</span>
+          <span id='editor-top-save' class="toolbar-button-top right">Save</span>
+        </div>
+        <div id='editor-middle' class="row content">
+            <div id='editor-list' class="panel-right">
+            </div>
+            <div id='editor-display' class='panel-left unselectable' oncontextmenu="return false">
+              <canvas id="editor-display-canvas" width="320" height="240">
+                Your browser doesn't appear to support the <code>&lt;canvas&gt;</code> element.
+              </canvas>
+            </div>
+        </div>
+        <div id='editor-bottom' class="row footer">
+          <!-- Resources Tool -->
+          <div id='editor-tool-resources' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Map Spritesheet<span class="tooltiptext">The map graphics, use "Custom" to import your own spritesheet</span></div><div class='tool-type'>dropdown</div>
+              <select id='editor-tool-resources-map' type='text' class="tool-val"></select>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Obj Spritesheet<span class="tooltiptext">The object graphics, use "Custom" to import your own spritesheet</span></div><div class='tool-type'>dropdown</div>
+              <select id='editor-tool-resources-obj' type='text' class="tool-val"></select>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Animation Data<span class="tooltiptext">The animation data, this is used to animate tiles in your world. use "Custom" to import your own</span></div><div class='tool-type'>dropdown</div>
+              <select id='editor-tool-resources-assets' type='text' class="tool-val"></select>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Custom Map<span class="tooltiptext">The URL which will be used as the map spritesheet</span></div><div class='tool-type'>string path/URL</div>
+              <input id='editor-tool-resources-cmap' type='text' class="tool-val" disabled=""/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Custom Obj<span class="tooltiptext">The URL which will be used as the object spritesheet</span></div><div class='tool-type'>string path/URL</div>
+              <input id='editor-tool-resources-cobj' type='text' class="tool-val" disabled=""/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Custom Animations<span class="tooltiptext">The URL which will be used as the animation data</span></div><div class='tool-type'>string path/URL</div>
+              <input id='editor-tool-resources-cassets' type='text' class="tool-val" disabled=""/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-resources-apply' class="tool-button">Apply</div>
+            </div>
+          </div>
+
+          <!-- World Tool -->
+          <div id='editor-tool-world' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Initial Level<span class="tooltiptext">Should always be 0</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-world-initial' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-world-new' class="tool-button">New Level</div>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-world-apply' class="tool-button">Apply</div>
+            </div>
+          </div>
+          
+          <!-- Level Tool -->
+          <div id='editor-tool-level' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>ID<span class="tooltiptext">Can be whatever you want, but make sure that multiple levels don’t have the same ID</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-level-id' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Name<span class="tooltiptext">What appears in-between loading screens from level to level</span></div><div class='tool-type'>string</div>
+              <input id='editor-tool-level-name' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Initial Zone<span class="tooltiptext">The zone in which the player will start in</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-level-initial' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-level-new' class="tool-button">New Zone</div>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-level-apply' class="tool-button">Apply</div>
+            </div>
+          </div>
+          
+          <!-- Zone Tool -->
+          <div id='editor-tool-zone' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>ID<span class="tooltiptext">Can be whatever you want, but make sure that multiple zones don’t have the same ID</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-zone-id' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>X Position<span class="tooltiptext">Controls your horizontal position where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, so if this zone isn’t your initial zone, this parameter doesn’t matter</span></div><div class='tool-type'>short</div>
+              <input id='editor-tool-zone-initial-x' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Y Position<span class="tooltiptext">Controls your vertical position of where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, so if this zone isn’t your initial zone, this parameter doesn’t matter</span></div><div class='tool-type'>short</div>
+              <input id='editor-tool-zone-initial-y' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Color<span class="tooltiptext">Should be defined in hexadecimal. If you’re unsure what this is, Google is your friend</span></div><div class='tool-type'>HTML color</div>
+              <input id='editor-tool-zone-color' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Music<span class="tooltiptext">The music that will play in this zone. If your music isn’t working, make sure your music path corresponds to the music folder you’d like to use</span></div><div class='tool-type'>string path</div>
+              <input id='editor-tool-zone-music' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Width<span class="tooltiptext">How wide your zone is. Unlike other parameters in Zone, you don’t apply a width change by pressing “Apply”. You change the width by pressing “Resize”.</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-zone-width' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Height<span class="tooltiptext">How tall your zone is. Unlike other parameters in Zone, you don’t apply a height change by pressing “Apply”. You change the height by pressing “Resize”.</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-zone-height' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-zone-resize' class="tool-button">Resize</div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-zone-shiftx' class="tool-button">Shift X</div>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-zone-unshiftx' class="tool-button">Unshift X</div>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-zone-shifty' class="tool-button">Shift Y</div>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-zone-unshifty' class="tool-button">Unshift Y</div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-zone-apply' class="tool-button">Apply</div>
+            </div>
+          </div>
+          
+          <!-- Tile Tool -->
+          <div id='editor-tool-tile' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var'>Tile Data</div><div class='tool-type'>td32</div>
+              <div id='editor-tool-tile-raw' class="tool-val-im"></div>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var'>Definition Name</div><div class='tool-type'>string</div>
+              <div id='editor-tool-tile-name' class="tool-val-im"></div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Sprite Index<span class="tooltiptext">Defines the visual of the tile</span></div><div class='tool-type'>11-bit int</div>
+              <input id='editor-tool-tile-index' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Bump State<span class="tooltiptext">Should always be 0 unless you have some insane reason</span></div><div class='tool-type'>4-bit int</div>
+              <input id='editor-tool-tile-bump' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Depth<span class="tooltiptext">Depth 0 is background, 1 is foreground. Pipes and ? Blocks should generally be foreground.</span></div><div class='tool-type'>1-bit</div>
+              <input id='editor-tool-tile-depth' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Tile Definition<span class="tooltiptext">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>byte</div>
+              <!--<input id='editor-tool-tile-def' type='text' class="tool-val"/>-->
+              <select id='editor-tool-tile-def' class="tool-val"></select>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'><span id="editor-tool-data-name">Extra Data</span><span class="tooltiptext">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-tile-data' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Middle-click copies a tiles data, left-click paints</div>
+            </div>
+          </div>
+          
+          <!-- Object Tool -->
+          <div id='editor-tool-object' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Type<span class="tooltiptext">The type of object</span></div><div class='tool-type'>byte</div>
+              <!--<input id='editor-tool-object-type' type='text' class="tool-val"/>-->
+              <select id='editor-tool-object-type' class="tool-val"></select>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Name<span class="tooltiptext">The name of the object</span></div><div class='tool-type'>string</div>
+              <div id='editor-tool-object-name' class="tool-val-im"></div>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Position<span class="tooltiptext">The position of the object</span></div><div class='tool-type'>short</div>
+              <div id='editor-tool-object-pos' class="tool-val-im"></div>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Position<span class="tooltiptext">Decoded position of the object</span></div><div class='tool-type'>vec2</div>
+              <div id='editor-tool-object-pos-vec' class="tool-val-im"></div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Params<span class="tooltiptext">The parameters of the object</span></div><div class='tool-type'>string[]</div>
+              <input id='editor-tool-object-param' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Left click selects, middle click creates new, wasd keys to move, delete to delete.</div>
+              <div class="tool-val-im">See doc for more info: <a href='./object.txt'>object.txt</a></div>
+            </div>
+          </div>
+            
+          <!-- Warp Tool -->
+          <div id='editor-tool-warp' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>ID<span class="tooltiptext">The ID of the warp</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-warp-id' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Position<span class="tooltiptext">The position of the warp</span></div><div class='tool-type'>short</div>
+              <div id='editor-tool-warp-pos' class="tool-val-im"></div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Extra Data<span class="tooltiptext">The extra data of the warp</span></div><div class='tool-type'>byte</div>
+              <input id='editor-tool-warp-data' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Left click selects, middle click creates new, wasd keys to move, delete to delete.</div>
+              <div class="tool-val-im">For tiles that have a warp, the extra data of that tile should match the id of the warp point.</div>
+              <div class="tool-val-im">Example: A warp pipe with extra data 32 will warp to the warp point in that level with the id 32.</div>
+              <div class="tool-val-im">The extra data of the warp point defines the animation state.</div>
+              <div class="tool-val-im">0 is default, (1, 2, 3, 4) are warp pipe (up, down, left, right) respectively.</div>
+            </div>
+          </div>
+          
+          <!-- Copy Tool -->
+          <div id='editor-tool-copy' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var'>Copy Data</div><div class='tool-type'>td32[]</div>
+              <div id='editor-tool-copy-raw' class="tool-val-im"></div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var'>Width</div><div class='tool-type'>int</div>
+              <input id='editor-tool-copy-width' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var'>Height</div><div class='tool-type'>int</div>
+              <input id='editor-tool-copy-height' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var'>Overwrite</div><div class='tool-type'>td32</div>
+              <input id='editor-tool-copy-over' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Middle click to copy an area, left click to paste.</div>
+              <div class="tool-val-im">Change the "width" and "height" to change the copy area.</div>
+              <div class="tool-val-im">Default td32 value for air is 30 so set overwrite to 30 generally.</div>
+            </div>
+          </div>
+          
+          <!-- Rep Tool -->
+          <div id='editor-tool-rep' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Target<span class="tooltiptext">td32 to target</span></div><div class='tool-type'>td32</div>
+              <input id='editor-tool-rep-target' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Replacement<span class="tooltiptext">td32 to replace</span></div><div class='tool-type'>td32</div>
+              <input id='editor-tool-rep-replace' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-rep-apply' class="tool-button">Apply</div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Replaces all tiles that match the td32 of 'target' with 'replacement'.</div>
+            </div>
+          </div>
+
+          <!-- Background Tool -->
+          <div id='editor-tool-bg' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Primary Background URL<span class="tooltiptext">URL of the image to use for the secondary background</span></div><div class='tool-type'>string URL</div>
+              <input id='editor-tool-bg-url' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>X Offset<span class="tooltiptext">Horizontal offset</span></div><div class='tool-type'>int px</div>
+              <input id='editor-tool-bg-offx' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Y Offset<span class="tooltiptext">Vertical offset</span></div><div class='tool-type'>int px</div>
+              <input id='editor-tool-bg-offy' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Loop Count<span class="tooltiptext">How many times to loop. Leave at 0 to use default</span></div><div class='tool-type'>int</div>
+              <input id='editor-tool-bg-loop' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Secondary Background URL<span class="tooltiptext">URL of the image to use for the secondary background</span></div><div class='tool-type'>string URL</div>
+              <input id='editor-tool-bg-urls' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>X Offset<span class="tooltiptext">Horizontal offset</span></div><div class='tool-type'>int px</div>
+              <input id='editor-tool-bg-offxs' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Y Offset<span class="tooltiptext">Vertical offset</span></div><div class='tool-type'>int px</div>
+              <input id='editor-tool-bg-offys' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Loop Count Secondary<span class="tooltiptext">How many times to loop secondary background. Leave at 0 to use default</span></div><div class='tool-type'>int</div>
+              <input id='editor-tool-bg-loops' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Primary Scroll Speed<span class="tooltiptext">The speed the primary background should scroll at</span></div><div class='tool-type'>float</div>
+              <input id='editor-tool-bg-speed' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Secondary Scroll Speed<span class="tooltiptext">The speed the secondary background should scroll at</span></div><div class='tool-type'>float</div>
+              <input id='editor-tool-bg-speeds' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div id='editor-tool-bg-apply' class="tool-button">Apply</div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Sets a background image in the selected zone. Primary appears infront of the secondary background.<br>You can move the camera around to preview the background<br>Scroll speed is a bit tricky to get down so play around with it until you're comfortable<br>Animated images are unsupported!</div>
+            </div>
+          </div>
+          
+          <!-- Ref Tool -->
+          <div id='editor-tool-ref' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Image URL<span class="tooltiptext">URL of the image to use</span></div><div class='tool-type'>string URL</div>
+              <input id='editor-tool-ref-img' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-ref-load' class="tool-button">Load</div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>X Offset<span class="tooltiptext">Horizontal offset</span></div><div class='tool-type'>int px</div>
+              <input id='editor-tool-ref-x' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Y Offset<span class="tooltiptext">Vertical offset</span></div><div class='tool-type'>int px</div>
+              <input id='editor-tool-ref-y' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div id='editor-tool-ref-apply' class="tool-button">Apply</div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im">Press G to show or hide your reference image.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Libs -->
+      <script src='js/lib/jquery/jquery-3.1.1.min.js'></script>
+      
+      <!-- Util -->
+      <script src='js/app/util/util.js'></script>
+      <script src='js/app/util/frame.js'></script>
+      <script src='js/app/util/byteme.js'></script>
+      <script src='js/app/util/squar.js'></script>
+      <script src='js/editor/util/file.js'></script>
+      <script src='js/app/util/url.js'></script>
+      
+      <!-- Menus -->
+      <script src='js/editor/menu/menu.js'></script>
+      <script src='js/editor/menu/menu-warn.js'></script>
+      <script src='js/editor/menu/menu-error.js'></script>
+      <script src='js/editor/menu/menu-file.js'></script>
+      <script src='js/editor/menu/menu-bar.js'></script>
+      <script src='js/editor/menu/menu-list.js'></script>
+      <script src='js/editor/menu/menu-tool.js'></script>
+      
+      <!-- Tools -->
+      <script src='js/editor/tool/tool-resources.js'></script>
+      <script src='js/editor/tool/tool-world.js'></script>
+      <script src='js/editor/tool/tool-level.js'></script>
+      <script src='js/editor/tool/tool-zone.js'></script>
+      <script src='js/editor/tool/tool-tile.js'></script>
+      <script src='js/editor/tool/tool-object.js'></script>
+      <script src='js/editor/tool/tool-warp.js'></script>
+      <script src='js/editor/tool/tool-copy.js'></script>
+      <script src='js/editor/tool/tool-rep.js'></script>
+      <script src='js/editor/tool/tool-background.js'></script>
+      <script src='js/editor/tool/tool-ref.js'></script>
+      
+      <!-- Game Core -->
+      <script src='js/app/game/object/object.js'></script>
+      <script src='js/app/game/object/player.js'></script>
+      <script src='js/app/game/object/goomba.js'></script>
+      <script src='js/app/game/object/koopa.js'></script>
+      <script src='js/app/game/object/troopa.js'></script>
+      <script src='js/app/game/object/goombrat.js'></script>
+      <script src='js/app/game/object/plant.js'></script>
+      <script src='js/app/game/object/fish.js'></script>
+      <script src='js/app/game/object/bro.js'></script>
+      <script src='js/app/game/object/firebro.js'></script>
+      <script src='js/app/game/object/bowser.js'></script>
+      <script src='js/app/game/object/platform.js'></script>
+      <script src='js/app/game/object/bus.js'></script>
+      <script src='js/app/game/object/spring.js'></script>
+      <script src='js/app/game/object/flag.js'></script>
+      <script src='js/app/game/object/fire.js'></script>
+      <script src='js/app/game/object/blast.js'></script>
+      <script src='js/app/game/object/launcher.js'></script>
+      <script src='js/app/game/object/bullet.js'></script>
+      <script src='js/app/game/object/fireball.js'></script>
+      <script src='js/app/game/object/beetle.js'></script>
+      <script src='js/app/game/object/firebreath.js'></script>
+      <script src='js/app/game/object/hammer.js'></script>
+      <script src='js/app/game/object/item.js'></script>
+      <script src='js/app/game/object/mushroom.js'></script>
+      <script src='js/app/game/object/flower.js'></script>
+      <script src='js/app/game/object/star.js'></script>
+      <script src='js/app/game/object/life.js'></script>
+      <script src='js/app/game/object/coin.js'></script>
+      <script src='js/app/game/object/axe.js'></script>
+      <script src='js/app/game/object/poison.js'></script>
+      <script src='js/app/game/object/checkmark.js'></script>
+      <script src='js/app/game/object/text.js'></script>
+      <script src='js/app/game/object/spiny.js'></script>
+      <script src='js/app/game/effect/effect.js'></script>
+      <script src='js/app/game/effect/break.js'></script>
+      <script src='js/app/game/effect/coin.js'></script>
+      <script src='js/editor/input.js'></script>
+      <script src='js/app/game/display/resource.js'></script>
+      <script src='js/app/game/display/camera.js'></script>
+      <script src='js/app/game/display.js'></script>
+      <script src='js/editor/display.js'></script>
+      <script src='js/app/game/world.js'></script>
+      <script src='js/editor/editor.js'></script>
+      
+      <!-- Main Exec -->
+      <script src='js/editor/app.js'></script>
+    </body>        
+</html>

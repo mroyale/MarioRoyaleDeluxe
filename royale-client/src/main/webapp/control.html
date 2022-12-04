@@ -1,0 +1,68 @@
+<html lang="en-US">
+    <head>
+        <title>Controls - Mario Royale Deluxe</title>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" id="meta-zoom" content="width=device-width">
+        <link rel='icon' href='img/home/icon.png'>
+        <link rel='stylesheet' type='text/css' href='css/queries.css'>
+        <link rel='stylesheet' type='text/css' href='css/control.css'>
+    </head>
+    
+    <body id='body' class="b">
+      <p><a href="javascript:close();">Back to Mario Royale Deluxe</a></p>
+      <center>
+        <div id="container">
+          <div class="container">
+          <div class="t" id="k-title">Keyboard Controls</div>
+          <div class="a">
+            <div><span class="n">Up</span> <button class="i" onclick="app.setK('up')">Set</button> <span class="v" id="key-up"></span></div>
+            <div><span class="n">Down</span> <button class="i" onclick="app.setK('down')">Set</button> <span class="v" id="key-down"></span></div>
+            <div><span class="n">Left</span> <button class="i" onclick="app.setK('left')">Set</button> <span class="v" id="key-left"></span></div>
+            <div><span class="n">Right</span> <button class="i" onclick="app.setK('right')">Set</button> <span class="v" id="key-right"></span></div>
+            <div><span class="n">A</span> <button class="i" onclick="app.setK('a')">Set</button> <span class="v" id="key-a"></span></div>
+            <div><span class="n">B</span> <button class="i" onclick="app.setK('b')">Set</button> <span class="v" id="key-b"></span></div>
+          </div>
+          <button class="i" onclick="app.reset('K')">Reset Keyboard Controls</button>
+          </div>
+
+          <div class="container">
+          <div class="t" id="g-title">Gamepad Controls</div>
+          <div class="a">
+            <div><span class="n">Up</span> <button class="i" onclick="app.setG('up')">Set</button> <span class="v" id="pad-up"></span></div>
+            <div><span class="n">Down</span> <button class="i" onclick="app.setG('down')">Set</button> <span class="v" id="pad-down"></span></div>
+            <div><span class="n">Left</span> <button class="i" onclick="app.setG('left')">Set</button> <span class="v" id="pad-left"></span></div>
+            <div><span class="n">Right</span> <button class="i" onclick="app.setG('right')">Set</button> <span class="v" id="pad-right"></span></div>
+            <div><span class="n">A</span> <button class="i" onclick="app.setG('a')">Set</button> <span class="v" id="pad-a"></span></div>
+            <div><span class="n">B</span> <button class="i" onclick="app.setG('b')">Set</button> <span class="v" id="pad-b"></span></div>
+          </div>
+          <button class="i" onclick="app.reset('G')">Reset Gamepad Controls</button>
+          </div>
+
+          <div class="t">Test</div>
+          <div class="a">
+            <div>
+              <div class="d">Gamepad ID <span class="i" id="test-pad-id"></span></div>
+              <div class="d">Gamepad Analog <span class="i" id="test-analog"></span></div>
+              <div class="s"></div>
+              <span class="n" id="test-up">Up</span>
+              <span class="n" id="test-down">Down</span>
+              <span class="n" id="test-left">Left</span>
+              <span class="n" id="test-right">Right</span>
+              <span class="n" id="test-a">A</span>
+              <span class="n" id="test-b">B</span>
+            </div>
+          </div>
+        </div>
+      </center>
+    
+      <!-- Libs -->
+      <script src='js/lib/jquery/jquery-3.1.1.min.js'></script>
+      <script src='js/lib/cookie/js.cookie.min.js'></script>
+      
+      <!-- App -->
+      <script src='js/control/app.js'></script>
+      
+    </body>        
+</html>

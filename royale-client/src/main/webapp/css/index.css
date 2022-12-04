@@ -1,0 +1,768 @@
+body {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+  margin: 0;
+  padding: 0}
+
+.background-a {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background-color: #000;
+  background-image: url(../img/home/bkga.png);
+  background-repeat: repeat-x;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-animation: scroll 150s linear infinite;
+  animation: scroll 150s linear infinite}
+
+.background-b {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background-color: #000;
+  background-image: url(../img/home/bkgb.png);
+  background-repeat: repeat-x;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-animation: scroll 150s linear infinite;
+  animation: scroll 150s linear infinite}
+
+.background-c {
+  background: #000}
+
+img {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none}
+
+.container-center {
+  font-family: SmbWeb;
+  color: #FFF;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  white-space: nowrap}
+
+.title {
+  font-size: 64px}
+
+@media only screen and (max-width: 769px) {
+  .title {
+    font-size: 28px;
+    text-align: center}}
+
+.container-launch {
+  font-size: 32px}
+
+@media only screen and (max-width: 769px) {
+  .container-launch {
+    font-size: 16px}}
+
+.container-go {
+  font-size: 32px;
+  text-align: center}
+
+@media only screen and (max-width: 769px) {
+  .container-go {
+    font-size: 16px}}
+
+.launch {
+  cursor: pointer;
+  margin-top: 10px
+}
+
+.launch-img {
+  width: 95%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.launch-img:hover {
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAAeCAYAAADU+1DwAAAD/klEQVR4Ae1dQXLbMAzkscd8ocd+yd/oF/KEvCvf8LFPUGeVrrNCQVlORNkmNzMcECAIUcRiRTmecSmllD/vPyc374ExYAxkGABHzCTx9uvH5OY9MAaMgQwDII8LUZzfyuTmPTAGjIEFBl5f5reNBVHw2LFwNIGYQI2BoTCw4IE1osDxw2ThJ4sxMCYGSBQzD2REAWDwHcUgGRMkzrvzvuCBGlGMDBQyKeTI+zDqvTv/CUmOShQKBvZZGCQISL9+JaDp/LOKLP/EiEriZQg5IlEQCDHBBAHt0E0U4xIFcBAxQWxwTPWu+yaKz0IgMUASCCaKz/3puhDklBTzTz3eP/ES7V3qoxFFLelMro7fAwil/J5i49ooOU49So5T6ni0RV19s370jzrm0EapcWCLerRpDPU9qh8xsHZd9V3ze/oxE0X9iXk0UaBgsj8tJPVRO4Go44xFPx1DP+qMUZPRP+qYp7ba9eHDFn1iDPjV1tPKfkvxH42RVvd8Ne6IRLEFCATAka8eWmS1Qoo+muA4dquusbK+xkOBq47+Vp2+0R/XVFtGItm6Wti2YoQ4abGGh4o5GlFg87cUP3y2+O2ZTC0SFlMsluij149jUYev2mJsjZX1s7kaQ8fRr+m0UyIG+t9dX7bmljZi5GictLynauwRiWLejFOZzlm745fNtHBYgFpEWLf6sLiYXB3T+bfEYKxManztM77a0F/TW6wvW/MutgwnsMkHoN33hyGKWrKjfeOJowUwssKCTa+15pONsSA1TvTT+Gv9OO+7OtdGotFrIzaa2u7Wjxip6T0TR/dEUUvqiv1ylDxte03ZC8Cx8LK46hMLTcfQjzrj1ewcr8k4L+qYpzauDzYdi3okCo1B39qamtg17ys4SU+k8O+RMEYgivfy8ZoxE8CpTNDXmgLgQhoHJR+Fca046KOS4KStpl+zc7wmt8SnD6XGgi3q0YbxbK7Oa9oXcljDSYYrYOdozDTdC+K+e6LAjTJ5G0hCgXGZx82yXBT5IQC9x55/ASfzXvzDmYniHknb65obkq8nCfa7TPpee9prHDlREAf6AMn6s98dP99qTtqjnChqCacdEqSQteZJ6LXgnvi+Ig4UJ5EodKxbrIxCFEz8IqkJOXSb6Ccu2kfJyTUM8WHzKOvddR1DEEU4EjLhlLtuqAtyiM8xiB1KYgg6+13JUYiiq6SZjPosxkfOa0YU+P76lu+6u/g6/Z/5IwPWazuMJBc8sEYU3R6jDLbDwOaHyfM+TEgUMw9kRIHkxncvJ/x5E+7cOXdfxcCFB/4jiteX6ezmPTAGjIGAAZwwCpiDRw1L//akMWAMRAyAI+bfH+UxwzL/4pX3xfsyMgZAEn8BXSBYNTdBHT8AAAAASUVORK5CYII=')
+}
+
+.main-buttons {
+  margin-left: 80px;
+  margin-top: 5px;
+}
+
+.launch-settings {
+  height: 89px;
+  width: 285px;
+  align-items: left;
+  display: inline;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.launch-settings:hover {
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF8AAAAeCAYAAABKSMI8AAACBklEQVRoBe2a0W3DMAxE9dnPrNDPztcVMkLmyhr57AguzsALzowcWAZrFAkNCGfyKIo6qXIKu7XW2s/1c6p2rAbSfRb+8vUxVTtWA232u/i3S5uqHaTB+TSfNAvxOXpqEfIXYaHtM/F1BNUC5C4A4s/a9sSX4Jz9JX6u+Att18Qv0fNFf9C0xD9A5LUfMSV+if+eD/ba+S+y81v7nmLjIRP92Fm88pATJLdz+J7FwAmJ9xxrvMduus/a+Sqod1Foj5Mvg0eYOIZyRy6O14vxPFv5TWLHB2+G+CrQLybYK9w5eASSzUUck8Je48nhvPfFL+yNA884YMxLf+cZZxgzxO8VSJFrnPMUHUXBD+7lvR8ig4joNvdC8WtzgKO+YcwSnwJ7k5GPC75XeIyLk9nLx37UgriRjzZ1yE8jh2z4YcwSn6JAL04+LnjQC45xzul+Lx/7jdqMrX40n0+sc7OdIb5PhqKE8lO4+/2emBjnfibj40TeOfIT45zuox3Hpr8wxkeO2nZhhvgUT6GgF4Qvosd4nujHpj+2IxzY4/A9i4ETxvgeR8wwZok/PHD82fWOdon/Iv/h1u4fXMja+YOCZR6PJf4/E5/3jHWM5C/MQtveziegXqD/nfj1Aj3z/B7Idf844WHnn0/TrdphGuiUaVoNjpvC477XlO7z95r8ORQe972mhP8FA59r4m1mZ6gAAAAASUVORK5CYII=')
+}
+
+.launch-controls {
+  height: 89px;
+  width: 285px;
+  float: left;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.launch-controls:hover {
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF8AAAAeCAYAAABKSMI8AAACEElEQVRoBe2aQW4CMQxFs+ySK7Ds+XoFjsC5eg2WHGGqP9KbeowTiBTSSmOkyMTfcZyXEEBQSinl/n1ess1lIO4r+Ovnx5JtLgMd9g3+7VqWbJMYXE7rTbODz9WTmzB+E3ZsW/B1BeUGjN0A4K9sI/gCzt2f8MfC37GtwU/o46E/ME34EyDXPsQk/IR/zDf20Se/lK/FN3vXvaIRT6zv48e2dDQsY7D4sTW/14mTReu2I+GrkOhBgZEeafLZWN/3c7R0aUCxOclR062/NV55oljGNO0o+HZhem6bCoh0C8DqLMjq5LBxzIFm46O4lh7lkI9m81GfnZ+4Lvsu+L4IWzxF12DgxyqefD5Pze/jnvWVx8eQG2v1qDbiXrb/Eb5fpPosyGo1P2BkifHjfF/5Ix/zYhVDYx710bvsu+BTIIXJ8kDr6bMon6fm93HP+soTxchn51CfZusnpsuOgu+LpzBZFiDrH5HWWpzNwVg/d228HUsdtRzosj6f17qAm/eR20j4QKBYrC0OHzbS8EUxdg7isD7e9+3YSIt0xfn8jLUaMV12NPyuye0pOOLzhP/7cXL6wUn4CX+7V6efvr+87vLk58nPk89vtvzOeKgrYNL1s2MbXTsEsBm5CeOuph3bCL5g5w/o44D7w7uxfYB/OS362pttDgO9Eop2g5dE2nn/1xT39f+avBzSzvu/psD/ADaDc+b6l6c2AAAAAElFTkSuQmCC')
+}
+
+.launch-changelog {
+  height: 89px;
+  width: 285px;
+  align-items: left;
+  text-align: left;
+  float: left;
+  display: inline;
+  cursor: pointer;
+}
+
+.launch-changelog:hover {
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF8AAAAeCAYAAABKSMI8AAACLklEQVRoBe2aTW7DIBCFWXaZK3TZ8/UKOULO1Wtk2SO4eqhfNB7A2BEmUjtIaAzvzY8fGEdyUkopfX+9L9HnaiDds/C3j7cl+lwNtNkf4t9vaYk+SYPrJZ80K/E5emIRxi/CStst8XUExQKMXQDEz9rWxJfgnP0h/ljxV9q2xA/Rx4teaBriTxC59SMmxA/x/+eL/cjOT+lz8Z1zjPnWWPNwsHAtxtwWB0zW8y1m8VoOfLFbvtbf8vDdg1tuvt4rvhLWGoWA1cYUBgcrrseO+CuO5xMb28rhhRDPN3x9jZYHp+YvHrjPl8d7xLeBdW27LwyMAo+OKbjnT9xWfovXOPnmf1+E4tLw643h+djyA5O1eYrrZ8T3QZSk1SgEvDeGh63xwWQ97jFqFY+ma+ZlPdYbE0eWWNYHHMzmWl2PFl8JbSF+TGFYj1tfbs7O1fg1XHP2Rj1nC/Pc3phY4tHt/YEX9hnxSSCrgLI0sFePqYMbrtWouRH1E4OcPhc1FHaP+ARHUGtJyNwZ4yP5qQOrenr+LRzfFq4c/n7JCybfZt8rPgWQDEvgs8d781MHlvp6/jXc+tZw5YBDPmvBmvaI+M0gW6sb2GOBCv1C/I1j4eyNE+KH+O1H8+zd98r4sfNj58fO55st3xmLt/MrH9E/knulbe3YgcBixCKMO5pW2tbEl9jxAX2c4H7zPrQtxL9elnv0aRroSUhaDR6JsPP+rynd8/81eRzCzvu/poT/AaE7g6QLbE8JAAAAAElFTkSuQmCC')
+}
+
+.launch-editor {
+  height: 89px;
+  width: 399px;
+  align-items: left;
+  display: inline;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.launch-editor:hover {
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIUAAAAeCAYAAAACe928AAACkUlEQVRoBe2bTXLDIAyFWXaZK3TZK+UavUKO4HPlGln2CO48mueRFX7sSQKqUWeoAMkQS58FIeMQQgg/18/Zi/sADICHCMT09TF7cR+AgQgG/qFxm4KX0X1wOT1CwSXEARnnAVnFvASFZ47xoIgxT0GBDAFlbyhW9I6e0hvc/xLzHBS9lw4AsXyG8zhP7HLPDSDIzmUVipsGQbd7Ou3oc5uD4hzmawhzhEKDoNtHD06v+7MKhYPRccm0DMUrwQjhe04Vrqtax34pSzZax/Yz18trm9bNQYGUeV9CAEUWjCnEA5YtzkKAcn8MntajX46dGoM2KR3HK9mUdLieevk5mtRNQlEBYwXLhnVXBg11WeBkrdcBZSC0Hfs5htajTZ0cM2VX0st5mtTNQpECY/rLHISCWaR2niKDQOdDbg0aAyHH4bXUQeb0un9vW87RpG4RinhGIb6FMPgSBtax1OyBAgFhoYNrQcrZsZ9Sj5Pr13aynYKW4zST1qCQh1YRBi4Pap9BUJZTONolpHQ66rLA0Sk9gwMdg6Ht2E+Z0+v+vW2O30xagkICwcOrVdAFGMwQtSwBR8ogMNiU0OX06GcgUjZSr+cp6eTcqevkXHocfp63SitQVIFgBsAB1n3J2AIEnQfnpkpJTx2lvp79UtJG9rFOHSX7IXWfbkvbt9ctQLEZCPFD3R4g3u5EAnsU2RuKPUB4cBudcpqB4v67xmoPcZQn77/dR28o8PQzWzgQjTJBDVILUAAMB8IIEADGChS+XzAOBdI5U7oHy1Cwamn/Cf0q5qlMQQP/2jcGENzXIe4x5ikofI0fBwa5Eiz7ugcoLqe40cBmw8u4PkDWCKCEy4ZLf58UPMT3SZk+XPr7pADiFzyXLeyU5pyOAAAAAElFTkSuQmCC')
+}
+
+.launch-discord {
+  height: 89px;
+  width: 399px;
+  float: left;
+  margin-right: 5px;
+  cursor: pointer;
+  margin-left: 29px;
+}
+
+.launch-discord:hover {
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAeCAYAAADtubaCAAAC1ElEQVRoBe2bzXHCMBCFdcyRFnJMS2kjLaQE6kobHFOCM0+TR57XK6GAkMHezGhW2h9h9n3IhpmklFL6/nqdYkQPwEKG4fj2MsWIHuBQOANxOqYpxo578HnId4kZELxtBBj7AGOmdw0I3D4Ciu1DQSCy3h4QgIDPEgHE9oGY6V0CYgQIJBO29nqtebU9ItYI9lpAUGSeRFx7FmIij7EQt1Hca74grAEEhKWoLSLbHK3nPmE7QTIaiF5i9tonQDIgPTMQ+am4ciym9DHp8MTXOOY2x8Ztzn/juv8ttbpP1/lWgUCz7Z8nZi3H2wP53OeaeI/argDYD9RIIErHPPzXxkrNUbHsXGtKMfUTAvgwUK9x+mlLccLHvP+sNVevv/t8bSAAgn7T0DdYiyGPca3h3BPMa6rNYz2sxmytxjDXOluLuM2/dW1fr9t6JBD5ot/TdOIo/QCGeC1m6r1mXGo4a2we/bSIcygULXW1fK1nHiz8eG2NY27XvL7udigQFFLs4sGwMUaoFvW/90TbQLtmI0t+ioI4B4Urreln7aX8W+K8/u52GBDvafpKy5GF5YONyanFuNcsh/uYTxgbDwvR2ETM7R/jXqylXnO8Pbz94dNcu9ZrZD3fQ3e7FhAQciaqrOmHzYJLTOsYr50SbC6tbSD9tBqnT63GMdcY55pDH60Xo8/mcK2WuXezawABUbOIIrRCUJp7dWefnA53a9YeXmMYEGimAIB5Fk6eGbKvsrYQEYbSCRFgmF8hW4AeDYQHBQRtGYtanjQtbzRyzs9O1Q/KUCB+v0ouToIWsczJoQBV32DL3pHzB8toICieCoo5/TV7TU1tv4g5t5S1gAgxHDEe4aTygMBPwhgh2oOK1hmcmd41IFqP8gDnucEhEFlvDwgIzPt1iP3cYrfqd9Z7AcTnYTrF2HUPcGIkEMKjI+y+/78TLOT/7+SxEbbth7Kt9gkw/AA6zdMyYDJG2QAAAABJRU5ErkJggg==')
+}
+
+@media only screen and (max-width: 769px) {
+  .launch {
+    margin-left: 2px}}
+
+.players {
+  font-size: 20px;
+  margin-right: 4px;
+  float: right}
+
+.player-number {
+  color: #0F0}
+
+@media only screen and (max-width: 769px) {
+  .players {
+    font-size: 16px}}
+
+.name-input, .team-input {
+  font-family: SmbWeb;
+  color: #FFF;
+  text-align: center;
+  background: #00000000;
+  border: none;
+  border-bottom: 5px dashed #FFF;
+  margin-bottom: 8px}
+
+.name-input::placeholder, .team-input::placeholder {
+  color: #FFFFFF40}
+
+@media only screen and (max-width: 769px) {
+  .name-input {
+    font-size: 20px}}
+
+.name-input {
+  font-size: 64px}
+
+.team-input {
+  font-size: 32px;
+  width: 100%}
+
+@media only screen and (max-width: 769px) {
+  .team-input {
+    font-size: 12px
+  }
+}
+
+.dis-lg {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 24px
+}
+
+.dis-sm {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 8px;
+  white-space: normal
+}
+
+.dis-next {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 24px;
+}
+
+.dis-next:hover {
+  color: yellow;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 769px) {
+  .dis-lg {
+    font-size: 8px;
+    margin-bottom: 8px;
+    white-space: normal
+  }
+  
+  .dis-sm {
+    font-size: 4px;
+    white-space: normal
+  }
+}
+
+.warn {
+  position: absolute;
+  margin: 0 0 0 0;
+  padding: 5px 32px 2px 4px;
+  font-family: "Calibri", monospace;
+  color: #FFF;
+  background: #000000e0;
+  font-size: 16px
+}
+
+.warn-ico {
+  height: 16px;
+  margin-bottom: -2px;
+  margin-right: 2px
+}
+
+.error {
+  font-size: 24px
+}
+
+.fullscreen {
+  margin: 0;
+  padding: 0;  
+  width: 100%;
+  height: 100%
+}
+
+.link-r {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #00000000
+}
+
+.link-github {
+  cursor: pointer;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  background-image: url(../img/home/github.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px 64px
+}
+
+.link-discord {
+  cursor: pointer;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  background-image: url(../img/home/discord.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px 64px
+}
+
+.link-l {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 6px;
+  margin-left: 6px;
+  padding: 0;
+  background: #00000000;
+}
+
+.link-patch {
+  font-family: SmbWeb;
+  color: #FFF;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 18px
+}
+
+.link-b {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-top: 6px;
+  margin-left: 6px;
+  padding: 0;
+  background: #00000000
+}
+
+.link-con {
+  cursor: pointer;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  background-image: url(../img/home/con.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 36px 36px;
+  margin-right: 6px
+}
+
+.link-con:hover {
+  background-image: url(../img/home/con-inv.png)
+}
+
+.link-w {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: -2
+}
+
+.win {
+  margin: 4px;
+  font-family: SmbWeb;
+  font-size: 18px;
+  color: #FFF;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+  z-index: 1;
+  margin-left: 12px
+}
+
+.kill {
+  font-size: 18px;
+  margin-left: 16px
+}
+
+.rtfpn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 844px;
+  height: 378px;
+  background-image: url(../img/home/rtfpn.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 844px 378px;
+  z-index: -1
+}
+
+@media only screen and (max-width: 769px) {
+  .rtfpn {
+    display: none;
+    width: 0;
+    height: 0
+  }
+}
+
+.rtfpn2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 844px;
+  height: 378px;
+  background-image: url(../img/home/rtfpn2.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 844px 378px;
+  z-index: -1
+}
+
+@media only screen and (max-width: 769px) {
+  .rtfpn2 {
+    display: none;
+    width: 0;
+    height: 0
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  .link-patch {
+    font-size: 12px}}
+
+#loader {
+  animation: spin 1s linear infinite;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -5px
+}
+
+.title {
+  color: #00000000;
+  font-size: 80px;
+  background-image: url("../img/home/title.png");
+  background-repeat: no-repeat;
+  background-size: cover
+}
+
+
+.container-private {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #FFFFFF;
+  margin: 0 0 0 0;
+  background: #000000c0;
+  font-family: 'SmbWeb';
+  padding: 5px;
+  font-size: 18px;
+  border: 2px solid white;
+  border-radius: 3px;
+}
+
+#levels {
+  width: 100%;
+}
+
+
+.link-patch, .dis-lg, .dis-sm, .dis-next, .players, .name-input, .team-input {
+  text-shadow: 2px 0 0 #B82E3F, -2px 0 0 #B82E3F, 0 2px 0 #B82E3F, 0 -2px 0 #B82E3F, 1px 1px #B82E3F, -1px -1px 0 #B82E3F, 1px -1px 0 #B82E3F, -1px 1px 0 #B82E3F}
+
+.launch, .win {
+  text-shadow: 2px 0 0 #00216D, -2px 0 0 #00216D, 0 2px 0 #00216D, 0 -2px 0 #00216D, 1px 1px #00216D, -1px -1px 0 #00216D, 1px -1px 0 #00216D, -1px 1px 0 #00216D}
+
+@keyframes spin {
+    0% {
+        box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    6.25% {
+        box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    12.5% {
+          box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    18.75% {
+          box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    25% {
+        box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    31.25% {
+        box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    37.5% {
+        box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}
+    43.75% {
+        box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #FFF, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #00000000}
+    50% {
+        box-shadow: 
+            0 -30px #00000000, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #FFF, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    56.25% {
+          box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #00000000, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #FFF, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    62.5% {
+          box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #00000000, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #FFF, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    68.75% {
+        box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #00000000, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #FFF, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    75% {
+        box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #00000000, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #FFF, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    81.25% {
+          box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #00000000, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #FFF, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    87.5% {
+        box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #00000000, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #FFF,
+            -10px -30px #FFF}
+    93.75% {
+        box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #00000000, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #FFF}
+    100% {
+        box-shadow: 
+            0 -30px #FFF, 
+            10px -30px #FFF, 
+            20px -20px #FFF, 
+            30px -10px #FFF, 
+            30px 0 #FFF, 
+            30px 10px #FFF, 
+            20px 20px #FFF, 
+            10px 30px #FFF, 
+            0 30px #00000000, 
+            -10px 30px #00000000, 
+            -20px 20px #00000000, 
+            -30px 10px #00000000, 
+            -30px 0 #00000000, 
+            -30px -10px #00000000, 
+            -20px -20px #00000000,
+            -10px -30px #00000000}}

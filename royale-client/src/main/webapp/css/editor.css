@@ -1,0 +1,226 @@
+* {
+  transition: background-color 0.1s;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%
+}
+
+#file {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background-color: #278B9E;
+  background-image: url(../img/home/bkga.png);
+  background-repeat: repeat-x;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-animation: scroll 150s linear infinite;
+  animation: scroll 150s linear infinite;
+  height: 100%;
+}
+
+.ek-info {
+  font-family: SmbWeb;
+  color: #FFF;
+  font-size: 12px;
+  margin-left: 12px;
+  text-shadow: 2px 0 0 #B82E3F, -2px 0 0 #B82E3F, 0 2px 0 #B82E3F, 0 -2px 0 #B82E3F, 1px 1px #B82E3F, -1px -1px 0 #B82E3F, 1px -1px 0 #B82E3F, -1px 1px 0 #B82E3F;
+}
+
+a {
+  color: #F0F0F0;
+  text-decoration: none
+}
+
+.file-error {
+  font-size: 75%
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%
+}
+
+.box .row.header {
+  flex: 0 1 21px
+}
+
+.box .row.content {
+  flex: 1 1 auto
+}
+
+.box .row.footer {
+  flex: 0 1 250px
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%
+}
+
+.panel-left {
+    overflow: auto
+}
+
+.panel-right {
+    width: 250px;
+    float: right;
+    overflow-y: scroll
+}
+
+.panel-top {
+  margin: 0;
+  padding: 0
+}
+
+.toolbar-button-top {
+  border-radius: 3px;
+  margin: 3px;
+  padding: 0 12px 0 12px;
+  cursor: pointer
+}
+
+.left {
+  float: left
+}
+
+.right {
+  float: right
+}
+
+.list-header {
+  font-weight: bold;
+  font-size: 120%;
+  margin: 0;
+  padding: 0 12px 0 8px
+}
+
+.list-world {
+  font-weight: bold;
+  margin: 0;
+  padding: 0 12px 0 8px;
+  cursor: default
+}
+
+.list-zone {
+  margin: 0;
+  padding: 0 12px 0 24px;
+  cursor: pointer
+}
+
+.tool-warning {
+  color: red
+}
+
+.tool-box {
+  display: inline-block;
+  margin: 4px 8px 0 12px
+}
+
+.tool-var {
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 8px
+}
+
+.tool-warning {
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.tool-type {
+  display: inline-block;
+  font-size: 75%
+}
+
+.tool-val {
+  display: block;
+}
+
+.tool-val-im {
+  display: block
+}
+
+.tool-div {
+  display: block;
+  height: 1px;
+  margin-top: 8px
+}
+
+.red {
+  color: red
+}
+
+.tool-button {
+  border-radius: 3px;
+  margin: 0;
+  padding: 3px 12px 3px 12px;
+  cursor: pointer
+}
+
+.warn {
+  position: absolute;
+  margin: 0;
+  padding: 5px 32px 2px 4px;
+  font-family: "Calibri", monospace;
+  font-size: 16px
+}
+
+.warn-ico {
+  height: 16px;
+  margin-bottom: -2px;
+  margin-right: 2px
+}
+
+.error {
+  font-size: 32px
+}
+
+.container-center {
+  font-family: SmbWeb;
+  color: #FFF;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  white-space: nowrap
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 250;
+  background: #000;
+  color: #FFF;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible
+}
