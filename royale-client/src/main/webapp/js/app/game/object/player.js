@@ -673,6 +673,7 @@ PlayerObject.prototype.physics = function() {
     }
   }
 
+  /* We use DIM0 because otherwise it acts as Semisolid Weak */
   for(var i=0;i<semicollide.length;i++) {
     var semi = semicollide[i];
     if (squar.intersection(semi.pos, tdim, mov, DIM0)) {
