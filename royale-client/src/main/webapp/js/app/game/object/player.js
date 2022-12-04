@@ -675,8 +675,8 @@ PlayerObject.prototype.physics = function() {
 
   for(var i=0;i<semicollide.length;i++) {
     var semi = semicollide[i];
-    if (squar.intersection(semi.pos, tdim, mov, this.dim)) {
-      if (this.pos.y - this.dim.y >= semi.pos.y) {
+    if (squar.intersection(semi.pos, tdim, mov, DIM0)) {
+      if (this.pos.y - DIM0.y >= semi.pos.y) {
         mov.y = semi.pos.y + tdim.y;
         this.fallSpeed = 0;
         grounded = true;
