@@ -47,11 +47,11 @@ Lobby.prototype.doMusic = function() {
   var ply = this.getPlayer();
   var zon = this.getZone();
   if(this instanceof Lobby) { return; }
-  if(this.gameOver) { this.audio.setMusic("music/gameover.mp3", false); return; }
-  if(ply && ply.dead) { this.audio.setMusic("music/dead.mp3", false); return; }
-  if(ply && ply.autoTarget && this.victory <= 0) { this.audio.setMusic("music/level.mp3", false); return; }
-  if(this.victory > 0 && !this.victoryMusic) { this.audio.setMusic("music/castlevictory.mp3", false); this.victoryMusic = true; return; }
-  if(this.victory > 0 && this.victory < 4 && this.victoryMusic && !this.audio.music.playing) { this.audio.setMusic("music/victory.mp3", false); return; }
+  if(this.gameOver) { this.audio.setMusic("gameover.mp3", false); return; }
+  if(ply && ply.dead) { this.audio.setMusic("dead.mp3", false); return; }
+  if(ply && ply.autoTarget && this.victory <= 0) { this.audio.setMusic("level.mp3", false); return; }
+  if(this.victory > 0 && !this.victoryMusic) { this.audio.setMusic("castlevictory.mp3", false); this.victoryMusic = true; return; }
+  if(this.victory > 0 && this.victory < 4 && this.victoryMusic && !this.audio.music.playing) { this.audio.setMusic("victory.mp3", false); return; }
   if(ply && this.levelWarpTimer <= 0 && this.startDelta !== undefined && !this.victoryMusic) {
     if(zon.music !== "") { this.audio.setMusic(zon.music, true); }
     else { this.audio.stopMusic(); }

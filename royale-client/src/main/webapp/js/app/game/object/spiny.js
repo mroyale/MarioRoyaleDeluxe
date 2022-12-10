@@ -229,7 +229,7 @@ SpinyObject.prototype.bonk = function() {
   this.moveSpeed = SpinyObject.BONK_IMP.x;
   this.fallSpeed = SpinyObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 SpinyObject.prototype.playerCollide = function(p) {
@@ -243,7 +243,7 @@ SpinyObject.prototype.playerBump = SpinyObject.prototype.playerCollide;
 SpinyObject.prototype.kill = function() {
   this.dead = true;
   this.setState(SpinyObject.STATE.DEAD);
-  this.play("sfx/stomp.mp3", 1., .04);
+  this.play("stomp.mp3", 1., .04);
 };
 
 SpinyObject.prototype.destroy = GameObject.prototype.destroy;

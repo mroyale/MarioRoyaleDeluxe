@@ -11,12 +11,13 @@ function AudioInstance(context, path, soundData, gain, shift, volume) {
   this.played = false;
   this.playing = false;
   
-  if(!this.data.ready()) {
+  if(this.data.ready()) {
+    this.create(gain, shift, volume);
+  } else {
     app.menu.warn.show("Attempted to instance partially loaded sound data: '" + path + "'");
     this.partialLoad = true;
   }
   
-  this.create(gain, shift, volume);
 }
 
 AudioInstance.prototype.create = function(gain, shift, volume) {

@@ -121,7 +121,7 @@ BulletObject.prototype.bonk = function() {
   this.moveSpeed = BulletObject.BONK_IMP.x;
   this.fallSpeed = BulletObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 
@@ -134,7 +134,7 @@ BulletObject.prototype.playerStomp = function(p) {
   if(this.dead || this.garbage) { return; }
   p.bounce();
   this.bonk();
-  this.play("sfx/stomp.mp3", 1., .04);
+  this.play("stomp.mp3", 1., .04);
   this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0x01));
 };
 

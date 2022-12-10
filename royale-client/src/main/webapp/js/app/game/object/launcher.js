@@ -64,7 +64,7 @@ LauncherObject.prototype.sound = GameObject.prototype.sound;
 LauncherObject.prototype.fire = function() {
     this.fireTimer = 0;
   this.game.createObject(BulletObject.ID, this.level, this.zone, vec2.copy(this.pos), [shor2.encode(this.pos.x, this.pos.y), this.direction]);
-  this.play("sfx/firework.mp3", 1., .04);
+  this.play("firework.mp3", 1., .04);
 };
 
 LauncherObject.prototype.kill = function() { };

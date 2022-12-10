@@ -5,6 +5,12 @@
 function App() {
   this.menu = new Menu();                // Handles HTML menus
   this.net = new Network();              // Handles websockets
+
+  this.settings = {
+    musicMuted: Cookies.get("music") === '1',
+    soundMuted: Cookies.get("sound") === '1',
+    hideNames: Cookies.get("text") === '1'
+  }
 }
 
 App.prototype.init = function() {
@@ -35,7 +41,6 @@ App.prototype.init = function() {
   }
 
   document.getElementById("next").onclick = function() {
-    Audio.prototype.initWebAudio()
     fadeOutCallback(next);
   }
 };

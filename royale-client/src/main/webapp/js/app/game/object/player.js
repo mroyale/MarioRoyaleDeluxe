@@ -270,12 +270,14 @@ PlayerObject.prototype.update = function(data) {
   this.pos = data.pos;
   this.sprite = PlayerObject.SPRITE[data.sprite];
   this.reverse = data.reverse;
+  if (this.damageTimer) this.damageTimer--;
 };
 
 PlayerObject.prototype.trigger = function(type) {
   switch(type) {
     case 0x01 : { this.attack(); break; }
     case 0x02 : { this.star(); break; }
+    case 0x03 : { this.invuln(); break; }
   }
 };
 
@@ -292,7 +294,7 @@ PlayerObject.prototype.step = function() {
   /* Flagpole Slide */
   if(this.isState(PlayerObject.SNAME.POLE)) {
     if(this.poleTimer > 0 && !this.poleWait) { this.poleTimer--; return; }
-    else if(!this.poleSound) { this.poleSound = true; this.play("sfx/flagpole.mp3", 1., 0.); }
+    else if(!this.poleSound) { this.poleSound = true; this.play("flagpole.mp3", 1., 0.); }
         
     if(this.poleWait) { }
     else if(this.poleTimer <= 0 && this.autoTarget) { this.setState(PlayerObject.SNAME.STAND); }
@@ -369,6 +371,7 @@ PlayerObject.prototype.step = function() {
       this.setState(PlayerObject.SNAME.STAND);
       if(this.collisionTest(this.pos, this.dim)) { this.setState(PlayerObject.SNAME.DOWN); }
       this.damageTimer = PlayerObject.DAMAGE_TIME;
+      this.game.out.push(NET013.encode(0x03));
     }
     return;
   }
@@ -376,7 +379,7 @@ PlayerObject.prototype.step = function() {
   /* Warp Pipe */
   if(this.pipeDelay > 0) { this.pipeDelay--; return; }
   if(this.pipeTimer > 0 && this.pipeDelay <= 0) {
-    if(this.pipeTimer >= PlayerObject.PIPE_TIME) { this.play("sfx/pipe.mp3", 1., .04); }
+    if(this.pipeTimer >= PlayerObject.PIPE_TIME) { this.play("pipe.mp3", 1., .04); }
     switch(this.pipeDir) {
       case 1 : { this.pos.y += PlayerObject.PIPE_SPEED; break; }
       case 2 : { this.pos.y -= PlayerObject.PIPE_SPEED; break; }
@@ -490,12 +493,12 @@ PlayerObject.prototype.control = function() {
   if(this.btnA) {
     if(this.grounded || this.underWater) {
       this.jumping = 0;
-      this.play(this.underWater ? "sfx/swim.mp3" : this.power>0?"sfx/jump1.mp3":"sfx/jump0.mp3", .7, .04);
+      this.play(this.underWater ? "swim.mp3" : this.power>0?"jump1.mp3":"jump0.mp3", .7, .04);
       this.btnAHot = true;
     } else {
       /*if (this.spinTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && !this.spinCooldown) {
         this.spinTimer = PlayerObject.SPIN_LENGTH;
-        this.play("sfx/spin.mp3", .7, .04);
+        this.play("spin.mp3", .7, .04);
         this.btnAHot = true;
       } else if (this.spinCooldown) { this.spinCooldown--; }*/
     }
@@ -571,10 +574,13 @@ PlayerObject.prototype.physics = function() {
   var on = [];              // Tiles we are directly standing on
   var psh = [];             // Tiles we are directly pushing against
   var bmp = [];             // Tiles we bumped from below when jumping
+  var slopes = [];          // Tiles which are slopes
+  var slopecollide = [];    // Slopes we collided with
   var semisolids = [];      // Tiles which are semisolids
   var semicollide = [];     // Semisolids that we collided with
   var platforms = [];       // All platforms we collided with
   var platform;             // The platform we are actually riding, if applicable.
+  var slope;                // Slope we're standing on
   
   /* Collect likely hits & handle push */
   for(var i=0;i<tiles.length;i++) {
@@ -582,6 +588,9 @@ PlayerObject.prototype.physics = function() {
     
     if(tile.definition.SEMISOLID) {
       semisolids.push(tile);
+    }
+    else if(tile.definition.SLOPE) {
+      slopes.push(tile);
     }
     else if(tile.definition.COLLIDE) {
       if(tile.definition.HIDDEN) { hit.push(tile); continue; }
@@ -609,6 +618,12 @@ PlayerObject.prototype.physics = function() {
   for(var i=0;i<semisolids.length;i++) {
     var semisolid = semisolids[i];
     if(squar.intersection(semisolid.pos, tdim, mov, this.dim)) { semicollide.push(semisolid); }
+  }
+
+  /* Slopes */
+  for(var i=0;i<slopes.length;i++) {
+    var slope = slopes[i];
+    if(squar.intersection(slope.pos, tdim, mov, this.dim)) { slopecollide.push(slope); }
   }
   
   /* Correct X collision */
@@ -684,6 +699,19 @@ PlayerObject.prototype.physics = function() {
       }
     }
   }
+
+  /* Handle slope collision. X pos is normal. Y pos = slope y+x decimal points */
+  for(var i=0;i<slopecollide.length;i++) {
+    var slop = slopecollide[i];
+    if (squar.intersection(slop.pos, tdim, mov, DIM0)) {
+      var xdec = (this.pos.x - parseInt(this.pos.x));
+      mov.y = slop.pos.y + xdec;
+      this.fallSpeed = 0;
+      grounded = true;
+      slope = slop;
+      app.menu.warn.show(`${mov.y}<br>${xdec}`)
+    }
+  }
   
   this.grounded = grounded;
   this.pos = mov;
@@ -734,7 +762,7 @@ PlayerObject.prototype.collisionTest = function(pos, dim) {
   var tiles = this.game.world.getZone(this.level, this.zone).getTiles(pos, dim);
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.SEMISOLID) { continue; }
     
     if(squar.intersection(tile.pos, tdim, pos, dim)) { return true; }
   }
@@ -795,7 +823,7 @@ PlayerObject.prototype.attack = function() {
   this.attackCharge -= PlayerObject.ATTACK_CHARGE;
   var p = this.reverse?vec2.add(this.pos, PlayerObject.PROJ_OFFSET):vec2.add(this.pos, vec2.multiply(PlayerObject.PROJ_OFFSET, vec2.make(-1., 1.)));
   this.game.createObject(FireballProj.ID, this.level, this.zone, p, [this.reverse, this.pid]);
-  this.play("sfx/fireball.mp3", 1., .04);
+  this.play("fireball.mp3", 1., .04);
 };
 
 PlayerObject.prototype.bounce = function() {
@@ -814,7 +842,7 @@ PlayerObject.prototype.damage = function(obj) {
     this.pipeWarp || this.pipeTimer > 0 || this.pipeDelay > 0 ||
     this.autoTarget
   ) { return; }
-  if(this.power > 0) { this.transform(0); this.damageTimer = PlayerObject.DAMAGE_TIME; }
+  if(this.power > 0) { this.transform(this.game.gameMode === 1 ? 0 : this.power -= 1); this.damageTimer = PlayerObject.DAMAGE_TIME; this.game.out.push(NET013.encode(0x03)); }
   else { this.kill(); }
 };
 
@@ -845,14 +873,14 @@ PlayerObject.prototype.axe = function(result) {
 PlayerObject.prototype.star = function() {
   if(this.starMusic) { this.starMusic.stop(); this.starMusic = undefined; }
   this.starTimer = PlayerObject.STAR_LENGTH;
-  this.starMusic = this.play("music/star.mp3", 1., .04);
+  this.starMusic = this.play("star.mp3", 1., .04);
   if(this.starMusic) { this.starMusic.loop(true); }
 };
 
 PlayerObject.prototype.transform = function(to) {
   if (!this.isState(PlayerObject.STATE.TRANSFORM)) {
-    if(this.power<to) { this.play("sfx/powerup.mp3", 1., .04); }
-    else { this.play("sfx/powerdown.mp3", 1., .04); }
+    if(this.power<to) { this.play("powerup.mp3", 1., .04); }
+    else { this.play("powerdown.mp3", 1., .04); }
   }
   
   this.transformTarget = to;

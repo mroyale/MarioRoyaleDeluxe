@@ -103,6 +103,7 @@ function Zone(game, level, data) {
   this.initial = data.initial; // shor2 starting point for this zone.
   this.color = data.color; // HTML color of the sky for this zone.
   this.music = data.music?data.music:"";
+  this.musicBlock = null; // Used when we touch a music block
   this.vertical = data.vertical?parseInt(data.vertical):false;
   
   this.data = data.data; // 2D Array of td32 (Copied by reference!)
@@ -170,7 +171,7 @@ Zone.prototype.bump = function(x,y) {
   var yo = this.dimensions().y-1-y;
   this.data[yo][x] = td32.bump(this.data[yo][x], 15);
   this.bumped.push({x: x, y: yo});
-  this.play(x,y,"sfx/bump.mp3", .5, .04);
+  this.play(x,y,"bump.mp3", .5, .04);
 };
 
 Zone.prototype.replace = function(x,y,td) {
@@ -188,7 +189,7 @@ Zone.prototype.break = function(x,y,td) {
   var orig = td32.decode16(this.data[yo][x]);
   this.data[yo][x] = td;
   this.effects.push(new BreakEffect(vec2.make(x,y), orig.index));
-  this.play(x,y,"sfx/break.mp3", 1.5, .04);
+  this.play(x,y,"break.mp3", 1.5, .04);
 };
 
 Zone.prototype.coin = function(x,y) {

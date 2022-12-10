@@ -231,7 +231,7 @@ GoombaObject.prototype.bonk = function() {
   this.moveSpeed = GoombaObject.BONK_IMP.x;
   this.fallSpeed = GoombaObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 GoombaObject.prototype.playerCollide = function(p) {
@@ -254,7 +254,7 @@ GoombaObject.prototype.playerBump = function(p) {
 GoombaObject.prototype.kill = function() {
   this.dead = true;
   this.setState(GoombaObject.STATE.DEAD);
-  this.play("sfx/stomp.mp3", 1., .04);
+  this.play("stomp.mp3", 1., .04);
 };
 
 GoombaObject.prototype.destroy = GameObject.prototype.destroy;

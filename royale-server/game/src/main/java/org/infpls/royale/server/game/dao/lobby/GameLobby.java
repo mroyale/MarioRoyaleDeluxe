@@ -18,7 +18,7 @@ public abstract class GameLobby {
   private final static float MIN_VOTE_FRAC = .85f;   // Needs 85% ready vote to start early
   private final static int MAX_AGE = 108000;        // Max number of frames before we just close the lobby. This is 1 hour.
   
-  private final static int START_DELAY = 300;
+  private final static int START_DELAY = 500; // This is wonky with 60fps updating for some reason. Equivalent to 8.3 seconds
   
   protected final String lid; //Lobby ID
   

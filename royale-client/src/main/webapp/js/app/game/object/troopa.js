@@ -252,7 +252,7 @@ TroopaObject.prototype.bonk = function() {
   this.moveSpeed = KoopaObject.BONK_IMP.x;
   this.fallSpeed = KoopaObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 /* dir (true = left, false = right) */
@@ -265,7 +265,7 @@ TroopaObject.prototype.stomped = function(dir) {
     this.dir = dir;
     this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos));
   }
-  this.play("sfx/stomp.mp3", 1., .04);
+  this.play("stomp.mp3", 1., .04);
 };
 
 TroopaObject.prototype.playerCollide = function(p) {

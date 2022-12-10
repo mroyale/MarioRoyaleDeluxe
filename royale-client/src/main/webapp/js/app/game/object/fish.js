@@ -140,7 +140,7 @@ FishObject.prototype.bonk = function() {
   this.moveSpeed = FishObject.BONK_IMP.x;
   this.fallSpeed = FishObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 

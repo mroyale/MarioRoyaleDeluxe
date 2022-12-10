@@ -74,7 +74,7 @@ SpringObject.prototype.interaction = function() {
   if(ply && ply.level === this.level && ply.zone === this.zone && ply.isTangible()) {
     if(squar.intersection(this.pos, this.dim, ply.pos, ply.dim)) {
       var cmp = Math.pow(1.-(Math.min(Math.max(0, ply.pos.y - this.pos.y), 2.)*.5),2.);
-      if(ply.fallSpeed >= PlayerObject.FALL_SPEED_MAX*.75 && ply.btnA) { ply.jumping = 0; if (!ply.isSpring) { this.play("sfx/spring.mp3", 1., 0); ply.isSpring = true; }; ply.btnAHot = true; } /* hacky but works */
+      if(ply.fallSpeed >= PlayerObject.FALL_SPEED_MAX*.75 && ply.btnA) { ply.jumping = 0; if (!ply.isSpring) { this.play("spring.mp3", 1., 0); ply.isSpring = true; }; ply.btnAHot = true; } /* hacky but works */
       if (!ply.transformTimer) { ply.fallSpeed += Math.min(PlayerObject.FALL_SPEED_MAX*2., cmp*SpringObject.POWER); } /* Don't increase the player's fall speed if they're transforming. */
       ply.grounded = false;
       ply.spring = true;

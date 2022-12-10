@@ -290,7 +290,7 @@ HammerObject.prototype.bonk = function() {
   this.moveSpeed = HammerObject.BONK_IMP.x;
   this.fallSpeed = HammerObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 HammerObject.prototype.kill = function() { /* No standard killstate */ };

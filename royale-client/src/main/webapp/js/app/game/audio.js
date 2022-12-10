@@ -11,18 +11,30 @@
 /* Define Game Audio Class */
 function Audio(game) {
   this.game = game;
-  
-  if(!this.initWebAudio()) { this.initFallback(); }
-  
+
+  this.musicPrefix = "music";
+  this.soundPrefix = "sfx";
+
   this.muteMusic = parseInt(Cookies.get("music"))===1;
   this.muteSound = parseInt(Cookies.get("sound"))===1;
+  
+  if(!this.initWebAudio()) { this.initFallback(); }
 }
 
 Audio.FALLOFF_MIN = 1;
 Audio.FALLOFF_MAX = 24;
 
+/* Set unique audio prefix. Used for ex: mariokart/music, smb2/sfx */
+Audio.prototype.setMusicPrefix = function(val) {
+  this.musicPrefix = val;
+};
+
+Audio.prototype.setSoundPrefix = function(val) {
+  this.soundPrefix = val;
+};
+
 /* Returns true if webaudio is set up correctly, false if fuck no. */
-Audio.prototype.initWebAudio = function() {
+Audio.prototype.initWebAudio = function(music) {
   try {
     var ACc = window.AudioContext || window.webkitAudioContext;
     this.context = new ACc();
@@ -33,57 +45,51 @@ Audio.prototype.initWebAudio = function() {
   }
   
   /* @TODO: ew. */
-  var HARDCODED_SOUNDS = [
-    "music/title1.mp3",
-    "music/title2.mp3",
-
-    "sfx/alert.mp3",
-    "sfx/break.mp3",
-    "sfx/breath.mp3",
-    "sfx/bump.mp3",
-    "sfx/coin.mp3",
-    "sfx/fireball.mp3",
-    "sfx/firework.mp3",
-    "sfx/flagpole.mp3",
-    "sfx/item.mp3",
-    "sfx/jump0.mp3",
-    "sfx/jump1.mp3",
-    "sfx/kick.mp3",
-    "sfx/life.mp3",
-    "sfx/pipe.mp3",
-    "sfx/powerup.mp3",
-    "sfx/powerdown.mp3",
-    "sfx/stomp.mp3",
-    "sfx/spring.mp3",
-    "sfx/vine.mp3",
-    "sfx/spin.mp3",
-    "sfx/message.mp3",
-    "sfx/fall.mp3",
-    "sfx/swim.mp3",
-    
-    "music/ground.mp3",
-    "music/underground.mp3",
-    "music/bonus.mp3",
-    "music/boss.mp3",
-    "music/finalboss.mp3",
-    "music/water.mp3",
-    "music/level.mp3",
-    "music/castle.mp3",
-    "music/castlewin.mp3",
-    "music/victory.mp3",
-    "music/star.mp3",
-    "music/dead.mp3",
-    "music/gameover.mp3",
-    "music/battle.mp3",
-    "music/hammer.mp3",
-    "music/lobby.mp3",
-    "music/waltuh.mp3",
-    "music/ground-smb2.mp3"
+  var soundList = [
+    "alert.mp3",
+    "break.mp3",
+    "breath.mp3",
+    "bump.mp3",
+    "coin.mp3",
+    "fireball.mp3",
+    "firework.mp3",
+    "flagpole.mp3",
+    "item.mp3",
+    "jump0.mp3",
+    "jump1.mp3",
+    "kick.mp3",
+    "life.mp3",
+    "pipe.mp3",
+    "powerup.mp3",
+    "powerdown.mp3",
+    "stomp.mp3",
+    "spring.mp3",
+    "vine.mp3",
+    "spin.mp3",
+    "message.mp3",
+    "fall.mp3",
+    "swim.mp3"
   ];
+
+  var musicList = [
+    "level.mp3",
+    "castlewin.mp3",
+    "victory.mp3",
+    "star.mp3",
+    "dead.mp3",
+    "gameover.mp3"
+  ];
+
+  if (music) { musicList = musicList.concat(music); }
   this.sounds = [];
   
-  for(var i=0;i<HARDCODED_SOUNDS.length;i++) {
-    if(!this.createAudio(HARDCODED_SOUNDS[i])) { return false; }
+  var tmp = this;
+  for(var i=0;i<soundList.length;i++) {
+    if(!this.createAudio(soundList[i], this.soundPrefix)) { return false; }
+  }
+
+  for(var i=0;i<musicList.length;i++) {
+    if(!this.createAudio(musicList[i], this.musicPrefix)) { return false; }
   }
   
   this.masterVolume = this.context.createGain();
@@ -190,8 +196,8 @@ Audio.prototype.stopMusic = function() {
 };
 
 /* Returns boolean. True if created succesfully and false if failed to create. */
-Audio.prototype.createAudio = function(path) {
-  var snd = new AudioData(this.context, path);
+Audio.prototype.createAudio = function(path, prefix) {
+  var snd = new AudioData(this.context, path, prefix);
   this.sounds.push(snd);
   return true;
 };
@@ -218,7 +224,7 @@ Audio.prototype.getAudio = function(path, gain, shift, type) {
     }
   }
   
-  if(this.createAudio(path)) { return this.getAudio(path); }
+  if(this.createAudio(path, type == "music" ? this.musicPrefix : this.soundPrefix)) { return this.getAudio(path); }
   
   app.menu.warn.show("Failed to load sound: '" + path + "'");
   return this.getAudio("default.mp3");
@@ -239,7 +245,7 @@ Audio.prototype.getSpatialAudio = function(path, gain, shift, type) {
     }
   }
   
-  if(this.createAudio(path)) { return this.getSpatialAudio(path); }
+  if(this.createAudio(path, type == "music" ? this.musicPrefix : this.soundPrefix)) { return this.getSpatialAudio(path); }
   
   app.menu.warn.show("Failed to load sound: '" + path + "'");
   return this.getSpatialAudio("multi/default.mp3");

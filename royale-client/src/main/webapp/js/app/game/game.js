@@ -50,8 +50,9 @@ function Game(data) {
   this.disableText = parseInt(Cookies.get("text"))===1;      // Disables game space text rendering
   
   this.remain = 0;               // Number of players still alive
+  this.gameMode = (data.mode === "pvp") ? 1 : 0;
   
-  this.lives = 0;
+  this.lives = 1;
   this.coins = 0;
   
   this.victory = 0;
@@ -94,6 +95,21 @@ Game.prototype.load = function(data) {
   
   /* Load world data */
   this.world = new World(this, data);
+
+  var musicList = [];
+
+  /* Collect music used in this world */
+  this.world.levels.forEach(lvl => lvl.zones.forEach(zn => {
+    if (zn.music) musicList.push(zn.music);
+
+    /* @TODO: There is definitely a better way of doing this, but the function is run only once so it should be OK */
+    zn.data.forEach(row => row.forEach(tile => {
+      if (tile[3] === 239 /* Music Block */) { if (tile[4] /* Extra Data */) { musicList.push(tile[4]); } }
+    }));
+  }));
+
+  /* Remove duplicates */
+  musicList = musicList.filter((item, index) => musicList.indexOf(item) === index);
   
   var isLink = function(string) {
     let url;
@@ -108,6 +124,16 @@ Game.prototype.load = function(data) {
     return Object.keys(dict).filter(x => dict[x].tilesets.length == 0 || dict[x].tilesets.includes(tileset))
         .reduce((res, key) => (res[key] = dict[key], res), {});
   };
+
+  var reloadAudio;
+  
+  if (data.musicOverridePath && data.musicOverridePath !== "undefined") {
+    this.audio.setMusicPrefix(data.musicOverridePath);
+  }
+
+  if (data.soundOverridePath && data.soundOverridePath !== "undefined") {
+    this.audio.setSoundPrefix(data.soundOverridePath);
+  }
 
   if (data.assets) {
     var link = isLink(data.assets);
@@ -131,6 +157,8 @@ Game.prototype.load = function(data) {
 
 
   TILE_ANIMATION_FILTERED = filterByTileset(TILE_ANIMATION, data.resource.filter(x => x.id == "map")[0].src);
+
+  this.audio.initWebAudio(musicList);
   
   /* Spawn objects from world obj params */
   for(var i=0;i<this.world.levels.length;i++) {
@@ -192,7 +220,13 @@ Game.prototype.updatePlayerList = function(packet) {
 
 /* G13*/
 Game.prototype.gameStartTimer = function(packet) {
-  if(this.startTimer < 0) { this.play("sfx/alert.mp3",1.,0.); }
+  if(this.startTimer < 0) {
+    //this.play("alert.mp3",1.,0.);
+    var snd = document.createElement("audio");
+    snd.src = "audio/" + this.audio.soundPrefix + "/alert.mp3";
+    snd.volume = 0.7;
+    snd.play();
+  }
   if(packet.time > 0) { this.startTimer = packet.time; this.remain = this.players.length; }
   else { this.doStart(); }
 };
@@ -550,9 +584,13 @@ Game.prototype.doStep = function() {
   this.doMusic();
   this.audio.update();
   
+  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game) {
+    this.out.push(NET018.encode());
+  }
+
   /* Triggers game over if player is dead for 15 frames and has zero lives. If we have a life we respawn instead. */
   if(this.startDelta !== undefined && !this.gameOver && !ply) {
-    if(this.lives > 0 && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); this.lives--; }
+    if(this.lives > 0 && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); this.lives--; if (zone.musicBlock) { zone.musicBlock = null; } }
     else if(++this.gameOverTimer > 45) { this.gameOver = true; this.gameOverTimer = 0; }
   }
   /* Triggers page refresh after 5 seconds of a game over. */
@@ -570,8 +608,13 @@ Game.prototype.doSpawn = function() {
   if(!ply) {
     var zon = this.getZone();
     var pos = zon.initial; // shor2
-    this.createObject(PlayerObject.ID, zon.level, zon.id, shor2.decode(pos), [this.pid]);
+    var obj = this.createObject(PlayerObject.ID, zon.level, zon.id, shor2.decode(pos), [this.pid]);
     this.out.push(NET010.encode(zon.level, zon, pos));
+
+    if (this.gameMode && this instanceof Game) {
+      obj.transform(2);
+      obj.rate = 0x71;
+    }
   }
   
   this.updateTeam();
@@ -582,13 +625,13 @@ Game.prototype.doSpawn = function() {
 Game.prototype.doMusic = function() {
   var ply = this.getPlayer();
   var zon = this.getZone();
-  if(this.gameOver) { this.audio.setMusic("music/gameover.mp3", false); return; }
-  if(ply && ply.dead) { this.audio.setMusic("music/dead.mp3", false); return; }
-  if(ply && ply.autoTarget && this.victory <= 0) { this.audio.setMusic("music/level.mp3", false); return; }
-  if(this.victory > 0 && !this.victoryMusic) { this.audio.setMusic("music/castlewin.mp3", false); this.victoryMusic = true; return; }
-  if(this.victory > 0 && this.victory < 4 && this.victoryMusic && !this.audio.music.playing) { this.audio.setMusic("music/victory.mp3", false); return; }
+  if(this.gameOver) { this.audio.setMusic("gameover.mp3", false); return; }
+  if(ply && ply.dead) { this.audio.setMusic("dead.mp3", false); return; }
+  if(ply && ply.autoTarget && this.victory <= 0) { this.audio.setMusic("level.mp3", false); return; }
+  if(this.victory > 0 && !this.victoryMusic) { this.audio.setMusic("castlewin.mp3", false); this.victoryMusic = true; return; }
+  if(this.victory > 0 && this.victory < 4 && this.victoryMusic && !this.audio.music.playing) { this.audio.setMusic("victory.mp3", false); return; }
   if(ply && this.levelWarpTimer <= 0 && this.startDelta !== undefined && !this.victoryMusic) {
-    if(zon.music !== "") { this.audio.setMusic(zon.music, true); }
+    if(zon.music !== "" || zon.musicBlock !== null) { this.audio.setMusic(zon.musicBlock?zon.musicBlock:zon.music, true); }
     else { this.audio.stopMusic(); }
     return;
   }
@@ -732,7 +775,7 @@ Game.prototype.levelWarp = function(lid) {
 Game.prototype.coinage = function() {
   this.coins = Math.min(99, this.coins+1);
   if(this.coins >= Game.COINS_TO_LIFE) { this.lifeage(); this.coins = 0; }
-  this.play("sfx/coin.mp3",.4,0.);
+  this.play("coin.mp3",.4,0.);
   var c = Cookies.get("dosh");
   Cookies.set("dosh", c?parseInt(c)+1:1, {expires: 365});
 };
@@ -740,7 +783,7 @@ Game.prototype.coinage = function() {
 /* When the client player collects a life */
 Game.prototype.lifeage = function() {
   this.lives = Math.min(99, this.lives+1);
-  this.play("sfx/life.mp3",1.,0.);
+  this.play("life.mp3",1.,0.);
 };
 
 Game.prototype.loop = function() {

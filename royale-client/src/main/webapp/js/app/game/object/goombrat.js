@@ -232,7 +232,7 @@ GoombratObject.prototype.bonk = function() {
   this.moveSpeed = GoombratObject.BONK_IMP.x;
   this.fallSpeed = GoombratObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 GoombratObject.prototype.playerCollide = function(p) {
@@ -255,7 +255,7 @@ GoombratObject.prototype.playerBump = function(p) {
 GoombratObject.prototype.kill = function() {
   this.dead = true;
   this.setState(GoombratObject.STATE.DEAD);
-  this.play("sfx/stomp.mp3", 1., .04);
+  this.play("stomp.mp3", 1., .04);
 };
 
 GoombratObject.prototype.destroy = GameObject.prototype.destroy;

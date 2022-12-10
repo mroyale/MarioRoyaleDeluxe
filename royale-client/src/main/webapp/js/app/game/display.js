@@ -198,7 +198,7 @@ Display.prototype.drawObject = function() {
     var rest = false;
     switch(sprite.mode) {
       case 0x00 : { break; }  // Standard
-      case 0x01 : { context.save(); rest = true; context.globalAlpha = .5; break; }  // 50% Transparent
+      case 0x01 : { context.save(); rest = true; this.game.gameMode === 1 ? context.globalAlpha = 1 : context.globalAlpha = .5; break; }  // 50% Transparent
       case 0x02 : { if(parseInt(this.game.frame*.5) % 2 === 0) { context.save(); rest = true; context.globalCompositeOperation = "lighter"; } break; }  // Flashing Composite
       case 0x03 : { ry = true; break; } // Vertical mirror
       default : { if(sprite.mode >= 0xA0 && sprite.mode < 0xC0) { context.save(); rest = true; context.globalAlpha = parseFloat(sprite.mode-0xA0)/32.; break; } } // Transparency settings
@@ -368,6 +368,14 @@ Display.prototype.drawUI = function() {
       context.fillText(txt, W-w-8, 32);
       context.strokeText(txt, W-w-8, 32);
     }
+
+    if (this.game.announceText) {
+      var txt = this.game.announceText;
+      w = context.measureText(txt).width;
+      context.font = "32px SmbWeb";
+      context.fillText(txt, (W/2)-(w/2), 64);
+    }
+
     var st = util.sprite.getSprite(uitex, MUSIC[this.game.audio.muteMusic?1:0]);
     context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-24-8, 40, 24, 24);
     var st = util.sprite.getSprite(uitex, SFX[this.game.audio.muteSound?1:0]);

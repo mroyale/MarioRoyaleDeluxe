@@ -135,7 +135,7 @@ PlantObject.prototype.bonk = function() {
   this.moveSpeed = PlantObject.BONK_IMP.x;
   this.fallSpeed = PlantObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 PlantObject.prototype.playerCollide = function(p) {

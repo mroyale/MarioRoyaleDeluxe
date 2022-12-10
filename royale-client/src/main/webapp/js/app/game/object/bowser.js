@@ -199,7 +199,7 @@ BowserObject.prototype.attack = function() {
   this.attackAnimTimer = BowserObject.ATTACK_ANIM_LENGTH;
   this.attackTimer = 0;
   this.game.createObject(FireBreathProj.ID, this.level, this.zone, vec2.add(this.pos, BowserObject.PROJ_OFFSET), []);
-  this.play("sfx/breath.mp3", 1.5, .04);
+  this.play("breath.mp3", 1.5, .04);
 };
 
 BowserObject.prototype.playerCollide = function(p) {
@@ -221,7 +221,7 @@ BowserObject.prototype.bonk = function() {
   this.moveSpeed = BowserObject.BONK_IMP.x;
   this.fallSpeed = BowserObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/fall.mp3", 1., .04);
+  this.play("fall.mp3", 1., .04);
 };
 
 BowserObject.prototype.kill = function() { /* No standard killstate */ };

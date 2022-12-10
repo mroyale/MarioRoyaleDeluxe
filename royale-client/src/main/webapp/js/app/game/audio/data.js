@@ -2,12 +2,12 @@
 /* global main */
 
 /* Define Audio Data Class */
-function AudioData(context, path) {
+function AudioData(context, path, prefix) {
   this.path = path;
   
   var tmp = this; /* Oh look. Javascript. */
   var request = new XMLHttpRequest();
-  request.open('GET', "audio/" + path, true);
+  request.open('GET', "audio/" + prefix + "/" + path, true);
   request.responseType = 'arraybuffer';
 
   // Decode asynchronously

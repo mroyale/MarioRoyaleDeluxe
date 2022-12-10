@@ -23,7 +23,7 @@ public class RoyaleGame extends RoyaleCore {
   public void input(List<GameLobby.InputData> inputs) {
     if(startTimer >= 0) {
       if(startTimer >= START_DELAY) { startTimer = -1; send(new PacketG13(0)); }
-      else if(startTimer++ % 15 == 0) { send(new PacketG13(START_DELAY-startTimer)); }
+      else if(startTimer++ % 30 == 0) { send(new PacketG13(START_DELAY-startTimer)); }
       return;
     }
     

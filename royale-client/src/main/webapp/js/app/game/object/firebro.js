@@ -136,7 +136,7 @@ FireHammerObject.prototype.step = function() {
   this.sound();
   
   if(this.attackAnimTimer > 0) { this.setState(FireHammerObject.STATE.ATTACK); this.attach(); this.attackAnimTimer--; }
-  else if(this.attackTimer++ > FireHammerObject.ATTACK_DELAY) { this.attack(); this.play("sfx/fireball.mp3", 1., .04); }
+  else if(this.attackTimer++ > FireHammerObject.ATTACK_DELAY) { this.attack(); this.play("fireball.mp3", 1., .04); }
   else { this.hammer = undefined; }
   
   if(this.pos.y < 0.) { this.destroy(); }
@@ -292,7 +292,7 @@ FireHammerObject.prototype.bonk = function() {
   this.moveSpeed = FireHammerObject.BONK_IMP.x;
   this.fallSpeed = FireHammerObject.BONK_IMP.y;
   this.dead = true;
-  this.play("sfx/kick.mp3", 1., .04);
+  this.play("kick.mp3", 1., .04);
 };
 
 FireHammerObject.prototype.kill = function() { /* No standard killstate */ };

@@ -238,6 +238,15 @@ td32.TILE_PROPERTIES = {
     WATER: true,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
   },
+  /* Slope Standard */
+  0x08: {
+    NAME: "SLOPE STANDARD",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    SLOPE: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
   /* Item Block Normal */
   0x11: {
     NAME: "ITEM BLOCK STANDARD",
@@ -253,7 +262,7 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).replace(x,y,rep);
           game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/item.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
           break;
         }
         /* Big bump */
@@ -263,7 +272,7 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).replace(x,y,rep);
           game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/item.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
           break;
         }
       }
@@ -284,7 +293,7 @@ td32.TILE_PROPERTIES = {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/item.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
           break;
         }
       }
@@ -382,7 +391,7 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).replace(x,y,rep);
           game.world.getZone(level, zone).grow(x,y+1,vin);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/vine.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"vine.mp3",1.,0.04);
           break;
         }
         /* Big bump */
@@ -393,7 +402,7 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).replace(x,y,rep);
           game.world.getZone(level, zone).grow(x,y+1,vin);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/vine.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"vine.mp3",1.,0.04);
           break;
         }
       }
@@ -412,7 +421,7 @@ td32.TILE_PROPERTIES = {
         game.world.getZone(level, zone).replace(x,y,rep);
         game.createObject((type === 0x10 ? 0x51 : 0x52), level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
         td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-        game.world.getZone(level, zone).play(x,y,"sfx/item.mp3",1.,0.04);
+        game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
       }
     }
   },
@@ -431,7 +440,7 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).replace(x,y,rep);
           game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/item.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
           break;
         }
         /* Big bump */
@@ -441,7 +450,7 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).replace(x,y,rep);
           game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/item.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
           break;
         }
       }
@@ -728,6 +737,24 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Music Block AIR (NEW) */
+  239: {
+    NAME: "MUSIC BLOCK STANDARD",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      if (game.pid !== pid) { return; }
+
+      switch(type) {
+        /* Touch */
+        case 0x00: {
+          if (!(td.data) || !(td.data.trim())) { app.menu.warn.show("Faulty music value."); return; }
+          game.getZone().musicBlock = td.data;
+        }
+      }
+    }
+  },
   /* Message Block (NEW) */
   0xF1: {
     NAME: "MESSAGE BLOCK",
@@ -747,7 +774,7 @@ td32.TILE_PROPERTIES = {
 
           game.messageTimer = setTimeout(function() { tmp.style.transform = "scale(0) translateX(50%) translateY(50%)"; }, 5000);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"sfx/message.mp3",1.,0.04);
+          game.world.getZone(level, zone).play(x,y,"message.mp3",1.,0.04);
 
           tmp.style.display = "";
           tmp.innerText = td.data;
