@@ -1,5 +1,6 @@
 target/
 .vscode
 logs/
-.git
-bin/
+*.class
+.settings
+.project
