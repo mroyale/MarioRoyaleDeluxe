@@ -171,6 +171,10 @@ FireballProj.prototype.interaction = function() {
         (this.game.gameMode !== 1 ? this.owner === this.game.pid : (obj instanceof PlayerObject ? obj.pid == this.game.pid : this.owner === this.game.pid)) && obj.damage(this);
         if (this.game.gameMode === 1 && obj instanceof PlayerObject && obj.pid == this.game.pid && obj.dead)
           this.game.out.push(NET017.encode(this.owner));
+
+        if (this.owner instanceof FireHammerObject && obj instanceof PlayerObject && obj.pid == this.game.pid) {
+          obj.damage(this);
+        }
         
         this.kill(); return;
       }

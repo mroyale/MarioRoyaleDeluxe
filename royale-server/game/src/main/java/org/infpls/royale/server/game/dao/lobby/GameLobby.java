@@ -16,7 +16,7 @@ public abstract class GameLobby {
   private final static int MIN_PLAYERS = 1;          // Min players needed to vote start
   private final static int MAX_PLAYERS = 30;         // Max players, game starts automatically
   private final static float MIN_VOTE_FRAC = .85f;   // Needs 85% ready vote to start early
-  private final static int MAX_AGE = 108000;        // Max number of frames before we just close the lobby. This is 1 hour.
+  private final static int MAX_AGE = 216000;        // Max number of frames before we just close the lobby. This is 1 hour.
   
   private final static int START_DELAY = 500; // This is wonky with 60fps updating for some reason. Equivalent to 8.3 seconds
   
@@ -229,7 +229,7 @@ public abstract class GameLobby {
      players to the game loop before their clients are ready to handle the stream of data.
   */
   private class GameLoop extends Thread {
-    private static final int TICK_RATE = 16;
+    private static final int TICK_RATE = 33;
     private final GameLobby lobby;
     
     private long lastStepTime;

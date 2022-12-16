@@ -325,7 +325,7 @@ Display.prototype.drawUI = function() {
     if(this.game.startTimer >= 0) {
       context.font = "24px SmbWeb";
       context.textAlign = "center";
-      context.fillText("GAME STARTS IN: " + parseInt(this.game.startTimer/60), W*.5, (H*.5)+40);
+      context.fillText("GAME STARTS IN: " + parseInt(this.game.startTimer/30), W*.5, (H*.5)+40);
     }
 
     this.drawGame = false;

@@ -52,7 +52,7 @@ function Game(data) {
   this.remain = 0;               // Number of players still alive
   this.gameMode = (data.mode === "pvp") ? 1 : 0;
   
-  this.lives = 1;
+  this.lives = this.gameMode ? 0 : 1; // Game over if you die in PVP
   this.coins = 0;
   
   this.victory = 0;
@@ -292,7 +292,7 @@ Game.prototype.doNET010 = function(n) {
   /* Check if we need to apply a team name to this new infringio */
   if(!this.team) { return; }
   var ply = this.getPlayerInfo(n.pid);
-  if(ply && ply.id !== this.pid && ply.team === this.team) {
+  if(ply && ply.id !== this.pid) {
     var obj = this.getGhost(ply.id);
     if(obj) { obj.name = ply.name; }
   }

@@ -4,6 +4,7 @@
 function MenuBar() {
   this.element = document.getElementById("editor-top");
   
+  this.btnResources = document.getElementById("editor-top-resources");
   this.btnWorld = document.getElementById("editor-top-world");
   this.btnLevel = document.getElementById("editor-top-level");
   this.btnZone = document.getElementById("editor-top-zone");
@@ -17,6 +18,7 @@ function MenuBar() {
   this.btnAbout = document.getElementById("editor-top-about");
   this.btnSave = document.getElementById("editor-top-save");
   
+  this.btnResources.onclick = function() { app.menu.tool.set("resources"); };
   this.btnWorld.onclick = function() { app.menu.tool.set("world"); };
   this.btnLevel.onclick = function() { app.menu.tool.set("level"); };
   this.btnZone.onclick = function() { app.menu.tool.set("zone"); };

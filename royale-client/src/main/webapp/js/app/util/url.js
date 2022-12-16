@@ -35,6 +35,29 @@ var levelSelectors = [
     {name: 'PVP :: Super Mario Bros. 2 R', worldId: 'pvp-smb2'}
 ];
 
+/* Editor */
+
+const mapsheets = [
+    {name: 'Super Mario Bros. 1', url: "img/game/smb_map.png"},
+    {name: 'Super Mario Bros. 2', url: "img/game/smb2_map.png"},
+    {name: 'Mario Kart (PVP)', url: "img/game/mariokart_map.png"},
+    {name: 'Rainbow Road (PVP)', url: "img/game/rainbowroad_map.png"},
+    {name: 'Lobby', url: "img/game/lobby_map.png"},
+    {name: 'Custom', url: "custom"}
+];
+
+const objsheets = [
+    {name: 'Super Mario Bros. 1', url: "img/game/smb_obj.png"},
+    {name: 'Custom', url: "custom"},
+];
+
+const assetsurl = [
+    {name: "Super Mario Bros. 1", url: "assets.json"},
+    {name: "Super Mario Bros. 2", url: "assets-smb2.json"},
+    {name: "No Animations", url: "assets-noanim.json"},
+    {name: "Custom", url: "custom"},
+];
+
 /* Functions */
 
 function uploadFile(binary, event, callback) {

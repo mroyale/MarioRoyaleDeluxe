@@ -40,6 +40,31 @@ Editor.prototype.load = function(data) {
   var def = document.getElementById("editor-tool-tile-def");
   var type = document.getElementById("editor-tool-object-type");
 
+  var mapsheet = document.getElementById("editor-tool-resources-map");
+  var objsheet = document.getElementById("editor-tool-resources-obj");
+  var assets = document.getElementById("editor-tool-resources-assets");
+
+  for (var sheet of mapsheets) {
+    var elem = document.createElement("option");
+    elem.value = sheet.url;
+    elem.innerText = sheet.name;
+    mapsheet.appendChild(elem);
+  }
+
+  for (var sheet of objsheets) {
+    var elem = document.createElement("option");
+    elem.value = sheet.url;
+    elem.innerText = sheet.name;
+    objsheet.appendChild(elem);
+  }
+
+  for (var asset of assetsurl) {
+    var elem = document.createElement("option");
+    elem.value = asset.url;
+    elem.innerText = asset.name;
+    assets.appendChild(elem);
+  }
+
   for (var td of Object.keys(td32.TILE_PROPERTIES)) {
     var tile = td32.TILE_PROPERTIES[td];
 
@@ -72,6 +97,9 @@ Editor.prototype.compile = function() {
   data.initial = this.world.initial;
   data.assets = this.dataRaw.assets
   data.mode = this.dataRaw.mode;
+  if(this.dataRaw.musicOverridePath) { data.musicOverridePath = this.dataRaw.musicOverridePath }
+  if(this.dataRaw.soundOverridePath) { data.soundOverridePath = this.dataRaw.soundOverridePath }
+
   data.world = [];
   
   for(var i=0;i<this.world.levels.length;i++) {
@@ -109,6 +137,7 @@ Editor.prototype.setTool = function(tool) {
   if(this.tool) { this.tool.destroy(); }
   
   switch(tool) {
+    case "resources": { this.tool = new ToolResources(this); this.tool.load(); break; }
     case "world" : { this.tool = new ToolWorld(this); this.tool.load(); break; }
     case "level" : { this.tool = new ToolLevel(this); this.tool.load(); break; }
     case "zone" : { this.tool = new ToolZone(this); this.tool.load(); break; }
