@@ -11,6 +11,7 @@ function MenuBar() {
   this.btnTile = document.getElementById("editor-top-tile");
   this.btnObject = document.getElementById("editor-top-object");
   this.btnWarp = document.getElementById("editor-top-warp");
+  this.btnSpawn = document.getElementById("editor-top-spawn");
   this.btnCopy = document.getElementById("editor-top-copy");
   this.btnRep = document.getElementById("editor-top-rep");
   this.btnRef = document.getElementById("editor-top-ref");
@@ -25,6 +26,7 @@ function MenuBar() {
   this.btnTile.onclick = function() { app.menu.tool.set("tile"); };
   this.btnObject.onclick = function() { app.menu.tool.set("object"); };
   this.btnWarp.onclick = function() { app.menu.tool.set("warp"); };
+  this.btnSpawn.onclick = function() { app.menu.tool.set("spawnpoint"); };
   this.btnCopy.onclick = function() { app.menu.tool.set("copy"); };
   this.btnRep.onclick = function() { app.menu.tool.set("rep"); };
   this.btnRef.onclick = function() { app.menu.tool.set("ref"); };

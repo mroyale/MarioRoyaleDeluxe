@@ -122,6 +122,7 @@ Editor.prototype.compile = function() {
       zdat.data = zone.data;
       zdat.obj = zone.obj;
       zdat.warp = zone.warp;
+      zdat.spawnpoint = zone.spawnpoint;
       zdat.bg = zone.bg;
       zdat.bgs = zone.bgs;
       
@@ -144,6 +145,7 @@ Editor.prototype.setTool = function(tool) {
     case "tile" : { this.tool = new ToolTile(this); this.tool.load(); break; }
     case "object" : { this.tool = new ToolObject(this); this.tool.load(); break; }
     case "warp" : { this.tool = new ToolWarp(this); this.tool.load(); break; }
+    case "spawnpoint" : { this.tool = new ToolSpawnpoint(this); this.tool.load(); break; }
     case "copy" : { this.tool = new ToolCopy(this); this.tool.load(); break; }
     case "rep" : { this.tool = new ToolRep(this); this.tool.load(); break; }
     case "bg" : { this.tool = new ToolBackground(this); this.tool.load(); break; }

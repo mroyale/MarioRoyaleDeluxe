@@ -85,7 +85,7 @@ PlayerObject.DEAD_FREEZE_TIME = 28;
 PlayerObject.DEAD_TIME = 140;
 PlayerObject.DEAD_UP_FORCE = 1;
 
-PlayerObject.WATER_SPEED_MAX = 0.200;
+PlayerObject.WATER_SPEED_MAX = 0.250;
 PlayerObject.RUN_SPEED_MAX = 0.465;
 PlayerObject.MOVE_SPEED_MAX = 0.250;
 PlayerObject.MOVE_SPEED_ACCEL = 0.013;
@@ -95,7 +95,7 @@ PlayerObject.STUCK_SLIDE_SPEED = 0.08;
 
 PlayerObject.FALL_SPEED_SPIN = -0.01;
 PlayerObject.WATER_FALL_SPEED = 0.45;
-PlayerObject.WATER_FALL_ACCEL = 0.05;
+PlayerObject.WATER_FALL_ACCEL = 0.025;
 PlayerObject.FALL_SPEED_MAX = 0.65;
 PlayerObject.FALL_SPEED_ACCEL = 0.06;
 PlayerObject.BOUNCE_LENGTH_MIN = 1;
@@ -162,6 +162,9 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "S_CLIMB0", ID: 0x06, INDEX: 0x0009},
   {NAME: "S_CLIMB1", ID: 0x07, INDEX: 0x0008},
   {NAME: "S_TAUNT", ID: 0x08, INDEX: 0x001D},
+  {NAME: "S_SWIM0", ID: 0x09, INDEX: 0x0007},
+  {NAME: "S_SWIM1", ID: 0x0A, INDEX: 0x0006},
+  {NAME: "S_SWIM2", ID: 0x0B, INDEX: 0x0005},
   /* [B]ig Mario */
   {NAME: "B_STAND", ID: 0x20, INDEX: [[0x003E], [0x02E]]}, 
   {NAME: "B_DOWN", ID: 0x21, INDEX: [[0x003A], [0x02A]]},
@@ -210,7 +213,7 @@ PlayerObject.SNAME = {
   ATTACK: "ATTACK",
   TRANSFORM: "TRANSFORM",
   TAUNT: "TAUNT",
-  SPIN: "SPIN",
+  SWIM: "SWIM",
   DEAD: "DEAD",
   HIDE: "HIDE",
   GHOST: "GHOST",
@@ -230,6 +233,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.POLE, ID: 0x06, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_CLIMB1]},
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x07, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_CLIMB0,PlayerObject.SPRITE.S_CLIMB1]},
   {NAME: PlayerObject.SNAME.TAUNT, ID: 0x08, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_TAUNT]},
+  {NAME: PlayerObject.SNAME.SWIM, ID: 0x09, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_SWIM0, PlayerObject.SPRITE.S_SWIM1, PlayerObject.SPRITE.S_SWIM2]},
   /* Big Mario -> 0x20 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x20, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_STAND]},
   {NAME: PlayerObject.SNAME.DOWN, ID: 0x21, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.B_DOWN]},
@@ -491,7 +495,7 @@ PlayerObject.prototype.control = function() {
   for(var i=0;i<PlayerObject.JUMP_SPEED_INC_THRESHOLD.length&&Math.abs(this.moveSpeed)>=PlayerObject.JUMP_SPEED_INC_THRESHOLD[i];i++) { jumpMax++; }
   
   if(this.btnA) {
-    if(this.grounded || this.underWater) {
+    if(this.grounded || (this.underWater && !this.btnAHot)) {
       this.jumping = 0;
       this.play(this.underWater ? "swim.mp3" : this.power>0?"jump1.mp3":"jump0.mp3", .7, .04);
       this.btnAHot = true;
@@ -531,7 +535,9 @@ PlayerObject.prototype.control = function() {
     }
   }
   
-  if(!this.grounded) { this.setState(PlayerObject.SNAME.FALL); }
+  if(!this.grounded) {
+    this.underWater ? this.setState(PlayerObject.SNAME.SWIM, true) : this.setState(PlayerObject.SNAME.FALL);
+  }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
     this.attack();
@@ -709,7 +715,6 @@ PlayerObject.prototype.physics = function() {
       this.fallSpeed = 0;
       grounded = true;
       slope = slop;
-      app.menu.warn.show(`${mov.y}<br>${xdec}`)
     }
   }
   
@@ -972,13 +977,14 @@ PlayerObject.prototype.isTangible = function() {
   return GameObject.prototype.isTangible.call(this) && !this.isState(PlayerObject.SNAME.HIDE) && this.pipeDelay <= 0;
 };
 
-PlayerObject.prototype.setState = function(SNAME) {
+PlayerObject.prototype.setState = function(SNAME, KEEPANIM) {
   var STATE = this.getStateByPowerIndex(SNAME, this.power);
   if(STATE === this.state) { return; }
   this.state = STATE;
   if(STATE.SPRITE.length > 0) { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
   this.dim = STATE.DIM;
-  this.anim = 0;
+
+  //this.anim = 0;
 };
 
 /* Lmoa */

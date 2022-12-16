@@ -48,6 +48,7 @@ EditorDisplay.prototype.draw = function() {
   this.drawCursor();
   this.drawCopyBlock();
   this.drawObjectTool();
+  this.drawSpawnpoint();
   this.drawWarp();
   this.drawLevelStart();
   
@@ -309,6 +310,22 @@ EditorDisplay.prototype.drawObjectTool = function() {
   }
 };
 
+EditorDisplay.prototype.drawSpawnpoint = function() {
+  if(!this.game.tool || this.game.tool.lore === undefined) { return; }
+  
+  var context = this.context;
+
+  var zone = this.game.getZone();
+  
+  for(var i=0;i<zone.spawnpoint.length;i++) {
+    var spn = zone.spawnpoint[i];
+    var pos = shor2.decode(spn.pos);
+        
+    context.fillStyle = spn === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,0,0,0.5)";
+    context.fillRect(pos.x*Display.TEXRES,(zone.data.length-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
+  }
+};
+
 EditorDisplay.prototype.drawWarp = function() {
   if(!this.game.tool || this.game.tool.vore === undefined) { return; }
   
@@ -338,7 +355,7 @@ EditorDisplay.prototype.drawLevelStart = function() {
   var zone = this.game.getZone();
   var pos = shor2.decode(zone.initial);
 
-  context.fillStyle = "rgba(255,0,0,0.5)";
+  context.fillStyle = "rgba(0,255,0,0.5)";
   context.fillRect(pos.x * Display.TEXRES, (zone.dimensions().y - pos.y - 0x1) * Display.TEXRES, Display.TEXRES, Display.TEXRES);
 }
 

@@ -35,15 +35,15 @@ HammerProj.THROW_DELAY = 13;
 
 HammerProj.IMPULSE = vec2.make(.48, 0.915);
 HammerProj.DRAG = .965;
-HammerProj.FALL_SPEED_MAX = 0.65;
-HammerProj.FALL_SPEED_ACCEL = 0.095;
+HammerProj.FALL_SPEED_MAX = 0.45;
+HammerProj.FALL_SPEED_ACCEL = 0.085;
 
 HammerProj.SPRITE = {};
 HammerProj.SPRITE_LIST = [
-  {NAME: "IDLE0", ID: 0x00, INDEX: 0x00DD},
-  {NAME: "IDLE1", ID: 0x01, INDEX: 0x00DC},
-  {NAME: "IDLE2", ID: 0x02, INDEX: 0x00DF},
-  {NAME: "IDLE3", ID: 0x03, INDEX: 0x00DE}
+  {NAME: "IDLE0", ID: 0x00, INDEX: 0x0085},
+  {NAME: "IDLE1", ID: 0x01, INDEX: 0x0086},
+  {NAME: "IDLE2", ID: 0x02, INDEX: 0x0087},
+  {NAME: "IDLE3", ID: 0x03, INDEX: 0x0088}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */

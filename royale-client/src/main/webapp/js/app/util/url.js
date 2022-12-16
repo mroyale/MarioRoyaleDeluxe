@@ -21,7 +21,7 @@ let TILE_ANIMATION_FILTERED = [];
 
 /* Details on private lobby world selection */
 
-var levelSelectors = [
+const levelSelectors = [
     {name: 'SMB :: World 1', worldId: 'world-1' },
     {name: 'SMB :: World 2', worldId: 'world-2' },
     {name: 'SMB :: World 3', worldId: 'world-3' },

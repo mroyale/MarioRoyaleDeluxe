@@ -7,7 +7,7 @@ function ToolWorld(editor) {
   this.element = document.getElementById("editor-tool-world");
   
   this.valInitial = document.getElementById("editor-tool-world-initial");
-  this.valAssets = document.getElementById("editor-tool-world-assets");
+  this.valMode = document.getElementById("editor-tool-world-mode");
   
   this.btnNew = document.getElementById("editor-tool-world-new");
   
@@ -54,17 +54,17 @@ ToolWorld.prototype.reload = function() {
 
 ToolWorld.prototype.load = function() {
   this.valInitial.value = this.editor.world.initial;
-  this.valAssets.value = this.editor.world.assets || "";
+  this.valMode.value = this.editor.dataRaw.mode || "royale";
   this.element.style.display = "block";
 };
 
 ToolWorld.prototype.save = function() {
   try {
     var i = parseInt(this.valInitial.value);
-    var j = this.valAssets.value;
+    var j = this.valMode.value || "royale";
     if(isNaN(i)) { throw "oof"; }
     this.editor.world.initial = i;
-    this.editor.world.assets = (j == 0) ? "assets.json" : j;
+    this.editor.dataRaw.mode = j;
   }
   catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); }
   

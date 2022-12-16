@@ -49,7 +49,7 @@ HammerObject.ASYNC = false;
 HammerObject.ID = 0x31;
 HammerObject.NAME = "Hammer Bro"; // Used by editor
 
-HammerObject.ANIMATION_RATE = 10;
+HammerObject.ANIMATION_RATE = 12;
 
 HammerObject.ENABLE_FADE_TIME = 15;
 HammerObject.ENABLE_DIST = 33;          // Distance to player needed for proximity to trigger and the enemy to be enabled
@@ -59,12 +59,12 @@ HammerObject.BONK_IMP = vec2.make(0.25, 0.4);
 HammerObject.BONK_DECEL = 0.925;
 HammerObject.BONK_FALL_SPEED = 0.25;
 
-HammerObject.MOVE_SPEED_MAX = 0.0475;
-HammerObject.JUMP_DELAY = 55;        // Time between jumps
+HammerObject.MOVE_SPEED_MAX = 0.0375;
+HammerObject.JUMP_DELAY = 110;        // Time between jumps
 HammerObject.MOVE_AREA = 4;          // 4 Blocks horizontal area
-HammerObject.JUMP_LENGTH = 8;        // Length of jump
-HammerObject.JUMP_DECEL = 0.009;     // Jump deceleration
-HammerObject.ATTACK_DELAY = 75;      // Time between attacks
+HammerObject.JUMP_LENGTH = 16;        // Length of jump
+HammerObject.JUMP_DECEL = 0.018;     // Jump deceleration
+HammerObject.ATTACK_DELAY = 160;      // Time between attacks
 HammerObject.DOUBLE_RATE = 5;        // How many attacks till a double attack
 HammerObject.ATTACK_ANIM_LENGTH = 13;
 HammerObject.PROJ_OFFSET = vec2.make(.5, 1.25);
@@ -74,9 +74,9 @@ HammerObject.FALL_SPEED_ACCEL = 0.085;
 
 HammerObject.SPRITE = {};
 HammerObject.SPRITE_LIST = [
-  {NAME: "IDLE0", ID: 0x00, INDEX: [[0x006E],[0x005E]]},
-  {NAME: "IDLE1", ID: 0x01, INDEX: [[0x006D],[0x005D]]},
-  {NAME: "ATTACK", ID: 0x02, INDEX: [[0x006C],[0x005C]]}
+  {NAME: "IDLE0", ID: 0x00, INDEX: [[0x006D],[0x003D]]},
+  {NAME: "IDLE1", ID: 0x01, INDEX: [[0x006C],[0x003C]]},
+  {NAME: "ATTACK", ID: 0x02, INDEX: [[0x006B],[0x003C]]}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */

@@ -45,6 +45,7 @@
           <span id='editor-top-tile' class="toolbar-button-top left">Tile</span>
           <span id='editor-top-object' class="toolbar-button-top left">Object</span>
           <span id='editor-top-warp' class="toolbar-button-top left">Warp</span>
+          <span id='editor-top-spawn' class="toolbar-button-top left">Spawnpoint</span>
           <span id='editor-top-copy' class="toolbar-button-top left">Clone</span>
           <span id='editor-top-rep' class="toolbar-button-top left">Replace</span>
           <span id='editor-top-ref' class="toolbar-button-top left">Reference</span>
@@ -100,6 +101,13 @@
             <div class='tool-box'>
               <div class='tool-var tooltip'>Initial Level<span class="tooltiptext">Should always be 0</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-world-initial' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Gamemode<span class="tooltiptext">Determines gamemode. Classic is regular Mario Royale, PVP is last man standing.</span></div><div class='tool-type'>string</div>
+              <select id='editor-tool-world-mode' type='text' class="tool-val">
+                <option value="royale">Classic</option>
+                <option value="pvp">PVP</option>
+              </select>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
@@ -280,6 +288,20 @@
               <div class="tool-val-im">0 is default, (1, 2, 3, 4) are warp pipe (up, down, left, right) respectively.</div>
             </div>
           </div>
+
+          <!-- Warp Tool -->
+          <div id='editor-tool-spawnpoint' class='tool-container' style='display: none'>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Position<span class="tooltiptext">The position of this spawnpoint</span></div><div class='tool-type'>short</div>
+              <div id='editor-tool-spawnpoint-pos' class="tool-val-im"></div>
+            </div>
+            <div class='tool-div'></div>
+            <div class='tool-box'>
+              <div class="tool-val-im"><b>THIS FEATURE IS PVP EXCLUSIVE! ENABLE PVP IN THE "WORLD" TOOL!</b></div>
+              <div class="tool-val-im">Upon entering a PVP world, the game will cycle through spawnpoints and pick one for each player. This is to make sure players are spread out in the PVP mode.</div>
+              <div class="tool-val-im">Arrow/WASD keys to move, middle click to create, right click to delete.</div>
+            </div>
+          </div>
           
           <!-- Copy Tool -->
           <div id='editor-tool-copy' class='tool-container' style='display: none'>
@@ -439,6 +461,7 @@
       <script src='js/editor/tool/tool-tile.js'></script>
       <script src='js/editor/tool/tool-object.js'></script>
       <script src='js/editor/tool/tool-warp.js'></script>
+      <script src='js/editor/tool/tool-spawnpoint.js'></script>
       <script src='js/editor/tool/tool-copy.js'></script>
       <script src='js/editor/tool/tool-rep.js'></script>
       <script src='js/editor/tool/tool-background.js'></script>

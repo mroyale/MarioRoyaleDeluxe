@@ -607,7 +607,14 @@ Game.prototype.doSpawn = function() {
   
   if(!ply) {
     var zon = this.getZone();
-    var pos = zon.initial; // shor2
+
+    var pos;
+    
+    if (zon.spawnpoint.length > 0 && this.gameMode === 1 /* PVP exclusive */) {
+      var spn = zon.spawnpoint;
+      pos = spn[parseInt(Math.random() * spn.length)].pos;
+    } else { pos = zon.initial; /* shor2 */ }
+
     var obj = this.createObject(PlayerObject.ID, zon.level, zon.id, shor2.decode(pos), [this.pid]);
     this.out.push(NET010.encode(zon.level, zon, pos));
 

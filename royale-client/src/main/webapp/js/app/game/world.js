@@ -109,6 +109,7 @@ function Zone(game, level, data) {
   this.data = data.data; // 2D Array of td32 (Copied by reference!)
   this.obj = data.obj; // Copied by reference!
   this.warp = data.warp; // Copied by reference!
+  this.spawnpoint = data.spawnpoint || []; // This is new so we should have a fail-safe.
   this.bg = data.bg; // Copied by reference!
   this.bgs = data.bgs; // Also copied by reference!
   

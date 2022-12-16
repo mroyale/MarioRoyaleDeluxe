@@ -60,6 +60,7 @@ ToolZone.prototype.shiftX = function() {
   var dat = this.zone.data;
   var obj = this.zone.obj;
   var wrp = this.zone.warp;
+  var spn = this.zone.spawnpoint;
   
   for(var i=0;i<dat.length;i++) {
     dat[i].shift();
@@ -76,12 +77,19 @@ ToolZone.prototype.shiftX = function() {
     pos.x--;
     wrp[i].pos = shor2.encode(pos.x, pos.y);
   }
+
+  for (var i=0;i<spn.length;i++) {
+    var pos = shor2.decode(spn[i].pos);
+    pos.x--;
+    spn[i].pos = shor2.encode(pos.x, pos.y);
+  }
 };
 
 ToolZone.prototype.unshiftX = function() {
   var dat = this.zone.data;
   var obj = this.zone.obj;
   var wrp = this.zone.warp;
+  var spn = this.zone.spawnpoint;
   
   for(var i=0;i<dat.length;i++) {
     dat[i].unshift([30,0,0,0,0]);
@@ -97,6 +105,12 @@ ToolZone.prototype.unshiftX = function() {
     var pos = shor2.decode(wrp[i].pos);
     pos.x++;
     wrp[i].pos = shor2.encode(pos.x, pos.y);
+  }
+
+  for(var i=0;i<spn.length;i++) {
+    var pos = shor2.decode(spn[i].pos);
+    pos.x++;
+    spn[i].pos = shor2.encode(pos.x, pos.y);
   }
 };
 
