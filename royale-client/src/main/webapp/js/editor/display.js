@@ -306,11 +306,11 @@ EditorDisplay.prototype.drawObjectTool = function() {
     var pos = shor2.decode(obj.pos);
         
     context.fillStyle = obj === this.game.tool.selected ? "rgba(0,255,0,0.5)" : "rgba(255,0,0,0.5)";
-    context.fillRect(pos.x*Display.TEXRES,(zone.data.length-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
+    context.fillRect(pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
     
     if(cls && cls.SPRITE && cls.SPRITE[0]) {
       var st = util.sprite.getSprite(tex, cls.SPRITE[0].INDEX);
-      context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, pos.x*Display.TEXRES,(zone.data.length-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
+      context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
     }
   }
 };
@@ -327,7 +327,7 @@ EditorDisplay.prototype.drawSpawnpoint = function() {
     var pos = shor2.decode(spn.pos);
         
     context.fillStyle = spn === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,0,0,0.5)";
-    context.fillRect(pos.x*Display.TEXRES,(zone.data.length-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
+    context.fillRect(pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
   }
 };
 
@@ -345,10 +345,10 @@ EditorDisplay.prototype.drawWarp = function() {
         
     context.font = Display.TEXRES + "px SmbWeb";
     context.fillStyle = "white";
-    context.fillText(id, pos.x*Display.TEXRES, (zone.data.length-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
+    context.fillText(id, pos.x*Display.TEXRES, (zone.dimensions().y-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
 
     context.fillStyle = wrp === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,0,0,0.5)";
-    context.fillRect(pos.x*Display.TEXRES,(zone.data.length-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
+    context.fillRect(pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
   }
 };
 
