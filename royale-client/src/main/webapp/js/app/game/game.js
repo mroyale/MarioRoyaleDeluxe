@@ -103,7 +103,7 @@ Game.prototype.load = function(data) {
     if (zn.music) musicList.push(zn.music);
 
     /* @TODO: There is definitely a better way of doing this, but the function is run only once so it should be OK */
-    zn.data.forEach(row => row.forEach(tile => {
+    zn.mainLayer.data.forEach(row => row.forEach(tile => {
       if (tile[3] === 239 /* Music Block */) { if (tile[4] /* Extra Data */) { musicList.push(tile[4]); } }
     }));
   }));

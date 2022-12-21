@@ -73,6 +73,9 @@ td32.TRIGGER = {
     TOUCH: 0x00,
     DOWN: 0x01,
     PUSH: 0x02,
+    FIREBALL: 0x03,
+    SHELL: 0x04,
+    STAND: 0x05,
     SMALL_BUMP: 0x10,
     BIG_BUMP: 0x11
   }
@@ -247,25 +250,117 @@ td32.TILE_PROPERTIES = {
     SLOPE: true,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
   },
+  /* Ice Block */
+  0x0A: {
+    NAME: "ICE BLOCK",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    ICE: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
+  /* Note Block */
+  0x0B: {
+    NAME: "NOTE BLOCK",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch (type) {
+        /* Stand */
+        case 0x05: {
+            if (game.pid === pid) { game.getPlayer().bounce(); game.out.push(NET030.encode(level, zone, shor2.encode(x, y), type)); }
+            td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+            break;
+        }
+
+        /* Small Bump */
+        /* Big Bump */
+        case 0x10:
+        case 0x11: {
+            if (game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x, y), type)); }
+            td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+            break;
+        }
+      }
+    }
+  },
+  /* Item Note Block */
+  12: {
+    NAME: "ITEM NOTE BLOCK",
+    DATA: "Object ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function (game, pid, td, level, zone, x, y, type) {
+        switch (type) {
+            /* Stand */
+            /* Shell */
+            case 0x05:
+            case 0x04: {
+                if (game.pid === pid) { game.getPlayer().bounce(); game.out.push(NET030.encode(level, zone, shor2.encode(x, y), type)); }
+
+                var rep = td32.encode(td.index, 0, td.depth, 0xb, 0); // Replacement td32 data for tile.
+                game.world.getZone(level, zone).replace(x, y, rep);
+
+                game.createObject(parseInt(td.data), level, zone, vec2.make(x, y), [shor2.encode(x, y), true]);
+                
+                td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+                game.world.getZone(level, zone).play(x, y, "item.mp3", 1., 0.04);
+                break;
+            }
+
+            /* Small bump */
+            /* Big bump */
+            case 0x10:
+            case 0x11: {
+                if (game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x, y), type)); }
+                var rep = [td.index, 0, td.depth, 0xb, 0]; // Replacement td32 data for tile.
+                game.world.getZone(level, zone).replace(x, y, rep);
+                game.createObject(td.data, level, zone, vec2.make(x, y), [shor2.encode(x, y), false, false]);
+
+                td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+                game.world.getZone(level, zone).play(x, y, "item.mp3", 1., 0.04);
+                break;
+            }
+        }
+    }
+  },
+  /* Ice Object Block */
+  13: {
+    NAME: "ICE OBJECT BLOCK",
+    DATA: "Object ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    ICE: true,
+    TRIGGER: function (game, pid, td, level, zone, x, y, type, obj) {
+        switch (type) {
+            /* Fireball */
+            case 0x03: {
+                var rep = [30, 0, 0, 0, 0]; // td32 replacement tile
+                game.world.getZone(level, zone).replace(x, y, rep);
+                game.createObject(td.data, level, zone, vec2.make(x, y), [shor2.encode(x, y)]);
+                obj.kill();
+                break;
+            }
+        }
+    }
+  },
   /* Item Block Normal */
   0x11: {
     NAME: "ITEM BLOCK STANDARD",
+    DATA: "Object ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: false,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
+        /* Shell */
         /* Small bump */
-        case 0x10 : {
-          if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-          game.world.getZone(level, zone).replace(x,y,rep);
-          game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
-          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
-          break;
-        }
         /* Big bump */
+        case 0x04 :
+        case 0x10 : 
         case 0x11 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
@@ -281,6 +376,7 @@ td32.TILE_PROPERTIES = {
   /* Item Block Infinite */
   0x19: {
     NAME: "ITEM BLOCK INFINITE",
+    DATA: "Object ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: false,
@@ -288,8 +384,10 @@ td32.TILE_PROPERTIES = {
       switch(type) {
         /* Small bump */
         /* Big bump */
+        /* Shell */
         case 0x10 :
-        case 0x11 : {
+        case 0x11 : 
+        case 0x04 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
@@ -308,16 +406,11 @@ td32.TILE_PROPERTIES = {
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
-          if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-          game.world.getZone(level, zone).replace(x,y,rep);
-          game.world.getZone(level, zone).coin(x,y+1);
-          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          break;
-        }
         /* Big bump */
-        case 0x11 : {
+        /* Shell */
+        case 0x10 :
+        case 0x11 :
+        case 0x04 : {
           if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
           game.world.getZone(level, zone).replace(x,y,rep);
@@ -331,30 +424,17 @@ td32.TILE_PROPERTIES = {
   /* Coin Block Multi */
   0x13: {
     NAME: "COIN BLOCK MULTI",
+    DATA: "Coin Amount",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: false,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
-          if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          if(td.data > 0) {
-            var raw = game.world.getZone(level, zone).tile(x,y);
-            var rep = td32.data(raw, parseInt(td.data)-1);                      // Replacement td32 data for tile.
-            game.world.getZone(level, zone).replace(x,y,rep);
-            game.world.getZone(level, zone).coin(x,y+1);
-            td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          }
-          else {
-            var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-            game.world.getZone(level, zone).replace(x,y,rep);
-            game.world.getZone(level, zone).coin(x,y+1);
-            td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          }
-          break;
-        }
         /* Big bump */
+        /* Shell */
+        case 0x04 :
+        case 0x10 :
         case 0x11 : {
           if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           if(td.data > 0) {
@@ -378,23 +458,17 @@ td32.TILE_PROPERTIES = {
   /* Vine Block */
   0x18: {
     NAME: "VINE BLOCK",
+    DATA: "Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: false,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
-          if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-          var vin = td32.data([31, 0, 0, 165, 0], td.data); // Vine td32 data for tile.
-          game.world.getZone(level, zone).replace(x,y,rep);
-          game.world.getZone(level, zone).grow(x,y+1,vin);
-          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"vine.mp3",1.,0.04);
-          break;
-        }
         /* Big bump */
+        /* Shell */
+        case 0x04 :
+        case 0x10 :
         case 0x11 : {
           if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
@@ -415,7 +489,7 @@ td32.TILE_PROPERTIES = {
     HIDDEN: false,
     ASYNC: false,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
-      if (type === 0x10 || type === 0x11) {
+      if (type === 0x10 || type === 0x11 || type === 0x04) {
         if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
         var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
         game.world.getZone(level, zone).replace(x,y,rep);
@@ -428,22 +502,17 @@ td32.TILE_PROPERTIES = {
   /* Item Block Invisible */
   0x15: {
     NAME: "ITEM BLOCK INVISIBLE",
+    DATA: "Object ID",
     COLLIDE: true,
     HIDDEN: true,
     ASYNC: false,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
-          if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-          game.world.getZone(level, zone).replace(x,y,rep);
-          game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
-          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
-          break;
-        }
         /* Big bump */
+        /* Shell */
+        case 0x04 :
+        case 0x10 :
         case 0x11 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
@@ -465,15 +534,10 @@ td32.TILE_PROPERTIES = {
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
-          if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-          game.world.getZone(level, zone).replace(x,y,rep);
-          game.world.getZone(level, zone).coin(x,y+1);
-          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
-          break;
-        }
         /* Big bump */
+        /* Shell */
+        case 0x04 :
+        case 0x10 :
         case 0x11 : {
           if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.

@@ -27,6 +27,7 @@ function PlayerObject(game, level, zone, pos, pid) {
   this.isSpring = false;  // True if the jump we are doing was a spring launch
   this.grounded = false;
   this.underWater = false; // false: no, true: yes
+  this.icePhysics = false; // false: no, true: yes
   
   /* Var */
   this.name = undefined;     // If this is set for whatever reason, it will display a name tag over this player.
@@ -89,7 +90,9 @@ PlayerObject.WATER_SPEED_MAX = 0.250;
 PlayerObject.RUN_SPEED_MAX = 0.465;
 PlayerObject.MOVE_SPEED_MAX = 0.250;
 PlayerObject.MOVE_SPEED_ACCEL = 0.013;
+PlayerObject.MOVE_ICE_ACCEL = 0.0065;
 PlayerObject.MOVE_SPEED_DECEL = 0.0180;
+PlayerObject.MOVE_ICE_DECEL = 0.009;
 PlayerObject.MOVE_SPEED_ACCEL_AIR = 0.0025;
 PlayerObject.STUCK_SLIDE_SPEED = 0.08;
 
@@ -455,19 +458,19 @@ PlayerObject.prototype.control = function() {
     if(this.btnD[1] !== -1) {
       this.moveSpeed = (this.moveSpeed + PlayerObject.STUCK_SLIDE_SPEED) * .5; // Rirp
     }
-    this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed)-PlayerObject.MOVE_SPEED_DECEL, 0);
+    this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed)-(this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
     return;
   }
   
   if(this.btnD[0] !== 0) {
     if(Math.abs(this.moveSpeed) > 0.01 && !(this.btnD[0] >= 0 ^ this.moveSpeed < 0)) {
-      this.moveSpeed += PlayerObject.MOVE_SPEED_DECEL * this.btnD[0];
+      this.moveSpeed += (this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL) * this.btnD[0];
       this.setState(PlayerObject.SNAME.SLIDE);
 
       if (!this.skidEffect && this.grounded) { this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos)); this.skidEffect = true; }
     }
     else {
-      this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + PlayerObject.MOVE_SPEED_ACCEL, this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?PlayerObject.RUN_SPEED_MAX:PlayerObject.MOVE_SPEED_MAX);
+      this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?PlayerObject.RUN_SPEED_MAX:PlayerObject.MOVE_SPEED_MAX);
       this.setState(PlayerObject.SNAME.RUN);
       this.skidEffect = false;
     }
@@ -476,7 +479,7 @@ PlayerObject.prototype.control = function() {
   else {
     if (!this.underWater || this.grounded) {
         if(Math.abs(this.moveSpeed) > 0.01) {
-          this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed)-PlayerObject.MOVE_SPEED_DECEL, 0);
+          this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed) - (this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
           this.setState(PlayerObject.SNAME.RUN);
         }
         else {
@@ -576,6 +579,8 @@ PlayerObject.prototype.physics = function() {
   
   var grounded = false;
   var underwater = false;
+  var ice = false;
+
   var hit = [];
   var on = [];              // Tiles we are directly standing on
   var psh = [];             // Tiles we are directly pushing against
@@ -586,7 +591,6 @@ PlayerObject.prototype.physics = function() {
   var semicollide = [];     // Semisolids that we collided with
   var platforms = [];       // All platforms we collided with
   var platform;             // The platform we are actually riding, if applicable.
-  var slope;                // Slope we're standing on
   
   /* Collect likely hits & handle push */
   for(var i=0;i<tiles.length;i++) {
@@ -658,7 +662,10 @@ PlayerObject.prototype.physics = function() {
     var tile = hit[i];
     if(squar.intersection(tile.pos, tdim, mov, this.dim)) {
       if(this.fallSpeed > PlayerObject.BLOCK_BUMP_THRESHOLD) { bmp.push(tile); }
-      if(this.fallSpeed < 0 && this.pos.y >= tile.pos.y) { on.push(tile); }
+      if(this.fallSpeed < 0 && this.pos.y >= tile.pos.y) {
+        if (tile.definition.ICE) { ice = true; }
+        on.push(tile);
+      }
     }
   }
   
@@ -708,22 +715,28 @@ PlayerObject.prototype.physics = function() {
 
   /* Handle slope collision. X pos is normal. Y pos = slope y+x decimal points */
   for(var i=0;i<slopecollide.length;i++) {
-    var slop = slopecollide[i];
-    if (squar.intersection(slop.pos, tdim, mov, DIM0)) {
-      var xdec = (this.pos.x - parseInt(this.pos.x));
-      mov.y = slop.pos.y + xdec;
-      this.fallSpeed = 0;
-      grounded = true;
-      slope = slop;
+    var slope = slopecollide[i];
+    if (squar.intersection(slope.pos, tdim, mov, DIM0)) {
+      const ang = 45 * Math.PI / 180; // Convert 45deg to radians
+
+      mov.x += Math.cos(ang) * this.moveSpeed;
+      mov.y += Math.sin(ang) * this.moveSpeed;
     }
   }
   
+  this.icePhysics = ice;
   this.grounded = grounded;
   this.pos = mov;
   
   /* On Platform */
   if(platform) {
     platform.riding(this);
+  }
+
+  /* On Tile */
+  for(var i=0;i<on.length;i++) {
+    var tile = on[i];
+    tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.STAND);
   }
   
   /* Tile Touch events */

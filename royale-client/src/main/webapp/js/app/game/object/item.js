@@ -4,7 +4,7 @@
 /* global NET011, NET020 */
 
 /* Abstract parent class, don't instance. I'll know if you do. */
-function ItemObject(game, level, zone, pos, oid) {
+function ItemObject(game, level, zone, pos, oid, fall, dir) {
   GameObject.call(this, game, level, zone, pos);
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
@@ -18,6 +18,7 @@ function ItemObject(game, level, zone, pos, oid) {
   this.fallSpeed = 0;
   this.grounded = false;
   this.rise = false;     // If this item spawned inside a solid tile it will rise up out of it.
+  this.fall = fall;
   
   var tdim = vec2.make(1., 1.);
   var tiles = this.game.world.getZone(this.level, this.zone).getTiles(this.pos, this.dim);
@@ -27,7 +28,7 @@ function ItemObject(game, level, zone, pos, oid) {
   }
   
   /* Control */
-  this.dir = false; /* false = left, true = right */
+  this.dir = parseInt(dir) ? true : false; /* false = left, true = right */
   this.jump = -1;
 }
 
@@ -87,7 +88,7 @@ ItemObject.prototype.physics = function() {
     
     if(!this.rise) { return; }
     
-    this.pos.y += ItemObject.RISE_RATE;
+    this.pos.y += this.fall ? -ItemObject.RISE_RATE : ItemObject.RISE_RATE;
     
     return;
   }

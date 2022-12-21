@@ -106,7 +106,20 @@ function Zone(game, level, data) {
   this.musicBlock = null; // Used when we touch a music block
   this.vertical = data.vertical?parseInt(data.vertical):false;
   
-  this.data = data.data; // 2D Array of td32 (Copied by reference!)
+  this.layers = data.layers || []; // All layers which are 2D arrays of td32
+
+  /* If we have an (old) level that uses the standard tile format, adjust. */
+  if (data.data) {
+    for (var i = 0; i < this.layers.length && this.layers[i].z < 0; i++);
+    this.layers.splice(i, 0, { z: 0, data: data.data });
+  }
+
+  this.mainLayer = undefined;
+  for (var layer of this.layers) if (layer.z == 0) {
+      this.mainLayer = layer;
+      break;
+  }
+
   this.obj = data.obj; // Copied by reference!
   this.warp = data.warp; // Copied by reference!
   this.spawnpoint = data.spawnpoint || []; // This is new so we should have a fail-safe.
@@ -119,9 +132,17 @@ function Zone(game, level, data) {
   this.sounds = [];
 }
 
+Zone.prototype.getLayer = function(z) {
+  for (var i=0; i<this.layers.length; i++) {
+    if (this.layers[i].z == z) {
+      return this.layers[i];
+    }
+  }
+};
+
 Zone.prototype.update = function(game, pid, level, zone, x, y, type) {
   var yo = this.dimensions().y-1-y;
-  var td = td32.decode(this.data[yo][x]);
+  var td = td32.decode(this.mainLayer.data[yo][x]);
   td.definition.TRIGGER(game, pid, td, level, zone, x, y, type);
 };
 
@@ -129,9 +150,9 @@ Zone.prototype.step = function() {
   /* Update Bumps */
   for(var i=0;i<this.bumped.length;i++) {
     var e = this.bumped[i];
-    var td = td32.decode(this.data[e.y][e.x]);
+    var td = td32.decode(this.mainLayer.data[e.y][e.x]);
     if(td.bump > 0) {
-      this.data[e.y][e.x] = td32.bump(this.data[e.y][e.x], td.bump-0.5);
+      this.mainLayer.data[e.y][e.x] = td32.bump(this.mainLayer.data[e.y][e.x], td.bump-0.5);
     }
     else {
       this.bumped.splice(i--,1);
@@ -149,7 +170,7 @@ Zone.prototype.step = function() {
   for(var i=0;i<this.vines.length;i++) {
     var vn = this.vines[i];
     if(vn.y < 0) { this.vines.splice(i--, 1); continue; }
-    this.data[vn.y--][vn.x] = vn.td;
+    this.mainLayer.data[vn.y--][vn.x] = vn.td;
   }
   
   /* Update Sounds */
@@ -165,19 +186,19 @@ Zone.prototype.step = function() {
 /* returns raw data of tile (as an int) */
 Zone.prototype.tile = function(x,y) {
   var yo = this.dimensions().y-1-y;
-  return this.data[yo][x];
+  return this.mainLayer.data[yo][x];
 };
 
 Zone.prototype.bump = function(x,y) {
   var yo = this.dimensions().y-1-y;
-  this.data[yo][x] = td32.bump(this.data[yo][x], 15);
+  this.mainLayer.data[yo][x] = td32.bump(this.mainLayer.data[yo][x], 15);
   this.bumped.push({x: x, y: yo});
   this.play(x,y,"bump.mp3", .5, .04);
 };
 
 Zone.prototype.replace = function(x,y,td) {
   var yo = this.dimensions().y-1-y;
-  this.data[yo][x] = td;
+  this.mainLayer.data[yo][x] = td;
 };
 
 Zone.prototype.grow = function(x,y,td) {
@@ -187,8 +208,8 @@ Zone.prototype.grow = function(x,y,td) {
 
 Zone.prototype.break = function(x,y,td) {
   var yo = this.dimensions().y-1-y;
-  var orig = td32.decode16(this.data[yo][x]);
-  this.data[yo][x] = td;
+  var orig = td32.decode16(this.mainLayer.data[yo][x]);
+  this.mainLayer.data[yo][x] = td;
   this.effects.push(new BreakEffect(vec2.make(x,y), orig.index));
   this.play(x,y,"break.mp3", 1.5, .04);
 };
@@ -207,7 +228,7 @@ Zone.prototype.play = function(x,y,path,gain,shift) {
 
 /* Returns width and height of the zone in tiles. */
 Zone.prototype.dimensions = function() {
-  return vec2.make(this.data[0].length, this.data.length);
+  return vec2.make(this.layers[0].data[0].length, this.layers[0].data.length);
 };
 
 /* Returns a single tile at the given position. Pos is world coordiantes! */
@@ -216,7 +237,7 @@ Zone.prototype.getTile = function(pos) {
   var cpos = vec2.copy(pos);
   cpos.y = zd.y - cpos.y -1;
   
-  return td32.decode(this.data[Math.max(0, Math.min(zd.y, Math.floor(cpos.y)))][Math.max(0, Math.min(zd.x, Math.floor(cpos.x)))]);
+  return td32.decode(this.mainLayer.data[Math.max(0, Math.min(zd.y, Math.floor(cpos.y)))][Math.max(0, Math.min(zd.x, Math.floor(cpos.x)))]);
 };
 
 /* Returns an array of all tiles in an area with position <vec2 pos> width/height <vec2 dim> */
@@ -235,7 +256,7 @@ Zone.prototype.getTiles = function(pos, dim) {
   
   for(var i=y1;i<y2;i++) {
     for(var j=x1;j<x2;j++) {
-      var td = td32.decode(this.data[i][j]);
+      var td = td32.decode(this.mainLayer.data[i][j]);
       td.pos = vec2.make(j,zd.y-1.-i);
       td.ind = [i,j];
       tiles.push(td);

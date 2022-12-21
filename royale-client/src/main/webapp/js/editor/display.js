@@ -39,9 +39,12 @@ EditorDisplay.prototype.draw = function() {
   this.drawBackground();
   this.drawReference();
   
-  this.drawMapTool(false); // Render background
-  //this.drawObject();
-  this.drawMapTool(true);  // Render foreground
+  for (var i=0; i<zone.layers.length; i++) {
+    this.drawMapTool(zone.layers[i].data, false); // Render background
+    if (zone.layers[i].z == 0) {
+        this.drawMapTool(zone.layers[i].data, true); // Render foreground
+    }
+  }
   //this.drawEffect();
   //this.drawUI();
   this.drawBorder();
@@ -221,7 +224,7 @@ EditorDisplay.prototype.drawPallete = function() {
   }
 };
 
-EditorDisplay.prototype.drawMapTool = function(depth) {
+EditorDisplay.prototype.drawMapTool = function(data, depth) {
   var context = this.context; // Sanity
   
   var tex = this.resource.getTexture("map");
@@ -234,14 +237,16 @@ EditorDisplay.prototype.drawMapTool = function(depth) {
   var cx0 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x - w)));
   var cx1 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x + w)));
   
-  for(var i=0;i<zone.data.length;i++) {
-    var row = zone.data[i];
+  for(var i=0;i<data.length;i++) {
+    var row = data[i];
     for(var j=cx0;j<cx1;j++) {
       var t = row[j];
       var td = td32.decode(t);
       if(Boolean(td.depth) !== depth) { continue; }
       var st;
       var ind = td.index;
+
+      if (ind === 30) { continue; } // Do not render tile 30
 
       if (ind in TILE_ANIMATION_FILTERED) {
         var anim = TILE_ANIMATION_FILTERED[ind];
@@ -259,7 +264,7 @@ EditorDisplay.prototype.drawMapTool = function(depth) {
       }
       context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, Display.TEXRES*j, Display.TEXRES*(i-bmp), Display.TEXRES, Display.TEXRES);
 
-      if (td.definition.NAME.includes("ITEM")) {
+      if (td.definition.NAME.includes("ITEM") || td.definition.NAME.includes("OBJECT")) {
         var obj = GameObject.OBJECT(parseInt(td.data) || 81);
         if(obj && obj.SPRITE && obj.SPRITE[0x0]) {
           var sprite = util.sprite.getSprite(objTex, obj.SPRITE[0x0].INDEX);

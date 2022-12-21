@@ -66,9 +66,13 @@ Display.prototype.draw = function() {
   /* Draw Game */
   if (this.drawGame) {
     this.drawBackground();
-    this.drawMap(false); // Render background
-    this.drawObject();
-    this.drawMap(true);  // Render foreground
+    for (var i = 0; i < zone.layers.length; i++) {
+      this.drawMap(zone.layers[i].data, false); // Render depth 0
+      if (zone.layers[i].z == 0) {
+          this.drawObject();
+          this.drawMap(zone.layers[i].data, true); // Render depth 1
+      }
+    }
     this.drawEffect();
   };
   
@@ -116,7 +120,7 @@ Display.prototype.drawBackground = function() {
   };
 };
 
-Display.prototype.drawMap = function(depth) {
+Display.prototype.drawMap = function(data, depth) {
   var context = this.context; // Sanity
   
   var tex = this.resource.getTexture("map");
@@ -128,14 +132,16 @@ Display.prototype.drawMap = function(depth) {
   var cx0 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x - w)));
   var cx1 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x + w)));
   
-  for(var i=0;i<zone.data.length;i++) {
-    var row = zone.data[i];
+  for(var i=0;i<data.length;i++) {
+    var row = data[i];
     for(var j=cx0;j<cx1;j++) {
       var t = row[j];
       var td = td32.decode16(t);
       if(Boolean(td.depth) !== depth) { continue; }
       var st;
       var ind = td.index;
+
+      if (ind === 30) { continue; } // Do not render tile 30
 
       if (ind in TILE_ANIMATION_FILTERED) {
         var anim = TILE_ANIMATION_FILTERED[ind];

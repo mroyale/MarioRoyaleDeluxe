@@ -15,6 +15,7 @@ function ToolTile(editor) {
   this.valDepth = document.getElementById("editor-tool-tile-depth");
   this.valDef = document.getElementById("editor-tool-tile-def");
   this.valData = document.getElementById("editor-tool-tile-data");
+  this.valDataName = document.getElementById("editor-tool-data-name");
   
   var tmp = this;
   this.valIndex.onchange = function() { tmp.update(); };
@@ -47,7 +48,7 @@ ToolTile.prototype.input = function(imp, mous, keys) {
   }
   
   /* See if we are clicking on a map tile */
-  var data = this.zone.data;
+  var data = this.editor.currentLayer.data;
   
   var g = vec2.chop(this.editor.display.camera.unproject(mous.pos));
   if(g.x < 0 || g.x > data[0].length-1 || g.y < 0 || g.y > data.length-1) { return; }
@@ -85,6 +86,7 @@ ToolTile.prototype.setBrush = function(brush) {
   
   this.valRaw.innerHTML = this.brush;
   this.valName.innerHTML = td32.decode(this.brush).definition.NAME;
+  this.valDataName.innerText = td32.decode(this.brush).definition.DATA || "Unused Extra Data";
   this.valRaw.classList.remove("red");
 };
 

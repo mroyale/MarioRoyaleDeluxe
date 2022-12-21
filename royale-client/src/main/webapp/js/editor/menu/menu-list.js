@@ -22,7 +22,19 @@ MenuList.prototype.generate = function() {
   }
   
   this.element.innerHTML = html;
-  
+
+  /* Layers */
+  var container = document.createElement("div");
+  container.setAttribute("id", "layer-list-container");
+  var header = document.createElement("div");
+  header.setAttribute("class", "list-header");
+  header.innerText = "Layers";
+  var layerList = document.createElement("div");
+  layerList.setAttribute("id", "layer-list");
+  container.appendChild(header);
+  container.appendChild(layerList);
+  this.element.appendChild(container);
+
   /* Have to do it this way for production sdk to still work */
   for(var i=0;i<world.levels.length;i++) {
     var level = world.levels[i];
@@ -35,7 +47,28 @@ MenuList.prototype.generate = function() {
       ele.onclick = function() { that.select(this.lid,this.zid); };
     }
   }
+
+  if (app.editor.currentZone) { this.updateLayerList(); }
 };
+
+MenuList.prototype.updateLayerList = function() {
+  var zone = app.editor.currentZone;
+  var layerList = document.getElementById("layer-list");
+  layerList.innerHTML = "";
+  var addLayerItem = function(layer) {
+      var item = document.createElement("div");
+      item.setAttribute("class", app.editor.currentLayer && layer.z == app.editor.currentLayer.z ? "list-zone-current" : "list-zone");
+      item.innerText = ""+layer.z;
+      item.layer = layer;
+      item.onclick = function() {
+          app.editor.setLayer(this.layer);
+      }
+      layerList.appendChild(item);
+  }
+  for (var i=0; i<zone.layers.length; i++) {
+      addLayerItem(zone.layers[i]);
+  }
+}
 
 MenuList.prototype.select = function(level, zone) {
   if(!app.editor) { return; }

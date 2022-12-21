@@ -125,7 +125,13 @@ FireballProj.prototype.physics = function() {
   var mvx = vec2.make(mov.x, this.pos.y);
   for(var i=0;i<hit.length;i++) {
     var tile = hit[i];
-    if(!squar.intersection(tile.pos, tdim, mvx, this.dim)) { continue; }
+
+    if (tile.definition.ICE) {
+      tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.FIREBALL, this);
+    }
+
+    if(!squar.intersection(tile.pos, tdim, mvx, this.dim) || tile.definition.HIDDEN) { continue; }
+    if(tile.definition.SEMISOLID) continue;
     
     /* +X */
     if(mvx.x + (this.dim.x*.5) < tile.pos.x + (tdim.x*.5)) {
@@ -145,6 +151,8 @@ FireballProj.prototype.physics = function() {
   for(var i=0;i<hit.length;i++) {
     var tile = hit[i];
     if(!squar.intersection(tile.pos, tdim, mov, this.dim)) { continue; }
+
+    if (squar.intersection(tile.pos, tdim, mvx, this.dim) && tile.definition.SEMISOLID) { continue; }
     
     /* -Y */
     if(this.pos.y >= mov.y) {

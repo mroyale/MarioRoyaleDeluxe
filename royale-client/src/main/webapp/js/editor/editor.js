@@ -119,7 +119,7 @@ Editor.prototype.compile = function() {
       zdat.initial = zone.initial;
       zdat.color = zone.color;
       zdat.music = zone.music;
-      zdat.data = zone.data;
+      zdat.layers = zone.layers;
       zdat.obj = zone.obj;
       zdat.warp = zone.warp;
       zdat.spawnpoint = zone.spawnpoint;
@@ -187,6 +187,17 @@ Editor.prototype.setZone = function(zone) {
   if(this.tool) { this.tool.reload(); }
   var dim = zone.dimensions();
   this.display.camera.position(vec2.scale(dim, .5));
+  app.menu.list.updateLayerList();
+  this.setLayer(zone.getLayer(0));
+};
+
+/* Sets the current layer of the zone */
+Editor.prototype.setLayer = function(layer) {
+  this.currentLayer = layer;
+  var list = document.getElementById("layer-list");
+  for (var item of list.children) {
+      item.setAttribute("class", item.layer.z == layer.z ? "list-zone-current" : "list-zone");
+  }
 };
 
 /* Returns the zone we are editing. */

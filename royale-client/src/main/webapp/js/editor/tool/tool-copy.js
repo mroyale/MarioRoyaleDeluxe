@@ -27,7 +27,7 @@ ToolCopy.prototype.input = function(imp, mous, keys) {
   if(!mous.lmb && !mous.mmb) { return; }
   
   /* See if we are clicking on a map tile */
-  var data = this.zone.data;
+  var data = this.editor.mainLayer.data;
   
   var g = vec2.chop(this.editor.display.camera.unproject(mous.pos));
   if(g.x < 0 || g.x > data[0].length-1 || g.y < 0 || g.y > data.length-1) { return; }
@@ -37,7 +37,7 @@ ToolCopy.prototype.input = function(imp, mous, keys) {
 };
 
 ToolCopy.prototype.doCopy = function(g) {
-  var data = this.zone.data;
+  var data = this.editor.currentLayer.data;
   
   var cpd = [];
   for(var i=0;i<this.dim.y&&i+g.y<data.length;i++) {
@@ -54,7 +54,7 @@ ToolCopy.prototype.doCopy = function(g) {
 ToolCopy.prototype.doPaste = function(g) {
   if(!this.copyData) { return; }
   
-  var data = this.zone.data;
+  var data = this.editor.currentLayer.data;
   this.editor.dirty = true;
 
   for(var i=0;i<this.copyData.length&&i+g.y<data.length;i++) {

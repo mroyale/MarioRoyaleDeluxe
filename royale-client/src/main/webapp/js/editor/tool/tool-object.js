@@ -36,7 +36,7 @@ ToolObject.prototype.input = function(imp, mous, keys) {
   }
 
   /* See if we are clicking on a object to select it. */
-  var data = this.zone.data;
+  var data = this.editor.currentLayer.data;
   
   var g = vec2.chop(this.editor.display.camera.unproject(mous.pos));
   g.y = data.length-g.y-1;
@@ -75,7 +75,7 @@ ToolObject.prototype.input = function(imp, mous, keys) {
 
 ToolObject.prototype.update = function() {
   try {
-    var type = Math.max(0, Math.min(255, parseInt(this.valType.value)));
+    var type = Math.max(0, Math.min(65535, parseInt(this.valType.value)));
     var param = this.valParam.value.trim().split(",");
     
     if(isNaN(type) || param === undefined) { throw "oof"; }
@@ -116,7 +116,7 @@ ToolObject.prototype.move = function(x,y) {
 
   var pos = shor2.decode(this.selected.pos);
   pos = vec2.add(pos, vec2.make(x,y));
-  if(pos.x < 0 || pos.x > this.zone.data[0].length-1 || pos.y < 0) { return; }
+  if(pos.x < 0 || pos.x > this.editor.currentLayer.data[0].length-1 || pos.y < 0) { return; }
   this.selected.pos = shor2.encode(pos.x, pos.y);
   this.moveTimer=16;
 

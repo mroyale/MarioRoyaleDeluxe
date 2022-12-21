@@ -11,7 +11,7 @@ import org.infpls.royale.server.util.*;
 
 public abstract class GameLobby {
   private final static String LOBBY_FILE = "lobby";
-  private final static String[] GAME_FILES = new String[]{ "pvp-mariokart", "pvp-smb2" };
+  private final static String[] GAME_FILES = new String[]{ "pvp-mariokart","pvp-rainbowroad","pvp-smb2","world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
   
   private final static int MIN_PLAYERS = 1;          // Min players needed to vote start
   private final static int MAX_PLAYERS = 30;         // Max players, game starts automatically
