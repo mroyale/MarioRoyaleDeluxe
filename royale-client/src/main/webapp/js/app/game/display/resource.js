@@ -40,6 +40,23 @@ Resource.prototype.loadTexture = function(src) {
   }
 };
 
+/* This function can make a new texture and update it at the same time. Truly cool */
+Resource.prototype.updateTexture = function(src) {
+  var tex = this.texture;
+
+  var img = new Image();
+  img.onload = function() {
+    tex.cache[src.id] = img;
+    tex.load--;
+  };
+  img.onerror = function(e) {
+    console.error(e)
+    tex.load--;
+  };
+  img.src = src.src;
+  tex.load++;
+}
+
 /* Retrieves a texture by it's ID */
 Resource.prototype.getTexture = function(id) {
   return this.texture.cache[id];

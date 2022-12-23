@@ -6,6 +6,8 @@ function ToolBackground(editor) {
   this.editor = editor;
   
   this.element = document.getElementById("editor-tool-bg");
+  this.container = document.getElementById("editor-tool-bg-container");
+  this.listContainer = document.getElementById("background-list-container");
 
   this.valURL = document.getElementById("editor-tool-bg-url");
   this.valXOffset = document.getElementById("editor-tool-bg-offx");
@@ -13,30 +15,59 @@ function ToolBackground(editor) {
   this.valSpeed = document.getElementById("editor-tool-bg-speed");
   this.valLoop = document.getElementById("editor-tool-bg-loop");
 
-  this.valURLS = document.getElementById("editor-tool-bg-urls");
-  this.valXOffsetS = document.getElementById("editor-tool-bg-offxs");
-  this.valYOffsetS = document.getElementById("editor-tool-bg-offys");
-  this.valSpeedS = document.getElementById("editor-tool-bg-speeds");
-  this.valLoopS = document.getElementById("editor-tool-bg-loops");
-  
   var tmp = this;
+
+  document.getElementById("editor-tool-bg-addlayer").onclick = function() { tmp.addLayer(); };
+  document.getElementById("editor-tool-bg-dellayer").onclick = function() { tmp.delLayer(); }
+  
   this.btnApply = document.getElementById("editor-tool-bg-apply");
   this.btnApply.onclick = function() { tmp.apply(); };
 }
 
+ToolBackground.prototype.addLayer = function() {
+  var z = parseInt(window.prompt("Choose Z [less than 1 will appear behind the zone, greater will appear infront of the zone]"));
+  if (isNaN(z)) return alert("Invalid value.");
+  if (!this.zone.background) this.zone.background = [];
+  var i=0;
+  for (; i<this.zone.background.length; ++i) {
+      if (this.zone.background[i].z == z) return alert("There is already a layer with this Z value ("+z+")");
+      if (this.zone.background[i].z > z) break;
+  }
+
+  var layer = {"z":z, "url": "", "offset": vec2.make(0, 0), "speed": 0, "loop": 0};
+  this.zone.background.splice(i,0,layer);
+  
+  app.menu.list.updateBgLayerList();
+  app.editor.setBgLayer(layer);
+  this.setLayer(layer);
+};
+
+ToolBackground.prototype.setLayer = function(layer) {
+  this.container.style.display = ""; // Assuming we have a full layer
+
+  this.valURL.value = layer.url;
+  this.valXOffset.value = layer.offset.x;
+  this.valYOffset.value = layer.offset.y;
+  this.valSpeed.value = layer.speed;
+  this.valLoop.value = layer.loop;
+
+  app.menu.list.updateBgLayerList();
+};
+
 ToolBackground.prototype.apply = function() {
-  this.zone.bg = { 'url': this.valURL.value, 'offset': vec2.make(parseInt(this.valXOffset.value), parseInt(this.valYOffset.value)), 'speed': parseFloat(this.valSpeed.value), 'loop': parseInt(this.valLoop.value) };
-  this.zone.bgs = { 'url': this.valURLS.value, 'offset': vec2.make(parseInt(this.valXOffsetS.value), parseInt(this.valYOffsetS.value)), 'speed': parseFloat(this.valSpeedS.value), 'loop': parseInt(this.valLoopS.value) };;
+  var zone = this.editor.currentZone;
+  
+  for (var i=0; i<zone.background.length; i++) {
+    if (zone.background[i].z === this.editor.currentBgLayer.z) {
+      zone.background[i] = { 'z': this.editor.currentBgLayer.z, 'url': this.valURL.value, 'offset': vec2.make(parseInt(this.valXOffset.value), parseInt(this.valYOffset.value)), 'speed': parseFloat(this.valSpeed.value), 'loop': parseInt(this.valLoop.value) };
+    }
+  }
 
-  var id = "bg" + parseInt(Math.random()*4096);
-  var ids = "bgs" + parseInt(Math.random()*4096);
+  this.editor.display.resource.updateTexture({ id: "bg" + this.editor.currentBgLayer.z + zone.level + zone.id, src: this.valURL.value })
 
-  this.editor.display.resource.load([{id: id, src: this.valURL.value}]);
-  this.editor.display.resource.load([{id: ids, src: this.valURLS.value}]);
+  this.editor.currentBgLayer = { 'z': this.editor.currentBgLayer.z, 'url': this.valURL.value, 'offset': vec2.make(parseInt(this.valXOffset.value), parseInt(this.valYOffset.value)), 'speed': parseFloat(this.valSpeed.value), 'loop': parseInt(this.valLoop.value) };
 
-  this.editor.bg = id;
-  this.editor.bgs = ids;
-
+  app.menu.list.updateBgLayerList();
   this.editor.dirty = true;
   this.save();
 };
@@ -48,20 +79,18 @@ ToolBackground.prototype.reload = function() {
 
 ToolBackground.prototype.load = function() {
   this.zone = this.editor.currentZone;
+  var layer = this.editor.currentBgLayer;
 
-  this.valURL.value = this.zone.bg ? this.zone.bg.url : "";
-  this.valXOffset.value = this.zone.bg ? this.zone.bg.offset.x : "0";
-  this.valYOffset.value = this.zone.bg ? this.zone.bg.offset.y : "0";
-  this.valSpeed.value = this.zone.bg ? this.zone.bg.speed : "0";
-  this.valLoop.value = this.zone.bg ? this.zone.bg.loop : "0";
-
-  this.valURLS.value = this.zone.bgs ? this.zone.bgs.url : "";
-  this.valXOffsetS.value = this.zone.bgs ? this.zone.bgs.offset.x : "0";
-  this.valYOffsetS.value = this.zone.bgs ? this.zone.bgs.offset.y : "0";
-  this.valSpeedS.value = this.zone.bgs ? this.zone.bgs.speed : "0";
-  this.valLoopS.value = this.zone.bgs ? this.zone.bgs.loop : "0";
+  if (layer) {
+    this.valURL.value = layer.url || "";
+    this.valXOffset.value = layer.offset.x || "0";
+    this.valYOffset.value = layer.offset.y || "0";
+    this.valSpeed.value = layer.speed || "0";
+    this.valLoop.value = layer.loop || "0";
+  }
 
   this.element.style.display = "block";
+  this.listContainer.style.display = "";
 };
 
 ToolBackground.prototype.save = function() {
@@ -69,21 +98,17 @@ ToolBackground.prototype.save = function() {
     var x = parseInt(this.valXOffset.value);  // X Offset
     var y = parseInt(this.valYOffset.value);  // Y Offset
     var sp = parseFloat(this.valSpeed.value); // Speed
-    var l = parseFloat(this.valSpeed.value);  // Loop
+    var l = parseFloat(this.valLoop.value);  // Loop
 
-    var xs = parseInt(this.valXOffsetS.value);  // X Offset Secondary
-    var ys = parseInt(this.valYOffsetS.value);  // Y Offset Secondary
-    var sps = parseFloat(this.valSpeedS.value); // Speed Secondary
-    var ls = parseInt(this.valLoopS.value);     // Loop Secondary
 
-    if(isNaN(x) || isNaN(y) || isNaN(sp) || isNaN(l) || isNaN(xs) || isNaN(ys) || isNaN(sps) || isNaN(ls)) { throw "rip"; }
-
-    this.editor.offsetBg = vec2.make(x, y);
+    if(isNaN(x) || isNaN(y) || isNaN(sp) || isNaN(l)) { throw "rip"; }
   }
-  catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); this.editor.offsetBg = vec2.make(0, 0); }
+  catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); }
 };
 
 ToolBackground.prototype.destroy = function() {
   this.element.style.display = "none";
+  this.container.style.display = "none";
+  this.listContainer.style.display = "none";
   this.save();
 };

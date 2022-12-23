@@ -123,8 +123,9 @@ function Zone(game, level, data) {
   this.obj = data.obj; // Copied by reference!
   this.warp = data.warp; // Copied by reference!
   this.spawnpoint = data.spawnpoint || []; // This is new so we should have a fail-safe.
-  this.bg = data.bg; // Copied by reference!
-  this.bgs = data.bgs; // Also copied by reference!
+  this.background = data.background || [];
+  //this.bg = data.bg; // Copied by reference!
+  //this.bgs = data.bgs; // Also copied by reference!
   
   this.bumped = [];
   this.effects = [];
@@ -139,6 +140,12 @@ Zone.prototype.getLayer = function(z) {
     }
   }
 };
+
+Zone.prototype.getBgLayer = function(z) {
+  for (var i=0; i<this.background.length; i++) {
+    return this.background[i]; // since this is only used in initialization, get the first layer
+  }
+}
 
 Zone.prototype.update = function(game, pid, level, zone, x, y, type) {
   var yo = this.dimensions().y-1-y;

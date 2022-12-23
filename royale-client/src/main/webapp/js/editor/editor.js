@@ -24,6 +24,8 @@ function Editor(data) {
   this.showRef = false;
   this.offsetRef = vec2.make(0, 0);
   this.reference = undefined;
+  this.showLayers = true;
+  this.showBgLayers = false;
   
   this.dirty = false; // don't let the user leave if true
 
@@ -122,9 +124,10 @@ Editor.prototype.compile = function() {
       zdat.layers = zone.layers;
       zdat.obj = zone.obj;
       zdat.warp = zone.warp;
-      zdat.spawnpoint = zone.spawnpoint;
-      zdat.bg = zone.bg;
-      zdat.bgs = zone.bgs;
+      zdat.spawnpoint = zone.spawnpoint || [];
+      zdat.background = zone.background || [];
+      //zdat.bg = zone.bg;
+      //zdat.bgs = zone.bgs;
       
       ldat.zone.push(zdat);
     }
@@ -136,6 +139,9 @@ Editor.prototype.compile = function() {
 
 Editor.prototype.setTool = function(tool) {
   if(this.tool) { this.tool.destroy(); }
+  
+  document.getElementById("layer-list-container").style.display = this.showLayers ? true : false;
+  document.getElementById("background-list-container").style.display = this.showBgLayers ? true : false;
   
   switch(tool) {
     case "resources": { this.tool = new ToolResources(this); this.tool.load(); break; }
@@ -188,7 +194,10 @@ Editor.prototype.setZone = function(zone) {
   var dim = zone.dimensions();
   this.display.camera.position(vec2.scale(dim, .5));
   app.menu.list.updateLayerList();
+  
   this.setLayer(zone.getLayer(0));
+  app.menu.list.updateBgLayerList();
+  //this.setBgLayer(zone.getBgLayer());
 };
 
 /* Sets the current layer of the zone */
@@ -196,9 +205,22 @@ Editor.prototype.setLayer = function(layer) {
   this.currentLayer = layer;
   var list = document.getElementById("layer-list");
   for (var item of list.children) {
-      item.setAttribute("class", item.layer.z == layer.z ? "list-zone-current" : "list-zone");
+    item.setAttribute("class", item.layer.z == layer.z ? "list-zone-current" : "list-zone");
   }
 };
+
+/* Sets the background layer of the zone */
+Editor.prototype.setBgLayer = function(layer) {
+  this.currentBgLayer = layer;
+  var list = document.getElementById("background-list");
+  for (var item of list.children) {
+    item.setAttribute("class", item.layer.z == layer.z ? "list-zone-current" : "list-zone");
+  }
+
+  if (this.tool instanceof ToolBackground) {
+    this.tool.setLayer(layer);
+  }
+}
 
 /* Returns the zone we are editing. */
 Editor.prototype.getZone = function() {

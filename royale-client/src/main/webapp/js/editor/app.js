@@ -15,6 +15,7 @@ App.prototype.load = function(game) {
   this.editor = new Editor(game);
   
   this.menu.list.generate();
+  this.editor.setTool("world");
 };
 
 App.prototype.save = function() {

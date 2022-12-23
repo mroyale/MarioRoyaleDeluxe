@@ -35,6 +35,18 @@ MenuList.prototype.generate = function() {
   container.appendChild(layerList);
   this.element.appendChild(container);
 
+  /* Background Layers */
+  var container = document.createElement("div");
+  container.setAttribute("id", "background-list-container");
+  var header = document.createElement("div");
+  header.setAttribute("class", "list-header");
+  header.innerText = "Background Layers";
+  var layerList = document.createElement("div");
+  layerList.setAttribute("id", "background-list");
+  container.appendChild(header);
+  container.appendChild(layerList);
+  this.element.appendChild(container);
+
   /* Have to do it this way for production sdk to still work */
   for(var i=0;i<world.levels.length;i++) {
     var level = world.levels[i];
@@ -48,7 +60,7 @@ MenuList.prototype.generate = function() {
     }
   }
 
-  if (app.editor.currentZone) { this.updateLayerList(); }
+  if (app.editor.currentZone) { this.updateLayerList(); this.updateBgLayerList(); }
 };
 
 MenuList.prototype.updateLayerList = function() {
@@ -68,7 +80,26 @@ MenuList.prototype.updateLayerList = function() {
   for (var i=0; i<zone.layers.length; i++) {
       addLayerItem(zone.layers[i]);
   }
-}
+};
+
+MenuList.prototype.updateBgLayerList = function() {
+  var zone = app.editor.currentZone;
+  var layerList = document.getElementById("background-list");
+  layerList.innerHTML = "";
+  var addLayerItem = function(layer) {
+      var item = document.createElement("div");
+      item.setAttribute("class", app.editor.currentBgLayer && layer.z == app.editor.currentBgLayer.z ? "list-zone-current" : "list-zone");
+      item.innerText = ""+layer.z;
+      item.layer = layer;
+      item.onclick = function() {
+          app.editor.setBgLayer(this.layer);
+      }
+      layerList.appendChild(item);
+  }
+  for (var i=0; i<zone.background.length; i++) {
+      addLayerItem(zone.background[i]);
+  }
+};
 
 MenuList.prototype.select = function(level, zone) {
   if(!app.editor) { return; }

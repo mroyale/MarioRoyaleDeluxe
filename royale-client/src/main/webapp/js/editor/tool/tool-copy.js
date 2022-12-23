@@ -27,7 +27,7 @@ ToolCopy.prototype.input = function(imp, mous, keys) {
   if(!mous.lmb && !mous.mmb) { return; }
   
   /* See if we are clicking on a map tile */
-  var data = this.editor.mainLayer.data;
+  var data = this.editor.currentLayer.data;
   
   var g = vec2.chop(this.editor.display.camera.unproject(mous.pos));
   if(g.x < 0 || g.x > data[0].length-1 || g.y < 0 || g.y > data.length-1) { return; }

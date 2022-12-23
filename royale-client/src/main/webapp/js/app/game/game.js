@@ -179,16 +179,12 @@ Game.prototype.load = function(data) {
     var lvl = this.world.levels[i];
     for(var j=0;j<lvl.zones.length;j++) {
       var zn = lvl.zones[j];
-      if (zn.bg !== undefined) {
-        var bg = zn.bg;
-        if (bg.url.length !== 0) { this.display.resource.loadTexture({ 'id': 'bg' + lvl.id + zn.id, 'src': bg.url }) };
-      };
-      
-      if (zn.bgs !== undefined) {
-        var bg = zn.bgs;
-
-        if (bg.url.length !== 0) { this.display.resource.loadTexture({ 'id': 'bgs' + lvl.id + zn.id, 'src': bg.url }) };
-      };
+      if (zn.background) {
+        for (var k=0;k<zn.background.length;k++) {
+          var layer = zn.background[k];
+          this.display.resource.loadTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url });
+        }
+      }
     }
   }
 };

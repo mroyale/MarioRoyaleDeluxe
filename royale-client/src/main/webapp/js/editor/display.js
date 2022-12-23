@@ -36,7 +36,7 @@ EditorDisplay.prototype.draw = function() {
   context.translate(-this.camera.pos.x*Display.TEXRES, -this.camera.pos.y*Display.TEXRES);
   
   /* Draw Game */
-  this.drawBackground();
+  /*this.drawBackground();
   this.drawReference();
   
   for (var i=0; i<zone.layers.length; i++) {
@@ -44,7 +44,30 @@ EditorDisplay.prototype.draw = function() {
     if (zone.layers[i].z == 0) {
         this.drawMapTool(zone.layers[i].data, true); // Render foreground
     }
+  }*/
+
+  if (zone.background.length) {
+    for (var i=0; i<zone.background.length; i++) {
+      var layer = zone.background[i];
+      
+      this.drawBackground(layer, false);
+      for (var j = 0; j < zone.layers.length; j++) {
+        this.drawMapTool(zone.layers[j].data, false); // Render depth 0
+        if (zone.layers[j].z == 0) {
+          this.drawMapTool(zone.layers[j].data, true); // Render depth 1
+        }
+      }
+      this.drawBackground(layer, true);
+    }
+  } else {
+    for (var j = 0; j < zone.layers.length; j++) {
+      this.drawMapTool(zone.layers[j].data, false); // Render depth 0
+      if (zone.layers[j].z == 0) {
+        this.drawMapTool(zone.layers[j].data, true); // Render depth 1
+      }
+    }
   }
+
   //this.drawEffect();
   //this.drawUI();
   this.drawBorder();
@@ -72,7 +95,30 @@ EditorDisplay.prototype.drawReference = function() {
   context.drawImage(tex, 0, 0, tex.width, tex.height, this.game.offsetRef.x, this.game.offsetRef.y, tex.width, tex.height);
 };
 
-EditorDisplay.prototype.drawBackground = function() {
+EditorDisplay.prototype.drawBackground = function(layer, depth) {
+  var context = this.context;
+  var zone = this.game.getZone();
+  var dim = zone.dimensions();
+  var tex = this.resource.getTexture("bg" + layer.z + zone.level + zone.id);
+
+  if (layer.z < 1 && depth) { return; }
+
+  if (tex) {
+    var loopCount = layer.loop || parseInt(dim.x*16/tex.width)+1 //Maybe should be Math.round instead of parseInt
+
+    if (loopCount <= 1) {
+      /* Draw once */
+      context.drawImage(tex, this.camera.pos.x * layer.speed + layer.offset.x, layer.offset.y, tex.width, tex.height);
+    } else {
+      for (var i=0; i<loopCount; i++) {
+        var len = tex.width*i;
+        context.drawImage(tex, this.camera.pos.x * layer.speed + layer.offset.x + len, layer.offset.y, tex.width, tex.height);
+      }
+    }
+  }
+}
+
+/*EditorDisplay.prototype.drawBackground = function() {
   var context = this.context; // Sanity
   var zone = this.game.getZone();
 
@@ -85,7 +131,7 @@ EditorDisplay.prototype.drawBackground = function() {
     var loopCount = bg.loop || parseInt(dim.x*16/texas.width)+1 //Maybe should be Math.round instead of parseInt
   
     if (loopCount <= 1) {
-      /* Draw once */
+      /* Draw once 
       context.drawImage(texas, this.camera.pos.x * bg.speed + bg.offset.x, bg.offset.y, texas.width, texas.height);
     } else {
       for (var i=0; i<loopCount; i++) {
@@ -100,7 +146,7 @@ EditorDisplay.prototype.drawBackground = function() {
     var loopCount = bg.loop || parseInt(dim.x*16/tex.width)+1 //Maybe should be Math.round instead of parseInt
   
     if (loopCount <= 1) {
-      /* Draw once */
+      /* Draw once 
       context.drawImage(tex, this.camera.pos.x * bg.speed + bg.offset.x, bg.offset.y, tex.width, tex.height);
     } else {
       for (var i=0; i<loopCount; i++) {
@@ -126,11 +172,11 @@ EditorDisplay.prototype.drawBackground = function() {
       var len = tex.width*i
       context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x+len, bg.offset.y, tex.width, tex.height);
     }
-  };*/
+  };
 
   //context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x, 0, tex.width, tex.height, this.game.offsetBg.x, this.game.offsetBg.y, tex.width, tex.height);
   //context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x, bg.offset.y, tex.width, tex.height);
-};
+};*/
 
 EditorDisplay.prototype.drawMap = Display.prototype.drawMap;
 
