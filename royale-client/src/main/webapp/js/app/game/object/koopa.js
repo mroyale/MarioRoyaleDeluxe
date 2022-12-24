@@ -60,11 +60,11 @@ KoopaObject.PLAYER_IMMUNE_TIME = 12;  // Player is immune to damage for this man
 KoopaObject.MOVE_SPEED_MAX = 0.0375;
 KoopaObject.SHELL_MOVE_SPEED_MAX = 0.175;
 
-KoopaObject.FALL_SPEED_MAX = 0.175;
-KoopaObject.FALL_SPEED_ACCEL = 0.085;
+KoopaObject.FALL_SPEED_MAX = 0.3;
+KoopaObject.FALL_SPEED_ACCEL = 0.1;
 
-KoopaObject.JUMP_LENGTH_MAX = 20;
-KoopaObject.JUMP_DECEL = 0.025;
+KoopaObject.JUMP_LENGTH_MAX = 40;
+KoopaObject.JUMP_DECEL = 0.01;
 
 KoopaObject.TRANSFORM_TIME = 350;
 KoopaObject.TRANSFORM_THRESHOLD = 150;
@@ -193,7 +193,7 @@ KoopaObject.prototype.physics = function() {
   this.grounded = false;
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hitx = squar.intersection(tile.pos, tdim, movx, this.dim);
     
@@ -217,7 +217,7 @@ KoopaObject.prototype.physics = function() {
     
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hity = squar.intersection(tile.pos, tdim, movy, this.dim);
     

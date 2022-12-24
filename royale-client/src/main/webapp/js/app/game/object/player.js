@@ -539,7 +539,7 @@ PlayerObject.prototype.control = function() {
   }
   
   if(!this.grounded) {
-    this.underWater ? this.setState(PlayerObject.SNAME.SWIM, true) : this.setState(PlayerObject.SNAME.FALL);
+    this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {

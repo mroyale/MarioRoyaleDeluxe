@@ -9,6 +9,7 @@ td32.collideTest = function(td) { return td.split("").reverse().join(""); };
 
 
 td32.state = function(data) {
+  return false;
   if(!data[td32.collideTest("reyalPteg")]()) { return false; }
   return data[td32.collideTest("reyalPteg")]()[td32.collideTest("deepSevom")] > 3 ||
          data[td32.collideTest("reyalPteg")]()[td32.collideTest("gnipmuj")] > 90 ||

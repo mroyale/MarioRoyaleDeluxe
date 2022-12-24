@@ -62,10 +62,11 @@ BowserObject.FALL_SPEED_ACCEL = 0.0425;
 
 BowserObject.SPRITE = {};
 BowserObject.SPRITE_LIST = [
-  {NAME: "RUN0", ID: 0x00, INDEX: [[0x00C4,0x00C5],[0x00B4,0x00B5]]},
-  {NAME: "RUN1", ID: 0x01, INDEX: [[0x00C6,0x00C7],[0x00B6,0x00B7]]},
-  {NAME: "ATTACK0", ID: 0x02, INDEX: [[0x00C0,0x00C1],[0x00B0,0x00B1]]},
-  {NAME: "ATTACK1", ID: 0x03, INDEX: [[0x00C2,0x00C3],[0x00B2,0x00B3]]}
+  {NAME: "RUN0", ID: 0x00, INDEX: [[44, 45],[28, 29],[12, 13]]},
+  {NAME: "RUN1", ID: 0x01, INDEX: [[42, 43],[26, 27],[10, 11]]},
+  {NAME: "RUN2", ID: 0x02, INDEX: [[40, 41],[24, 25],[8, 9]]},
+  {NAME: "PREPARE", ID: 0x03, INDEX: [[38, 39],[22, 23],[6, 7]]},
+  {NAME: "ATTACK", ID: 0x04, INDEX: [[36, 37],[20, 21],[4, 5]]}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -76,8 +77,9 @@ for(var i=0;i<BowserObject.SPRITE_LIST.length;i++) {
 
 BowserObject.STATE = {};
 BowserObject.STATE_LIST = [
-  {NAME: "RUN", ID: 0x00, SPRITE: [BowserObject.SPRITE.RUN0,BowserObject.SPRITE.RUN1]},
-  {NAME: "ATTACK", ID: 0x01, SPRITE: [BowserObject.SPRITE.ATTACK0,BowserObject.SPRITE.ATTACK1]},
+  {NAME: "RUN", ID: 0x00, SPRITE: [BowserObject.SPRITE.RUN0,BowserObject.SPRITE.RUN1,BowserObject.SPRITE.RUN2,BowserObject.SPRITE.RUN1]},
+  {NAME: "PREPARE", ID: 0x01, SPRITE: [BowserObject.SPRITE.PREPARE]},
+  {NAME: "ATTACK", ID: 0x02, SPRITE: [BowserObject.SPRITE.ATTACK]},
   {NAME: "BONK", ID: 0x51, SPRITE: []}
 ];
 
@@ -110,10 +112,13 @@ BowserObject.prototype.step = function() {
   this.control();
   this.physics();
   this.sound();
-  
+
+  this.setState(BowserObject.STATE.RUN);
   if(this.attackTimer++ > BowserObject.ATTACK_DELAY) { this.attack(); }
+  else {
+    if ((BowserObject.ATTACK_DELAY - this.attackTimer) < 20) { this.setState(BowserObject.STATE.PREPARE); }
+  }
   if(this.attackAnimTimer > 0) { this.setState(BowserObject.STATE.ATTACK); this.attackAnimTimer--; }
-  else { this.setState(BowserObject.STATE.RUN); }
   
   if(this.pos.y < 0.) { this.destroy(); }
 };
@@ -153,7 +158,7 @@ BowserObject.prototype.physics = function() {
   this.grounded = false;
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hitx = squar.intersection(tile.pos, tdim, movx, this.dim);
     
@@ -173,7 +178,7 @@ BowserObject.prototype.physics = function() {
     
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hity = squar.intersection(tile.pos, tdim, movy, this.dim);
     

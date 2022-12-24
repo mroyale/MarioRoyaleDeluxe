@@ -13,7 +13,7 @@ function ItemObject(game, level, zone, pos, oid, fall, dir) {
   this.anim = 0;
   
   /* Physics */
-  this.dim = vec2.make(1., 1.);
+  this.dim = vec2.make(1., 0.9);
   this.moveSpeed = 0;
   this.fallSpeed = 0;
   this.grounded = false;
@@ -82,7 +82,7 @@ ItemObject.prototype.physics = function() {
     var tiles = this.game.world.getZone(this.level, this.zone).getTiles(this.pos, this.dim);
     for(var i=0;i<tiles.length;i++) {
       var tile = tiles[i];
-      if(!tile.definition.COLLIDE) { continue; }
+      if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
       if(squar.intersection(tile.pos, tdim, this.pos, this.dim)) { this.rise = true; break; }
     }
     
@@ -116,7 +116,7 @@ ItemObject.prototype.physics = function() {
   this.grounded = false;
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hitx = squar.intersection(tile.pos, tdim, movx, this.dim);
     
@@ -138,7 +138,7 @@ ItemObject.prototype.physics = function() {
     
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hity = squar.intersection(tile.pos, tdim, movy, this.dim);
     

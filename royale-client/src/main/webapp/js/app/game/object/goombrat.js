@@ -155,7 +155,7 @@ GoombratObject.prototype.physics = function() {
   this.grounded = false;
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hitx = squar.intersection(tile.pos, tdim, movx, this.dim);
     
@@ -177,7 +177,7 @@ GoombratObject.prototype.physics = function() {
     
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(!tile.definition.COLLIDE) { continue; }
+    if(!tile.definition.COLLIDE || tile.definition.HIDDEN) { continue; }
     
     var hity = squar.intersection(tile.pos, tdim, movy, this.dim);
     

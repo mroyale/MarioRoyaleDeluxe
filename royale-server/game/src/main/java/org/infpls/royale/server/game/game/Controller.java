@@ -132,7 +132,7 @@ public class Controller {
   /* UPDATE_PLAYER_OBJECT */
   /* Returns true if something cheat related is detected. */
   public boolean process012(ByteMe.NET012 n) {
-    if(position.distance(n.pos) > AC_MAX_MOVE_DISTANCE && level == n.level && zone == n.zone && !acLag) { strike("Teleported Excessive Distance"); }
+    //if(position.distance(n.pos) > AC_MAX_MOVE_DISTANCE && level == n.level && zone == n.zone && !acLag) { strike("Teleported Excessive Distance"); }
     
     level = n.level;
     zone = n.zone;
@@ -140,10 +140,10 @@ public class Controller {
     sprite = n.sprite;
     
     /* Anti Cheat */
-    if(level - acSequence > 1) { strike("Level Sequence Skip"); }
+    /*if(level - acSequence > 1) { strike("Level Sequence Skip"); }
     if(level > 3) { strike("Invalid Level"); return true; }
     if(zone > 5) { strike("Invalid Zone"); return true; }
-    if(position.y > 30) { strike("Y position greater than 30"); }
+    if(position.y > 30) { strike("Y position greater than 30"); }*/
     
     acSequence = n.level;
     return false;
