@@ -229,8 +229,6 @@ Game.prototype.gameStartTimer = function(packet) {
 
 /* Checks all players for team */
 Game.prototype.updateTeam = function() {
-  this.team = this.getPlayerInfo(this.pid).team;
-  
   for(var i=0;i<this.players.length;i++) {
     var ply = this.players[i];
     if(ply.id !== this.pid) {
@@ -286,7 +284,6 @@ Game.prototype.doNET010 = function(n) {
   obj.setState(PlayerObject.SNAME.GHOST);
   
   /* Check if we need to apply a team name to this new infringio */
-  if(!this.team) { return; }
   var ply = this.getPlayerInfo(n.pid);
   if(ply && ply.id !== this.pid) {
     var obj = this.getGhost(ply.id);

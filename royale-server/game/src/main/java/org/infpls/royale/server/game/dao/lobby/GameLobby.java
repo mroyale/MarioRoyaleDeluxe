@@ -11,14 +11,14 @@ import org.infpls.royale.server.util.*;
 
 public abstract class GameLobby {
   private final static String LOBBY_FILE = "lobby";
-  private final static String[] GAME_FILES = new String[]{ "pvp-mariokart","pvp-rainbowroad","pvp-smb2","world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
+  private final static String[] GAME_FILES = new String[]{ "world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
   
   private final static int MIN_PLAYERS = 1;          // Min players needed to vote start
-  private final static int MAX_PLAYERS = 30;         // Max players, game starts automatically
-  private final static float MIN_VOTE_FRAC = .85f;   // Needs 85% ready vote to start early
+  private final static int MAX_PLAYERS = 75;         // Max players, game starts automatically
+  private final static float MIN_VOTE_FRAC = .50f;   // Needs 50% ready vote to start early
   private final static int MAX_AGE = 216000;        // Max number of frames before we just close the lobby. This is 1 hour.
   
-  private final static int START_DELAY = 500; // This is wonky with 60fps updating for some reason. Equivalent to 8.3 seconds
+  private final static int START_DELAY = 90; // Delay before the game starts the world countdown timer.
   
   protected final String lid; //Lobby ID
   
