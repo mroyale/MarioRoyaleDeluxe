@@ -75,9 +75,9 @@ FireHammerObject.FALL_SPEED_ACCEL = 0.085;
 
 FireHammerObject.SPRITE = {};
 FireHammerObject.SPRITE_LIST = [
-  {NAME: "IDLE0", ID: 0x00, INDEX: [[0x004D],[0x005D]]},
-  {NAME: "IDLE1", ID: 0x01, INDEX: [[0x004C],[0x005C]]},
-  {NAME: "ATTACK", ID: 0x02, INDEX: [[0x004B],[0x005B]]}
+  {NAME: "IDLE0", ID: 0x00, INDEX: [[0x004D],[0x003D]]},
+  {NAME: "IDLE1", ID: 0x01, INDEX: [[0x004C],[0x003C]]},
+  {NAME: "ATTACK", ID: 0x02, INDEX: [[0x004B],[0x003B]]}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
