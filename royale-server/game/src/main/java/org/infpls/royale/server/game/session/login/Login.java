@@ -64,7 +64,7 @@ public class Login extends SessionState {
     sendPacket(new PacketL01(session.getSessionId(), session.getUser(), session.getTeam(), session.getPrivate()));
     
     /* Choose Lobby */
-    final GameLobby lobby = session.banned?lobbyDao.getJail():lobbyDao.findLobby(session.getPrivate(), session.getTeam());
+    final GameLobby lobby = lobbyDao.findLobby(session.getPrivate(), session.getTeam());
     
     /* Join Lobby */
     session.join(lobby);
