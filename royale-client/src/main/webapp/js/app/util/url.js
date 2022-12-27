@@ -31,7 +31,6 @@ const levelSelectors = [
     {name: 'SMB :: World 7', worldId: 'world-7' },
     {name: 'SMB :: World 8', worldId: 'world-8' },
     {name: 'PVP :: Mario Kart', worldId: 'pvp-mariokart'},
-    {name: 'PVP :: Rainbow Road', worldId: 'pvp-rainbowroad'},
     {name: 'PVP :: Super Mario Bros. 2 R', worldId: 'pvp-smb2'}
 ];
 

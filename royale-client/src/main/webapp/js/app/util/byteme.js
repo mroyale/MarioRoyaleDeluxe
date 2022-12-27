@@ -471,8 +471,8 @@ td32.TILE_PROPERTIES = {
         case 0x10 :
         case 0x11 : {
           if(game.pid === pid) { game.coinage(); game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
-          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
-          var vin = td32.data([356, 0, 0, 165, 0], td.data); // Vine td32 data for tile.
+          var rep = [27, 0, 1, 1, 0]; // Replacement td32 data for tile.
+          var vin = [31, 0, 0, 165, td.data]; // Vine td32 data for tile.
           game.world.getZone(level, zone).replace(x,y,rep);
           game.world.getZone(level, zone).grow(x,y+1,vin);
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);

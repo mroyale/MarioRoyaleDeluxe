@@ -175,7 +175,8 @@ FireballProj.prototype.interaction = function() {
     if(obj === this || obj.pid === this.owner || !obj.isTangible() || !obj.damage) { continue; }  // Fireballs skip objects that lack a damage function to call, and their owners
     if(obj.level === this.level && obj.zone === this.zone) {
       if(squar.intersection(obj.pos, obj.dim, this.pos, this.dim) && obj !== this.owner) {
-        //if(obj instanceof PlayerObject && !(this.owner instanceof Object)) { continue; }             // Fireballs created by other players don't do damage. They are just ghosts.
+        if(obj instanceof PlayerObject && !(this.owner instanceof Object) && !(this.game.gameMode === 1)) { continue; }             // Fireballs created by other players don't do damage. They are just ghosts.
+        
         (this.game.gameMode !== 1 ? this.owner === this.game.pid : (obj instanceof PlayerObject ? obj.pid == this.game.pid : this.owner === this.game.pid)) && obj.damage(this);
         if (this.game.gameMode === 1 && obj instanceof PlayerObject && obj.pid == this.game.pid && obj.dead)
           this.game.out.push(NET017.encode(this.owner));

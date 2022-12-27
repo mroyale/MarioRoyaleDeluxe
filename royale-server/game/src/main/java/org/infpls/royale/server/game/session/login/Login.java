@@ -51,8 +51,8 @@ public class Login extends SessionState {
     
     /* Team */
     String team = p.team==null?"":p.team.trim().toLowerCase();
-    if(team.length() > 3) { name = name.substring(0, 3); }
-    else if(name.length() < 1) { name = ""; }
+    if(team.length() > 3) { team = name.substring(0, 3); }
+    else if(team.length() < 1) { team = ""; }
 
     /* Private */
     boolean priv = p.priv==false?false:true;
