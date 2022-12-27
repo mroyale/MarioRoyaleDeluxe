@@ -74,9 +74,9 @@ HammerObject.FALL_SPEED_ACCEL = 0.085;
 
 HammerObject.SPRITE = {};
 HammerObject.SPRITE_LIST = [
-  {NAME: "IDLE0", ID: 0x00, INDEX: [[0x006D],[0x003D]]},
-  {NAME: "IDLE1", ID: 0x01, INDEX: [[0x006C],[0x003C]]},
-  {NAME: "ATTACK", ID: 0x02, INDEX: [[0x006B],[0x003C]]}
+  {NAME: "IDLE0", ID: 0x00, INDEX: [[0x006D],[0x005D]]},
+  {NAME: "IDLE1", ID: 0x01, INDEX: [[0x006C],[0x005C]]},
+  {NAME: "ATTACK", ID: 0x02, INDEX: [[0x006B],[0x005B]]}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
