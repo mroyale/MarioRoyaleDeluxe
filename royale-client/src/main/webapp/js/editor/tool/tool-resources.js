@@ -87,6 +87,9 @@ ToolResources.prototype.save = function() {
     var obj = this.objs.value === "custom" ? this.cobjs.value : this.objs.value;
     var ast = this.assets.value === "custom" ? this.cassets.value : this.assets.value;
 
+    this.editor.display.resource.updateTexture({"id": "map", "src": map});
+    this.editor.display.resource.updateTexture({"id": "map", "src": obj});
+
     this.editor.dataRaw.resource.find(x=>x.id==="map").src = map;
     this.editor.dataRaw.resource.find(x=>x.id==="obj").src = obj;
     this.editor.assets = ast;
