@@ -683,6 +683,11 @@ PlayerObject.prototype.physics = function() {
     }
     /* +Y */
     else {
+      if (tile.definition.HIDDEN) {
+        var cpos = vec2.chop(mov);
+        if (cpos.y === tile.pos.y) { continue; }
+      }
+
       mov.y = tile.pos.y - this.dim.y;
       this.fallSpeed = 0;
     }
@@ -766,6 +771,10 @@ PlayerObject.prototype.physics = function() {
   /* Tile Bump events */
   for(var i=0;i<bmp.length;i++) {
     var tile = bmp[i];
+    var cpos = vec2.chop(this.pos); // Our position converted to an integer
+
+    if (tile.definition.HIDDEN && cpos.y === tile.pos.y) { continue; }
+
     var bty = this.power>0?td32.TRIGGER.TYPE.BIG_BUMP:td32.TRIGGER.TYPE.SMALL_BUMP;
     tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, bty);
     this.jumping = -1;
@@ -858,7 +867,7 @@ PlayerObject.prototype.damage = function(obj) {
     this.isState(PlayerObject.SNAME.CLIMB) ||
     this.isState(PlayerObject.SNAME.POLE) ||
     this.pipeWarp || this.pipeTimer > 0 || this.pipeDelay > 0 ||
-    this.autoTarget
+    this.game.getDebug("god") || this.autoTarget
   ) { return; }
   if(this.power > 0) { this.transform(this.game.gameMode === 1 ? 0 : this.power -= 1); this.damageTimer = PlayerObject.DAMAGE_TIME; this.game.out.push(NET013.encode(0x03)); }
   else { this.kill(); }

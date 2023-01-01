@@ -14,6 +14,8 @@ function Lobby(data) {
   this.lobbyTimer = 90;
 };
 
+Lobby.prototype.changePrivMenu = Game.prototype.changePrivMenu;
+Lobby.prototype.getDebug = Game.prototype.getDebug;
 Lobby.prototype.load = Game.prototype.load;
 
 Lobby.prototype.send = Game.prototype.send;

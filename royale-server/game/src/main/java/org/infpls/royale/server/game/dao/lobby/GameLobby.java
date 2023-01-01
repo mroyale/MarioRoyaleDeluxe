@@ -34,6 +34,7 @@ public abstract class GameLobby {
   private final EventSync events; /* Second verse same as the first. */
   
   private int startTimer;
+  private int autoTimer;
   private int age;
   
   protected boolean locked; // Prevents more people from joining
@@ -52,6 +53,7 @@ public abstract class GameLobby {
     events = new EventSync();
     
     startTimer = -1;
+    autoTimer = -1;
     
     locked = false;
     closed = false;
@@ -65,13 +67,14 @@ public abstract class GameLobby {
   }
   
   /* It's apparently dangerous to start the thread in the constructor because ********REASONS********* so here we are! */
-  public void start() { loop.start(); }
+  public void start() { loop.start(); startAutoTimer(); }
 
   public void step(final long tick) {
     try {      
       handleEvents();
       
       if(startTimer >= 0 && ++startTimer >= START_DELAY) { whereWeDroppin(); return; }
+      if(autoTimer >= 0 && ++autoTimer >= START_DELAY) { whereWeDroppin(); return; }
       if(locked && (loading.size() + players.size() < 1 || ++age > MAX_AGE)) { close(); }
 
       game.input(inputs.pop());
@@ -120,6 +123,7 @@ public abstract class GameLobby {
     players.add(session);
     game.join(session);
     
+    startAutoTimer();
     if(players.size() >= MAX_PLAYERS) { startTimer(); }
   }
   
@@ -160,10 +164,17 @@ public abstract class GameLobby {
     locked = true;
     startTimer = 0;
   }
+
+  /* Starts the automatic timer */
+  private void startAutoTimer() {
+    if (closed) { return; }
+    autoTimer = -1;
+  }
   
   /* When called, locks this lobby, tells clients to load the game data, and starts the battle royale match */
   protected void whereWeDroppin() {
     startTimer = -1;
+    autoTimer = -1;
     
     game.destroy();
     

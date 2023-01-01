@@ -37,8 +37,8 @@ FireballProj.DEAD_ANIM_LENGTH = 3;
 
 FireballProj.SPEED = 0.3;
 FireballProj.BOUNCE_SPEED = 0.35;
-FireballProj.FALL_SPEED_MAX = 0.2125;
-FireballProj.FALL_SPEED_ACCEL = 0.05;
+FireballProj.FALL_SPEED_MAX = 0.225;
+FireballProj.FALL_SPEED_ACCEL = 0.045;
 
 FireballProj.SPRITE = {};
 FireballProj.SPRITE_LIST = [

@@ -23,7 +23,7 @@ Network.prototype.connect = function(name, team, priv){
     return;
   }
 
-  this.webSocket = new WebSocket("wss://" + address + "/royale/ws");
+  this.webSocket = new WebSocket("ws://" + address + "/royale/ws");
   this.webSocket.binaryType = 'arraybuffer';
 
   this.webSocket.onopen = function(event) {

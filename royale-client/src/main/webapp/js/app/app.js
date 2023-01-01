@@ -51,7 +51,7 @@ App.prototype.load = function(data) {
   if(this.game instanceof Lobby) { this.game.destroy(); }
   
   switch(data.type) {
-    case "game" : { this.game = new Game(data); break; }
+    case "game" : { this.game = new Game(data, { 'infiniteLives': true, 'godMode': true }); break; }
     case "lobby": { this.game = new Lobby(data); break; }
     case "jail": { this.game = new Jail(data); break; }
     default : { this.menu.error.show("Critical error! Game file missing type!"); break; }

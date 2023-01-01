@@ -86,9 +86,17 @@
 
       <!-- World Selection -->
       <div id='worlds' class='container-private' style="display: none;">
-        <p>World Select</p>
-        <select name='levels' id='levels'><option disabled value="" selected>-- Select World --</option></select>
-        <p><span id="updone">Custom</span> <input type="file" id="levelSelectInput" name="levelSelectInput[]" accept=".json,.game,.txt"></p>
+        <span id="wrldbtn" style="border: 2px solid white;">Worlds</span> <span id="debgbtn">Debug</span>
+        <div id='wrld' style="margin-top: 15px;">
+          <select name='levels' id='levels'><option disabled value="" selected>-- Select World --</option></select>
+          <p><span id="updone">Custom</span> <input type="file" id="levelSelectInput" name="levelSelectInput[]" accept=".json,.game,.txt"></p>
+        </div>
+        <div id='debg' style='display:none;'>
+          <p style="display: inline;">Infinite Lives</p><input type="checkbox" id="infLives"><br>
+          <p style="display: inline;">No Damage Mode</p><input type="checkbox" id="godMode"><br>
+          <p style="display: inline;">Level ID</p><input id="levelID" type="number" value=0><br>
+          <p style="display: inline;">Zone ID</p><input id="zoneID" type="number" value=0>
+        </div>
       </div>
 
       <!-- Message Block -->

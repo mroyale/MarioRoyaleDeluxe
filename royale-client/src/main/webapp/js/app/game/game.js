@@ -18,7 +18,6 @@ function Game(data) {
   this.input = new Input(this, this.canvas);
   this.display = new Display(this, this.container, this.canvas, data.resource);
   this.audio = new Audio(this);
-  
 
   this.objects = [];
   this.pid = undefined; /* Unique player id for this client. Assigned during init packet. */
@@ -73,6 +72,9 @@ function Game(data) {
   var that = this;
   this.frameReq = requestAnimFrameFunc.call(window, function() { that.draw(); }); // Javascript 🙄
   this.loopReq = setTimeout(function( ){ that.loop(); }, 2);
+
+  document.getElementById("wrldbtn").addEventListener("click", (function () { return function (event) { that.changePrivMenu("world"); }; })());
+  document.getElementById("debgbtn").addEventListener("click", (function () { return function (event) { that.changePrivMenu("debug"); }; })());
 };
 
 Game.TICK_RATE = 1000/60;
@@ -84,11 +86,86 @@ Game.GAME_OVER_TIME = 300;
 
 Game.COINS_TO_LIFE = 30;
 
+Game.prototype.changePrivMenu = function(tab) {
+  var wrldbtn = document.getElementById("wrldbtn");
+  var debgbtn = document.getElementById("debgbtn");
+
+  var world = document.getElementById("wrld");
+  var debug = document.getElementById("debg");
+
+  switch (tab) {
+    case "world" : {
+      wrldbtn.style["border"] = "2px solid white";
+      debgbtn.style["border"] = "";
+
+      world.style.display = "";
+      debug.style.display = "none";
+      break;
+    }
+
+    case "debug" : {
+      wrldbtn.style["border"] = "";
+      debgbtn.style["border"] = "2px solid white";
+
+      world.style.display = "none";
+      debug.style.display = "";
+      break;
+    }
+  }
+};
+
+Game.prototype.getDebug = function(type) {
+  if (!(app.net.prefLobby) || !(this.debugSettings)) return null;
+  
+  var out;
+  switch(type) {
+    case "level" : {
+      if (!(this.debugSettings.initialLevel)) { break; }
+      out = parseInt(this.debugSettings.initialLevel);
+      break;
+    }
+
+    case "zone" : {
+      if (!(this.debugSettings.initialZone)) { break; }
+      out = parseInt(this.debugSettings.initialZone);
+      break;
+    }
+
+    case "lives" : {
+      if (!(this.debugSettings.infiniteLives)) { break; }
+      out = this.debugSettings.infiniteLives;
+      break;
+    }
+
+    case "god" : {
+      if (!(this.debugSettings.godMode)) { break; }
+      out = this.debugSettings.godMode;
+      break;
+    }
+  }
+
+  return out;
+};
+
 Game.prototype.load = function(data) {
   app.menu.load.show();
 
   if (this instanceof Lobby && app.net.prefLobby) { document.getElementById("worlds").style.display = ""; }
-  else { document.getElementById("worlds").style.display = "none"; }
+  else if (app.net.prefLobby) {
+    document.getElementById("worlds").style.display = "none";
+
+    var infLives = document.getElementById("infLives");
+    var godMode = document.getElementById("godMode");
+    var levelID = document.getElementById("levelID");
+    var zoneID = document.getElementById("zoneID");
+
+    this.debugSettings = {
+      'infiniteLives': infLives.checked,
+      'godMode': godMode.checked,
+      'initialLevel': levelID.value || null,
+      'initialZone': zoneID.value || null
+    }
+  }
   if (!(this instanceof Lobby) && app) {
     app.menu.main.menuMusic.pause();
   }
@@ -340,7 +417,7 @@ Game.prototype.doNET018 = function(n) {
   var ply = this.getPlayer();
   if(ply) { ply.axe(n.result); }
   this.victory = n.result;
-  if(n.result === 0x01) {
+  if(n.result === 0x01 && !app.net.prefLobby) {
     var epic = Cookies.get("epic_gamer_moments");
     Cookies.set("epic_gamer_moments", epic?parseInt(epic)+1:1, {expires: 365});
   }
@@ -481,22 +558,6 @@ Game.prototype.doInput = function(imp) {
   
   if(!this.inx27 && keys[27]) { /* MENU */ } this.inx27 = keys[27]; // ESC
   
-  var obj = this.getPlayer();
-  if(!obj) { return; }
-
-  var dir = [0,0];
-  if(keys[inp.assignK.up] || pad.button(inp.assignG.up) || pad.ax.y < -.1) { dir[1]++; }
-  if(keys[inp.assignK.down] || pad.button(inp.assignG.down) || pad.ax.y > .1) { dir[1]--; }
-  if(keys[inp.assignK.left] || pad.button(inp.assignG.left) || pad.ax.x < -.1) { dir[0]--; }
-  if(keys[inp.assignK.right] || pad.button(inp.assignG.right) || pad.ax.x > .1) { dir[0]++; }
-  var a = keys[inp.assignK.a] || pad.button(inp.assignG.a);
-  var b = keys[inp.assignK.b] || pad.button(inp.assignG.b);
-  var u = keys[inp.assignK.up] || pad.button(inp.assignG.up);
-  
-  //if(mous.spin) { this.display.camera.zoom(mous.spin); } // Mouse wheel -> Camera zoom
-  
-  obj.input(dir, a, b, u);
-  
   /* @TODO: Hacky last second additions */
   /* Check if client has clicked on the button to mute sound */
   var tmp = this;
@@ -513,6 +574,23 @@ Game.prototype.doInput = function(imp) {
       if(m.btn === 0 && squar.inside(m.pos, b.pos, b.dim)) { b.click(); }
     }
   }
+  
+  var obj = this.getPlayer();
+  if(!obj) { return; }
+
+  var dir = [0,0];
+  if(keys[inp.assignK.up] || pad.button(inp.assignG.up) || pad.ax.y < -.1) { dir[1]++; }
+  if(keys[inp.assignK.down] || pad.button(inp.assignG.down) || pad.ax.y > .1) { dir[1]--; }
+  if(keys[inp.assignK.left] || pad.button(inp.assignG.left) || pad.ax.x < -.1) { dir[0]--; }
+  if(keys[inp.assignK.right] || pad.button(inp.assignG.right) || pad.ax.x > .1) { dir[0]++; }
+  var a = keys[inp.assignK.a] || pad.button(inp.assignG.a);
+  var b = keys[inp.assignK.b] || pad.button(inp.assignG.b);
+  var u = keys[inp.assignK.up] || pad.button(inp.assignG.up);
+  
+  //if(mous.spin) { this.display.camera.zoom(mous.spin); } // Mouse wheel -> Camera zoom
+  
+  obj.input(dir, a, b, u);
+  
 };
 
 /* Step game world */
@@ -583,7 +661,7 @@ Game.prototype.doStep = function() {
 
   /* Triggers game over if player is dead for 15 frames and has zero lives. If we have a life we respawn instead. */
   if(this.startDelta !== undefined && !this.gameOver && !ply) {
-    if(this.lives > 0 && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); this.lives--; if (zone.musicBlock) { zone.musicBlock = null; } }
+    if((this.lives > 0 || this.getDebug("lives")) && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); (this.debugSettings.infiniteLives) ? this.lives -= 0 :  this.lives--; if (zone.musicBlock) { zone.musicBlock = null; } }
     else if(++this.gameOverTimer > 45) { this.gameOver = true; this.gameOverTimer = 0; }
   }
   /* Triggers page refresh after 5 seconds of a game over. */
@@ -599,7 +677,7 @@ Game.prototype.doSpawn = function() {
   var ply = this.getPlayer();
   
   if(!ply) {
-    var zon = this.getZone();
+    var zon = this.world.getZone(this.getDebug("level"), this.getDebug("zone")) || this.getZone();
 
     var pos;
     
@@ -608,8 +686,8 @@ Game.prototype.doSpawn = function() {
       pos = spn[parseInt(Math.random() * spn.length)].pos;
     } else { pos = zon.initial; /* shor2 */ }
 
-    var obj = this.createObject(PlayerObject.ID, zon.level, zon.id, shor2.decode(pos), [this.pid]);
-    this.out.push(NET010.encode(zon.level, zon, pos));
+    var obj = this.createObject(PlayerObject.ID, this.getDebug("level") || zon.level, zon.id, shor2.decode(pos), [this.pid]);
+    this.out.push(NET010.encode(this.getDebug("level") || zon.level, zon, pos));
 
     if (this.gameMode && this instanceof Game) {
       obj.transform(2);

@@ -148,11 +148,11 @@
               <input id='editor-tool-zone-id' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>X Position<span class="tooltiptext">Controls your horizontal position where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, so if this zone isn’t your initial zone, this parameter doesn’t matter</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>X Position<span class="tooltiptext">Controls your horizontal position where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, this means unless you intend to use debug mode, this parameter doesn’t matter.</span></div><div class='tool-type'>short</div>
               <input id='editor-tool-zone-initial-x' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Y Position<span class="tooltiptext">Controls your vertical position of where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, so if this zone isn’t your initial zone, this parameter doesn’t matter</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>Y Position<span class="tooltiptext">Controls your vertical position of where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, this means unless you intend to use debug mode, this parameter doesn’t matter.</span></div><div class='tool-type'>short</div>
               <input id='editor-tool-zone-initial-y' type='text' class="tool-val"/>
             </div>
             <div class='tool-div'></div>
@@ -282,15 +282,22 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Extra Data<span class="tooltiptext">The extra data of the warp</span></div><div class='tool-type'>byte</div>
-              <input id='editor-tool-warp-data' type='text' class="tool-val"/>
+              <div class='tool-var tooltip'>Direction<span class="tooltiptext">The animation direction of the warp</span></div><div class='tool-type'>byte</div>
+              <select id='editor-tool-warp-data' type='text' class="tool-val">
+                <option value="0">0 - Default/None</option>
+                <option value="1">1 - Up</option>
+                <option value="2">2 - Down</option>
+                <option value="3">3 - Left</option>
+                <option value="4">4 - Right</option>
+              </select>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
               <div class="tool-val-im">Left click selects, middle click creates new, wasd keys to move, delete to delete.</div>
-              <div class="tool-val-im">For tiles that have a warp, the extra data of that tile should match the id of the warp point.</div>
-              <div class="tool-val-im">Example: A warp pipe with extra data 32 will warp to the warp point in that level with the id 32.</div>
-              <div class="tool-val-im">The extra data of the warp point defines the animation state.</div>
+              <div class="tool-val-im">For tiles that have a warp, the extra data of that tile should match the ID of the warp point you want to use.</div>
+              <div class="tool-val-im">Example: A warp pipe with extra data 32 will warp to the warp point in that level with the ID of 32.</div>
+              <div class="tool-val-im">Also, warp pipes can only point to warps in the same level, so you can't have level warps warp you to another level.</div>
+              <div class="tool-val-im">The direction of the warp point defines the animation state.</div>
               <div class="tool-val-im">0 is default, (1, 2, 3, 4) are warp pipe (up, down, left, right) respectively.</div>
             </div>
           </div>

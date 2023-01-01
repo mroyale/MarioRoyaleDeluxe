@@ -346,7 +346,7 @@ Display.prototype.drawUI = function() {
 
   var level;
   if(this.game.levelWarpId !== undefined) { level = this.game.world.getLevel(this.game.levelWarpId); }
-  else if(this.game.startDelta === undefined) { level = this.game.world.getInitialLevel(); }
+  else if(this.game.startDelta === undefined) { level = this.game.world.getLevel(this.game.getDebug("level")) || this.game.world.getInitialLevel(); }
   
   if(this.game.gameOver) {
     context.fillStyle = "black";

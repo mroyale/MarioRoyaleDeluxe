@@ -27,7 +27,7 @@ public class LobbyDao {
   /* Returns a lobby with open space for a player to join. */
   public GameLobby findLobby(boolean priv, String roomCode) throws IOException {
     cleanUp();
-    if (priv && roomCode.length() == 0) { return createLobby(true, ""); }
+    if (priv) { return createLobby(true, ""); }
 
     for(int i=0;i<lobbies.size();i++) {
       final GameLobby lobby = lobbies.get(i);

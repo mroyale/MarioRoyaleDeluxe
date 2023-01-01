@@ -57,7 +57,7 @@ ToolWarp.prototype.input = function(imp, mous, keys) {
     
     /* Have to do it this way for production sdk to still work */
     var wrp = {};
-    wrp.id = parseInt(Math.random()*255);
+    wrp.id = this.zone.warp.length;
     wrp.pos = pos;
     wrp.data = 0;
       
