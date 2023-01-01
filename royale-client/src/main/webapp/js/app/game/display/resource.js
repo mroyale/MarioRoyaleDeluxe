@@ -20,9 +20,67 @@ Resource.prototype.load = function (src) {
     var ext = s.src.split(".").pop().toLowerCase();
     switch(ext) {
       case "png" : { this.loadTexture(s); break; }
-      case "gif" : { this.loadTexture(s); break; }
+      case "gif" : { this.loadAnimatedTexture(s); break; }
       default : { app.menu.warn.show("Failed to load resource with unknown extension: " + ext); break; }
     }
+  }
+};
+
+Resource.prototype.loadAnimatedTexture = function (src) {
+  var tex = this.texture;
+  if(tex.cache[src.id]) { return; }
+  else {
+    function imageDataToImageElement(imageData) {
+      // Create a canvas element
+      const canvas = document.createElement('canvas');
+      canvas.width = imageData.width;
+      canvas.height = imageData.height;
+    
+      // Get a context for the canvas
+      const context = canvas.getContext('2d');
+    
+      // Put the image data into the canvas
+      context.putImageData(imageData, 0, 0);
+    
+      // Create an image element from the canvas
+      const imageElement = new Image();
+      imageElement.src = canvas.toDataURL();
+      return imageElement;
+    }
+
+    var img = document.createElement("img");
+    img.src = src.src;
+    
+    var frames = [];
+    var delay = 10;
+    var gif;
+
+    function loadGif() {
+      for (var i=0; i<gif.get_length(); i++) {
+        var length = gif.get_length();
+        var framers = gif.get_frames();
+        var frame = framers[parseInt(Math.random()*length)];
+    
+        delay = frame.delay; // Just assign it to the last one whatever
+        var img = imageDataToImageElement(frame.data);
+        frames.push(img);
+      }
+    
+      tex.cache[src.id] = {}
+      tex.cache[src.id].animated = true;
+      tex.cache[src.id].frames = frames;
+      tex.cache[src.id].delay = delay;
+      tex.cache[src.id].length = frames.length;
+      tex.load--;
+    };
+  
+
+    img.onload = function() {
+      gif = new SuperGif({ gif: img });
+      gif.load(loadGif);
+    };
+    
+    tex.load++;
   }
 };
 

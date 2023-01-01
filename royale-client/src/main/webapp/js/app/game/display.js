@@ -103,12 +103,22 @@ Display.prototype.drawBackground = function(layer, depth) {
   var context = this.context;
   var zone = this.game.getZone();
   var dim = zone.dimensions();
-  var tex = this.resource.getTexture("bg" + layer.z + zone.level + zone.id);
+  var texture = this.resource.getTexture("bg" + layer.z + zone.level + zone.id);
+  var tex;
+
+  if (texture.animated !== undefined) {
+    var frames = texture.frames;
+    var delay = texture.delay;
+    
+    tex = frames[Math.floor(this.game.frame % (texture.length * delay) / delay)];
+  } else {
+    tex = texture;
+  }
 
   if (layer.z < 1 && depth) { return; }
 
   if (tex) {
-    var loopCount = layer.loop || parseInt(dim.x*16/tex.width)+1 //Maybe should be Math.round instead of parseInt
+    var loopCount = layer.loop || parseInt(dim.x*16/tex.width)+1; //Maybe should be Math.round instead of parseInt
 
     if (loopCount <= 1) {
       /* Draw once */
@@ -121,44 +131,6 @@ Display.prototype.drawBackground = function(layer, depth) {
     }
   }
 }
-
-/*Display.prototype.drawBackground = function() {
-  var context = this.context;
-  var zone = this.game.getZone();
-  var dim = zone.dimensions();
-  var tex = this.resource.getTexture("bg" + zone.level + zone.id);
-  var texas = this.resource.getTexture("bgs" + zone.level + zone.id);
-
-  if (zone.bgs && texas) {
-    var bg = zone.bgs;
-    var loopCount = bg.loop || parseInt(dim.x*16/texas.width)+1 //Maybe should be Math.round instead of parseInt
-  
-    if (loopCount <= 1) {
-      /* Draw once 
-      context.drawImage(texas, this.camera.pos.x * bg.speed + bg.offset.x, bg.offset.y, texas.width, texas.height);
-    } else {
-      for (var i=0; i<loopCount; i++) {
-        var len = tex.width*i;
-        context.drawImage(texas, this.camera.pos.x * bg.speed + bg.offset.x + len, bg.offset.y, texas.width, texas.height);
-      }
-    }
-  };
-  
-  if (zone.bg && tex) {
-    var bg = zone.bg;
-    var loopCount = bg.loop || parseInt(dim.x*16/tex.width)+1 //Maybe should be Math.round instead of parseInt
-  
-    if (loopCount <= 1) {
-      /* Draw once *
-      context.drawImage(tex, this.camera.pos.x * bg.speed + bg.offset.x, bg.offset.y, tex.width, tex.height);
-    } else {
-      for (var i=0; i<loopCount; i++) {
-        var len = tex.width*i;
-        context.drawImage(tex, this.camera.pos.x * bg.speed + bg.offset.x + len, bg.offset.y, tex.width, tex.height);
-      }
-    }
-  };
-};*/
 
 Display.prototype.drawMap = function(data, depth) {
   var context = this.context; // Sanity

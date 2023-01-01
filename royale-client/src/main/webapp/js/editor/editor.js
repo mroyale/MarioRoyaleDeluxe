@@ -121,13 +121,12 @@ Editor.prototype.compile = function() {
       zdat.initial = zone.initial;
       zdat.color = zone.color;
       zdat.music = zone.music;
+      zdat.vertical = zone.vertical
       zdat.layers = zone.layers;
       zdat.obj = zone.obj;
       zdat.warp = zone.warp;
       zdat.spawnpoint = zone.spawnpoint || [];
       zdat.background = zone.background || [];
-      //zdat.bg = zone.bg;
-      //zdat.bgs = zone.bgs;
       
       ldat.zone.push(zdat);
     }

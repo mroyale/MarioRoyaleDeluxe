@@ -10,6 +10,7 @@ function ToolZone(editor) {
   this.valId = document.getElementById("editor-tool-zone-id");
   this.valColor = document.getElementById("editor-tool-zone-color");
   this.valMusic = document.getElementById("editor-tool-zone-music");
+  this.valVertical = document.getElementById("editor-tool-zone-vertical");
   
   this.valInitialX = document.getElementById("editor-tool-zone-initial-x");
   this.valInitialY = document.getElementById("editor-tool-zone-initial-y");
@@ -187,6 +188,7 @@ ToolZone.prototype.load = function() {
   this.valInitialY.value = pos.y;
   this.valColor.value = this.zone.color;
   this.valMusic.value = this.zone.music;
+  this.valVertical.checked = this.zone.vertical;
   this.valWidth.value = this.editor.currentLayer.data[0].length;
   this.valHeight.value = this.editor.currentLayer.data.length;
   
@@ -203,6 +205,7 @@ ToolZone.prototype.save = function() {
     this.zone.initial = shor2.encode(x, y);
     this.zone.color = this.valColor.value;
     this.zone.music = this.valMusic.value;
+    this.zone.vertical = this.valVertical.checked;
   }
   catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); }
   

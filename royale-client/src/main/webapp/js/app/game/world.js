@@ -104,7 +104,7 @@ function Zone(game, level, data) {
   this.color = data.color; // HTML color of the sky for this zone.
   this.music = data.music?data.music:"";
   this.musicBlock = null; // Used when we touch a music block
-  this.vertical = data.vertical?parseInt(data.vertical):false;
+  this.vertical = data.vertical?Boolean(data.vertical):false;
   
   this.layers = data.layers || []; // All layers which are 2D arrays of td32
 

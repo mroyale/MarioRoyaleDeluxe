@@ -259,7 +259,13 @@ Game.prototype.load = function(data) {
       if (zn.background) {
         for (var k=0;k<zn.background.length;k++) {
           var layer = zn.background[k];
-          this.display.resource.loadTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url });
+          var ext = layer.url.split(".").pop().toLowerCase();
+
+          switch(ext) {
+            case "png" : { this.display.resource.loadTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url }); break; }
+            case "gif" : { this.display.resource.loadAnimatedTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url }); break; }
+            default : { app.menu.warn.show("Failed to load resource with unknown extension: " + ext); break; }
+          }
         }
       }
     }
@@ -636,12 +642,9 @@ Game.prototype.doStep = function() {
   
   /* Update Camera Position */
   var zone = this.getZone();
-  //if(ply && !ply.dead && !this.cameraLocked) {
-  //  this.display.camera.position(vec2.make(Math.max(14, ply.pos.x), zone.dimensions().y*.5));
-  //}
   if(ply && !ply.dead && !this.cameraLocked) {
     var y = -ply.pos.y+10;
-    this.display.camera.position(vec2.make(Math.max(14, ply.pos.x), zone.vertical ? Math.min(7, y) : zone.dimensions().y*.5));
+    this.display.camera.position(vec2.make(Math.max(14, ply.pos.x), zone.vertical ? -ply.pos.y + zone.dimensions().y : zone.dimensions().y*.5));
   }
   
   /* Step world to update bumps & effects & etc */

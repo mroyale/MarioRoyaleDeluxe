@@ -454,10 +454,14 @@ img {
 
 
 .link-patch, .dis-lg, .dis-sm, .dis-next, .players, .name-input, .team-input {
-  text-shadow: 2px 0 0 #B82E3F, -2px 0 0 #B82E3F, 0 2px 0 #B82E3F, 0 -2px 0 #B82E3F, 1px 1px #B82E3F, -1px -1px 0 #B82E3F, 1px -1px 0 #B82E3F, -1px 1px 0 #B82E3F}
+  text-shadow: 2px 0 0 #00216D, -2px 0 0 #00216D, 0 2px 0 #00216D, 0 -2px 0 #00216D, 1px 1px #00216D, -1px -1px 0 #00216D, 1px -1px 0 #00216D, -1px 1px 0 #00216D}
 
 .launch, .win {
   text-shadow: 2px 0 0 #00216D, -2px 0 0 #00216D, 0 2px 0 #00216D, 0 -2px 0 #00216D, 1px 1px #00216D, -1px -1px 0 #00216D, 1px -1px 0 #00216D, -1px 1px 0 #00216D}
+
+::placeholder {
+  text-shadow: 0 0 whitesmoke;
+}
 
 @keyframes spin {
     0% {
