@@ -244,8 +244,10 @@ Game.prototype.load = function(data) {
       var zn = lvl.zones[j];
       for(var k=0;k<zn.obj.length;k++) {
         var obj = zn.obj[k];
+        var oid = obj.pos;
         var pgen = [obj.pos]; // obj.pos here is a shor2, we use it as the oid for this object
         for(var l=0;l<obj.param.length;l++) { pgen.push(obj.param[l]); }
+        if (zn.maxOid === undefined || oid > zn.maxOid) zn.maxOid = oid;
         this.createObject(obj.type, lvl.id, zn.id, shor2.decode(obj.pos), pgen);
       }
     }

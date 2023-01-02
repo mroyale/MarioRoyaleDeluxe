@@ -20,7 +20,7 @@ Resource.prototype.load = function (src) {
     var ext = s.src.split(".").pop().toLowerCase();
     switch(ext) {
       case "png" : { this.loadTexture(s); break; }
-      case "gif" : { this.loadAnimatedTexture(s); break; }
+      case "gif" : { this.loadTexture(s); break; }
       default : { app.menu.warn.show("Failed to load resource with unknown extension: " + ext); break; }
     }
   }
@@ -61,8 +61,8 @@ Resource.prototype.loadAnimatedTexture = function (src) {
         var framers = gif.get_frames();
         var frame = framers[parseInt(Math.random()*length)];
     
-        delay = frame.delay; // Just assign it to the last one whatever
-        var img = imageDataToImageElement(frame.data);
+        delay = frame.delay; // Just assign it to whatever the last one is
+        var img = imageDataToImageElement(frame.data); // Convert to an image element so that it can be drawn with drawImage
         frames.push(img);
       }
     

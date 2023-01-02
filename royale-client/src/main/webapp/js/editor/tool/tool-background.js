@@ -81,11 +81,13 @@ ToolBackground.prototype.load = function() {
   this.zone = this.editor.currentZone;
   var layer = this.editor.currentBgLayer;
 
-  this.valURL.value = layer.url || "";
-  this.valXOffset.value = layer.offset.x || "0";
-  this.valYOffset.value = layer.offset.y || "0";
-  this.valSpeed.value = layer.speed || "0";
-  this.valLoop.value = layer.loop || "0";
+  if (layer) {
+    this.valURL.value = layer.url || "";
+    this.valXOffset.value = layer.offset.x || "0";
+    this.valYOffset.value = layer.offset.y || "0";
+    this.valSpeed.value = layer.speed || "0";
+    this.valLoop.value = layer.loop || "0";
+  }
 
   this.element.style.display = "block";
   this.listContainer.style.display = "";

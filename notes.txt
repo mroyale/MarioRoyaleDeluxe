@@ -7,22 +7,16 @@ Retention: 30 minutes up to 2 hours
 Community Opinion: Good beta, bugs can be worked out.
 
 Bugs Found:
-- Max players in lobby is actually 30, but game says 75. - Fixed - Found in code -
-- Vines use wrong sprite. Found in lobby and in-game. - Fixed -
-- Lobby seems to rarely start. - Fixed - 15 second delay existed before the lobby would actually start. -
-- Fire bro sprite uses hammer bro sprite as head. - Fixed - Not apparent normally but with mods it's easily seeable. -
-- Funky invisible block collision. Can make you warp outside the map. - Fixed - 6-2 is an easy example. -
 - Projectiles, cheep cheeps & podoboos are fast and sometimes unavoidable. - NOT Fixed - See 2-3 for examples -
+- Enemies don't use their variants correctly - Not fixed - 1-2 for example -
 
 Features to add:
 - Accounts and things locked under accounts: leaderboards, chat(?), some sort of shop
 - Carrying shells, sprites already exist for these but it's hard to add them.
-- Animated backgrounds since basically every level uses them.
 - Delete serbia
 - Blending modes like grain merge for the water level effect.
 - Dev kit; basically the console and tools for moderation.
 - Backport custom textures, though make an easier way to manage them, give them names for example.
-- Some objects from Legacy. Most notably Object Spawner (id 25 i think)
 
 Important:
 There should be more incentive to play the game. It's fun but currently there's nothing to really work towards and since player
