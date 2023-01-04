@@ -2,6 +2,7 @@ package org.infpls.royale.server.util;
 
 import java.io.*;
 import java.util.Date;
+import java.util.*;
 
 public class Oak {
   
@@ -87,7 +88,7 @@ public class Oak {
   }
   
   public static void log(Level level, String src, String msg, Exception ex) {
-    /* System.out.println(new Date().toString() + " - " + src + " :: " + msg); */
+    System.out.println(new Date().toString() + " - " + src + " :: " + msg);
     /* if(ex != null) { ex.printStackTrace(); } */ // Don't log to catalina.out
     write(level, src, msg, ex);
   }

@@ -65,12 +65,12 @@ App.prototype.ingame = function() {
 };
 
 /* Connect to game server and join a game */
-App.prototype.join = function(name, team, priv) {
+App.prototype.join = function(name, team, priv, gameMode) {
   if(this.ingame()) {
     this.menu.error.show("An error occurred while starting game..."); return;
   }
   this.menu.load.show();
-  this.net.connect(name, team, priv);
+  this.net.connect(name, team, priv, gameMode);
 };
 
 /* Close active game and reload page */

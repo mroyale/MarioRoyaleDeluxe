@@ -55,6 +55,7 @@ BowserObject.JUMP_LENGTH = 50;        // Length of jump
 BowserObject.JUMP_DECEL = 0.005;     // Jump deceleration
 BowserObject.ATTACK_DELAY = 150;      // Time between attacks
 BowserObject.ATTACK_ANIM_LENGTH = 30;
+BowserObject.HURT_ANIM_LENGTH = 50;
 BowserObject.PROJ_OFFSET = vec2.make(-.25, 0.25);
     
 BowserObject.FALL_SPEED_MAX = 0.15;
@@ -66,7 +67,9 @@ BowserObject.SPRITE_LIST = [
   {NAME: "RUN1", ID: 0x01, INDEX: [[42, 43],[26, 27],[10, 11]]},
   {NAME: "RUN2", ID: 0x02, INDEX: [[40, 41],[24, 25],[8, 9]]},
   {NAME: "PREPARE", ID: 0x03, INDEX: [[38, 39],[22, 23],[6, 7]]},
-  {NAME: "ATTACK", ID: 0x04, INDEX: [[36, 37],[20, 21],[4, 5]]}
+  {NAME: "ATTACK", ID: 0x04, INDEX: [[36, 37],[20, 21],[4, 5]]},
+  {NAME: "HURT0", ID: 0x05, INDEX: [[34, 35],[18, 19],[2, 3]]},
+  {NAME: "HURT1", ID: 0x06, INDEX: [[32, 33],[16, 17],[0, 1]]}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -80,6 +83,7 @@ BowserObject.STATE_LIST = [
   {NAME: "RUN", ID: 0x00, SPRITE: [BowserObject.SPRITE.RUN0,BowserObject.SPRITE.RUN1,BowserObject.SPRITE.RUN2,BowserObject.SPRITE.RUN1]},
   {NAME: "PREPARE", ID: 0x01, SPRITE: [BowserObject.SPRITE.PREPARE]},
   {NAME: "ATTACK", ID: 0x02, SPRITE: [BowserObject.SPRITE.ATTACK]},
+  {NAME: "HURT", ID: 0x03, SPRITE: [BowserObject.SPRITE.HURT0, BowserObject.SPRITE.HURT1]},
   {NAME: "BONK", ID: 0x51, SPRITE: []}
 ];
 
@@ -113,13 +117,15 @@ BowserObject.prototype.step = function() {
   this.physics();
   this.sound();
 
-  this.setState(BowserObject.STATE.RUN);
-  if(this.attackTimer++ > BowserObject.ATTACK_DELAY) { this.attack(); }
+  if(this.hurtAnimTimer > 0) { this.setState(BowserObject.STATE.HURT); this.hurtAnimTimer--; }
   else {
-    if ((BowserObject.ATTACK_DELAY - this.attackTimer) < 20) { this.setState(BowserObject.STATE.PREPARE); }
-  }
-  if(this.attackAnimTimer > 0) { this.setState(BowserObject.STATE.ATTACK); this.attackAnimTimer--; }
+    this.setState(BowserObject.STATE.RUN);
+    if(this.attackTimer++ > BowserObject.ATTACK_DELAY) { this.attack(); }
+    else if ((BowserObject.ATTACK_DELAY - this.attackTimer) < 20) { this.setState(BowserObject.STATE.PREPARE); }
   
+    if(this.attackAnimTimer > 0) { this.setState(BowserObject.STATE.ATTACK); this.attackAnimTimer--; }
+  }
+
   if(this.pos.y < 0.) { this.destroy(); }
 };
 
@@ -216,7 +222,11 @@ BowserObject.prototype.playerStomp = BowserObject.prototype.playerCollide;
 
 BowserObject.prototype.playerBump = BowserObject.prototype.playerCollide;
 
-BowserObject.prototype.damage = function(p) { if(!this.dead) { if(--this.health <= 0) { this.bonk(); } } };
+BowserObject.prototype.damage = function(p) {
+  if(this.dead) { return; }
+
+  if(--this.health <= 0) { this.bonk(); } else { this.hurtAnimTimer = BowserObject.HURT_ANIM_LENGTH; }
+};
 
 /* 'Bonked' is the type of death where an enemy flips upside down and falls off screen */
 /* Generally triggred by shells, fireballs, etc */

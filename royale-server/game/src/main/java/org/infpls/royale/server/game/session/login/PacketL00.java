@@ -4,11 +4,13 @@ import org.infpls.royale.server.game.session.Packet;
 
 public class PacketL00 extends Packet {
   public final String name, team;
+  public final int gameMode;
   public final boolean priv;
-  public PacketL00(String name, String team, boolean priv) {
+  public PacketL00(String name, String team, boolean priv, int gameMode) {
     super("l00");
     this.name = name;
     this.team = team;
     this.priv = priv;
+    this.gameMode = gameMode;
   }
 }

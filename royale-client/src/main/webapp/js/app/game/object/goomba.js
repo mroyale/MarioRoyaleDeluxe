@@ -9,7 +9,6 @@ function GoombaObject(game, level, zone, pos, oid, variant) {
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
   
   this.variant = isNaN(parseInt(variant))?0:parseInt(variant);
-  this.variant = 0;
   this.setState(GoombaObject.STATE.RUN);
   
   /* Animation */
@@ -44,6 +43,7 @@ GoombaObject.NAME = "Goomba"; // Used by editor
 
 GoombaObject.ANIMATION_RATE = 10;
 GoombaObject.VARIANT_OFFSET = 0x70;   //5 rows down in the sprite sheet
+GoombaObject.CASTLE_OFFSET = 0x40;  //64 sprites
 
 GoombaObject.ENABLE_FADE_TIME = 15;
 GoombaObject.ENABLE_DIST = 26;          // Distance to player needed for proximity to trigger and the enemy to be enabled
@@ -283,6 +283,7 @@ GoombaObject.prototype.draw = function(sprites) {
         var sp = s[!mod?i:(s.length-1-i)][j];
         switch(this.variant) {
           case 1 : { sp += GoombaObject.VARIANT_OFFSET; break; }
+          case 2 : { sp += GoombaObject.CASTLE_OFFSET; break; }
           default : { break; }
         }
         sprites.push({pos: vec2.add(this.pos, vec2.make(j,i)), reverse: !this.dir, index: sp, mode: mod});
@@ -293,6 +294,7 @@ GoombaObject.prototype.draw = function(sprites) {
     var sp = this.sprite.INDEX;
     switch(this.variant) {
       case 1 : { sp += GoombaObject.VARIANT_OFFSET; break; }
+      case 2 : { sp += GoombaObject.CASTLE_OFFSET; break; }
       default : { break; }
     }
     sprites.push({pos: this.pos, reverse: !this.dir, index: sp, mode: mod});

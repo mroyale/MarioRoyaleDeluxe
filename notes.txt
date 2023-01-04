@@ -7,8 +7,7 @@ Retention: 30 minutes up to 2 hours
 Community Opinion: Good beta, bugs can be worked out.
 
 Bugs Found:
-- Projectiles, cheep cheeps & podoboos are fast and sometimes unavoidable. - NOT Fixed - See 2-3 for examples -
-- Enemies don't use their variants correctly - Not fixed - 1-2 for example -
+- Horizontal warp pipe directions warp you at a wrong position or something
 
 Features to add:
 - Accounts and things locked under accounts: leaderboards, chat(?), some sort of shop

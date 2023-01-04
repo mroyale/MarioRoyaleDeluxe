@@ -8,8 +8,7 @@ function PlantObject(game, level, zone, pos, oid, variant) {
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
   
-  //this.variant = isNaN(parseInt(variant))?0:parseInt(variant);
-  this.variant = 0;
+  this.variant = isNaN(parseInt(variant))?0:parseInt(variant);
   this.setState(PlantObject.STATE.IDLE);
   
   /* Animation */
@@ -35,7 +34,7 @@ PlantObject.ID = 0x16;
 PlantObject.NAME = "Piranha Plant"; // Used by editor
 
 PlantObject.ANIMATION_RATE = 6;
-PlantObject.VARIANT_OFFSET = 0x20; //2 rows down in the sprite sheet
+PlantObject.VARIANT_OFFSET = 0x42; //66 sprites
 PlantObject.SOFFSET = vec2.make(-.1, 0.);
 
 PlantObject.BONK_TIME = 90;
@@ -47,6 +46,7 @@ PlantObject.FALL_SPEED_ACCEL = 0.085;
 
 PlantObject.WAIT_TIME = 50;
 PlantObject.TRAVEL_SPEED = 0.025;
+PlantObject.TRAVEL_SPEED_FAST = 0.05;
 
 PlantObject.SPRITE = {};
 PlantObject.SPRITE_LIST = [
@@ -113,13 +113,13 @@ PlantObject.prototype.physics = function() {
   var dest = this.loc[this.dir?0:1];
   var dist = vec2.distance(this.pos, dest);
   
-  if(dist <= PlantObject.TRAVEL_SPEED) {
+  if(dist <= (this.variant ? PlantObject.TRAVEL_SPEED_FAST : PlantObject.TRAVEL_SPEED)) {
     this.pos = dest;
     this.dir = !this.dir;
     this.waitTimer = PlantObject.WAIT_TIME;
   }
   else {
-    this.pos = vec2.add(this.pos, vec2.scale(vec2.normalize(vec2.subtract(dest, this.pos)), PlantObject.TRAVEL_SPEED));
+    this.pos = vec2.add(this.pos, vec2.scale(vec2.normalize(vec2.subtract(dest, this.pos)), (this.variant ? PlantObject.TRAVEL_SPEED_FAST : PlantObject.TRAVEL_SPEED)));
   }
 };
 

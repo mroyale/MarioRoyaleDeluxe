@@ -645,8 +645,7 @@ Game.prototype.doStep = function() {
   /* Update Camera Position */
   var zone = this.getZone();
   if(ply && !ply.dead && !this.cameraLocked) {
-    var y = -ply.pos.y+10;
-    this.display.camera.position(vec2.make(Math.max(14, ply.pos.x), zone.vertical ? -ply.pos.y + zone.dimensions().y : zone.dimensions().y*.5));
+    this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), zone.vertical ? -ply.pos.y + zone.dimensions().y : zone.dimensions().y*.5));
   }
   
   /* Step world to update bumps & effects & etc */

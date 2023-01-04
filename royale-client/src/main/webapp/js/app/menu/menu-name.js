@@ -13,8 +13,8 @@ function MenuName() {
   this.padLoop = undefined;
   
   var that = this;
-  this.launchBtn.onclick = function() { that.launch(false); };
-  this.privateBtn.onclick = function() { that.launch(true); };
+  this.launchBtn.onclick = function() { that.launch(false, 0); };
+  this.privateBtn.onclick = function() { that.launch(true, 0); };
 
   var worlds = document.getElementById("levels");
   var customLevel = document.getElementById("levelSelectInput");
@@ -37,10 +37,10 @@ function MenuName() {
 };
 
 /* When the launch button is clicked. */
-MenuName.prototype.launch = function(priv) {
+MenuName.prototype.launch = function(priv, gameMode) {
   Cookies.set("name", this.nameInput.value, {expires: 30});
   Cookies.set("team", this.teamInput.value, {expires: 30});
-  app.join(this.nameInput.value, this.teamInput.value, priv);
+  app.join(this.nameInput.value, this.teamInput.value, priv, gameMode);
   app.menu.main.menuMusic.pause();
 };
 

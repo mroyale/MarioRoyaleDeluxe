@@ -11,8 +11,8 @@ import org.infpls.royale.server.util.*;
 
 public abstract class GameLobby {
   private final static String LOBBY_FILE = "lobby";
-  //private final static String[] GAME_FILES = new String[]{ "world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
-  private final static String[] GAME_FILES = new String[]{ "pvp-maker" };
+  private final static String[] GAME_FILES = new String[]{ "world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
+  private final static String[] GAME_FILES_PVP = new String[]{ "pvp-maker", "pvp-smb2", "pvp-mariokart" };
   
   private final static int MIN_PLAYERS = 1;          // Min players needed to vote start
   private final static int MAX_PLAYERS = 75;         // Max players, game starts automatically
@@ -41,9 +41,9 @@ public abstract class GameLobby {
   protected boolean closed; // Clean this shit up!
 
   private final boolean privat;
-  private final String roomName;
+  private final String gameMode;
 
-  public GameLobby(boolean priv, String roomCode) throws IOException {
+  public GameLobby(boolean priv, String mode) throws IOException {
     lid = Key.generate32();
     
     players = new ArrayList();
@@ -57,13 +57,14 @@ public abstract class GameLobby {
     
     locked = false;
     closed = false;
+
+    privat = priv;
+    gameMode = mode;
     
     game = new RoyaleLobby();
-    gameFile = GAME_FILES[(int)Math.min(GAME_FILES.length-1, Math.random()*GAME_FILES.length)];
+    gameFile = gameMode == "pvp" ? GAME_FILES_PVP[(int)Math.min(GAME_FILES_PVP.length-1, Math.random()*GAME_FILES_PVP.length)] : GAME_FILES[(int)Math.min(GAME_FILES.length-1, Math.random()*GAME_FILES.length)];
 
     loop = new GameLoop(this);
-    privat = priv;
-    roomName = roomCode;
   }
   
   /* It's apparently dangerous to start the thread in the constructor because ********REASONS********* so here we are! */
@@ -230,7 +231,7 @@ public abstract class GameLobby {
   public void pushEvent(final SessionEvent evt) { events.push(evt); }
   
   public boolean isPrivate() { return privat; }
-  public String getCode() { return roomName; }
+  public String getMode() { return gameMode; }
   public String getLid() { return lid; }
   public boolean isFull() { return loading.size() + players.size() >= MAX_PLAYERS; }
   public boolean isLocked() { return locked; }

@@ -18,6 +18,7 @@ public final class RoyaleSession {
   private final DaoContainer dao;
   
   private String name, team;
+  private int gameMode;
   private boolean priv;
   private final String sid;
   private final SessionThread sessionThread;
@@ -100,10 +101,11 @@ public final class RoyaleSession {
     changeState("g", gl);
   }
   
-  public void login(String name, String team, boolean priv) {
+  public void login(String name, String team, boolean priv, int gameMode) {
     this.name = name;
     this.team = team;
     this.priv = priv;
+    this.gameMode = gameMode;
   }
   
   public boolean loggedIn() {
@@ -120,6 +122,10 @@ public final class RoyaleSession {
 
   public boolean getPrivate() {
     return priv;
+  }
+
+  public int getMode() {
+    return gameMode;
   }
 
   public String getSessionId() {

@@ -3,13 +3,11 @@
 /* global GameObject, PlayerObject */
 /* global NET011, NET020 */
 
-function KoopaObject(game, level, zone, pos, oid, fly, variant) {
+function KoopaObject(game, level, zone, pos, oid, fly) {
   GameObject.call(this, game, level, zone, pos);
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
   
-  //this.variant = isNaN(parseInt(variant))?0:parseInt(variant);
-  this.variant = 0;
   this.setState(!parseInt(fly)?KoopaObject.STATE.RUN:KoopaObject.STATE.FLY);
   
   /* Animation */
@@ -347,20 +345,12 @@ KoopaObject.prototype.draw = function(sprites) {
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
         var sp = s[mod!==0x03?i:(s.length-1-i)][j];
-        switch(this.variant) {
-          case 1 : { sp += KoopaObject.VARIANT_OFFSET; break; }
-          default : { break; }
-        }
         sprites.push({pos: vec2.add(this.pos, vec2.make(j,i)), reverse: !this.dir, index: sp, mode: mod});
       }
     }
   }
   else {
     var sp = this.sprite.INDEX;
-    switch(this.variant) {
-      case 1 : { sp += KoopaObject.VARIANT_OFFSET; break; }
-      default : { break; }
-    }
     sprites.push({pos: this.pos, reverse: !this.dir, index: sp, mode: mod});
   }
 };

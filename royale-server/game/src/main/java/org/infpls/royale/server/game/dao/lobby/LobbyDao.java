@@ -25,21 +25,22 @@ public class LobbyDao {
   }
 
   /* Returns a lobby with open space for a player to join. */
-  public GameLobby findLobby(boolean priv, String roomCode) throws IOException {
+  public GameLobby findLobby(boolean priv, int mode) throws IOException {
     cleanUp();
-    if (priv) { return createLobby(true, ""); }
+    String[] GAMEMODES = { "vanilla", "pvp" };
+    if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
+    String gameMode = GAMEMODES[mode];
+
+    if (priv) { return createLobby(true, gameMode); }
 
     for(int i=0;i<lobbies.size();i++) {
       final GameLobby lobby = lobbies.get(i);
-      if(!lobby.isFull() && !lobby.isLocked() && lobby.isPrivate() == priv) {
-        if (lobby.isPrivate()) {
-          if (lobby.getCode() == roomCode) { return lobby; }
-        } else {
-          return lobby;
-        }
+
+      if(!lobby.isFull() && !lobby.isLocked() && lobby.getMode() == gameMode) {
+        return lobby;
       }
     }
-    final GameLobby lobby = createLobby(priv, roomCode);
+    final GameLobby lobby = createLobby(priv, gameMode);
     return lobby;
   }
   

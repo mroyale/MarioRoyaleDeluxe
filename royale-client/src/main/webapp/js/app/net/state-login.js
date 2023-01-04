@@ -17,7 +17,7 @@ StateLogin.prototype.handleBinary = function(packet) {
 };
 
 StateLogin.prototype.ready = function() {
-  this.send({type: "l00", name: app.net.prefName, team: app.net.prefTeam, priv: app.net.prefLobby});
+  this.send({type: "l00", name: app.net.prefName, team: app.net.prefTeam, priv: app.net.prefLobby, mode: app.net.prefMode});
 };
 
 // L01

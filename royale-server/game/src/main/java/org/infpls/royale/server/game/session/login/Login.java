@@ -51,20 +51,25 @@ public class Login extends SessionState {
     
     /* Team */
     String team = p.team==null?"":p.team.trim().toLowerCase();
-    if(team.length() > 3) { team = name.substring(0, 3); }
+    if(team.length() > 3) { team = team.substring(0, 3); }
     else if(team.length() < 1) { team = ""; }
 
     /* Private */
     boolean priv = p.priv==false?false:true;
+
+    /* Gamemode */
+    String[] GAMEMODES = { "vanilla", "pvp" };
+    int mode = p.gameMode;
+    if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
     
     /* Login */
-    session.login(name, team, priv);
+    session.login(name, team, priv, mode);
     
     /* Return data */
-    sendPacket(new PacketL01(session.getSessionId(), session.getUser(), session.getTeam(), session.getPrivate()));
+    sendPacket(new PacketL01(session.getSessionId(), session.getUser(), session.getTeam(), session.getPrivate(), session.getMode()));
     
     /* Choose Lobby */
-    final GameLobby lobby = lobbyDao.findLobby(session.getPrivate(), session.getTeam());
+    final GameLobby lobby = lobbyDao.findLobby(session.getPrivate(), session.getMode());
     
     /* Join Lobby */
     session.join(lobby);

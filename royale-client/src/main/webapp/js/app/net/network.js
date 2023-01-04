@@ -11,11 +11,12 @@ Network.prototype.connected = function () {
 };
 
 /* Connects to game server websocket */
-Network.prototype.connect = function(name, team, priv){
+Network.prototype.connect = function(name, team, priv, mode){
   var address = window.location.host;
   this.prefName = name;
   this.prefTeam = team;
   this.prefLobby = priv;
+  this.prefMode = mode;
   var that = this;
   
   if(this.connected()) {
