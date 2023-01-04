@@ -1,6 +1,6 @@
 echo [-- Shutdown Tomcat Server --]
 cd bin
-sh shutdown.sh
+sudo sh shutdown.sh
 cd ../
 
 echo [-- Build WAR --]
@@ -12,5 +12,5 @@ cp royale-client/target/client-1.0.war /var/lib/tomcat9/webapps/royale.war
 
 echo [-- Start Tomcat Server --]
 cd bin
-sh startup.sh
+sudo sh startup.sh
 cd ../

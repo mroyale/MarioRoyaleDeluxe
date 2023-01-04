@@ -15,7 +15,7 @@ public class DaoContainer {
   
   public DaoContainer() {
     Settable.update();                    // This call to Settable.update() ensures all properties are loaded before we start using them.
-    Oak.open();                           // Starts logging
+    //Oak.open();                           // Starts logging
     userDao = new UserDao();
     lobbyDao = new LobbyDao();
   }

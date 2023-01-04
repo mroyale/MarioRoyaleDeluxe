@@ -28,7 +28,7 @@ public class LobbyDao {
   public GameLobby findLobby(boolean priv, int mode) throws IOException {
     cleanUp();
     String[] GAMEMODES = { "vanilla", "pvp" };
-    if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
+    //if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
     String gameMode = GAMEMODES[mode];
 
     if (priv) { return createLobby(true, gameMode); }

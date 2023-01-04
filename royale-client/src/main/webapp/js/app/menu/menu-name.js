@@ -9,11 +9,13 @@ function MenuName() {
   this.teamInput = document.getElementById("team-input");
   this.launchBtn = document.getElementById("name-launch");
   this.privateBtn = document.getElementById("name-private");
+  this.pvpBtn = document.getElementById("name-pvp");
   
   this.padLoop = undefined;
   
   var that = this;
   this.launchBtn.onclick = function() { that.launch(false, 0); };
+  this.pvpBtn.onclick = function() { that.launch(false, 1); };
   this.privateBtn.onclick = function() { that.launch(true, 0); };
 
   var worlds = document.getElementById("levels");
