@@ -867,7 +867,7 @@ PlayerObject.prototype.damage = function(obj) {
     this.pipeWarp || this.pipeTimer > 0 || this.pipeDelay > 0 ||
     this.game.getDebug("god") || this.autoTarget
   ) { return; }
-  if(this.power > 0) { this.transform(this.game.gameMode === 1 ? 0 : this.power -= 1); this.damageTimer = PlayerObject.DAMAGE_TIME; this.game.out.push(NET013.encode(0x03)); }
+  if(this.power > 0) { this.transform(this.game.gameMode === 1 ? 0 : (this.power > 1 ? 1 : 0)); this.damageTimer = PlayerObject.DAMAGE_TIME; this.game.out.push(NET013.encode(0x03)); }
   else { this.kill(); }
 };
 
