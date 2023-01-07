@@ -31,7 +31,7 @@ CoinObject.SPRITE_LIST = [
   {NAME: "IDLE0", ID: 0x00, INDEX: 0x00F0},
   {NAME: "IDLE1", ID: 0x01, INDEX: 0x00F1},
   {NAME: "IDLE2", ID: 0x02, INDEX: 0x00F2},
-  {NAME: "IDLE3", ID: 0x03, INDEX: 0x00F1}
+  {NAME: "IDLE3", ID: 0x03, INDEX: 0x00F3}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
