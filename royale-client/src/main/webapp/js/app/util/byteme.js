@@ -190,6 +190,7 @@ td32.TILE_PROPERTIES = {
   /* Solid Damage */
   0x04: {
     NAME: "SOLID DAMAGE",
+    DATA: "Instant Death (0/1)",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: false,
@@ -198,7 +199,7 @@ td32.TILE_PROPERTIES = {
         /* Touch */
         case 0x00 : {
           if (game.pid === pid) {
-            game.getPlayer().damage();
+            parseInt(td.data) === 1 ? game.getPlayer().kill() : game.getPlayer().damage();
           }
           break;
         }
