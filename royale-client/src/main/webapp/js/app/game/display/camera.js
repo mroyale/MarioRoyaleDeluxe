@@ -7,12 +7,11 @@ function Camera(display) {
   
   /* Camera position is considered to be in game world units NOT PIXELS */
   this.pos = vec2.make(0,0);                // Camera position
-  //this.scale = window.innerHeight/672*3;  // How large we draw each tile. At 1.0 we draw tiles at their native resolution defined by Display.TEXRES.
 
   var tmp = this;
   window.onresize = function (e) {
     tmp.screenScale = window.innerHeight / 672;
-    tmp.scale = tmp.screenScale * 3 + 0.1;
+    tmp.scale = tmp.screenScale * 3 + 0.1; // How large we draw each tile. At 1.0 we draw tiles at their native resolution defined by Display.TEXRES.
   }
 
   window.onresize();
@@ -34,6 +33,14 @@ Camera.prototype.zoom = function(zm) {
 
 Camera.prototype.position = function(pos) {
   this.pos = pos;
+};
+
+Camera.prototype.positionX = function(pos) {
+  this.pos.x = pos;
+};
+
+Camera.prototype.positionY = function(pos) {
+  this.pos.y = pos;
 };
 
 /* Takes the position of the mouse and returns a position in game world units */

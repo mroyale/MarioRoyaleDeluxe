@@ -166,8 +166,12 @@
               <input id='editor-tool-zone-music' type='text' class="tool-val"/>
             </div>
             <div class="tool-box" style="position: absolute;">
-              <div class="tool-var tooltip">Vertical<span class="tooltiptext">If checked, this will enable scrolling of the vertical axis in-game.</span></div><div class="tool-type">boolean</div>
-              <input id="editor-tool-zone-vertical" type="checkbox" class="tool-val">
+              <div class="tool-var tooltip">Camera Mode<span class="tooltiptext">Controls the scrolling of the camera. Free Roam enables horizontal and vertical scrolling</span></div><div class="tool-type">byte</div>
+              <select id="editor-tool-zone-camera" type="text" class="tool-val">
+                <option value="0">Horizontal</option>
+                <option value="1">Vertical</option>
+                <option value="2">Free Roam</option>
+              </select>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
@@ -474,6 +478,10 @@
             <div class='tool-box'>
               <div class='tool-var tooltip'>Y Offset<span class="tooltiptext">Vertical offset</span></div><div class='tool-type'>int px</div>
               <input id='editor-tool-ref-y' type='text' class="tool-val"/>
+            </div>
+            <div class='tool-box'>
+              <div class='tool-var tooltip'>Depth<span class="tooltiptext">If 0, will appear behind the level. If 1, will appear in front of the level.</span></div><div class='tool-type'>1-bit</div>
+              <input id='editor-tool-ref-depth' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
               <div id='editor-tool-ref-apply' class="tool-button">Apply</div>

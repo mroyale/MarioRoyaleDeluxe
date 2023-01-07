@@ -60,8 +60,8 @@ public class Login extends SessionState {
     /* Gamemode */
     String[] GAMEMODES = new String[] { "vanilla", "pvp" };
     int mode = p.mode;
-    System.err.println("Login.login :: " + mode);
-    //if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
+    System.err.println("Login.login :: Gamemode is " + mode);
+    if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
     
     /* Login */
     session.login(name, team, priv, mode);

@@ -721,11 +721,9 @@ PlayerObject.prototype.physics = function() {
   /* Handle slope collision. X pos is normal. Y pos = slope y+x decimal points */
   for(var i=0;i<slopecollide.length;i++) {
     var slope = slopecollide[i];
-    if (squar.intersection(slope.pos, tdim, mov, DIM0)) {
-      const ang = 45 * Math.PI / 180; // Convert 45deg to radians
-
-      mov.x += Math.cos(ang) * this.moveSpeed;
-      mov.y += Math.sin(ang) * this.moveSpeed;
+    if (squar.intersection(slope.pos, tdim, mov, DIM0)) {      
+      mov.y = parseInt(mov.y) + ((mov.x - parseInt(mov.x)));
+      grounded = true;
     }
   }
   

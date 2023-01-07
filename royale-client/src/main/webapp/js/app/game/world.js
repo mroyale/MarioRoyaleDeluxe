@@ -104,11 +104,11 @@ function Zone(game, level, data) {
   this.color = data.color; // HTML color of the sky for this zone.
   this.music = data.music?data.music:"";
   this.musicBlock = null; // Used when we touch a music block
-  this.vertical = data.vertical?Boolean(data.vertical):false;
+  this.camera = parseInt(data.camera) || 0; // The camera mode: 0: horizontal, 1: vertical, 2: both
   
   this.layers = data.layers || []; // All layers which are 2D arrays of td32
 
-  /* If we have an (old) level that uses the standard tile format, adjust. */
+  /* If we have an (old) level that uses the old data system, adjust. */
   if (data.data) {
     for (var i = 0; i < this.layers.length && this.layers[i].z < 0; i++);
     this.layers.splice(i, 0, { z: 0, data: data.data });
@@ -124,8 +124,6 @@ function Zone(game, level, data) {
   this.warp = data.warp; // Copied by reference!
   this.spawnpoint = data.spawnpoint || []; // This is new so we should have a fail-safe.
   this.background = data.background || [];
-  //this.bg = data.bg; // Copied by reference!
-  //this.bgs = data.bgs; // Also copied by reference!
   
   this.bumped = [];
   this.effects = [];

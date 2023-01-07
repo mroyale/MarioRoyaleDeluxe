@@ -595,7 +595,7 @@ Game.prototype.doInput = function(imp) {
   var b = keys[inp.assignK.b] || pad.button(inp.assignG.b);
   var u = keys[inp.assignK.up] || pad.button(inp.assignG.up);
   
-  //if(mous.spin) { this.display.camera.zoom(mous.spin); } // Mouse wheel -> Camera zoom
+  if(mous.spin && this.getZone().camera === 2 /* Free-Roam only */) { this.display.camera.zoom(mous.spin); } // Mouse wheel -> Camera zoom
   
   obj.input(dir, a, b, u);
   
@@ -645,7 +645,11 @@ Game.prototype.doStep = function() {
   /* Update Camera Position */
   var zone = this.getZone();
   if(ply && !ply.dead && !this.cameraLocked) {
-    this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), zone.vertical ? -ply.pos.y + zone.dimensions().y : zone.dimensions().y*.5));
+    switch (zone.camera) {
+      case 0 : { this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), zone.dimensions().y * .5)); break; }
+      case 1 : { this.display.camera.positionY(-ply.pos.y + zone.dimensions().y); break; }
+      case 2 : { this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), -ply.pos.y + zone.dimensions().y)); break; }
+    }
   }
   
   /* Step world to update bumps & effects & etc */
@@ -682,7 +686,6 @@ Game.prototype.doSpawn = function() {
   
   if(!ply) {
     var zon = this.world.getZone(this.getDebug("level"), this.getDebug("zone")) || this.getZone();
-
     var pos;
     
     if (zon.spawnpoint.length > 0 && this.gameMode === 1 /* PVP exclusive */) {
@@ -692,6 +695,8 @@ Game.prototype.doSpawn = function() {
 
     var obj = this.createObject(PlayerObject.ID, this.getDebug("level") || zon.level, zon.id, shor2.decode(pos), [this.pid]);
     this.out.push(NET010.encode(this.getDebug("level") || zon.level, zon, pos));
+
+    this.display.camera.positionX(shor2.decode(pos).x);
 
     if (this.gameMode && this instanceof Game) {
       obj.transform(2);

@@ -36,21 +36,13 @@ EditorDisplay.prototype.draw = function() {
   context.translate(-this.camera.pos.x*Display.TEXRES, -this.camera.pos.y*Display.TEXRES);
   
   /* Draw Game */
-  /*this.drawBackground();
-  this.drawReference();
   
-  for (var i=0; i<zone.layers.length; i++) {
-    this.drawMapTool(zone.layers[i].data, false); // Render background
-    if (zone.layers[i].z == 0) {
-        this.drawMapTool(zone.layers[i].data, true); // Render foreground
-    }
-  }*/
-
   if (zone.background.length) {
     for (var i=0; i<zone.background.length; i++) {
       var layer = zone.background[i];
       
       this.drawBackground(layer, false);
+      if (!this.game.refDepth) { this.drawReference(); }
       for (var j = 0; j < zone.layers.length; j++) {
         this.drawMapTool(zone.layers[j].data, false); // Render depth 0
         if (zone.layers[j].z == 0) {
@@ -58,13 +50,16 @@ EditorDisplay.prototype.draw = function() {
         }
       }
       this.drawBackground(layer, true);
+      if (this.game.refDepth) { this.drawReference(); }
     }
   } else {
     for (var j = 0; j < zone.layers.length; j++) {
+      if (!this.game.refDepth) { this.drawReference(); }
       this.drawMapTool(zone.layers[j].data, false); // Render depth 0
       if (zone.layers[j].z == 0) {
         this.drawMapTool(zone.layers[j].data, true); // Render depth 1
       }
+      if (this.game.refDepth) { this.drawReference(); }
     }
   }
 
@@ -117,66 +112,6 @@ EditorDisplay.prototype.drawBackground = function(layer, depth) {
     }
   }
 }
-
-/*EditorDisplay.prototype.drawBackground = function() {
-  var context = this.context; // Sanity
-  var zone = this.game.getZone();
-
-  var dim = zone.dimensions();
-  var tex = this.resource.getTexture(this.game.bg);
-  var texas = this.resource.getTexture(this.game.bgs);
-
-  if (zone.bgs && texas) {
-    var bg = zone.bgs;
-    var loopCount = bg.loop || parseInt(dim.x*16/texas.width)+1 //Maybe should be Math.round instead of parseInt
-  
-    if (loopCount <= 1) {
-      /* Draw once 
-      context.drawImage(texas, this.camera.pos.x * bg.speed + bg.offset.x, bg.offset.y, texas.width, texas.height);
-    } else {
-      for (var i=0; i<loopCount; i++) {
-        var len = tex.width*i;
-        context.drawImage(texas, this.camera.pos.x * bg.speed + bg.offset.x + len, bg.offset.y, texas.width, texas.height);
-      }
-    }
-  };
-  
-  if (zone.bg && tex) {
-    var bg = zone.bg;
-    var loopCount = bg.loop || parseInt(dim.x*16/tex.width)+1 //Maybe should be Math.round instead of parseInt
-  
-    if (loopCount <= 1) {
-      /* Draw once 
-      context.drawImage(tex, this.camera.pos.x * bg.speed + bg.offset.x, bg.offset.y, tex.width, tex.height);
-    } else {
-      for (var i=0; i<loopCount; i++) {
-        var len = tex.width*i;
-        context.drawImage(tex, this.camera.pos.x * bg.speed + bg.offset.x + len, bg.offset.y, tex.width, tex.height);
-      }
-    }
-  };
-
-  /*if(!this.game.bg || !zone.bg) { return; }
-
-  var tex = this.resource.getTexture(this.game.bg);
-
-  if (!tex) { return; }
-  var bg = zone.bg;
-  var dim = zone.dimensions();
-  var loopCount = parseInt(dim.x*16/tex.width);
-
-  if (loopCount <= 1) {
-    context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x, bg.offset.y, tex.width, tex.height);
-  } else {
-    for (var i=0; i<loopCount; i++) {
-      var len = tex.width*i
-      context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x+len, bg.offset.y, tex.width, tex.height);
-    }
-  };
-
-  //context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x, 0, tex.width, tex.height, this.game.offsetBg.x, this.game.offsetBg.y, tex.width, tex.height);
-  //context.drawImage(tex, this.camera.pos.x*bg.speed+bg.offset.x, bg.offset.y, tex.width, tex.height);
-};*/
 
 EditorDisplay.prototype.drawMap = Display.prototype.drawMap;
 

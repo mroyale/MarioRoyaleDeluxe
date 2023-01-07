@@ -15,11 +15,13 @@ public abstract class GameLobby {
   private final static String[] GAME_FILES_PVP = new String[]{ "pvp-maker", "pvp-smb2", "pvp-mariokart" };
   
   private final static int MIN_PLAYERS = 1;          // Min players needed to vote start
+  private final static int MIN_PLAYERS_PVP = 2;      // Min players to vote start in PVP
+
   private final static int MAX_PLAYERS = 75;         // Max players, game starts automatically
   private final static float MIN_VOTE_FRAC = .50f;   // Needs 50% ready vote to start early
   private final static int MAX_AGE = 216000;        // Max number of frames before we just close the lobby. This is 1 hour.
   
-  private final static int START_DELAY = 90; // Delay before the game starts the world countdown timer.
+  private final static int START_DELAY = 150; // Delay before the game starts the world countdown timer. (5 seconds)
   
   protected final String lid; //Lobby ID
   
@@ -143,7 +145,7 @@ public abstract class GameLobby {
   
   private void voteEvent(RoyaleSession session) {
     session.readyVote = true;
-    if(players.size() < MIN_PLAYERS || locked) { return; }
+    if(players.size() < (gameMode == "pvp" ? MIN_PLAYERS_PVP : MIN_PLAYERS) || locked) { return; }
     if(isPrivate()) { whereWeDroppin(); return; }
     
     int vr = 0;

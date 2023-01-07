@@ -24,6 +24,10 @@ function Audio(game) {
 Audio.FALLOFF_MIN = 1;
 Audio.FALLOFF_MAX = 24;
 
+Audio.MASTER_VOLUME = .5;
+Audio.MUSIC_VOLUME = .5;
+Audio.EFFECT_VOLUME = .75;
+
 /* Set unique audio prefix. Used for ex: mariokart/music, smb2/sfx */
 Audio.prototype.setMusicPrefix = function(val) {
   this.musicPrefix = val;
@@ -105,8 +109,8 @@ Audio.prototype.initWebAudio = function(music) {
   this.musicVolume.connect(this.masterVolume); // Music Volume -> Master Volume
   
   this.masterVolume.gain.value = .5;
-  this.effectVolume.gain.value = this.muteSound?0.:.75;
-  this.musicVolume.gain.value = this.muteMusic?0.:.5;
+  this.effectVolume.gain.value = this.muteSound?0.:Audio.EFFECT_VOLUME;
+  this.musicVolume.gain.value = this.muteMusic?0.:Audio.MUSIC_VOLUME;
   
   this.context.listener.setPosition(0., 0., 0.);
   this.context.listener.setOrientation(1., 0., 0., 0., 1., 0.);
@@ -148,9 +152,9 @@ Audio.prototype.update = function() {
 
 /* Set Master Volume */
 Audio.prototype.updateVolume = function() {
-  this.masterVolume.gain.value = .5;
-  this.effectVolume.gain.value = this.muteSound?0.:.75;
-  this.musicVolume.gain.value = this.muteMusic?0.:.5;
+  this.masterVolume.gain.value = Audio.MASTER_VOLUME;
+  this.effectVolume.gain.value = this.muteSound?0.:Audio.EFFECT_VOLUME;
+  this.musicVolume.gain.value = this.muteMusic?0.:Audio.MUSIC_VOLUME;
   
   if(this.muteSound || this.muteMusic) { return; }
   
@@ -166,13 +170,13 @@ Audio.prototype.updateVolume = function() {
     }
   }
   if(dist < Audio.FALLOFF_MAX) {
-    this.musicVolume.gain.value = Math.max(0., Math.min(1., Math.pow(d/Audio.FALLOFF_MAX,2.)))*.5;
+    this.musicVolume.gain.value = Math.max(0., Math.min(1., Math.pow(d/Audio.FALLOFF_MAX,2.)))*Audio.MUSIC_VOLUME;
   }
 };
 
 Audio.prototype.saveSettings = function() {
   if (app && this.game instanceof Lobby) {
-    app.menu.main.menuMusic.volume = this.muteMusic?0:0.5;
+    app.menu.main.menuMusic.volume = this.muteMusic?0:Audio.MUSIC_VOLUME;
   }
 
   Cookies.set("music", this.muteMusic?1:0, {expires: 30});

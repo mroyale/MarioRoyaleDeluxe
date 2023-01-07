@@ -58,7 +58,16 @@ public class UserDao {
     return users;
   }
   
-  public int getOnlineUserCount() {
-    return sessions.size();
+  public int getOnlineUserCount(int mode) {
+    int sum = 0;
+    for(int i=0;i<sessions.size();i++) {
+      final RoyaleSession session = sessions.get(i);
+      if (session.gameMode == mode) {
+        sum += 1;
+      }
+    }
+
+    return sum;
+    //return sessions.size();
   }
 }

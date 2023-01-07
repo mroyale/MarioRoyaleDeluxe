@@ -10,6 +10,7 @@ function ToolRef(editor) {
   this.valImg = document.getElementById("editor-tool-ref-img");
   this.valX = document.getElementById("editor-tool-ref-x");
   this.valY = document.getElementById("editor-tool-ref-y");
+  this.valDepth = document.getElementById("editor-tool-ref-depth");
   
   var tmp = this;
   this.btnLoad = document.getElementById("editor-tool-ref-load");
@@ -35,6 +36,7 @@ ToolRef.prototype.load = function() {
   this.valImg.value = "";
   this.valX.value = this.editor.offsetRef.x;
   this.valY.value = this.editor.offsetRef.y;
+  this.valDepth.value = (this.editor.refDepth ? 1 : 0);
   this.element.style.display = "block";
 };
 
@@ -42,8 +44,10 @@ ToolRef.prototype.save = function() {
   try {
     var x = parseInt(this.valX.value);
     var y = parseInt(this.valY.value);
-    if(isNaN(x) || isNaN(y)) { throw "oof"; }
+    var d = Math.max(0, Math.min(1, parseInt(this.valDepth.value))) || 0;
+    if(isNaN(x) || isNaN(y) || isNaN(d)) { throw "oof"; }
     this.editor.offsetRef = vec2.make(x, y);
+    this.editor.refDepth = Boolean(d);
   }
   catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); }
 };

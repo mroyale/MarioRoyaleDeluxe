@@ -14,7 +14,10 @@ function MenuMain() {
   this.discordBtn = document.getElementById("main-discord");
   this.editorBtn = document.getElementById("main-editor");
 
+  this.settingsMenu = document.getElementById("settings");
+  this.settingsCloseBtn = document.getElementById("settingsClose");
 
+  
   var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
   this.menuMusic = document.createElement('audio');
   this.menuMusic.src = menuMusic[parseInt(Math.random() * menuMusic.length)];
@@ -25,10 +28,12 @@ function MenuMain() {
   this.padLoop = undefined;
   
   var that = this;
+  this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; }
+
   this.launchBtn.onclick = function() { that.launch(); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
-  this.settingsBtn.onclick = function() { app.menu.warn.show("not done yet"); };
+  this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
   this.discordBtn.onclick = function() { window.open("https://discord.gg/pNQJhKSkCd"); };
   this.editorBtn.onclick = function() { window.open("editor.html"); };
 };

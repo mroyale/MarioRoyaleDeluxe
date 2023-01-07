@@ -24,6 +24,7 @@ function Editor(data) {
   this.showRef = false;
   this.offsetRef = vec2.make(0, 0);
   this.reference = undefined;
+  this.refDepth = false;
   this.showLayers = true;
   this.showBgLayers = false;
   
@@ -121,7 +122,7 @@ Editor.prototype.compile = function() {
       zdat.initial = zone.initial;
       zdat.color = zone.color;
       zdat.music = zone.music;
-      zdat.vertical = zone.vertical
+      zdat.camera = zone.camera;
       zdat.layers = zone.layers;
       zdat.obj = zone.obj;
       zdat.warp = zone.warp;

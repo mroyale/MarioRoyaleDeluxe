@@ -17,21 +17,23 @@ public class StatusController {
   @RequestMapping(value = "/status", method = RequestMethod.GET, produces = "application/json")
   public @ResponseBody ResponseEntity getStatus() {
     final Gson gson = new GsonBuilder().create();
-    final Status status = new Status(dao.getUserDao().getOnlineUserCount()+1);
+    final Status status = new Status(dao.getUserDao().getOnlineUserCount(0)+1, dao.getUserDao().getOnlineUserCount(1)+1);
     return new ResponseEntity(gson.toJson(status), HttpStatus.OK);
   }
   
   public class Status {
     public final String result;
-    public final int active;
-    public Status(int act) {
+    public final int playersVanilla, playersPVP;
+    public Status(int van, int pvp) {
       result = null;
-      active = act;
+      playersVanilla = van;
+      playersPVP = pvp;
     }
     
-    public Status(int act, String errorMessage) {
+    public Status(int van, int pvp, String errorMessage) {
       result = errorMessage;
-      active = act;
+      playersVanilla = van;
+      playersPVP = pvp;
     }
   }
 }

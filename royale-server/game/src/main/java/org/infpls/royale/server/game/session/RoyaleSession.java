@@ -18,12 +18,12 @@ public final class RoyaleSession {
   private final DaoContainer dao;
   
   private String name, team;
-  private int gameMode;
   private boolean priv;
   private final String sid;
   private final SessionThread sessionThread;
   private SessionState sessionState;
   public final boolean banned;
+  public int gameMode; // We ask for this in getOnlineUserCount
   
   public boolean readyVote;   // Kinda messy. Should really be a linked list in GameLobby instead.
  
