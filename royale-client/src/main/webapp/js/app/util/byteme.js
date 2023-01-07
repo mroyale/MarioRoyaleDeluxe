@@ -197,7 +197,9 @@ td32.TILE_PROPERTIES = {
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Touch */
-        case 0x00 : {
+        /* Stand */
+        case 0x00 :
+        case 0x05 : {
           if (game.pid === pid) {
             var data = Math.max(0, Math.min(1, parseInt(td.data) || 0));
             switch (data) {
