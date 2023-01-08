@@ -15,6 +15,7 @@ Features to add:
 - Blending modes like grain merge for the water level effect.
 - Dev kit; basically the console and tools for moderation.
 - Backport custom textures, though make an easier way to manage them, give them names for example.
+- New anti cheat: VAC (Virgin Anti Cheat)
 
 Important:
 There should be more incentive to play the game. It's fun but currently there's nothing to really work towards and since player

@@ -348,6 +348,14 @@ Display.prototype.drawUI = function() {
 
     this.drawGame = false;
   }
+
+  if (this.game.getDebug("level") || this.game.getDebug("zone") || this.game.getDebug("god") || this.game.getDebug("lives")) {
+    context.fillStyle = "whitesmoke";
+    context.globalAlpha = 1;
+    context.font = "18px SmbWeb";
+    context.fillText("debug",55,this.canvas.height);
+    context.strokeText("debug",55,this.canvas.height); 
+  }
   
   if(this.game.victory > 0) {
     context.fillStyle = "white";
