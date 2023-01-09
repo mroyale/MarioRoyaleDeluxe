@@ -1,6 +1,7 @@
 This spec defines all the object types. It lists their name followed by their id value.
 <NAME::ID>
 Below that in [] is the names of the parameters. These must be set in the parameter field.
+All delays are in frames. The game logic runs at 60FPS, meaning a delay of 60 is a delay of 1 second.
 
 ==========================================================================================================
 
@@ -10,21 +11,27 @@ PLAYER::1
 
 GOOMBA::17
 [color]
- - Color should be set to 0 or 1. 0 is the light one, 1 is the dark one.
+ - Color should be set to 0, 1 or 2. 0 is the light one, 1 is the dark one, 2 is the castle one.
 
 KOOPA::18
-[fly,color]
+[fly]
  - Fly should be set to 0 or 1. 1 is flying.
- - Color should be set to 0 or 1. 0 is the light one, 1 is the dark one.
 
 KOOPA TROOPA::19
-[fly,color]
+[fly]
  - Fly should be set to 0 or 1. 1 is flying.
- - Color should be set to 0 or 1. 0 is the light one, 1 is the dark one.
 
-UNSPELLABLE PLANT::22
-[color]
- - Color should be set to 0 or 1. 0 is the light one, 1 is the dark one.
+PIRANHA PLANT::22
+[variant]
+ - Variant should be set to 0 or 1. 0 is the green one, 1 is red and moves faster.
+
+SPINY::23
+[]
+ - No params.
+
+BUZZY BEETLE::24
+[]
+ - No params.
 
 FLYING FISH::21
 [delay,impulse]
@@ -65,19 +72,19 @@ BUS PLATFORM::146
 
 SPRING::149
 []
-- No params. Boingy.
+ - No params. Boingy.
 
 FLAG::177
 []
-- No params.
-- Always place one of these at the top of the flagpole. See my levels for examples.
+ - No params.
+ - Always place one of these at the top of the flagpole. See my levels for examples.
 
-FIRE TRAP::33
+FIREBAR::33
 [start,size]
  - 0 or 1, start position. Just offsets it a bit.
- - positive int, how big the fire trap should be. default is 6
+ - positive int, how long the firebar should be. default is 6
 
-FIRE BLAST::34
+PODOBOO::34
 [delay,impulse]
  - positive int, how long to wait before next jump
  - float, impulse is how much force we jump with
@@ -90,6 +97,16 @@ LAUNCHER::35
 BULLET::36
 []
  - No params. don't use this, use the launcher
+
+OBJECT SPAWNER::37
+[type,delay,direction]
+ - the id of the object we want to spawn, for example, 17 for goomba.
+ - positive int, how long we wait before spawning the object again.
+ - 0 or 1, the direction of the object we spawned. not all objects support this!
+
+CHEEP CHEEP::38
+[variant]
+ - 0 or 1. 0 is green, 1 is red and moves faster.
 
 FIREBALL PROJECTILE::161
 []

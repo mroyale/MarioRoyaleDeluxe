@@ -248,15 +248,6 @@ td32.TILE_PROPERTIES = {
     WATER: true,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
   },
-  /* Slope Standard */
-  0x08: {
-    NAME: "SLOPE STANDARD",
-    COLLIDE: true,
-    HIDDEN: false,
-    ASYNC: false,
-    SLOPE: true,
-    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
-  },
   /* Ice Block */
   0x0A: {
     NAME: "ICE BLOCK",

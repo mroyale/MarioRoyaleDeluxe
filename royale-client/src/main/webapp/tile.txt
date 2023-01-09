@@ -5,6 +5,7 @@ It also explains what they do and how they should be used.
 ==========================================================================================================
 
 AIR::0
+- Has no collision.
 
 SOLID STANDARD::1
 
@@ -14,24 +15,48 @@ SOLID BUMPABLE::2
 SOLID BREAKABLE NORMAL::3
  - Standard breakable block. Used very often.
 
+SOLID DAMAGE::4
+ - Damages the player on collision.
+ - If extra data is set to 1, then this block will kill the player.
+
+AIR DAMAGE::5
+ - Damages the player when it touches this block, except this has no collision.
+
+SEMISOLID STANDARD::6
+
+WATER STANDARD::7
+
+ICE BLOCK::10
+ - Player slides around on this block.
+
+NOTE BLOCK::11
+ - Player is bounced on this tile.
+
+ITEM NOTE BLOCK::12
+ - Extra data corresponds to an object like (81,82,83) for (mushroom,fireflower,life) respectively.
+ - When the player jumps on this block, the item drops from the block.
+
+ICE OBJECT BLOCK::13
+ - When a fireball touches this tile, the object equal to the extra data will spawn in place of the tile.
+
 ITEM BLOCK STANDARD::17
  - You must set an extra data value for this that corresponds to the object id you want it to contain.
  - Standard values are (81,82,83,84,86) for (mushroom,fireflower,life,star,poison mushroom)
 
 ITEM BLOCK PROGRESSIVE:20
-- If a small player hits this block, then a mushroom will be released, if it's hit by a big player, a fire flower will be released.
+ - If a small player hits this block, then a mushroom will be released, if it's hit by a big player, a fire flower will be released.
+ - This item block doesn't use extra data.
 
 ITEM BLOCK INFINITE:25
-- You must set an extra data value for this that corresponds to the object id you want it to contain.
-- Standard values are (81,82,83,84,86) for (mushroom,fireflower,life,star,poison mushroom)
-- Unlike standard item blocks, this can be hit infinitely.
+ - You must set an extra data value for this that corresponds to the object id you want it to contain.
+ - Standard values are (81,82,83,84,86) for (mushroom,fireflower,life,star,poison mushroom)
+ - Unlike standard item blocks, this can be hit infinitely.
 
 COIN BLOCK STANDARD::18
  - Used for blocks containing coins.
 
 COIN BLOCK MULTI::19
  - Same as above but set the extra data value to the number of coins you want.
-
 
 ITEM BLOCK INVISIBLE::21
  - Like a regular item block but invisible till hit.
@@ -76,7 +101,11 @@ FLAGPOLE::160
  - When touched mario slides down and then walks right.
 
 VINE::165
-- Don't use this.
+- Don't use this, vines should be created by vine blocks.
+
+MUSIC BLOCK STANDARD::239
+ - On collision will change the music playing to the one set as the extra data.
+ - When the player dies, the music goes back to normal.
 
 VOTE BLOCK::240
-- Don't use this.
+- Don't use this. Unless you're making a lobby.
