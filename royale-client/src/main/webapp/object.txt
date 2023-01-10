@@ -7,7 +7,11 @@ All delays are in frames. The game logic runs at 60FPS, meaning a delay of 60 is
 
 PLAYER::1
 []
- - Dont place this. It will not work.
+ - Dont place this. This isn't the spawn. That's in the zone tab.
+
+GOOMBRAT::16
+[]
+ - Moves like a goomba but doesn't walk off edges.
 
 GOOMBA::17
 [color]
@@ -41,11 +45,12 @@ FLYING FISH::21
 
 HAMMER BRO::49
 [reverse]
- - Reverse should be 0 or 1. 1 Makes him move backwards instaed of forwards.
+ - Reverse should be 0 or 1. 1 Makes him move backwards instead of forwards.
 
 FIRE BRO::50
 [reverse]
- - Reverse should be 0 or 1. 1 Makes him move backwards instaed of forwards.
+ - Reverse should be 0 or 1. 1 Makes him move backwards instead of forwards.
+ - Spits out fireballs instead of throwing hammers.
 
 BOWSER::25
 []

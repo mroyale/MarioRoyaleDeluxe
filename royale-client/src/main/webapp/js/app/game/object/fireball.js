@@ -178,7 +178,7 @@ FireballProj.prototype.interaction = function() {
         if(obj instanceof PlayerObject && !(this.owner instanceof Object) && !(this.game.gameMode === 1)) { continue; }             // Fireballs created by other players don't do damage. They are just ghosts.
         
         (this.game.gameMode !== 1 ? this.owner === this.game.pid : (obj instanceof PlayerObject ? obj.pid == this.game.pid : this.owner === this.game.pid)) && obj.damage(this);
-        if (this.game.gameMode === 1 && obj instanceof PlayerObject && obj.pid == this.game.pid && obj.dead)
+        if (this.game.gameMode === 1 && obj instanceof PlayerObject && obj.pid == this.game.pid && obj.dead && !(this.owner instanceof Object))
           this.game.out.push(NET017.encode(this.owner));
 
         if (this.owner instanceof FireHammerObject && obj instanceof PlayerObject && obj.pid == this.game.pid) {

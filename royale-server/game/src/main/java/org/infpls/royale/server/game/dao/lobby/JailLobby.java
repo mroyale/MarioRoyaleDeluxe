@@ -18,7 +18,7 @@ public class JailLobby extends GameLobby {
     try { if(isClosed() || loading.contains(session) || players.contains(session)) { session.close("Error joining lobby."); return; } }
     catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during player disconnect.", ioex); return; }
     loading.add(session);
-    sendPacket(new PacketG01(JAIL_FILE), session);
+    sendPacket(new PacketG01(JAIL_FILE, false), session);
   }
   
   @Override

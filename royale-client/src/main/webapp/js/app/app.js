@@ -11,6 +11,11 @@ function App() {
     soundMuted: Cookies.get("sound") === '1',
     hideNames: Cookies.get("text") === '1'
   }
+
+  var musicVolume = document.getElementById("musicVolume");
+  var sfxVolume = document.getElementById("sfxVolume");
+
+  
 }
 
 App.prototype.init = function() {
@@ -46,12 +51,13 @@ App.prototype.init = function() {
 };
 
 /* Load a game from .game file */
-App.prototype.load = function(data) {
+App.prototype.load = function(data, dm) {
   if(this.game instanceof Game) { this.menu.error.show("State error. Game already loaded."); return; }
   if(this.game instanceof Lobby) { this.game.destroy(); }
   
+  data.dm = dm;
   switch(data.type) {
-    case "game" : { this.game = new Game(data, { 'infiniteLives': true, 'godMode': true }); break; }
+    case "game" : { this.game = new Game(data); break; }
     case "lobby": { this.game = new Lobby(data); break; }
     case "jail": { this.game = new Jail(data); break; }
     default : { this.menu.error.show("Critical error! Game file missing type!"); break; }

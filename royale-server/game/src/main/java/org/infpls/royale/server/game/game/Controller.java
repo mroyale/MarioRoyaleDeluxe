@@ -20,6 +20,7 @@ public class Controller {
   protected byte level, zone;
   protected Vec2 position;
   protected byte sprite;
+  public int kills;
   
   protected byte result;
   
@@ -50,6 +51,7 @@ public class Controller {
     sprite = 0x00;
     
     result = 0x00;
+    kills = 0x00;
     
     garbage = false;
     
@@ -205,7 +207,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
   /* PLAYER_KILL_EVENT */
   public void process017(ByteMe.NET017 n) {
     final Controller kler = game.getController(n.killer);
-    if(kler != null) { kler.send(n.encode().array()); }
+    if(kler != null) { kler.send(n.encode().array()); kler.kills += 1; System.err.println(kler.getName() + " killed " + getName() + ", their kills are now at " + kler.getKills()); }
   }
   
   /* PLAYER_RESULT_REQUEST */
@@ -253,6 +255,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
   }
   
   public boolean isDead() { return dead; }
+  public int getKills() { return kills; }
   
   public String getName() { return session.getUser(); }
   public String getTeam() { return session.getTeam(); }

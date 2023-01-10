@@ -341,6 +341,14 @@ Display.prototype.drawUI = function() {
     context.fillText(level.name, W*.5, H*.5);
     
     if(this.game.startTimer >= 0) {
+      if(this.game.deathmatch) {
+        context.fillStyle = "yellow";
+        context.font = "24px SmbWeb";
+        context.textAlign = "center";
+        context.fillText("- DEATHMATCH -", W*.5, (H*.5)-40);
+      }
+
+      context.fillStyle = "white";
       context.font = "24px SmbWeb";
       context.textAlign = "center";
       context.fillText("GAME STARTS IN: " + parseInt(this.game.startTimer/30), W*.5, (H*.5)+40);
@@ -379,8 +387,15 @@ Display.prototype.drawUI = function() {
     context.strokeText(ctxt, l-48, 100);
     var st = util.sprite.getSprite(plytex, PLAY);
     context.drawImage(plytex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
-    context.fillText("×"+(this.game.lives<=9?"0"+this.game.lives:this.game.lives), l-48, 60);
-    context.strokeText("×"+(this.game.lives<=9?"0"+this.game.lives:this.game.lives), l-48, 60);
+
+    if (this.game.deathmatch || this.game.getDebug("lives")) {
+      context.fillText("×INF", l-48, 60);
+      context.strokeText("×INF", l-48, 60);
+    } else {
+      context.fillText("×"+(this.game.lives<=9?"0"+this.game.lives:this.game.lives), l-48, 60);
+      context.strokeText("×"+(this.game.lives<=9?"0"+this.game.lives:this.game.lives), l-48, 60);
+    }
+
     var w;
     if(this.game instanceof Game) {
       var txt = this.game.remain + " PLAYERS REMAIN";

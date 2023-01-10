@@ -36,7 +36,7 @@ StateGame.prototype.load = function(p) {
       type: 'GET',
       timeout: 5000,
       success: function(data) {
-        app.load(data);
+        app.load(data, p.deathmatch);
         that.send({type: "g03"});
       },
       error: function() {
@@ -47,7 +47,7 @@ StateGame.prototype.load = function(p) {
   }
 
   if (app.ingame() && app.game.customLevelData && app.net.prefLobby) {
-    app.load(app.game.customLevelData);
+    app.load(app.game.customLevelData, p.deathmatch);
     that.send({type: "g03"});
     return;
   }
@@ -57,7 +57,7 @@ StateGame.prototype.load = function(p) {
     type: 'GET',
     timeout: 5000,
     success: function(data) {
-      app.load(data);
+      app.load(data, p.deathmatch);
       that.send({type: "g03"});
     },
     error: function() {
