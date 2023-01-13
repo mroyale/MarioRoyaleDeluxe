@@ -32,6 +32,7 @@ public class Game extends SessionState {
     < g11 gamestate update
     < g12 player list update (when someone joins)
     < g13 game start countdown timer update
+    < g14 time left (deathmatch)
     = g21 ping
     > g50 vote ready
   */

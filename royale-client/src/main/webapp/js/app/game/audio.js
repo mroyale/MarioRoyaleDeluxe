@@ -72,7 +72,8 @@ Audio.prototype.initWebAudio = function(music) {
     "spin.mp3",
     "message.mp3",
     "fall.mp3",
-    "swim.mp3"
+    "swim.mp3",
+    "hurry.mp3"
   ];
 
   var musicList = [

@@ -410,11 +410,14 @@ Display.prototype.drawUI = function() {
       context.strokeText(txt, W-w-8, 32);
     }
 
-    if (this.game.announceText) {
-      var txt = this.game.announceText;
-      w = context.measureText(txt).width;
-      context.font = "32px SmbWeb";
-      context.fillText(txt, (W/2)-(w/2), 64);
+    if (this.game.announceTimer >= 0) {
+      var txt = this.game.announceMessage;
+      context.font = "28px SmbWeb";
+      context.textAlign = "center";
+      context.fillText(txt, W*.5, 96);
+      context.strokeText(txt, W*.5, 96);
+
+      this.game.announceTimer--;
     }
 
     var st = util.sprite.getSprite(uitex, MUSIC[this.game.audio.muteMusic?1:0]);

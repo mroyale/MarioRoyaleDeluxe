@@ -103,6 +103,7 @@ function Zone(game, level, data) {
   this.initial = data.initial; // shor2 starting point for this zone.
   this.color = data.color; // HTML color of the sky for this zone.
   this.music = data.music?data.music:"";
+  this.fastMusic = this.music ? this.music.replace(".mp3", "_fast.mp3") : ""; // Used in cases like deathmatch 1-minute remaining
   this.musicBlock = null; // Used when we touch a music block
   this.camera = parseInt(data.camera) || 0; // The camera mode: 0: horizontal, 1: vertical, 2: both
   

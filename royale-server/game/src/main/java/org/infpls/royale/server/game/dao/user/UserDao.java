@@ -68,6 +68,5 @@ public class UserDao {
     }
 
     return sum;
-    //return sessions.size();
   }
 }

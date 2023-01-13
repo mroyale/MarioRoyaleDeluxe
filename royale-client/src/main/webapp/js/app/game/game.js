@@ -54,6 +54,9 @@ function Game(data) {
   
   this.lives = this.gameMode ? 0 : 1; // Game over if you die in PVP
   this.coins = 0;
+
+  this.announceMessage = "";
+  this.announceTimer = -1;
   
   this.victory = 0;
   this.victoryMusic = false;
@@ -178,11 +181,18 @@ Game.prototype.load = function(data) {
 
   /* Collect music used in this world */
   this.world.levels.forEach(lvl => lvl.zones.forEach(zn => {
-    if (zn.music) musicList.push(zn.music);
+    if (zn.music) {
+      musicList.push(zn.music);
+      musicList.push(zn.music ? zn.music.replace(".mp3", "_fast.mp3") : "");
+    }
 
     /* @TODO: There is definitely a better way of doing this, but the function is run only once so it should be OK */
     zn.mainLayer.data.forEach(row => row.forEach(tile => {
-      if (tile[3] === 239 /* Music Block */) { if (tile[4] /* Extra Data */) { musicList.push(tile[4]); } }
+      if (tile[3] === 239 /* Music Block */) { if (tile[4] /* Extra Data */) {
+        musicList.push(tile[4]);
+        musicList.push(tile[4] ? tile[4].replace(".mp3", "_fast.mp3") : "");
+      }
+    }
     }));
   }));
 
@@ -287,6 +297,8 @@ Game.prototype.handlePacket = function(packet) {
     /* Ingame Type Packets gxx */
     case "g12" : { this.updatePlayerList(packet); return true; }
     case "g13" : { this.gameStartTimer(packet); return true; }
+    case "g14" : { this.deathmatchTime(packet); return true; }
+    case "gwn" : { this.out.push(NET018.encode()); return true; }
     /* Input Type Packets ixx */
     default : { return false; }
   }
@@ -300,7 +312,7 @@ Game.prototype.updatePlayerList = function(packet) {
   this.updateTeam();
 };
 
-/* G13*/
+/* G13 */
 Game.prototype.gameStartTimer = function(packet) {
   if(this.startTimer < 0) {
     //this.play("alert.mp3",1.,0.);
@@ -311,6 +323,13 @@ Game.prototype.gameStartTimer = function(packet) {
   }
   if(packet.time > 0) { this.startTimer = packet.time; this.remain = this.players.length; }
   else { this.doStart(); }
+};
+
+/* G14 */
+Game.prototype.deathmatchTime = function(packet) {
+  if (packet.hurry) { this.play("hurry.mp3",1.,0.); }
+  this.announceMessage = packet.message || "";
+  this.announceTimer = 5*60;
 };
 
 /* Checks all players for team */
@@ -664,7 +683,7 @@ Game.prototype.doStep = function() {
   this.doMusic();
   this.audio.update();
   
-  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game) {
+  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game && !this.deathmatch) {
     this.out.push(NET018.encode());
   }
 

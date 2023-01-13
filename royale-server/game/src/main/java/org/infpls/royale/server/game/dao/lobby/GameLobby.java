@@ -70,8 +70,8 @@ public abstract class GameLobby {
     gameFile = gameMode == "pvp" ? GAME_FILES_PVP[(int)Math.min(GAME_FILES_PVP.length-1, Math.random()*GAME_FILES_PVP.length)] : GAME_FILES[(int)Math.min(GAME_FILES.length-1, Math.random()*GAME_FILES.length)];
 
     if (gameMode == "pvp") {
-      int isDM = (int)Math.round(Math.random());
-      if (isDM == 1) { deathmatch = true; } else { deathmatch = false; }
+      int rng = 1; //(int)Math.round(Math.random());
+      deathmatch = (rng == 1);
     }
 
     loop = new GameLoop(this);
@@ -202,7 +202,7 @@ public abstract class GameLobby {
       sendPacket(new PacketG01(gameFile, deathmatch), session);
     }
     
-    game = new RoyaleGame();
+    game = new RoyaleGame(deathmatch);
   }
   
   protected void close() throws IOException {
