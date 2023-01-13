@@ -54,8 +54,8 @@ for(var i=0;i<HammerProj.SPRITE_LIST.length;i++) {
 
 HammerProj.STATE = {};
 HammerProj.STATE_LIST = [
-  {NAME: "IDLE", ID: 0x00, SPRITE: [HammerProj.SPRITE.IDLE0]},
-  {NAME: "THROW", ID: 0x01, SPRITE: [HammerProj.SPRITE.IDLE0, HammerProj.SPRITE.IDLE1, HammerProj.SPRITE.IDLE2, HammerProj.SPRITE.IDLE3]}
+  {NAME: "IDLE", ID: 0x00, SPRITE: [HammerProj.SPRITE.IDLE1]},
+  {NAME: "THROW", ID: 0x01, SPRITE: [HammerProj.SPRITE.IDLE1, HammerProj.SPRITE.IDLE0, HammerProj.SPRITE.IDLE3, HammerProj.SPRITE.IDLE2]}
 ];
 
 /* Makes states easily referenceable by either ID or NAME. For sanity. */
