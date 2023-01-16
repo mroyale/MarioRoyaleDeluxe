@@ -22,6 +22,7 @@ function Editor(data) {
   this.dataRaw = data; // kept on hand for compile()
   
   this.showRef = false;
+  this.showGrid = true;
   this.offsetRef = vec2.make(0, 0);
   this.reference = undefined;
   this.refDepth = false;
@@ -176,7 +177,9 @@ Editor.prototype.doInput = function() {
   if(mous.rmb) { this.display.camera.move(vec2.make(mous.mov.x,-mous.mov.y)); }
   if(mous.spin) { this.display.camera.zoom(mous.spin); }
   
-  if(keys[71] && !this.inx71) { this.showRef = !this.showRef; this.inx71 = true; } this.inx71 = keys[71]; // G -> Toggle Ref
+  if (document.activeElement.tagName === 'INPUT') { return; }
+  if(keys[82] && !this.inx82) { this.showRef = !this.showRef; this.inx82 = true; } this.inx82 = keys[82]; // R -> Toggle Ref
+  if(keys[71] && !this.inx71) { this.showGrid = !this.showGrid; this.inx71 = true; } this.inx71 = keys[71]; // G -> Toggle Grid
 };
 
 /* Step game world */

@@ -173,12 +173,9 @@ App.prototype.draw = function() {
   
   for(var i=0;i<INPUTS.length;i++) {
     var code = this.assignK[INPUTS[i]];
-    var char = String.fromCharCode(code).toUpperCase().trim();
+    var char = "0x" + code.toString(16);
 
-    if (char === "") { char = "SHIFT" }
-    if (!char) { char = "0x" + code.toString(16); }
-
-    this.elementK[INPUTS[i]].innerHTML = char; //"0x" + this.assignK[INPUTS[i]].toString(16).toUpperCase();
+    this.elementK[INPUTS[i]].innerHTML = char;
     this.elementG[INPUTS[i]].innerHTML = "0x" + this.assignG[INPUTS[i]].toString(16).toUpperCase();
   }
   

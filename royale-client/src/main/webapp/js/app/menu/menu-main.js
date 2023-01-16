@@ -11,8 +11,8 @@ function MenuMain() {
   this.controlBtn = document.getElementById("main-controls");
   this.changelogBtn = document.getElementById("main-changelog");
   this.settingsBtn = document.getElementById("main-settings");
-  this.discordBtn = document.getElementById("main-discord");
-  this.editorBtn = document.getElementById("main-editor");
+  this.loginBtn = document.getElementById("main-login");
+  this.registerBtn = document.getElementById("main-register");
 
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
@@ -34,13 +34,23 @@ function MenuMain() {
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
-  this.discordBtn.onclick = function() { window.open("https://discord.gg/pNQJhKSkCd"); };
-  this.editorBtn.onclick = function() { window.open("editor.html"); };
+  this.loginBtn.onclick = function() { that.login(); };
+  this.registerBtn.onclick = function() { that.register(); };
 };
 
 /* When the launch button is clicked. */
 MenuMain.prototype.launch = function() {
   app.menu.name.show();
+};
+
+/* When the login button is clicked. */
+MenuMain.prototype.login = function() {
+  app.menu.login.show();
+};
+
+/* When the register button is clicked. */
+MenuMain.prototype.register = function() {
+  app.menu.register.show();
 };
 
 MenuMain.prototype.startPad = function() {

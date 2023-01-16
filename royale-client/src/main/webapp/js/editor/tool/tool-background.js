@@ -94,6 +94,8 @@ ToolBackground.prototype.load = function() {
 };
 
 ToolBackground.prototype.save = function() {
+  if (this.container.style.display === "none") { return; }
+
   try {
     var x = parseInt(this.valXOffset.value);  // X Offset
     var y = parseInt(this.valYOffset.value);  // Y Offset

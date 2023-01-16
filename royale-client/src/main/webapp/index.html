@@ -68,8 +68,8 @@
           </div>
 
           <div class="main-buttons">
-            <img id="main-discord" class="launch-discord" src="./img/home/discord.png">
-            <img id="main-editor" class="launch-editor" src="./img/home/editor.png"> 
+            <img id="main-login" class="launch-discord" src="https://cdn.discordapp.com/attachments/973253072337924147/1063939077482745916/image.png">
+            <img id="main-register" class="launch-discord" src="https://media.discordapp.net/attachments/973253072337924147/1060313623093854328/image.png">
           </div>
         </div>
       </div>
@@ -78,8 +78,26 @@
       <div id='name' class='container-center'>
         <div class='name'><input id='name-input' type='text' class='name-input' maxlength="20" placeholder='Name'/></div>
         <div class='team'><input id='team-input' type='text' class='team-input' maxlength="3" placeholder='Squad Code'/></div>
-          <div class='container-go'>
+        <div class='container-go'>
           <span id ='name-launch' class='launch'>Go!</span> <span id='name-pvp' class='launch'>PVP</span> <span class='launch'>|</span> <span id='name-private' class='launch'>Private</span>
+        </div>
+      </div>
+
+      <!-- Login -->
+      <div id='login' class='container-center'>
+        <div class='name'><input id='login-name' type='text' class='name-input' maxlength="20" placeholder="Username"/></div>
+        <div class='name'><input id='login-pass' type='text' class='name-input' placeholder="Password"/></div>
+        <div class='container-go'>
+          <span id='login-signin' class='launch'>Login</span>
+        </div>
+      </div>
+
+      <!-- Register -->
+      <div id='register' class='container-center'>
+        <div class='name'><input id='login-name' type='text' class='name-input' maxlength="20" placeholder="Username"/></div>
+        <div class='name'><input id='login-pass' type='text' class='name-input' placeholder="Password"/></div>
+        <div class='container-go'>
+          <span id='register-signup' class='launch'>Register</span>
         </div>
       </div>
 
@@ -144,6 +162,8 @@
       <script src='js/app/menu/menu-disclaim.js'></script>
       <script src='js/app/menu/menu-main.js'></script>
       <script src='js/app/menu/menu-name.js'></script>
+      <script src='js/app/menu/menu-login.js'></script>
+      <script src='js/app/menu/menu-register.js'></script>
       <script src='js/app/menu/menu-game.js'></script>
       
       <!-- Game Core -->

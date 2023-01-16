@@ -6,6 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import org.infpls.royale.server.game.dao.DaoContainer;
 import org.infpls.royale.server.game.session.RoyaleSession;
+import org.infpls.royale.server.game.session.RoyaleAccount;
 import org.infpls.royale.server.util.Oak;
 
 /* UserDao handles both user info and logged in user RoyaleSessions.
@@ -15,9 +16,12 @@ import org.infpls.royale.server.util.Oak;
 
 public class UserDao {
   private final List<RoyaleSession> sessions; /* This is a list of all active user RoyaleSessions. */
+  private final List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
   
   public UserDao() {
     sessions = Collections.synchronizedList(new ArrayList());
+    /* insert mongodb connecting shit and initializing the accounts */
+    accounts = Collections.synchronizedList(new ArrayList());
   }
   
   public RoyaleSession createSession(final WebSocketSession webSocket, DaoContainer dao) throws IOException {

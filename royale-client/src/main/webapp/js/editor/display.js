@@ -66,6 +66,7 @@ EditorDisplay.prototype.draw = function() {
   //this.drawEffect();
   //this.drawUI();
   this.drawBorder();
+  this.drawGrid();
   this.drawCursor();
   this.drawCopyBlock();
   this.drawObjectTool();
@@ -133,6 +134,23 @@ EditorDisplay.prototype.drawBorder = function() {
   context.lineTo(dim.x+(Display.TEXRES*0.1),dim.y+(Display.TEXRES*0.1));
   context.lineTo(-(Display.TEXRES*0.1),dim.y+(Display.TEXRES*0.1));
   context.lineTo(-(Display.TEXRES*0.1),-(Display.TEXRES*0.1));
+  context.stroke();
+};
+
+EditorDisplay.prototype.drawGrid = function() {
+  var context = this.context;
+
+  if(!this.game.showGrid) { return; }
+
+  context.strokeStyle = '#FFFFFF';
+  context.lineWidth = 0.3;
+  context.beginPath();
+  var dim = this.game.getZone().dimensions();
+  for(var i=0; i<dim.x; i++) {
+     for(var j=0; j<dim.y; j++) {
+       context.rect(i*Display.TEXRES, j*Display.TEXRES, Display.TEXRES, Display.TEXRES);
+     }
+  }
   context.stroke();
 };
 
@@ -274,7 +292,7 @@ EditorDisplay.prototype.drawMapTool = function(data, depth) {
 };
 
 EditorDisplay.prototype.drawObjectTool = function() {
-  if(!this.game.tool || this.game.tool.objct === undefined) { return; }
+  if(!this.game.tool) { return; }
   
   var context = this.context;
   
