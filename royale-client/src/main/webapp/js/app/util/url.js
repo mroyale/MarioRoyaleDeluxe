@@ -55,7 +55,7 @@ const objsheets = [
 const assetsurl = [
     {name: "Super Mario Bros. 1", url: "assets.json"},
     {name: "Super Mario Bros. 2", url: "assets-smb2.json"},
-    {name: "Maker 2014 (PVP)", url: "assets-maker.json},
+    {name: "Maker 2014 (PVP)", url: "assets-maker.json"},
     {name: "No Animations", url: "assets-noanim.json"},
     {name: "Custom", url: "custom"},
 ];
