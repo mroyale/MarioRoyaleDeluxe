@@ -42,18 +42,20 @@ const mapsheets = [
     {name: 'Super Mario Bros. 2', url: "img/game/smb2_map.png"},
     {name: 'Mario Kart (PVP)', url: "img/game/mariokart_map.png"},
     {name: 'Rainbow Road (PVP)', url: "img/game/rainbowroad_map.png"},
-    {name: 'Lobby', url: "img/game/lobby_map.png"},
+    {name: 'Lobby', url: "https://raw.githubusercontent.com/RayTheMaymay/hostingthings/main/lobby.png"},
     {name: 'Custom', url: "custom"}
 ];
 
 const objsheets = [
     {name: 'Super Mario Bros. 1', url: "img/game/smb_obj.png"},
+    {name: 'Super Mario Maker 2014', url: "img/game/maker_obj.png"},
     {name: 'Custom', url: "custom"},
 ];
 
 const assetsurl = [
     {name: "Super Mario Bros. 1", url: "assets.json"},
     {name: "Super Mario Bros. 2", url: "assets-smb2.json"},
+    {name: "Maker 2014 (PVP)", url: "assets-maker.json},
     {name: "No Animations", url: "assets-noanim.json"},
     {name: "Custom", url: "custom"},
 ];
