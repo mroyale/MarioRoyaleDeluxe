@@ -42,6 +42,7 @@ const mapsheets = [
     {name: 'Super Mario Bros. 2', url: "img/game/smb2_map.png"},
     {name: 'Mario Kart (PVP)', url: "img/game/mariokart_map.png"},
     {name: 'Rainbow Road (PVP)', url: "img/game/rainbowroad_map.png"},
+    {name: 'Maker 2014 (PVP)', url: "img/game/maker_map.png"},
     {name: 'Lobby', url: "https://raw.githubusercontent.com/RayTheMaymay/hostingthings/main/lobby.png"},
     {name: 'Custom', url: "custom"}
 ];
