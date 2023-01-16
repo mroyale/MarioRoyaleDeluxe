@@ -72,13 +72,7 @@ ToolResources.prototype.load = function() {
   this.zone = this.editor.currentZone;
   this.element.style.display = "block";
 
-  var map = this.resources.find(x => x.id === "map").src;
-  var obj = this.resources.find(x => x.id === "obj").src;
-  var ast = this.editor.dataRaw.assets;
-
-  this.maps.value = map;
-  this.objs.value = obj;
-  this.assets.value = ast;
+  this.update();
 };
 
 ToolResources.prototype.save = function() {
