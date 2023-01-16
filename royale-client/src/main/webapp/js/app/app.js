@@ -55,7 +55,7 @@ App.prototype.load = function(data, dm) {
   if(this.game instanceof Game) { this.menu.error.show("State error. Game already loaded."); return; }
   if(this.game instanceof Lobby) { this.game.destroy(); }
   
-  data.dm = dm;
+  this.net.deathmatch = dm;
   switch(data.type) {
     case "game" : { this.game = new Game(data); break; }
     case "lobby": { this.game = new Lobby(data); break; }
@@ -68,6 +68,11 @@ App.prototype.load = function(data, dm) {
 /* Returns true if the player is currently connected to a game. */
 App.prototype.ingame = function() {
   return !!this.game;
+};
+
+/* Returns true if we're currently logged into an account */
+App.prototype.loggedIn = function() {
+    return Cookies.get("session") !== undefined;
 };
 
 /* Connect to game server and join a game */

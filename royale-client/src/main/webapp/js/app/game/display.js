@@ -341,7 +341,7 @@ Display.prototype.drawUI = function() {
     context.fillText(level.name, W*.5, H*.5);
     
     if(this.game.startTimer >= 0) {
-      if(this.game.deathmatch) {
+      if(app.net.deathmatch) {
         context.fillStyle = "yellow";
         context.font = "24px SmbWeb";
         context.textAlign = "center";
@@ -388,7 +388,7 @@ Display.prototype.drawUI = function() {
     var st = util.sprite.getSprite(plytex, PLAY);
     context.drawImage(plytex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
 
-    if (this.game.deathmatch || this.game.getDebug("lives")) {
+    if (app.net.deathmatch || this.game.getDebug("lives")) {
       context.fillText("×INF", l-48, 60);
       context.strokeText("×INF", l-48, 60);
     } else {

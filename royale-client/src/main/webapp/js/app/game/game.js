@@ -50,7 +50,6 @@ function Game(data) {
   
   this.remain = 0;               // Number of players still alive
   this.gameMode = (data.mode === "pvp") ? 1 : 0;
-  this.deathmatch = data.dm;
   
   this.lives = this.gameMode ? 0 : 1; // Game over if you die in PVP
   this.coins = 0;
@@ -683,13 +682,13 @@ Game.prototype.doStep = function() {
   this.doMusic();
   this.audio.update();
   
-  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game && !this.deathmatch) {
+  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game && !app.net.deathmatch) {
     this.out.push(NET018.encode());
   }
 
   /* Triggers game over if player is dead for 15 frames and has zero lives. If we have a life we respawn instead. */
   if(this.startDelta !== undefined && !this.gameOver && !ply) {
-    if((this.lives > 0 || this.getDebug("lives") || this.deathmatch) && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); (this.debugSettings.infiniteLives) ? this.lives -= 0 :  this.lives--; if (zone.musicBlock) { zone.musicBlock = null; } }
+    if((this.lives > 0 || this.getDebug("lives") || app.net.deathmatch) && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); (this.debugSettings.infiniteLives) ? this.lives -= 0 :  this.lives--; if (zone.musicBlock) { zone.musicBlock = null; } }
     else if(++this.gameOverTimer > 45) { this.gameOver = true; this.gameOverTimer = 0; }
   }
   /* Triggers page refresh after 5 seconds of a game over. */

@@ -17,11 +17,15 @@ import org.infpls.royale.server.util.Oak;
 public class UserDao {
   private final List<RoyaleSession> sessions; /* This is a list of all active user RoyaleSessions. */
   private final List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
+  private final List<RoyaleAccount> loggedIn; /* Accounts players have logged into */
   
   public UserDao() {
     sessions = Collections.synchronizedList(new ArrayList());
     /* insert mongodb connecting shit and initializing the accounts */
     accounts = Collections.synchronizedList(new ArrayList());
+    loggedIn = Collections.synchronizedList(new ArrayList());
+
+    accounts.add(new RoyaleAccount("d", "d", "terminalarch", "terminalling", "lol", 12, 65535, 14, 2)); /* Testing account */
   }
   
   public RoyaleSession createSession(final WebSocketSession webSocket, DaoContainer dao) throws IOException {

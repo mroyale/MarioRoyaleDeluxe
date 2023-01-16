@@ -5,6 +5,13 @@
 
 function Network() { };
 
+Network.TYPES = {};
+Network.TYPES.PLAY = 0;
+Network.TYPES.LOGIN = 1;
+Network.TYPES.REGISTER = 2;
+Network.TYPES.GET_CAPTCHA = 3;
+Network.TYPES.RESUME = 4;
+
 /* Returns true if connected to websocket */
 Network.prototype.connected = function () {
   return this.webSocket !== undefined && this.webSocket.readyState !== WebSocket.CLOSED;
