@@ -57,7 +57,11 @@ for(var i=0;i<CoinObject.STATE_LIST.length;i++) {
 CoinObject.prototype.update = function(event) {
   /* Event trigger */
   switch(event) {
-    case 0x00 : { this.kill(); break; }
+    case 0x00 :
+    case 0x0A : {
+      this.kill();
+      break;
+    }
   }
 };
 

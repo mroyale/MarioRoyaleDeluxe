@@ -63,7 +63,7 @@ public class Login extends SessionState {
   private void accountRegister(final PacketLRR p) throws IOException {
     final Gson json = new GsonBuilder().create();
     if (lobbyDao.findAccount(p.username) == null) {
-      RoyaleAccount newAccount = lobbyDao.createAccount(p.username);
+      RoyaleAccount newAccount = lobbyDao.createAccount(p.username, p.password);
       sendPacket(new PacketLRG(true, json.toJson(newAccount)));
     } else {
       sendPacket(new PacketLRG(false, "Account with that name already exists"));

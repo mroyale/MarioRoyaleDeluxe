@@ -22,10 +22,8 @@ public class LobbyDao {
     }
 
     /* insert mongodb connecting shit and initializing the accounts */
-    accounts = new ArrayList();
-    loggedIn = new ArrayList();
-
-    accounts.add(new RoyaleAccount("d", "d", "terminalarch", "terminalling", "lol", 12, 65535, 14, 2)); /* Testing account */
+    accounts = Collections.synchronizedList(new ArrayList());
+    loggedIn = Collections.synchronizedList(new ArrayList());
   }
   
   public RoyaleAccount findAccount(String username) {
@@ -39,7 +37,7 @@ public class LobbyDao {
     return null;
   }
 
-  public RoyaleAccount createAccount(String username) {
+  public RoyaleAccount createAccount(String username, String password) {
     RoyaleAccount account = new RoyaleAccount("a", "a", username, username, "", 0, 0, 0, 0);
     accounts.add(account);
     return account;

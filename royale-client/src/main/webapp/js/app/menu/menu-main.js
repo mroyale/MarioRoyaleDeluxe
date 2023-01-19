@@ -79,7 +79,7 @@ MenuMain.prototype.show = function(number) {
   var k = Cookies.get("heated_gamer_moments");
   var c = Cookies.get("dosh");
   this.winElement.style.display = "block";
-  this.winElement.innerHTML = "Wins×" + (w?w:"0") + "Deaths×" + (d?d:"0") + "</span> <span class='kill'>Kills×" + (k?k:"0") + "</span> <span class='kill'>Coins×" + (c?c:"0") + "</span>";
+  this.winElement.innerHTML = "Wins×" + (w?w:"0") + " <span class='kill'>Deaths×" + (d?d:"0") + "</span> <span class='kill'>Kills×" + (k?k:"0") + "</span> <span class='kill'>Coins×" + (c?c:"0") + "</span>";
   this.startPad();
   this.linkElement.style.display = "block";
   this.element.style.display = "block";
