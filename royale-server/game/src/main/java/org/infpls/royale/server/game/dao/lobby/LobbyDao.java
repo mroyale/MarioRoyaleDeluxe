@@ -2,12 +2,17 @@ package org.infpls.royale.server.game.dao.lobby;
 
 import java.io.IOException;
 import java.util.*;
+import java.lang.String;
 
 import org.infpls.royale.server.util.Oak;
+import org.infpls.royale.server.game.session.RoyaleAccount;
 
 public class LobbyDao {
   private final List<GameLobby> lobbies;
   private GameLobby jail;
+
+  private final List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
+  private final List<RoyaleAccount> loggedIn; /* Accounts players have logged into */
   
   public LobbyDao() {
     lobbies = new ArrayList();
@@ -15,8 +20,31 @@ public class LobbyDao {
     catch(IOException ioex) {
       Oak.log(Oak.Level.CRIT, "Failed to start jail lobby!");
     }
+
+    /* insert mongodb connecting shit and initializing the accounts */
+    accounts = new ArrayList();
+    loggedIn = new ArrayList();
+
+    accounts.add(new RoyaleAccount("d", "d", "terminalarch", "terminalling", "lol", 12, 65535, 14, 2)); /* Testing account */
   }
   
+  public RoyaleAccount findAccount(String username) {
+    for(int i=0;i<accounts.size();i++) {
+      final RoyaleAccount account = accounts.get(i);
+      if (account.username.equals(username)) {
+        return account;
+      }
+    }
+
+    return null;
+  }
+
+  public RoyaleAccount createAccount(String username) {
+    RoyaleAccount account = new RoyaleAccount("a", "a", username, username, "", 0, 0, 0, 0);
+    accounts.add(account);
+    return account;
+  }
+
   public GameLobby createLobby(boolean priv, String code) throws IOException {
     GameLobby lobby = new OfficialLobby(priv, code);
     lobbies.add(lobby);

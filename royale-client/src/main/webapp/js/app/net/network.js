@@ -3,7 +3,9 @@
 /* global WebSocket */
 /* global ArrayBuffer */
 
-function Network() { };
+function Network() {
+  this.pendingArgs = [];
+};
 
 Network.TYPES = {};
 Network.TYPES.PLAY = 0;
@@ -18,38 +20,82 @@ Network.prototype.connected = function () {
 };
 
 /* Connects to game server websocket */
-Network.prototype.connect = function(name, team, priv, mode){
+Network.prototype.connectWS = function() {
   var address = window.location.host;
-  this.prefName = name;
-  this.prefTeam = team;
-  this.prefLobby = priv;
-  this.prefMode = mode;
   var that = this;
-  
+
   if(this.connected()) {
     app.menu.error.show("Connection already open. State error.");
     return;
   }
-
+  
   this.webSocket = new WebSocket("ws://" + address + "/royale/ws");
   this.webSocket.binaryType = 'arraybuffer';
-
+  
   this.webSocket.onopen = function(event) {
     if(event.type !== "open") {
       app.menu.error.show("Error. WS open event has unexpected result.");
       return;
     }
   };
-
+  
   this.webSocket.onmessage = function(event) {
     if(event.data instanceof ArrayBuffer) { that.handleBinary(new Uint8Array(event.data)); }
     else { that.handlePacket(JSON.parse(event.data)); }
   };
-
+  
   this.webSocket.onclose = function(event) {
     that.webSocket = undefined;
     app.menu.error.show("Connection Interrupted");
   };
+}
+
+/* 0: Connection Type, 1: Name/Session, 2: Squad/Password, 3: Private/Captcha, 4: Gamemode */
+Network.prototype.connect = function(args) {
+  var that = this;
+  
+  this.pendingArgs = [];
+  if (!this.connected()) {
+    this.pendingArgs = args;
+    this.connectWS(args);
+    return;
+  }
+  
+  var type = args[0];
+  switch(type) {
+    case Network.TYPES.PLAY : {
+      this.prefName = args[1];
+      this.prefTeam = args[2];
+      this.prefLobby = args[3];
+      this.prefMode = args[4];
+
+      this.send({type: "l00", name: this.prefName, team: this.prefTeam, priv: this.prefLobby, mode: this.prefMode});
+      break;
+    }
+
+    case Network.TYPES.LOGIN : {
+      this.username = args[1];
+      this.send({'type': "llg", 'username': this.username, 'password': args[2]});
+      break;
+    }
+
+    case Network.TYPES.REGISTER : {
+      this.username = args[1];
+      this.send({'type': "lrg", 'username': this.username, 'password': args[2], 'captcha': args[3]});
+      break;
+    }
+
+    case Network.TYPES.GET_CAPTCHA : {
+      this.send({"type": "lrc"});
+      break;
+    }
+
+    case Network.TYPES.RESUME : {
+      this.session = args[1];
+      this.send({'type': "lrs", 'session': this.session});
+      break;
+    }
+  }
 };
 
 Network.prototype.handlePacket = function(packet) {
@@ -86,7 +132,7 @@ Network.prototype.handleBlob = function(packets) {
 Network.prototype.setState = function(state) {
   if(this.state !== undefined) { this.state.destroy(); }
   switch(state) {
-    case "l" : { this.state = new StateLogin(); break; }
+    case "l" : { this.state = new StateLogin(this.pendingArgs); break; }
     case "g" : { this.state = new StateGame(); break; }
     default : { app.menu.error.show("Received invalid state ID: " + state); return; }
   }

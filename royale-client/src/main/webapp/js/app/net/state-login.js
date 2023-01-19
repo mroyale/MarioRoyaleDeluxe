@@ -8,6 +8,9 @@ function StateLogin() {
 StateLogin.prototype.handlePacket = function(packet) {
   switch(packet.type) {
     case "l01" : { this.loggedIn(packet); return true; }
+    case "llg" : { this.handleLogin(packet); return true; }
+    case "lrs" : { this.handleLogin(packet); return true; }
+    case "lrg" : { this.handleRegister(packet); return true; }
     default : { return false; }
   }
 };
@@ -17,13 +20,43 @@ StateLogin.prototype.handleBinary = function(packet) {
 };
 
 StateLogin.prototype.ready = function() {
-  this.send({type: "l00", name: app.net.prefName, team: app.net.prefTeam, priv: app.net.prefLobby, mode: app.net.prefMode});
+  app.net.connect(app.net.pendingArgs);
 };
 
 // L01
 StateLogin.prototype.loggedIn = function(p) {
   app.net.name = p.name;
   app.net.sid = p.sid;
+};
+
+// LLG, LRS
+StateLogin.prototype.handleLogin = function(p) {
+  if (p.status) {
+    var data = JSON.parse(p.msg);
+    app.net.nickname = data.nickname;
+    app.net.squad = p.msg.squad;
+    
+    var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
+    app.menu.mainMember.show(stats);
+  } else {
+    app.menu.login.show();
+    app.menu.login.reportError(p.msg);
+  }
+};
+
+// LRG
+StateLogin.prototype.handleRegister = function(p) {
+  if (p.status) {
+    var data = JSON.parse(p.msg);
+    app.net.nickname = data.nickname;
+    app.net.squad = p.msg.squad;
+    
+    var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
+    app.menu.mainMember.show(stats);
+  } else {
+    app.menu.register.show();
+    app.menu.register.reportError(p.msg);
+  }
 };
 
 StateLogin.prototype.send = function(data) {

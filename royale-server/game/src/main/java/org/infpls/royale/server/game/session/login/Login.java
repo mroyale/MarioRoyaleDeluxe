@@ -3,6 +3,7 @@ package org.infpls.royale.server.game.session.login;
 import com.google.gson.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.*;
 import org.infpls.royale.server.game.dao.lobby.GameLobby;
 
 import org.infpls.royale.server.game.dao.lobby.LobbyDao;
@@ -24,6 +25,7 @@ public class Login extends SessionState {
      > l00 user ready (login)
      < l01 sid and name
      > l02 close
+     > llg account login
   */
   
   @Override
@@ -35,10 +37,36 @@ public class Login extends SessionState {
       switch(p.getType()) {
         case "l00" : { login(gson.fromJson(data, PacketL00.class)); break; }
         case "l02" : { close(); break; }
+        case "llg" : { accountLogin(gson.fromJson(data, PacketLLR.class)); break; }
+        case "lrg" : { accountRegister(gson.fromJson(data, PacketLRR.class)); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
       close(ex);
+    }
+  }
+
+  /* Handle player logging into their account. */
+  private void accountLogin(final PacketLLR p) throws IOException {
+    final Gson json = new GsonBuilder().create();
+    final RoyaleAccount account = lobbyDao.findAccount(p.username);
+    
+    if (account == null) {
+      sendPacket(new PacketLLG(false, "Account does not exist"));
+      return;
+    }
+
+    sendPacket(new PacketLLG(true, json.toJson(account)));
+  }
+
+  /* Handle player registering a new account. */
+  private void accountRegister(final PacketLRR p) throws IOException {
+    final Gson json = new GsonBuilder().create();
+    if (lobbyDao.findAccount(p.username) == null) {
+      RoyaleAccount newAccount = lobbyDao.createAccount(p.username);
+      sendPacket(new PacketLRG(true, json.toJson(newAccount)));
+    } else {
+      sendPacket(new PacketLRG(false, "Account with that name already exists"));
     }
   }
   

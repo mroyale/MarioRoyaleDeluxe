@@ -73,6 +73,22 @@
           </div>
         </div>
       </div>
+
+      <!-- Main Menu - Logged In -->
+      <div id='mainMember' class='container-center'>
+        <div class='title'>Mario Royale</div>
+        <div class="container-launch">
+          <div id="mainMember-launch" class="launch">
+            <img src="./img/home/play.png" class="launch-img">
+          </div>
+
+          <div class="main-buttons">
+            <img id="mainMember-settings" src="./img/home/settings.png" class="launch-settings">
+            <img id="mainMember-controls" src="./img/home/controls.png" class="launch-controls">
+            <img id="mainMember-changelog" src="./img/home/changelog.png" class="launch-changelog">
+          </div>
+        </div>
+      </div>
       
       <!-- Enter Name -->
       <div id='name' class='container-center'>
@@ -86,9 +102,12 @@
       <!-- Login -->
       <div id='login' class='container-center'>
         <div class='name'><input id='login-name' type='text' class='name-input' maxlength="20" placeholder="Username"/></div>
-        <div class='name'><input id='login-pass' type='text' class='name-input' placeholder="Password"/></div>
+        <div class='name'><input id='login-pass' class='name-input' placeholder="Password" type="password"/></div>
         <div class='container-go'>
           <span id='login-signin' class='launch'>Login</span> | <span id='login-back' class='launch'>Cancel</span>
+        </div>
+        <div class='container-go'>
+          <span class="result" id="login-error"></span>
         </div>
       </div>
 
@@ -99,6 +118,9 @@
         <div class='name'><input id='register-verify' class='name-input' placeholder="Verify Password" type="password"/></div>
         <div class='container-go'>
           <span id='register-signup' class='launch'>Register</span> | <span id='register-back' class='launch'>Cancel</span>
+        </div>
+        <div class='container-go'>
+          <span class="result" id="register-error"></span>
         </div>
       </div>
 
@@ -162,6 +184,7 @@
       <script src='js/app/menu/menu-load.js'></script>
       <script src='js/app/menu/menu-disclaim.js'></script>
       <script src='js/app/menu/menu-main.js'></script>
+      <script src='js/app/menu/menu-account.js'></script>
       <script src='js/app/menu/menu-name.js'></script>
       <script src='js/app/menu/menu-login.js'></script>
       <script src='js/app/menu/menu-register.js'></script>

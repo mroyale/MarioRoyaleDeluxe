@@ -14,6 +14,14 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.springframework-version>4.3.5.RELEASE</org.springframework-version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>captcha</id>
+      <name>BotDetect Captcha Repository</name>
+      <url>https://git.captcha.com/botdetect-java-captcha.git/blob_plain/HEAD:/</url>
+    </repository>
+  </repositories>
   
   <dependencies>
     <dependency>
@@ -27,6 +35,11 @@
       <artifactId>javaee-web-api</artifactId>
       <version>7.0</version>
       <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.captcha</groupId>
+      <artifactId>botdetect-jsf20</artifactId>
+      <version>4.0.beta3.7</version>
     </dependency>
     <dependency> 
       <groupId>org.springframework</groupId> 

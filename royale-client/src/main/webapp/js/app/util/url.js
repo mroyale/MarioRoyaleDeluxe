@@ -61,6 +61,22 @@ const assetsurl = [
     {name: "Custom", url: "custom"},
 ];
 
+const musicPaths = [
+    {name: "Normal", url: "music"},
+    {name: "Mario Kart", url: "mariokart/music"},
+    {name: "Mario Bros.", url: "mariobros/music"},
+    {name: "Super Mario Bros. 2", url: "smb2/music"},
+    {name: "Maker 2014", url: "maker/music"}
+];
+
+const soundPaths = [
+    {name: "Normal", url: "sfx"},
+    {name: "Mario Kart", url: "mariokart/sfx"},
+    {name: "Mario Bros.", url: "mariobros/sfx"},
+    {name: "Super Mario Bros. 2", url: "smb2/sfx"},
+    {name: "Maker 2014", url: "maker/sfx"}
+]
+
 /* Functions */
 
 function uploadFile(binary, event, callback) {

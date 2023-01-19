@@ -110,7 +110,7 @@ CheepObject.prototype.sound = GameObject.prototype.sound;
 CheepObject.prototype.disable = function() { this.disabled = true; };
 CheepObject.prototype.enable = function() { this.disabled = false; };
 
-CheepObject.prototype.damage = function(p) { };
+CheepObject.prototype.damage = function(p) { this.bonk(); };
 
 /* 'Bonked' is the type of death where an enemy flips upside down and falls off screen */
 /* Generally triggred by shells, fireballs, etc */
@@ -130,11 +130,7 @@ CheepObject.prototype.playerCollide = function(p) {
 };
 
 CheepObject.prototype.playerStomp = function(p) {
-  if(this.dead || this.garbage) { return; }
-  p.bounce();
-  this.bonk();
-  this.play("stomp.mp3", 1., .04);
-  this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0x01));
+  this.playerCollide(p);
 };
 
 CheepObject.prototype.playerBump = function(p) {

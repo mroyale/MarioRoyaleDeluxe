@@ -72,7 +72,7 @@ App.prototype.ingame = function() {
 
 /* Returns true if we're currently logged into an account */
 App.prototype.loggedIn = function() {
-    return Cookies.get("session") !== undefined;
+  return Cookies.get("session") !== undefined;
 };
 
 /* Connect to game server and join a game */
@@ -81,7 +81,19 @@ App.prototype.join = function(name, team, priv, gameMode) {
     this.menu.error.show("An error occurred while starting game..."); return;
   }
   this.menu.load.show();
-  this.net.connect(name, team, priv, gameMode);
+  this.net.connect([Network.TYPES.PLAY, name, team, priv, gameMode]);
+};
+
+/* Login to our account */
+App.prototype.login = function(name, password) {
+  this.menu.load.show();
+  this.net.connect([Network.TYPES.LOGIN, name, password]);
+};
+
+/* Register a new account */
+App.prototype.register = function(name, password) {
+  this.menu.load.show();
+  this.net.connect([Network.TYPES.REGISTER, name, password]);
 };
 
 /* Close active game and reload page */

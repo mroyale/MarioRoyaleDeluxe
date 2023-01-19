@@ -242,6 +242,17 @@ img {
   }
 }
 
+.result {
+  position: absolute;
+  padding: 5px 32px 2px 32px;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  background-color: rgb(255 255 255 / 25%);
+  font-family: SmbWeb;
+  font-size: 32px;
+  text-shadow: 2px 0 0 #f30000, -2px 0 0 #ff0000, 0 2px 0 #ed0000, 0 -2px 0 #ff0000, 1px 1px #fb0000, -1px -1px 0 #ff0a0a, 1px -1px 0 #eb0808, -1px 1px 0 #ff0404;
+}
+
 .warn {
   position: absolute;
   margin: 0 0 0 0;
