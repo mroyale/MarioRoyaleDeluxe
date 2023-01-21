@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.*;
 import java.lang.String;
 
+import com.google.common.hash.Hashing;
+import java.nio.charset.StandardCharsets;
+
 import org.infpls.royale.server.util.Oak;
+import org.infpls.royale.server.util.Key;
 import org.infpls.royale.server.game.session.RoyaleAccount;
 
 public class LobbyDao {
@@ -12,7 +16,7 @@ public class LobbyDao {
   private GameLobby jail;
 
   private final List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
-  private final List<RoyaleAccount> loggedIn; /* Accounts players have logged into */
+  private final HashMap<String, String> loggedIn; /* Session tokens of players that have logged in */
   
   public LobbyDao() {
     lobbies = new ArrayList();
@@ -23,7 +27,7 @@ public class LobbyDao {
 
     /* insert mongodb connecting shit and initializing the accounts */
     accounts = Collections.synchronizedList(new ArrayList());
-    loggedIn = Collections.synchronizedList(new ArrayList());
+    loggedIn = new HashMap<String, String>();
   }
   
   public RoyaleAccount findAccount(String username) {
@@ -37,8 +41,26 @@ public class LobbyDao {
     return null;
   }
 
+  public String addToken(String username) {
+    String newToken = Key.generate32();
+    loggedIn.put(newToken, username);
+    return newToken;
+  }
+
+  public void removeToken(String token) {
+    loggedIn.remove(token);
+  }
+
+  public String findToken(String token) {
+    return loggedIn.get(token);
+  }
+
   public RoyaleAccount createAccount(String username, String password) {
-    RoyaleAccount account = new RoyaleAccount("a", "a", username, username, "", 0, 0, 0, 0);
+    String hashedPassword = Hashing.sha256()
+      .hashString(password, StandardCharsets.UTF_8)
+      .toString();
+
+    RoyaleAccount account = new RoyaleAccount(hashedPassword, username, username, "", 0, 0, 0, 0);
     accounts.add(account);
     return account;
   }

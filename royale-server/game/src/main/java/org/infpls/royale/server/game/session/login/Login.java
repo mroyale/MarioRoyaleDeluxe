@@ -6,6 +6,9 @@ import java.nio.ByteBuffer;
 import java.util.*;
 import org.infpls.royale.server.game.dao.lobby.GameLobby;
 
+import com.google.common.hash.Hashing;
+import java.nio.charset.StandardCharsets;
+
 import org.infpls.royale.server.game.dao.lobby.LobbyDao;
 import org.infpls.royale.server.game.session.*;
 
@@ -39,6 +42,7 @@ public class Login extends SessionState {
         case "l02" : { close(); break; }
         case "llg" : { accountLogin(gson.fromJson(data, PacketLLR.class)); break; }
         case "lrg" : { accountRegister(gson.fromJson(data, PacketLRR.class)); break; }
+        case "lrs" : { accountResume(gson.fromJson(data, PacketLSR.class)); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
@@ -49,10 +53,23 @@ public class Login extends SessionState {
   /* Handle player logging into their account. */
   private void accountLogin(final PacketLLR p) throws IOException {
     final Gson json = new GsonBuilder().create();
-    final RoyaleAccount account = lobbyDao.findAccount(p.username);
+    final RoyaleAccount acc = lobbyDao.findAccount(p.username);
+
+    String session = lobbyDao.addToken(p.username);
+    AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
     
+    String hashedPassword = Hashing.sha256()
+      .hashString(p.password, StandardCharsets.UTF_8)
+      .toString();
+
     if (account == null) {
       sendPacket(new PacketLLG(false, "Account does not exist"));
+      return;
+    }
+
+
+    if (!acc.getHash().equals(hashedPassword)) {
+      sendPacket(new PacketLLG(false, "Incorrect password"));
       return;
     }
 
@@ -63,10 +80,27 @@ public class Login extends SessionState {
   private void accountRegister(final PacketLRR p) throws IOException {
     final Gson json = new GsonBuilder().create();
     if (lobbyDao.findAccount(p.username) == null) {
-      RoyaleAccount newAccount = lobbyDao.createAccount(p.username, p.password);
+      RoyaleAccount newAcc = lobbyDao.createAccount(p.username, p.password);
+      String session = lobbyDao.addToken(p.username);
+
+      AccountData newAccount = new AccountData(session, newAcc.getUsername(), newAcc.getNickname(), "", 0, 0, 0, 0);
       sendPacket(new PacketLRG(true, json.toJson(newAccount)));
     } else {
       sendPacket(new PacketLRG(false, "Account with that name already exists"));
+    }
+  }
+
+  /* Resume an existing session */
+  private void accountResume(final PacketLSR p) throws IOException {
+    final Gson json = new GsonBuilder().create();
+    String session = lobbyDao.findToken(p.session);
+
+    if (session == null) {
+      sendPacket(new PacketLRS(false, "Session expired. Please login again."));
+    } else {
+      RoyaleAccount acc = lobbyDao.findAccount(session);
+      AccountData account = new AccountData(p.session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
+      sendPacket(new PacketLRS(true, json.toJson(account)));
     }
   }
   

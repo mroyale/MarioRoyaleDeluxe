@@ -39,6 +39,7 @@ StateLogin.prototype.handleLogin = function(p) {
     var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
     app.menu.mainMember.show(stats);
   } else {
+    Cookies.remove("session");
     app.menu.login.show();
     app.menu.login.reportError(p.msg);
   }
@@ -49,14 +50,23 @@ StateLogin.prototype.handleRegister = function(p) {
   if (p.status) {
     var data = JSON.parse(p.msg);
     app.net.nickname = data.nickname;
-    app.net.squad = p.msg.squad;
+    app.net.squad = data.squad;
+
+    Cookies.set("session", data.session, {'expires': 14});
     
     var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
     app.menu.mainMember.show(stats);
   } else {
+    Cookies.remove("session");
     app.menu.register.show();
     app.menu.register.reportError(p.msg);
   }
+};
+
+// LLO
+StateLogin.prototype.handleLogout = function(p) {
+  Cookies.remove("session");
+  app.close();
 };
 
 StateLogin.prototype.send = function(data) {

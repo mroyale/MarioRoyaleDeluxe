@@ -688,7 +688,17 @@ Game.prototype.doStep = function() {
 
   /* Triggers game over if player is dead for 15 frames and has zero lives. If we have a life we respawn instead. */
   if(this.startDelta !== undefined && !this.gameOver && !ply) {
-    if((this.lives > 0 || this.getDebug("lives") || app.net.deathmatch) && this.victory <= 0) { var rsp = this.getZone().level; this.doSpawn(); this.levelWarp(rsp); (this.debugSettings.infiniteLives) ? this.lives -= 0 :  this.lives--; if (zone.musicBlock) { zone.musicBlock = null; } }
+    if((this.lives > 0 || this.getDebug("lives") || app.net.deathmatch) && this.victory <= 0) {
+      var rsp = this.getZone().level;
+      this.doSpawn(); 
+      this.levelWarp(rsp);
+      if (this.debugSettings.infiniteLives) {
+        this.lives -= 0;
+      } else { this.lives--; }
+      var d = Cookies.get("sad_gamer_moments");
+      Cookies.set("sad_gamer_moments", c?parseInt(c)+1:1, {'expires': 365});
+
+      if (zone.musicBlock) { zone.musicBlock = null; } }
     else if(++this.gameOverTimer > 45) { this.gameOver = true; this.gameOverTimer = 0; }
   }
   /* Triggers page refresh after 5 seconds of a game over. */

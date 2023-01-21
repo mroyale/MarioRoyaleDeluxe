@@ -85,6 +85,11 @@ MenuMain.prototype.show = function(number) {
   this.element.style.display = "block";
 
   this.menuMusic.play();
+
+  var session = Cookies.get("session");
+  if(session) {
+    app.resumeSession(session);
+  }
 };
 
 MenuMain.prototype.hide = function() {

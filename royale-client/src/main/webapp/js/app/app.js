@@ -72,7 +72,7 @@ App.prototype.ingame = function() {
 
 /* Returns true if we're currently logged into an account */
 App.prototype.loggedIn = function() {
-  return Cookies.get("session") !== undefined;
+  return this.net.nickname !== undefined;
 };
 
 /* Connect to game server and join a game */
@@ -95,6 +95,12 @@ App.prototype.register = function(name, password) {
   this.menu.load.show();
   this.net.connect([Network.TYPES.REGISTER, name, password]);
 };
+
+/* Resume active session */
+App.prototype.resumeSession = function(session) {
+  this.menu.load.show();
+  this.net.connect([Network.TYPES.RESUME, session]);
+}
 
 /* Close active game and reload page */
 App.prototype.close = function() {
