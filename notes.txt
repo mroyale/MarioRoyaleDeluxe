@@ -10,9 +10,7 @@ Bugs Found:
 - Horizontal warp pipe directions warp you at a wrong position or something
 
 Features to add:
-- Accounts and things locked under accounts: leaderboards, chat(?), some sort of shop
 - Carrying shells, sprites already exist for these but it's hard to add them.
-- Blending modes like grain merge for the water level effect.
 - Dev kit; basically the console and tools for moderation.
 - Backport custom textures, though make an easier way to manage them, give them names for example.
 - New anti cheat: VAC (Virgin Anti Cheat)
