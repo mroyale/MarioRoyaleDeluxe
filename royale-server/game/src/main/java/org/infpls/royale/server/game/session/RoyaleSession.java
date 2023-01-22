@@ -26,6 +26,7 @@ public final class RoyaleSession {
   public int gameMode; // We ask for this in getOnlineUserCount
   
   public boolean readyVote;   // Kinda messy. Should really be a linked list in GameLobby instead.
+  public RoyaleAccount account;
  
   public RoyaleSession(final WebSocketSession webSocket, final DaoContainer dao) throws IOException {
     this.webSocket = webSocket;
@@ -106,6 +107,10 @@ public final class RoyaleSession {
     this.team = team;
     this.priv = priv;
     this.gameMode = gameMode;
+  }
+
+  public void setAccount(RoyaleAccount account) {
+    this.account = account;
   }
   
   public boolean loggedIn() {

@@ -54,6 +54,7 @@ public class Login extends SessionState {
   private void accountLogin(final PacketLLR p) throws IOException {
     final Gson json = new GsonBuilder().create();
     final RoyaleAccount acc = lobbyDao.findAccount(p.username);
+    session.setAccount(acc);
 
     String session = lobbyDao.addToken(p.username);
     AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
@@ -81,6 +82,7 @@ public class Login extends SessionState {
     final Gson json = new GsonBuilder().create();
     if (lobbyDao.findAccount(p.username) == null) {
       RoyaleAccount newAcc = lobbyDao.createAccount(p.username, p.password);
+      session.setAccount(newAcc);
       String session = lobbyDao.addToken(p.username);
 
       AccountData newAccount = new AccountData(session, newAcc.getUsername(), newAcc.getNickname(), "", 0, 0, 0, 0);
@@ -93,12 +95,14 @@ public class Login extends SessionState {
   /* Resume an existing session */
   private void accountResume(final PacketLSR p) throws IOException {
     final Gson json = new GsonBuilder().create();
-    String session = lobbyDao.findToken(p.session);
-
-    if (session == null) {
+    
+    if (lobbyDao.findToken(p.session) == null) {
       sendPacket(new PacketLRS(false, "Session expired. Please login again."));
     } else {
-      RoyaleAccount acc = lobbyDao.findAccount(session);
+      RoyaleAccount acc = lobbyDao.findAccount(lobbyDao.findToken(p.session));
+      session.setAccount(acc);
+
+      String session = lobbyDao.findToken(p.session);
       AccountData account = new AccountData(p.session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
       sendPacket(new PacketLRS(true, json.toJson(account)));
     }
