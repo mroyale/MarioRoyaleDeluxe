@@ -36,6 +36,8 @@ StateLogin.prototype.handleLogin = function(p) {
     var data = JSON.parse(p.msg);
     app.net.nickname = data.nickname;
     app.net.squad = p.msg.squad;
+
+    Cookies.set("session", data.session, {'expires': 14});
     
     var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
     app.menu.mainMember.show(stats);
