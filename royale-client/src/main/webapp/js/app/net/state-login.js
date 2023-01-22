@@ -11,6 +11,7 @@ StateLogin.prototype.handlePacket = function(packet) {
     case "llg" : { this.handleLogin(packet); return true; }
     case "lrs" : { this.handleLogin(packet); return true; }
     case "lrg" : { this.handleRegister(packet); return true; }
+    case "llo" : { this.handleLogout(packet); return true; }
     default : { return false; }
   }
 };

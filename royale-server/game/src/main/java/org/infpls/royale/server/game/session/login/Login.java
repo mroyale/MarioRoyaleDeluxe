@@ -43,6 +43,7 @@ public class Login extends SessionState {
         case "llg" : { accountLogin(gson.fromJson(data, PacketLLR.class)); break; }
         case "lrg" : { accountRegister(gson.fromJson(data, PacketLRR.class)); break; }
         case "lrs" : { accountResume(gson.fromJson(data, PacketLSR.class)); break; }
+        case "llo" : { accountLogout(gson.fromJson(data, PacketLOR.class)); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
@@ -106,6 +107,12 @@ public class Login extends SessionState {
       AccountData account = new AccountData(p.session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
       sendPacket(new PacketLRS(true, json.toJson(account)));
     }
+  }
+
+  /* Logout of our account and delete the session */
+  private void accountLogout(final PacketLOR p) throws IOException {
+    lobbyDao.removeToken(p.session);
+    sendPacket(new PacketLLO());
   }
   
   /* Validate username, login, return data, automatically choose and join a lobby */

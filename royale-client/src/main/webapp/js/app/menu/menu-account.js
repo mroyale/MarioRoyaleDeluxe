@@ -12,6 +12,8 @@ function MenuAccount() {
   this.changelogBtn = document.getElementById("mainMember-changelog");
   this.settingsBtn = document.getElementById("mainMember-settings");
 
+  this.logoutBtn = document.getElementById("mainMember-logout");
+
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
   
@@ -24,6 +26,7 @@ function MenuAccount() {
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
+  this.logoutBtn.onclick = function() { app.net.send({'type': 'llo', 'session': Cookies.get("session")}); }
 };
 
 /* When the launch button is clicked. */
