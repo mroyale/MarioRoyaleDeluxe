@@ -57,25 +57,25 @@ public class Login extends SessionState {
   private void accountLogin(final PacketLLR p) throws IOException {
     final Gson json = new GsonBuilder().create();
     final RoyaleAccount acc = lobbyDao.findAccount(p.username);
-    session.setAccount(acc);
-
-    String session = lobbyDao.addToken(p.username);
-    AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
+    
     
     String hashedPassword = Hashing.sha256()
-      .hashString(p.password, StandardCharsets.UTF_8)
-      .toString();
-
-    if (account == null) {
+    .hashString(p.password, StandardCharsets.UTF_8)
+    .toString();
+    
+    if (acc == null) {
       sendPacket(new PacketLLG(false, "Account does not exist"));
       return;
     }
-
-
+    
     if (!acc.getHash().equals(hashedPassword)) {
       sendPacket(new PacketLLG(false, "Incorrect password"));
       return;
     }
+    
+    session.setAccount(acc);
+    String session = lobbyDao.addToken(p.username);
+    AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
 
     sendPacket(new PacketLLG(true, json.toJson(account)));
   }
