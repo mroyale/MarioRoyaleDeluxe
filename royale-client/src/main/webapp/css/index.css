@@ -10,7 +10,7 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   background-color: #00000000;
-  background-image: url(../img/home/bkga.png);
+  /*background-image: url(../img/home/bkga.png);*/
   background-repeat: repeat-x;
   background-position: center center;
   background-attachment: fixed;

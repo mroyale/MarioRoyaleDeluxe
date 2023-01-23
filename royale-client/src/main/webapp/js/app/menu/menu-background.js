@@ -6,7 +6,7 @@ function MenuDisplay() {
     this.container = document.getElementById("background");
     this.context = this.canvas.getContext("2d");
     this.frame = 0;
-    this.loadWorld("world-1").then(data => {
+    this.loadWorld("world-6").then(data => {
         this.resource = new Resource(data.resource);
         this.camera = new Camera(this);
         
@@ -270,4 +270,4 @@ MenuDisplay.prototype.drawLoad = function() {
   
 MenuDisplay.prototype.destroy = function() {
   clearTimeout(this.frameReq);
-};  
+}; 
