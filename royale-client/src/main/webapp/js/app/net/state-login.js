@@ -35,6 +35,7 @@ StateLogin.prototype.loggedIn = function(p) {
 StateLogin.prototype.handleLogin = function(p) {
   if (p.status) {
     var data = JSON.parse(p.msg);
+    app.net.username = data.username;
     app.net.nickname = data.nickname;
     app.net.squad = data.squad;
     app.net.character = data.character;
@@ -54,6 +55,7 @@ StateLogin.prototype.handleLogin = function(p) {
 StateLogin.prototype.handleRegister = function(p) {
   if (p.status) {
     var data = JSON.parse(p.msg);
+    app.net.username = data.username;
     app.net.nickname = data.nickname;
     app.net.squad = data.squad;
     app.net.character = data.character;
@@ -77,7 +79,13 @@ StateLogin.prototype.handleLogout = function(p) {
 
 // LPU
 StateLogin.prototype.handleUpdate = function(p) {
+  if (p.error) {
+    app.menu.mainMember.profileReport(p.error);
+    return;
+  }
+
   app.net.character = p.character;
+  app.net.nickname = p.nickname;
   app.menu.mainMember.hideProfileMenu();
 };
 

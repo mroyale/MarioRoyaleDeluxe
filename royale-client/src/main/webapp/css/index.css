@@ -514,12 +514,23 @@ img {
   background-size: cover
 }
 
+.profile-nickname {
+  background: #00000000;
+  border: none;
+  border-bottom: 5px dashed darkgoldenrod;
+  width: 80%;
+  text-align: center;
+  font-family: 'SmbWeb';
+  color: white;
+  font-size: 18px;
+}
+
 .container-settings {
   width: 600px;
   text-align: center;
   background-image: url('../img/home/box.png');
   position: absolute;
-  height: 430px;
+  height: 435px;
   background-repeat: no-repeat;
   font-family: SmbWeb;
   color: gold;

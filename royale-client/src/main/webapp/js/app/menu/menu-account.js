@@ -37,6 +37,10 @@ function MenuAccount() {
   this.profileBtn.onclick = function() { that.showProfileMenu(); };
   this.logoutBtn.onclick = function() { app.net.send({'type': 'llo', 'session': Cookies.get("session")}); }
 
+  this.profileUsername = document.getElementById("profile-username");
+  this.profileNickname = document.getElementById("profile-nickname");
+  this.profileError = document.getElementById("profile-error");
+
   this.marioHead = document.getElementById("profile-selectMario");
   this.luigiHead = document.getElementById("profile-selectLuigi");
 
@@ -54,6 +58,8 @@ MenuAccount.prototype.launch = function() {
 /* Profile Menu */
 MenuAccount.prototype.showProfileMenu = function() {
   this.profileMenu.style.display = "";
+  this.profileUsername.innerText = app.net.username;
+  this.profileNickname.value = app.net.nickname;
   switch (app.net.character) {
     default :
     case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; break; }
@@ -63,6 +69,11 @@ MenuAccount.prototype.showProfileMenu = function() {
 
 MenuAccount.prototype.hideProfileMenu = function() {
   this.profileMenu.style.display = "none";
+  this.profileError.innerText = "";
+};
+
+MenuAccount.prototype.profileReport = function(msg) {
+  this.profileError.innerText = msg;
 };
 
 MenuAccount.prototype.selectCharacter = function(char) {
@@ -77,6 +88,7 @@ MenuAccount.prototype.selectCharacter = function(char) {
 MenuAccount.prototype.saveProfile = function() {
   app.net.send({
     'type': 'lpu',
+    'nickname': this.profileNickname.value,
     'character': this.pendingChar !== null ? this.pendingChar : app.net.character
   })
 };

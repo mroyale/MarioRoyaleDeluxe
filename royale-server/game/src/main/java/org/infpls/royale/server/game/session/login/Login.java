@@ -118,8 +118,26 @@ public class Login extends SessionState {
 
   /* Update our profile settings */
   private void accountUpdate(final PacketLPU p) throws IOException {
-    session.getAccount().changeCharacter(p.character);
-    sendPacket(new PacketLPU(p.character));
+    if (p.nickname == null) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "You must provide a nickname"));
+      return;
+    }
+    
+    if (p.nickname.length() < 4) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Nickname is too short"));
+      return;
+    }
+
+    if (p.nickname.length() > 20) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Nickname is too long"));
+      return;
+    }
+
+    RoyaleAccount acc = session.getAccount();
+    acc.changeCharacter(p.character);
+    acc.updateName(p.nickname);
+
+    sendPacket(new PacketLPU(p.character, p.nickname));
   }
   
   /* Validate username, login, return data, automatically choose and join a lobby */
