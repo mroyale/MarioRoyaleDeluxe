@@ -78,6 +78,7 @@ StateLogin.prototype.handleLogout = function(p) {
 // LPU
 StateLogin.prototype.handleUpdate = function(p) {
   app.net.character = p.character;
+  app.menu.mainMember.hideProfileMenu();
 };
 
 StateLogin.prototype.send = function(data) {

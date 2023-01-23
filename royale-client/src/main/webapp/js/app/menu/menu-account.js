@@ -27,7 +27,7 @@ function MenuAccount() {
   
   var that = this;
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; };
-  this.profileCloseBtn.onclick = function() { that.profileMenu.style.display = "none"; };
+  this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.profileSaveBtn.onclick = function() { that.saveProfile(); };
 
   this.launchBtn.onclick = function() { app.join(app.net.nickname, app.net.squad); };
@@ -61,6 +61,10 @@ MenuAccount.prototype.showProfileMenu = function() {
   }
 };
 
+MenuAccount.prototype.hideProfileMenu = function() {
+  this.profileMenu.style.display = "none";
+};
+
 MenuAccount.prototype.selectCharacter = function(char) {
   switch (char) {
     default :
@@ -73,7 +77,7 @@ MenuAccount.prototype.selectCharacter = function(char) {
 MenuAccount.prototype.saveProfile = function() {
   app.net.send({
     'type': 'lpu',
-    'character': this.pendingChar || app.net.character
+    'character': this.pendingChar !== null ? this.pendingChar : app.net.character
   })
 };
 
