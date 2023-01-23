@@ -9,6 +9,7 @@ function Menu() {
   /* Register all menu classes here*/
   var m = [
     {id: "warn", obj: new MenuWarn()}, // Special, displays on top. Non-exclusive.
+    {id: "bg", obj: new MenuDisplay()}, // Also special, displays behind everything.
     {id: "error", obj: new MenuError()},
     {id: "load", obj: new MenuLoad()},
     {id: "disclaim", obj: new MenuDisclaim()},
@@ -45,7 +46,7 @@ function Menu() {
 };
 
 Menu.prototype.hideAll = function() {
-  for(var i=1;i<this.menus.length;i++) { /* Skip first element because it's non-exclusive */
+  for(var i=2;i<this.menus.length;i++) { /* Skip first 2 elements because they're non-exclusive */
     this.menus[i].hide();
   }
 };
@@ -53,11 +54,18 @@ Menu.prototype.hideAll = function() {
 /* Changes class of body in order to set background visuals */
 Menu.prototype.background = function(bid) {
   if(bid === this.bid) { return; }
+  this.bid = bid;
   var toset;
   switch(bid) {
+    case 'a' : { toset = "background-a"; break; }
     case 'b' : { toset = "background-b"; break; }
     case 'c' : { toset = "background-c"; break; }
-    default : { toset = "background-a"; break; }
+  }
+  if (bid === "a") {
+    this.bg.position();
+    this.bg.container.style.display = "";
+  } else {
+    this.bg.container.style.display = "none";
   }
   this.body.classList.remove("background-a");
   this.body.classList.remove("background-b");

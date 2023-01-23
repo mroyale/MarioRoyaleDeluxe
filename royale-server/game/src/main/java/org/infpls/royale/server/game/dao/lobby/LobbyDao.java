@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.util.*;
 import java.lang.String;
 
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import com.google.gson.*;
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
 
@@ -62,7 +68,44 @@ public class LobbyDao {
 
     RoyaleAccount account = new RoyaleAccount(hashedPassword, username, username, "", 0, 0, 0, 0);
     accounts.add(account);
+    saveDatabase();
     return account;
+  }
+
+  /* Save database to file */
+  public void saveDatabase() {
+    try {
+      // Create new file
+      Gson gson = new GsonBuilder().create();
+      File file = new File("database.txt");
+
+      FileWriter fw = new FileWriter("database.txt");
+      BufferedWriter bw = new BufferedWriter(fw);
+
+      // Write in file
+      bw.write(gson.toJson(accounts));
+      System.out.println("Saved database " + gson.toJson(accounts));
+
+      // Close connection
+      bw.flush();
+      bw.close();
+
+      try {
+        File myObj = new File("database.txt");
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+          String data = myReader.nextLine();
+          System.out.println(data);
+        }
+        myReader.close();
+      } catch (FileNotFoundException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+      }
+    }
+    catch(Exception e){
+      System.out.println(e);
+    }
   }
 
   public GameLobby createLobby(boolean priv, String code) throws IOException {

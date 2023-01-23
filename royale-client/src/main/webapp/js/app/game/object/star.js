@@ -17,8 +17,8 @@ StarObject.ASYNC = false;
 StarObject.ID = 0x54;
 StarObject.NAME = "Star"; // Used by editor
 
-StarObject.JUMP_LENGTH = 24;
-StarObject.MOVE_SPEED_MAX = 0.125;
+StarObject.JUMP_LENGTH = 36;
+StarObject.MOVE_SPEED_MAX = 0.08;
 StarObject.JUMP_DELAY = 2;
 
 StarObject.SPRITE = {};

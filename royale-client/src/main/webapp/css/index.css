@@ -9,7 +9,7 @@ body {
 .background-a {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  background-color: #000;
+  background-color: #00000000;
   background-image: url(../img/home/bkga.png);
   background-repeat: repeat-x;
   background-position: center center;
@@ -179,7 +179,6 @@ img {
   float: left;
   margin-right: 5px;
   cursor: pointer;
-  margin-left: 29px;
 }
 
 .launch-register:hover {

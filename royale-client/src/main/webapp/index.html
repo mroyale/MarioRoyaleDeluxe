@@ -18,7 +18,14 @@
           }, false);
         </script>
     </head>
-    <body id='body' ondragstart="return false;" ondrop="return false;" style='display: none; opacity: 1;'>
+    <body id='body' ondragstart="return false;" ondrop="return false;" style='display: none; opacity: 1; background-color: black;'>
+      <!-- Background Renderer -->
+      <div id="background" class="fullscreen" style='display:none;'>
+        <canvas id="menu-canvas" width="320" height="240" style="position:absolute; z-index:-2;">
+          Your browser doesn’t appear to support the <code>&lt;canvas&gt;</code> element.
+        </canvas>
+      </div>
+
       <!-- Links -->
       <div id='link'>
         <div class="link-r">
@@ -181,6 +188,7 @@
       <!-- Menus -->
       <script src='js/app/menu.js'></script>
       <script src='js/app/menu/menu-warn.js'></script>
+      <script src='js/app/menu/menu-background.js'></script>
       <script src='js/app/menu/menu-error.js'></script>
       <script src='js/app/menu/menu-load.js'></script>
       <script src='js/app/menu/menu-disclaim.js'></script>

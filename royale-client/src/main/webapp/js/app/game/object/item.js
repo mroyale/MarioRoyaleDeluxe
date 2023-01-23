@@ -149,7 +149,7 @@ ItemObject.prototype.physics = function() {
       }
       else if(this.pos.y <= movy.y && movy.y + this.dim.y > tile.pos.y) {
         movy.y = tile.pos.y - this.dim.y;
-        this.jumping = -1;
+        this.jump = -1;
         this.fallSpeed = 0;
       }
     }
