@@ -3,10 +3,11 @@
 /* global GameObject, MushroomObject, PoisonObject, FlowerObject, StarObject, LifeObject, CoinObject, AxeObject, FireballProj, PlantObject */
 /* global NET011, NET013, NET017, NET018, NET020 */
 
-function PlayerObject(game, level, zone, pos, pid) {
+function PlayerObject(game, level, zone, pos, pid, character) {
   GameObject.call(this, game, level, zone, pos);
   
   this.pid = pid; // Unique Player ID
+  this.character = character; // 0: Mario, 1: Luigi
   
   /* Animation */
   this.anim = 0;
@@ -277,6 +278,7 @@ PlayerObject.prototype.update = function(data) {
   this.pos = data.pos;
   this.sprite = PlayerObject.SPRITE[data.sprite];
   this.reverse = data.reverse;
+  this.character = data.character;
   if (this.damageTimer) this.damageTimer--;
 };
 
@@ -1034,14 +1036,14 @@ PlayerObject.prototype.draw = function(sprites) {
     var s = this.sprite.INDEX;
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
-        if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true}); }
-        sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true});
+        if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
+        sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
       }
     }
   }
   else {
-    if(mod === 0x02) { sprites.push({pos: vec2.add(this.pos, PlayerObject.DIM_OFFSET), reverse: this.reverse, index: this.sprite.INDEX, mode: 0x00, player: true}); }
-    sprites.push({pos: vec2.add(this.pos, PlayerObject.DIM_OFFSET), reverse: this.reverse, index: this.sprite.INDEX, mode: mod, player: true});
+    if(mod === 0x02) { sprites.push({pos: vec2.add(this.pos, PlayerObject.DIM_OFFSET), reverse: this.reverse, index: this.sprite.INDEX, mode: 0x00, player: true, character: this.character}); }
+    sprites.push({pos: vec2.add(this.pos, PlayerObject.DIM_OFFSET), reverse: this.reverse, index: this.sprite.INDEX, mode: mod, player: true, character: this.character});
   }
   
   var mod;

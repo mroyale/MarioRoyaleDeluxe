@@ -1,6 +1,6 @@
 <html lang="en-US">
-    <head>
-        <title>Mario Royale Deluxe</title>
+  <head>
+    <title>Mario Royale Deluxe</title>
         <meta charset="utf-8">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="HandheldFriendly" content="true">
@@ -16,11 +16,14 @@
             event = event.originalEvent || event;
             if (event.scale !== undefined) { event.preventDefault(); }
           }, false);
-        </script>
+          </script>
     </head>
     <body id='body' ondragstart="return false;" ondrop="return false;" style='display: none; opacity: 1; background-color: black;'>
+      <!-- Warning -->
+      <div id='warn' class='warn'></div>
+
       <!-- Background Renderer -->
-      <div id="background" class="fullscreen" style='display:none;'>
+      <div id="background" class="fullscreen" style='display:none;' oncontextmenu="return false">
         <canvas id="menu-canvas" width="320" height="240" style="position:absolute; z-index:-2;">
           Your browser doesn’t appear to support the <code>&lt;canvas&gt;</code> element.
         </canvas>
@@ -35,9 +38,15 @@
           <div id='win' class="win" style="display: none"></div>
         </div>
       </div>
+
+      <!-- Member Links (only show up when logged in) -->
+      <div id='linkMember' style="display:none;">
+        <div class="link-ml">
+          <div class="link-profile" id="mainMember-profile"></div>
+          <div class="link-logout" id="mainMember-logout"></div>
+        </div>
+      </div>
             
-      <!-- Warning -->
-      <div id='warn' class='warn'></div>
       
       <!-- Error -->
       <div id='error' class='container-center'>
@@ -94,7 +103,6 @@
             <img id="mainMember-controls" src="./img/home/controls.png" class="launch-controls">
             <img id="mainMember-changelog" src="./img/home/changelog.png" class="launch-changelog">
           </div>
-          <p id="mainMember-logout" class="launch" style="text-align: center;">Log Out</p>
         </div>
       </div>
       
@@ -145,6 +153,20 @@
           <p style="display: inline;">Level ID</p><input id="levelID" type="number" value=0><br>
           <p style="display: inline;">Zone ID</p><input id="zoneID" type="number" value=0>
         </div>
+      </div>
+
+      <!-- Manage Profile -->
+      <div id="profile" class="container-settings" style="display: none;">
+        <span style="position: absolute;right: 10px;" id="profile-close">x</span>
+        <p>Manage Profile</p>
+        
+        <p>Choose Character</p>
+        <div>
+          <img id="profile-selectMario" src="./img/home/marhead.png" style="width: 60px;height: 64px;">
+          <img id="profile-selectLuigi" src="./img/home/luihead.png" style="width: 60px;height: 64px;margin-left: 30px;">
+        </div>
+
+        <div style="bottom: -45%;position: relative;"><img src="./img/home/save.png" style="width: 120px;height: 48px;" id="profile-save"></div>   
       </div>
 
       <!-- Settings -->

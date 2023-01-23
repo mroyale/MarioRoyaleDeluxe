@@ -906,11 +906,11 @@ NET001.decode = function(/* NET001_SERV */ a) {
 var NET010 = {}; // CREATE_PLAYER_OBJECT [0x10] // As Uint8Array
 /* ======================================================================================== */
 NET010.DESIGNATION = 0x10;
-NET010.BYTES = 9;
+NET010.BYTES = 10;
 
 /* Client->Server */
-NET010.encode = function(/* byte */ levelID, /* byte */ zoneID, /* shor2 */ pos) {
-  return new Uint8Array([NET010.DESIGNATION, levelID, zoneID, (pos >> 24) & 0xFF, (pos >> 16) & 0xFF, (pos >> 8) & 0xFF, pos & 0xFF]);
+NET010.encode = function(/* byte */ levelID, /* byte */ zoneID, /* shor2 */ pos, /* byte */ character) {
+  return new Uint8Array([NET010.DESIGNATION, levelID, zoneID, (pos >> 24) & 0xFF, (pos >> 16) & 0xFF, (pos >> 8) & 0xFF, pos & 0xFF, character]);
 };
 
 /* Server->>>Client */
@@ -920,7 +920,8 @@ NET010.decode = function(/* NET010_SERV */ a) {
     pid: (a[1] & 0x00FF) | ((a[0] << 8) & 0xFF00),
     level: a[2],
     zone: a[3],
-    pos: (a[7] & 0xFF) | ((a[6] << 8) & 0xFF00) | ((a[5] << 16) & 0xFF0000) | ((a[4] << 24) & 0xFF0000)
+    pos: (a[7] & 0xFF) | ((a[6] << 8) & 0xFF00) | ((a[5] << 16) & 0xFF0000) | ((a[4] << 24) & 0xFF0000),
+    character: a[8]
   };
 };
 
@@ -961,10 +962,10 @@ NET011.decode = function(/* NET011_SERV */ a) {
 var NET012 = {}; // UPDATE_PLAYER_OBJECT [0x12] // As Uint8Array
 /* ======================================================================================== */
 NET012.DESIGNATION = 0x12;
-NET012.BYTES = 15;
+NET012.BYTES = 16;
 
 /* Client->Server */
-NET012.encode = function(/* byte */ levelID, /* byte */ zoneID, /* vec2 */ pos, /* byte */ spriteID, /* byte */ reverse) {
+NET012.encode = function(/* byte */ levelID, /* byte */ zoneID, /* vec2 */ pos, /* byte */ spriteID, /* byte */ reverse, /* byte */ character) {
   var farr = new Float32Array([pos.x, pos.y]);
   var barr = new Uint8Array(farr.buffer);
   return new Uint8Array([
@@ -972,7 +973,8 @@ NET012.encode = function(/* byte */ levelID, /* byte */ zoneID, /* vec2 */ pos, 
     barr[3], barr[2], barr[1], barr[0],
     barr[7], barr[6], barr[5], barr[4],
     spriteID,
-    reverse
+    reverse,
+    character
   ]);
 };
 
@@ -990,7 +992,8 @@ NET012.decode = function(/* NET012_SERV */ a) {
     zone: a[3],
     pos: vec2.make(v1.getFloat32(0), v2.getFloat32(0)),
     sprite: a[12],
-    reverse: a[13] !== 0
+    reverse: a[13] !== 0,
+    character: a[14]
   };
 };
 

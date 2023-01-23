@@ -4,9 +4,9 @@ package org.infpls.royale.server.game.session;
 public final class AccountData {
     public String session;
     public String username, nickname, squad;
-    public int wins, coins, deaths, kills;
+    public int wins, coins, deaths, kills, character;
 
-    public AccountData(String session, String username, String nickname, String squad, int wins, int coins, int deaths, int kills) {
+    public AccountData(String session, String username, String nickname, String squad, int wins, int coins, int deaths, int kills, int character) {
         this.session = session;
         this.username = username;
         this.nickname = nickname;
@@ -15,5 +15,6 @@ public final class AccountData {
         this.coins = coins;
         this.deaths = deaths;
         this.kills = kills;
+        this.character = character;
     }
 }

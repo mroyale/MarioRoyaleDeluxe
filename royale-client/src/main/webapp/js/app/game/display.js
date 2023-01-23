@@ -204,7 +204,8 @@ Display.prototype.drawObject = function() {
   if(ply && ply.level === zone.level && ply.zone === zone.id) { ply.draw(sprites); ply.write(names); } // Draw our character last.
   
   var tex = this.resource.getTexture("obj");
-  var player = this.resource.getTexture("player");
+  var mario = this.resource.getTexture("mario");
+  var luigi = this.resource.getTexture("luigi");
   
   for(var i=0;i<sprites.length;i++) {
     var sprite = sprites[i];
@@ -226,7 +227,7 @@ Display.prototype.drawObject = function() {
     x = rx?((-1.*(Display.TEXRES*sprite.pos.x))-Display.TEXRES):(Display.TEXRES*sprite.pos.x);
     y = ry?((-1.*(Display.TEXRES*(dim.y-sprite.pos.y-1.)))-Display.TEXRES):(Display.TEXRES*(dim.y-sprite.pos.y-1.));
 
-    context.drawImage(sprite.player ? player : tex, st[0], st[1], Display.TEXRES, Display.TEXRES, x, y, Display.TEXRES, Display.TEXRES);
+    context.drawImage(sprite.player ? (sprite.character ? luigi : mario) : tex, st[0], st[1], Display.TEXRES, Display.TEXRES, x, y, Display.TEXRES, Display.TEXRES);
     
     if(rx || ry) { context.restore(); }
     if(rest) { context.restore(); }
@@ -309,8 +310,10 @@ Display.prototype.drawUI = function() {
   var TEXT = [0x02, 0x05];
   var PAD = 0x06;
   var c = COIN[parseInt(this.game.frame/6) % COIN.length];
+
   var tex = this.resource.getTexture("obj");
-  var plytex = this.resource.getTexture("player");
+  var martex = this.resource.getTexture("mario");
+  var luitex = this.resource.getTexture("luigi");
   var uitex = this.resource.getTexture("ui");
   var ply = this.game.getPlayerInfo(this.game.pid);
 
@@ -385,8 +388,8 @@ Display.prototype.drawUI = function() {
     context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 64, 48, 48);
     context.fillText(ctxt, l-48, 100);
     context.strokeText(ctxt, l-48, 100);
-    var st = util.sprite.getSprite(plytex, PLAY);
-    context.drawImage(plytex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
+    var st = util.sprite.getSprite(app.net.character ? luitex : martex, PLAY);
+    context.drawImage(app.net.character ? luitex : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
 
     if (app.net.deathmatch || this.game.getDebug("lives")) {
       context.fillText("×INF", l-48, 60);

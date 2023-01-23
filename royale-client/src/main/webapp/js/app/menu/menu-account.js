@@ -5,6 +5,7 @@
 function MenuAccount() {
   this.element = document.getElementById("mainMember");
   this.linkElement = document.getElementById("link");
+  this.linkMemberElement = document.getElementById("linkMember");
   this.winElement = document.getElementById("win");
   this.launchBtn = document.getElementById("mainMember-launch");
 
@@ -12,21 +13,37 @@ function MenuAccount() {
   this.changelogBtn = document.getElementById("mainMember-changelog");
   this.settingsBtn = document.getElementById("mainMember-settings");
 
+  this.profileBtn = document.getElementById("mainMember-profile");
   this.logoutBtn = document.getElementById("mainMember-logout");
 
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
   
+  this.profileMenu = document.getElementById("profile");
+  this.profileSaveBtn = document.getElementById("profile-save");
+  this.profileCloseBtn = document.getElementById("profile-close");
+  
   this.padLoop = undefined;
   
   var that = this;
-  this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; }
+  this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; };
+  this.profileCloseBtn.onclick = function() { that.profileMenu.style.display = "none"; };
+  this.profileSaveBtn.onclick = function() { that.saveProfile(); };
 
   this.launchBtn.onclick = function() { app.join(app.net.nickname, app.net.squad); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
+  this.profileBtn.onclick = function() { that.showProfileMenu(); };
   this.logoutBtn.onclick = function() { app.net.send({'type': 'llo', 'session': Cookies.get("session")}); }
+
+  this.marioHead = document.getElementById("profile-selectMario");
+  this.luigiHead = document.getElementById("profile-selectLuigi");
+
+  this.marioHead.addEventListener("click", (function () { return function (event) { that.selectCharacter(0); }; })());
+  this.luigiHead.addEventListener("click", (function () { return function (event) { that.selectCharacter(1); }; })());
+
+  this.pendingChar = null;
 };
 
 /* When the launch button is clicked. */
@@ -34,14 +51,30 @@ MenuAccount.prototype.launch = function() {
   app.menu.name.show();
 };
 
-/* When the login button is clicked. */
-MenuAccount.prototype.login = function() {
-  app.menu.login.show();
+/* Profile Menu */
+MenuAccount.prototype.showProfileMenu = function() {
+  this.profileMenu.style.display = "";
+  switch (app.net.character) {
+    default :
+    case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; break; }
+    case 1 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luiselect.png"; break; }
+  }
 };
 
-/* When the register button is clicked. */
-MenuAccount.prototype.register = function() {
-  app.menu.register.show();
+MenuAccount.prototype.selectCharacter = function(char) {
+  switch (char) {
+    default :
+    case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; break; }
+    case 1 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luiselect.png"; break; }
+  }
+  this.pendingChar = char;
+};
+
+MenuAccount.prototype.saveProfile = function() {
+  app.net.send({
+    'type': 'lpu',
+    'character': this.pendingChar || app.net.character
+  })
 };
 
 MenuAccount.prototype.startPad = function() {
@@ -67,6 +100,7 @@ MenuAccount.prototype.show = function(stats) {
   this.winElement.style.display = "block";
   if(stats) { this.winElement.innerHTML = "Wins×" + (stats.wins) + "</span> <span class='kill'>Deaths×" + (stats.deaths) + "</span> <span class='kill'>Kills×" + (stats.kills) + "</span> <span class='kill'>Coins×" + (stats.coins) + "</span>"; }
   this.startPad();
+  this.linkMemberElement.style.display = "block";
   this.linkElement.style.display = "block";
   this.element.style.display = "block";
 };
@@ -74,5 +108,6 @@ MenuAccount.prototype.show = function(stats) {
 MenuAccount.prototype.hide = function() {
   if(this.padLoop) { clearTimeout(this.padLoop); }
   this.linkElement.style.display = "none";
+  this.linkMemberElement.style.display = "none";
   this.element.style.display = "none";
 };

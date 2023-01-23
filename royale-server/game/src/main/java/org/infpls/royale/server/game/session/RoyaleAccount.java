@@ -3,9 +3,9 @@ package org.infpls.royale.server.game.session;
 public final class RoyaleAccount {
     private String hash;
     public String username, nickname, squad;
-    public int wins, coins, deaths, kills;
+    public int wins, coins, deaths, kills, character;
 
-    public RoyaleAccount(String hash, String username, String nickname, String squad, int wins, int coins, int deaths, int kills) {
+    public RoyaleAccount(String hash, String username, String nickname, String squad, int wins, int coins, int deaths, int kills, int character) {
         this.hash = hash;
         this.username = username;
         this.nickname = nickname;
@@ -14,6 +14,11 @@ public final class RoyaleAccount {
         this.coins = coins;
         this.deaths = deaths;
         this.kills = kills;
+        this.character = character;
+    }
+
+    public void changeCharacter(int newCharacter) {
+        this.character = newCharacter;
     }
 
     public void updatePassword(String newHash) {
@@ -53,4 +58,6 @@ public final class RoyaleAccount {
     public int getWins() { return wins; }
     public int getDeaths() { return deaths; }
     public int getKills() { return kills; }
+
+    public int getCharacter() { return character; }
 }

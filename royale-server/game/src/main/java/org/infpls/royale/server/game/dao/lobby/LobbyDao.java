@@ -66,7 +66,7 @@ public class LobbyDao {
       .hashString(password, StandardCharsets.UTF_8)
       .toString();
 
-    RoyaleAccount account = new RoyaleAccount(hashedPassword, username, username, "", 0, 0, 0, 0);
+    RoyaleAccount account = new RoyaleAccount(hashedPassword, username, username, "", 0, 0, 0, 0, 0);
     accounts.add(account);
     saveDatabase();
     return account;

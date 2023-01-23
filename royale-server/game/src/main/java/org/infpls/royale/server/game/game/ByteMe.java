@@ -66,25 +66,27 @@ public class ByteMe {
   }
   
   public static class NET010 extends NETX {
-    public final byte level, zone;
+    public final byte level, zone, character;
     public final int pos;             // shor2
     public NET010(short pid, ByteBuffer data) {
       super((byte)0x10, pid);
       level = data.get();
       zone = data.get();
       pos = data.getInt();
+      character = data.get();
     }
     
-    public NET010(short pid, byte level, byte zone, int pos) {
+    public NET010(short pid, byte level, byte zone, int pos, byte character) {
       super((byte)0x10, pid);
       this.level = level;
       this.zone = zone;
       this.pos = pos;
+      this.character = character;
     }
     
     @Override
     public ByteBuffer encode() {
-      final ByteBuffer bb = ByteBuffer.allocate(9);
+      final ByteBuffer bb = ByteBuffer.allocate(10);
       bb.put(designation);
       bb.putShort(pid);
       bb.put(level);
@@ -113,7 +115,7 @@ public class ByteMe {
   }
   
   public static class NET012 extends NETX {
-    public final byte level, zone;
+    public final byte level, zone, character;
     public final Vec2 pos;             // Vec2
     public final byte sprite;
     public final byte reverse;
@@ -124,11 +126,12 @@ public class ByteMe {
       pos = new Vec2(data.getFloat(), data.getFloat());
       sprite = data.get();
       reverse=data.get();
+      character = data.get();
     }
     
     @Override
     public ByteBuffer encode() {
-      final ByteBuffer bb = ByteBuffer.allocate(15);
+      final ByteBuffer bb = ByteBuffer.allocate(16);
       bb.put(designation);
       bb.putShort(pid);
       bb.put(level);
@@ -137,6 +140,7 @@ public class ByteMe {
       bb.putFloat(pos.y);
       bb.put(sprite);
       bb.put(reverse);
+      bb.put(character);
       return bb;
     }
   }

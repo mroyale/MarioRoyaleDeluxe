@@ -20,6 +20,7 @@ public class Controller {
   protected byte level, zone;
   protected Vec2 position;
   protected byte sprite;
+  protected byte character;
   public int kills;
   
   protected byte result;
@@ -124,6 +125,7 @@ public class Controller {
     level = n.level;
     zone = n.zone;
     position = Shor2.decode(n.pos);
+    character = n.character;
   }
   
   /* KILL_PLAYER_OBJECT */
@@ -140,6 +142,7 @@ public class Controller {
     zone = n.zone;
     position = n.pos;
     sprite = n.sprite;
+    character = n.character;
     
     /* Anti Cheat */
     /*if(level - acSequence > 1) { strike("Level Sequence Skip"); }

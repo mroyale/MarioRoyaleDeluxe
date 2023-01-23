@@ -44,6 +44,7 @@ public class Login extends SessionState {
         case "lrg" : { accountRegister(gson.fromJson(data, PacketLRR.class)); break; }
         case "lrs" : { accountResume(gson.fromJson(data, PacketLSR.class)); break; }
         case "llo" : { accountLogout(gson.fromJson(data, PacketLOR.class)); break; }
+        case "lpu" : { accountUpdate(gson.fromJson(data, PacketLPU.class)); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
@@ -58,7 +59,7 @@ public class Login extends SessionState {
     session.setAccount(acc);
 
     String session = lobbyDao.addToken(p.username);
-    AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
+    AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
     
     String hashedPassword = Hashing.sha256()
       .hashString(p.password, StandardCharsets.UTF_8)
@@ -86,7 +87,7 @@ public class Login extends SessionState {
       session.setAccount(newAcc);
       String session = lobbyDao.addToken(p.username);
 
-      AccountData newAccount = new AccountData(session, newAcc.getUsername(), newAcc.getNickname(), "", 0, 0, 0, 0);
+      AccountData newAccount = new AccountData(session, newAcc.getUsername(), newAcc.getNickname(), "", 0, 0, 0, 0, 0);
       sendPacket(new PacketLRG(true, json.toJson(newAccount)));
     } else {
       sendPacket(new PacketLRG(false, "Account with that name already exists"));
@@ -104,7 +105,7 @@ public class Login extends SessionState {
       session.setAccount(acc);
 
       String session = lobbyDao.findToken(p.session);
-      AccountData account = new AccountData(p.session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills());
+      AccountData account = new AccountData(p.session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
       sendPacket(new PacketLRS(true, json.toJson(account)));
     }
   }
@@ -113,6 +114,12 @@ public class Login extends SessionState {
   private void accountLogout(final PacketLOR p) throws IOException {
     lobbyDao.removeToken(p.session);
     sendPacket(new PacketLLO());
+  }
+
+  /* Update our profile settings */
+  private void accountUpdate(final PacketLPU p) throws IOException {
+    session.getAccount().changeCharacter(p.character);
+    sendPacket(new PacketLPU(p.character));
   }
   
   /* Validate username, login, return data, automatically choose and join a lobby */

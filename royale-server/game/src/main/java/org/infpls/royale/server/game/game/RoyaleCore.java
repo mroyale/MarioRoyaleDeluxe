@@ -74,7 +74,7 @@ public abstract class RoyaleCore {
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
       if(!c.dead) {
-        baos.write(new ByteMe.NET010(c.pid, c.level, c.zone, Shor2.encode(c.position)).encode().array());
+        baos.write(new ByteMe.NET010(c.pid, c.level, c.zone, Shor2.encode(c.position), c.character).encode().array());
       }
     }
     ByteBuffer bb = ByteBuffer.wrap(baos.toByteArray());

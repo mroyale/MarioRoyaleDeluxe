@@ -12,6 +12,7 @@ StateLogin.prototype.handlePacket = function(packet) {
     case "lrs" : { this.handleLogin(packet); return true; }
     case "lrg" : { this.handleRegister(packet); return true; }
     case "llo" : { this.handleLogout(packet); return true; }
+    case "lpu" : { this.handleUpdate(packet); return true; }
     default : { return false; }
   }
 };
@@ -35,7 +36,8 @@ StateLogin.prototype.handleLogin = function(p) {
   if (p.status) {
     var data = JSON.parse(p.msg);
     app.net.nickname = data.nickname;
-    app.net.squad = p.msg.squad;
+    app.net.squad = data.squad;
+    app.net.character = data.character;
 
     Cookies.set("session", data.session, {'expires': 14});
     
@@ -54,6 +56,7 @@ StateLogin.prototype.handleRegister = function(p) {
     var data = JSON.parse(p.msg);
     app.net.nickname = data.nickname;
     app.net.squad = data.squad;
+    app.net.character = data.character;
 
     Cookies.set("session", data.session, {'expires': 14});
     
@@ -70,6 +73,11 @@ StateLogin.prototype.handleRegister = function(p) {
 StateLogin.prototype.handleLogout = function(p) {
   Cookies.remove("session");
   app.close();
+};
+
+// LPU
+StateLogin.prototype.handleUpdate = function(p) {
+  app.net.character = p.character;
 };
 
 StateLogin.prototype.send = function(data) {

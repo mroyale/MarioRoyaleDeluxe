@@ -7,7 +7,7 @@ function MenuDisplay() {
     this.context = this.canvas.getContext("2d");
     this.frame = 0;
 
-    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "pvp-maker", "pvp-mariokart", "pvp-smb2"];
+    const worldList = ["bkg-mariokart"];
     this.loadWorld(worldList[Math.floor(Math.random() * worldList.length)]).then(data => {
         this.resource = new Resource(data.resource);
         this.camera = new Camera(this);

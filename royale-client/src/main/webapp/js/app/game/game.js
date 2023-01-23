@@ -12,7 +12,8 @@ function Game(data) {
   this.container = document.getElementById("game");
   this.canvas = document.getElementById("game-canvas");
 
-  data.resource.push({ "id": "player", "src": "img/game/smb_mario.png" }); // Add our player sprite
+  data.resource.push({ "id": "mario", "src": "img/game/smb_mario.png" });  // Add the Mario spritesheet
+  data.resource.push({ "id": "luigi", "src": "img/game/smb_luigi.png" });  // Add the Luigi spritesheet
   data.resource.push({ "id": "ui", "src": "img/game/smb_ui.png" });        // Add UI that we see at the top of the screen
   
   this.input = new Input(this, this.canvas);
@@ -384,7 +385,7 @@ Game.prototype.doNET001 = function(n) {
 /* CREATE_PLAYER_OBJECT [0x10] */
 Game.prototype.doNET010 = function(n) {
   if(n.pid === this.pid) { return; }
-  var obj = this.createObject(PlayerObject.ID, n.level, n.zone, shor2.decode(n.pos), [n.pid]);
+  var obj = this.createObject(PlayerObject.ID, n.level, n.zone, shor2.decode(n.pos), [n.pid, n.character]);
   obj.setState(PlayerObject.SNAME.GHOST);
   
   /* Check if we need to apply a team name to this new infringio */
@@ -692,7 +693,7 @@ Game.prototype.doStep = function() {
       var rsp = this.getZone().level;
       this.doSpawn(); 
       this.levelWarp(rsp);
-      if (this.debugSettings.infiniteLives) {
+      if (this.getDebug("lives")) {
         this.lives -= 0;
       } else { this.lives--; }
       var d = Cookies.get("sad_gamer_moments");
@@ -722,8 +723,8 @@ Game.prototype.doSpawn = function() {
       pos = spn[parseInt(Math.random() * spn.length)].pos;
     } else { pos = zon.initial; /* shor2 */ }
 
-    var obj = this.createObject(PlayerObject.ID, this.getDebug("level") || zon.level, zon.id, shor2.decode(pos), [this.pid]);
-    this.out.push(NET010.encode(this.getDebug("level") || zon.level, zon, pos));
+    var obj = this.createObject(PlayerObject.ID, this.getDebug("level") || zon.level, zon.id, shor2.decode(pos), [this.pid, app.net.character]);
+    this.out.push(NET010.encode(this.getDebug("level") || zon.level, zon, pos, app.net.character));
 
     this.display.camera.positionX(shor2.decode(pos).x);
 
@@ -757,7 +758,7 @@ Game.prototype.doMusic = function() {
 Game.prototype.doPush = function() {
   var obj = this.getPlayer(); // Our player object
   if(obj && !obj.dead) {
-    this.out.push(NET012.encode(obj.level, obj.zone, obj.pos, obj.sprite.ID, obj.reverse));
+    this.out.push(NET012.encode(obj.level, obj.zone, obj.pos, obj.sprite.ID, obj.reverse, obj.character));
   }
   
   var merge = MERGE_BYTE(this.out); // Merge all binary messages into a single Uint8Array

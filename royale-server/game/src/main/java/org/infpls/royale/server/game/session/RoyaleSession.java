@@ -112,6 +112,10 @@ public final class RoyaleSession {
   public void setAccount(RoyaleAccount account) {
     this.account = account;
   }
+
+  public RoyaleAccount getAccount() {
+    return account;
+  }
   
   public boolean loggedIn() {
     return name != null;
