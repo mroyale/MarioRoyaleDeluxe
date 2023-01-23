@@ -344,7 +344,7 @@ function fadeIn() {
   var elem = document.getElementById("body");
   var opacity = parseFloat(elem.style.opacity);
   if (opacity < 1.1) {
-      opacity += .1;
+      opacity += .05;
       setTimeout(() => { elem.style.opacity = opacity; fadeIn(); }, 29);
   }
 }

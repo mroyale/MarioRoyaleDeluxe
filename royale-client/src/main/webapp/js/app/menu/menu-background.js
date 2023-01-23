@@ -6,11 +6,14 @@ function MenuDisplay() {
     this.container = document.getElementById("background");
     this.context = this.canvas.getContext("2d");
     this.frame = 0;
-    this.loadWorld("world-6").then(data => {
+
+    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "pvp-maker", "pvp-mariokart", "pvp-smb2"];
+    this.loadWorld(worldList[Math.floor(Math.random() * worldList.length)]).then(data => {
         this.resource = new Resource(data.resource);
         this.camera = new Camera(this);
         
         this.zone = data.world[0].zone[0];
+        this.objects = this.zone.obj;
         if (this.zone.background.length) { this.downloadBackgrounds(this.zone.background) }
         this.loadAnimations(data.assets || "assets.json", data.resource);
         this.position();
@@ -158,7 +161,7 @@ MenuDisplay.prototype.draw = function() {
           for (var j = 0; j < zone.layers.length; j++) {
             this.drawMap(zone.layers[j].data, false); // Render depth 0
             if (zone.layers[j].z == 0) {
-              //this.drawObject();
+              this.drawObject();
               this.drawMap(zone.layers[j].data, true); // Render depth 1
             }
           }
@@ -168,7 +171,7 @@ MenuDisplay.prototype.draw = function() {
         for (var j = 0; j < zone.layers.length; j++) {
           this.drawMap(zone.layers[j].data, false); // Render depth 0
           if (zone.layers[j].z == 0) {
-            //this.drawObject();
+            this.drawObject();
             this.drawMap(zone.layers[j].data, true); // Render depth 1
           }
         }
@@ -251,6 +254,39 @@ MenuDisplay.prototype.drawMap = function(data, depth) {
       context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES*j, MenuDisplay.TEXRES*(i-bmp), MenuDisplay.TEXRES, MenuDisplay.TEXRES);
     }
   }
+};
+
+MenuDisplay.prototype.drawObject = function() {
+    var context = this.context; // Sanity
+    
+    var zone = this.zone;
+    var dim = this.dimensions();
+    
+    /* Culling Bounds */
+    var w = ((this.canvas.width/Display.TEXRES)*.75)/this.camera.scale;
+    var cx0 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x - w)));
+    var cx1 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x + w)));
+    
+    var texts = [];
+    for(var i=0;i<this.objects.length;i++) {
+        var obj = this.objects[i];
+        if (obj.type === 253) {
+            texts.push({'offset': obj.param[0], 'size': obj.param[1], 'color': obj.param[2], 'text': obj.param[3], 'pos': shor2.decode(obj.pos)});
+        }
+    }
+    
+    for(var i=0;i<texts.length;i++) {
+      var txt = texts[i];
+      var x = (Display.TEXRES*txt.pos.x)+(Display.TEXRES*.5);
+      var y = (Display.TEXRES*(dim.y-txt.pos.y-1.))+(Display.TEXRES*.5);
+      
+      context.fillStyle = txt.color;
+      context.strokeStyle = "blue";
+      context.font = (txt.size*Display.TEXRES) + "px SmbWeb";
+      context.textAlign = "center";
+      context.strokeText(txt.text, x, y);
+      context.fillText(txt.text, x, y);
+    }
 };
 
 MenuDisplay.prototype.drawLoad = function() {
