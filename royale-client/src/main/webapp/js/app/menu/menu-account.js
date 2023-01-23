@@ -14,6 +14,7 @@ function MenuAccount() {
   this.settingsBtn = document.getElementById("mainMember-settings");
 
   this.profileBtn = document.getElementById("mainMember-profile");
+  this.passwordBtn = document.getElementById("mainMember-password");
   this.logoutBtn = document.getElementById("mainMember-logout");
 
   this.settingsMenu = document.getElementById("settings");
@@ -22,19 +23,31 @@ function MenuAccount() {
   this.profileMenu = document.getElementById("profile");
   this.profileSaveBtn = document.getElementById("profile-save");
   this.profileCloseBtn = document.getElementById("profile-close");
+
+  this.passwordMenu = document.getElementById("password");
+  this.passwordSaveBtn = document.getElementById("password-save");
+  this.passwordCloseBtn = document.getElementById("password-close");
+  this.passwordError = document.getElementById("password-error");
+
+  this.passwordNew = document.getElementById("password-new");
+  this.passwordVerify = document.getElementById("password-verify");
   
   this.padLoop = undefined;
   
   var that = this;
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; };
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
+  this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
+
   this.profileSaveBtn.onclick = function() { that.saveProfile(); };
+  this.passwordSaveBtn.onclick = function() { that.savePassword(); };
 
   this.launchBtn.onclick = function() { app.join(app.net.nickname, app.net.squad); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
   this.profileBtn.onclick = function() { that.showProfileMenu(); };
+  this.passwordBtn.onclick = function() { that.showPasswordMenu(); };
   this.logoutBtn.onclick = function() { app.net.send({'type': 'llo', 'session': Cookies.get("session")}); }
 
   this.profileUsername = document.getElementById("profile-username");
@@ -55,8 +68,42 @@ MenuAccount.prototype.launch = function() {
   app.menu.name.show();
 };
 
+/* Change Password Menu */
+MenuAccount.prototype.showPasswordMenu = function() {
+  this.hideProfileMenu();
+  this.passwordMenu.style.display = "";
+  this.passwordNew.value = "";
+  this.passwordVerify.value = "";
+  this.passwordError.innerText = "";
+};
+
+MenuAccount.prototype.hidePasswordMenu = function() {
+  this.passwordMenu.style.display = "none";
+  this.passwordNew.value = "";
+  this.passwordVerify.value = "";
+  this.passwordError.innerText = "";
+};
+
+MenuAccount.prototype.savePassword = function() {
+  var pass = this.passwordNew.value;
+  var verify = this.passwordVerify.value;
+
+  if (pass.length < 4) { this.passwordReport("Password is too short"); return; }
+  if (pass != verify) { this.passwordReport("Passwords don't match"); return; }
+
+  app.net.send({
+    'type': 'lcp',
+    'password': pass
+  });
+};
+
+MenuAccount.prototype.passwordReport = function(msg) {
+  this.passwordError.innerText = msg;
+};
+
 /* Profile Menu */
 MenuAccount.prototype.showProfileMenu = function() {
+  this.hidePasswordMenu();
   this.profileMenu.style.display = "";
   this.profileUsername.innerText = app.net.username;
   this.profileNickname.value = app.net.nickname;

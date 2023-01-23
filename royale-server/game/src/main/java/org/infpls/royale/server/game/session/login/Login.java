@@ -45,6 +45,7 @@ public class Login extends SessionState {
         case "lrs" : { accountResume(gson.fromJson(data, PacketLSR.class)); break; }
         case "llo" : { accountLogout(gson.fromJson(data, PacketLOR.class)); break; }
         case "lpu" : { accountUpdate(gson.fromJson(data, PacketLPU.class)); break; }
+        case "lcp" : { accountPassword(gson.fromJson(data, PacketLCP.class)); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
@@ -140,6 +141,22 @@ public class Login extends SessionState {
     sendPacket(new PacketLPU(p.character, p.nickname));
   }
   
+  /* Change the account password */
+  private void accountPassword(final PacketLCP p) throws IOException {
+    RoyaleAccount acc = session.getAccount();
+    String hashedPassword = Hashing.sha256()
+      .hashString(p.password, StandardCharsets.UTF_8)
+      .toString();
+
+    if (p.password.length() < 4) {
+      sendPacket(new PacketLCP("", "Password is too short"));
+      return;
+    }
+
+    acc.updatePassword(hashedPassword);
+    sendPacket(new PacketLCP(""));
+  }
+
   /* Validate username, login, return data, automatically choose and join a lobby */
   private void login(final PacketL00 p) throws IOException {
     /* Username */

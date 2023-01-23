@@ -13,6 +13,7 @@ StateLogin.prototype.handlePacket = function(packet) {
     case "lrg" : { this.handleRegister(packet); return true; }
     case "llo" : { this.handleLogout(packet); return true; }
     case "lpu" : { this.handleUpdate(packet); return true; }
+    case "lcp" : { this.handlePassword(packet); return true; }
     default : { return false; }
   }
 };
@@ -88,6 +89,16 @@ StateLogin.prototype.handleUpdate = function(p) {
   app.net.nickname = p.nickname;
   app.menu.mainMember.hideProfileMenu();
 };
+
+// LCP
+StateLogin.prototype.handlePassword = function(p) {
+  if (p.error) {
+    app.menu.mainMember.profileReport(p.error);
+    return;
+  }
+
+  app.menu.mainMember.hidePasswordMenu();
+}
 
 StateLogin.prototype.send = function(data) {
   app.net.send(data);
