@@ -895,6 +895,7 @@ Game.prototype.coinage = function() {
   this.play("coin.mp3",.4,0.);
   var c = Cookies.get("dosh");
   Cookies.set("dosh", c?parseInt(c)+1:1, {expires: 365});
+  this.out.push(NET021.encode());
 };
 
 /* When the client player collects a life */

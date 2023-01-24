@@ -21,6 +21,7 @@ public class ByteMe {
         case 0x18 : { de.add(new NET018(pid, data)); break; }
         case 0x19 : { de.add(new NET019(pid, data)); break; }
         case 0x20 : { de.add(new NET020(pid, data)); break; }
+        case 0x21 : { de.add(new NET021(pid, data)); break; }
         case 0x30 : { de.add(new NET030(pid, data)); break; }
         default : { throw new IOException("Invalid designation byte: " + designation); }
       }
@@ -274,6 +275,24 @@ public class ByteMe {
       bb.put(zone);
       bb.putInt(oid);
       bb.put(type);
+      return bb;
+    }
+  }
+
+  public static class NET021 extends NETX {
+    public NET021(short pid, ByteBuffer data) {
+      super((byte)0x21, pid);
+    }
+    
+    public NET021(short pid) {
+      super((byte)0x21, pid);
+    }
+    
+    @Override
+    public ByteBuffer encode() {
+      final ByteBuffer bb = ByteBuffer.allocate(3);
+      bb.put(designation);
+      bb.putShort(pid);
       return bb;
     }
   }

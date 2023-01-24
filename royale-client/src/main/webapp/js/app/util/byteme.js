@@ -1103,6 +1103,17 @@ NET020.decode = function(/* NET020_SERV */ a) {
 
 
 
+var NET021 = {}; // PLAYER_COLLECT_COIN [0x21] // As Uint8Array
+/* ======================================================================================== */
+NET021.DESIGNATION = 0x21;
+NET021.BYTES = 3;
+
+/* Client->Server */
+NET021.encode = function() {
+  return new Uint8Array([NET021.DESIGNATION]);
+};
+
+
 var NET030 = {}; // TILE_EVENT_TRIGGER [0x30] // As Uint8Array
 /* ======================================================================================== */
 NET030.DESIGNATION = 0x30;

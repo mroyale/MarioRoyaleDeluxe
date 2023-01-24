@@ -114,6 +114,7 @@ public class Controller {
             }
             case 0x19 : { process019((ByteMe.NET019)n); break; }
             case 0x20 : { process020((ByteMe.NET020)n); if(!strike) { glo.add(n); } break; }
+            case 0x21 : { process021((ByteMe.NET021)n); break; }
             case 0x30 : { process030((ByteMe.NET030)n); if(!strike) { glo.add(n); } break; }
           }
         }
@@ -250,6 +251,14 @@ private static final byte[] VALID_SPRITES = new byte[] {
   /* OBJECT_EVENT_TRIGGER */
   public void process020(ByteMe.NET020 n) {
     
+  }
+
+  /* PLAYER_COLLECT_COIN */
+  public void process021(ByteMe.NET021 n) {
+    RoyaleAccount acc = session.getAccount();
+    if (acc != null) {
+      acc.updateCoins(1);
+    }
   }
   
   /* TILE_EVENT_TRIGGER */
