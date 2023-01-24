@@ -102,7 +102,13 @@ public class Controller {
             case 0x18 : {
               final ByteMe.NET018 wr = process018((ByteMe.NET018)n);
               if(wr == null) { break; }
-              else if(!strike) { glo.add(wr); }
+              else if(!strike) {
+                RoyaleAccount acc = session.getAccount();
+                if (acc != null) {
+                  acc.updateWins(1);
+                }
+                glo.add(wr);
+              }
               else { send(wr.encode().array()); }
               break;
             }
@@ -130,6 +136,11 @@ public class Controller {
   
   /* KILL_PLAYER_OBJECT */
   public void process011(ByteMe.NET011 n) {
+    RoyaleAccount acc = session.getAccount();
+    if (acc != null) {
+      acc.updateDeaths(1);
+    }
+
     dead = true;
   }
   
@@ -210,7 +221,13 @@ private static final byte[] VALID_SPRITES = new byte[] {
   /* PLAYER_KILL_EVENT */
   public void process017(ByteMe.NET017 n) {
     final Controller kler = game.getController(n.killer);
-    if(kler != null) { kler.send(n.encode().array()); kler.kills += 1; System.err.println(kler.getName() + " killed " + getName() + ", their kills are now at " + kler.getKills()); }
+    if(kler != null) {
+      kler.send(n.encode().array());
+      RoyaleAccount klerAcc = kler.session.getAccount();
+      if (klerAcc != null) {
+        klerAcc.updateKills(1);
+      }
+    }
   }
   
   /* PLAYER_RESULT_REQUEST */
