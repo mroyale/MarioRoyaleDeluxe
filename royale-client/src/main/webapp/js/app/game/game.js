@@ -422,8 +422,7 @@ Game.prototype.doNET013 = function(n) {
 
 /* PLAYER_KILL_EVENT [0x17] */
 Game.prototype.doNET017 = function(n) {
-  var epic = Cookies.get("heated_gamer_moments");
-  Cookies.set("heated_gamer_moments", epic?parseInt(epic)+1:1, {expires: 365});
+  
 };
 
 /* PLAYER_RESULT_REQUEST [0x18] */
@@ -445,10 +444,6 @@ Game.prototype.doNET018 = function(n) {
   var ply = this.getPlayer();
   if(ply) { ply.axe(n.result); }
   this.victory = n.result;
-  if(n.result === 0x01 && !app.net.prefLobby) {
-    var epic = Cookies.get("epic_gamer_moments");
-    Cookies.set("epic_gamer_moments", epic?parseInt(epic)+1:1, {expires: 365});
-  }
 };
 
 /* OBJECT_EVENT_TRIGGER [0x20] */
@@ -696,8 +691,6 @@ Game.prototype.doStep = function() {
       if (this.getDebug("lives")) {
         this.lives -= 0;
       } else { this.lives--; }
-      var d = Cookies.get("sad_gamer_moments");
-      Cookies.set("sad_gamer_moments", c?parseInt(c)+1:1, {'expires': 365});
 
       if (zone.musicBlock) { zone.musicBlock = null; } }
     else if(++this.gameOverTimer > 45) { this.gameOver = true; this.gameOverTimer = 0; }
@@ -893,8 +886,6 @@ Game.prototype.coinage = function() {
   this.coins = Math.min(99, this.coins+1);
   if(this.coins >= Game.COINS_TO_LIFE) { this.lifeage(); this.coins = 0; }
   this.play("coin.mp3",.4,0.);
-  var c = Cookies.get("dosh");
-  Cookies.set("dosh", c?parseInt(c)+1:1, {expires: 365});
   this.out.push(NET021.encode());
 };
 

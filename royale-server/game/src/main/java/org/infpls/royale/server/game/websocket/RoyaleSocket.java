@@ -51,6 +51,7 @@ public class RoyaleSocket extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession webSocket, CloseStatus status) {
       try {
+        dao.getLobbyDao().saveDatabase();
         dao.getUserDao().destroySession(webSocket);
       }
       catch(Exception ex) {

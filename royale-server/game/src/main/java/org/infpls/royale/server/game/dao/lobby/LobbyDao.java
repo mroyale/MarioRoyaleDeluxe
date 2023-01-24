@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
 
@@ -21,6 +22,7 @@ public class LobbyDao {
   private final List<GameLobby> lobbies;
   private GameLobby jail;
 
+  private String database;
   private final List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
   private final HashMap<String, String> loggedIn; /* Session tokens of players that have logged in */
   
@@ -31,8 +33,20 @@ public class LobbyDao {
       Oak.log(Oak.Level.CRIT, "Failed to start jail lobby!");
     }
 
-    /* insert mongodb connecting shit and initializing the accounts */
-    accounts = Collections.synchronizedList(new ArrayList());
+    try {
+      System.out.println("Opening database file");
+      File db = new File("/tmp/database.json");
+      Scanner reader = new Scanner(db);
+      while (reader.hasNextLine()) {
+        database = reader.nextLine();
+      }
+      reader.close();
+    } catch (FileNotFoundException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
+    
+    accounts = new Gson().fromJson(database, new TypeToken<List<RoyaleAccount>>() {}.getType());
     loggedIn = new HashMap<String, String>();
   }
   
@@ -77,9 +91,9 @@ public class LobbyDao {
     try {
       // Create new file
       Gson gson = new GsonBuilder().create();
-      File file = new File("database.txt");
+      File file = new File("/tmp/database.json");
 
-      FileWriter fw = new FileWriter("database.txt");
+      FileWriter fw = new FileWriter("/tmp/database.json");
       BufferedWriter bw = new BufferedWriter(fw);
 
       // Write in file
@@ -89,19 +103,6 @@ public class LobbyDao {
       // Close connection
       bw.flush();
       bw.close();
-
-      try {
-        File myObj = new File("database.txt");
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-          String data = myReader.nextLine();
-          System.out.println(data);
-        }
-        myReader.close();
-      } catch (FileNotFoundException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
-      }
     }
     catch(Exception e){
       System.out.println(e);

@@ -69,17 +69,12 @@ MenuMain.prototype.startPad = function() {
   padCheck();
 };
 
-MenuMain.prototype.show = function(number) {
+MenuMain.prototype.show = function() {
   app.menu.hideAll();
   app.menu.navigation("main", "main");
   app.menu.background("a");
-  //if(number) { this.number.innerHTML = number; }
-  var w = Cookies.get("epic_gamer_moments");
-  var d = Cookies.get("sad_gamer_moments");
-  var k = Cookies.get("heated_gamer_moments");
-  var c = Cookies.get("dosh");
   this.winElement.style.display = "block";
-  this.winElement.innerHTML = "Wins×" + (w?w:"0") + " <span class='kill'>Deaths×" + (d?d:"0") + "</span> <span class='kill'>Kills×" + (k?k:"0") + "</span> <span class='kill'>Coins×" + (c?c:"0") + "</span>";
+  this.winElement.innerHTML = "Login to track statistics and play as Luigi!";
   this.startPad();
   this.linkElement.style.display = "block";
   this.element.style.display = "block";
