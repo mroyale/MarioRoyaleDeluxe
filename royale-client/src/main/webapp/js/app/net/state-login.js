@@ -35,6 +35,8 @@ StateLogin.prototype.loggedIn = function(p) {
 // LLG, LRS
 StateLogin.prototype.handleLogin = function(p) {
   if (p.status) {
+    app.menu.main.hideLoginMenu();
+
     var data = JSON.parse(p.msg);
     app.net.username = data.username;
     app.net.nickname = data.nickname;
@@ -47,8 +49,9 @@ StateLogin.prototype.handleLogin = function(p) {
     app.menu.mainMember.show(stats);
   } else {
     Cookies.remove("session");
-    app.menu.login.show();
-    app.menu.login.reportError(p.msg);
+    app.menu.main.show();
+    app.menu.main.showLoginMenu();
+    app.menu.main.loginError(p.msg);
   }
 };
 
@@ -70,6 +73,7 @@ StateLogin.prototype.handleRegister = function(p) {
   } else {
     Cookies.remove("session");
     app.menu.main.show();
+    app.menu.main.showRegisterMenu();
     app.menu.main.registerError(p.msg);
   }
 };

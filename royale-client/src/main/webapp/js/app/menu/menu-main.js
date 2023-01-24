@@ -17,6 +17,8 @@ function MenuMain() {
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
 
+  this.darkBackground = document.getElementById("dark-bg");
+
   this.registerMenu = document.getElementById("register");
   this.registerCloseBtn = document.getElementById("signup-close");
   this.signupName = document.getElementById("signup-name");
@@ -24,7 +26,13 @@ function MenuMain() {
   this.signupVerify = document.getElementById("signup-verify");
   this.signupBtn = document.getElementById("signup-register");
   this.signupError = document.getElementById("signup-error");
-  this.darkBackground = document.getElementById("dark-bg");
+
+  this.loginMenu = document.getElementById("login");
+  this.loginCloseBtn = document.getElementById("login-close");
+  this.signinName = document.getElementById("login-name");
+  this.signinPassword = document.getElementById("login-password");
+  this.signinBtn = document.getElementById("login-signin");
+  this.signinError = document.getElementById("login-error");
 
   
   var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
@@ -43,20 +51,47 @@ function MenuMain() {
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
-  this.loginBtn.onclick = function() { that.login(); };
+  this.loginBtn.onclick = function() { that.showLoginMenu(); };
+  this.loginCloseBtn.onclick = function() { that.hideLoginMenu(); };
+  this.signinBtn.onclick = function() { that.login(); };
   this.registerBtn.onclick = function() { that.showRegisterMenu(); };
-  this.signupBtn.onclick = function() { that.register(); };
   this.registerCloseBtn.onclick = function() { that.hideRegisterMenu(); };
+  this.signupBtn.onclick = function() { that.register(); };
 };
 
-/* When the launch button is clicked. */
 MenuMain.prototype.launch = function() {
   app.menu.name.show();
 };
 
-/* When the login button is clicked. */
+/* Login Menu */
+MenuMain.prototype.showLoginMenu = function() {
+  this.loginMenu.style.display = "";
+  this.darkBackground.style.display = "";
+};
+
+MenuMain.prototype.hideLoginMenu = function() {
+  this.loginMenu.style.display = "none";
+  this.signupName.value = "";
+  this.signupPassword.value = "";
+  this.signupError.innerText = "";
+  this.darkBackground.style.display = "none";
+};
+
 MenuMain.prototype.login = function() {
-  app.menu.login.show();
+  var name = this.signinName.value;
+  var pass = this.signinPassword.value;
+
+  var that = this;
+  if (name.length < 4) { that.loginError("Username is too short"); return; }
+  if (name.length > 20) { that.loginError("Username is too long"); return; }
+  if (pass.length < 4) { that.loginError("Password is too short"); return; }
+  
+  this.hideLoginMenu();
+  app.login(name, pass);
+};
+
+MenuMain.prototype.loginError = function(msg) {
+  this.signinError.innerText = msg;
 };
 
 /* Register Menu */
@@ -85,6 +120,7 @@ MenuMain.prototype.register = function() {
   if (pass.length < 4) { that.registerError("Password is too short"); return; }
   if (pass != verify) { that.registerError("Passwords don't match"); return; }
   
+  this.hideRegisterMenu();
   app.register(name, pass);
 };
 

@@ -31,6 +31,8 @@ function MenuAccount() {
 
   this.passwordNew = document.getElementById("password-new");
   this.passwordVerify = document.getElementById("password-verify");
+
+  this.darkBackground = document.getElementById("dark-bg");
   
   this.padLoop = undefined;
   
@@ -80,6 +82,7 @@ MenuAccount.prototype.hidePrivateMenu = function() {
 /* Change Password Menu */
 MenuAccount.prototype.showPasswordMenu = function() {
   this.hideProfileMenu();
+  this.darkBackground.style.display = "";
   this.passwordMenu.style.display = "";
   this.passwordNew.value = "";
   this.passwordVerify.value = "";
@@ -87,6 +90,7 @@ MenuAccount.prototype.showPasswordMenu = function() {
 };
 
 MenuAccount.prototype.hidePasswordMenu = function() {
+  this.darkBackground.style.display = "none";
   this.passwordMenu.style.display = "none";
   this.passwordNew.value = "";
   this.passwordVerify.value = "";
@@ -113,6 +117,7 @@ MenuAccount.prototype.passwordReport = function(msg) {
 /* Profile Menu */
 MenuAccount.prototype.showProfileMenu = function() {
   this.hidePasswordMenu();
+  this.darkBackground.style.display = "";
   this.profileMenu.style.display = "";
   this.profileUsername.innerText = app.net.username;
   this.profileNickname.value = app.net.nickname;
@@ -124,6 +129,7 @@ MenuAccount.prototype.showProfileMenu = function() {
 };
 
 MenuAccount.prototype.hideProfileMenu = function() {
+  this.darkBackground.style.display = "none";
   this.profileMenu.style.display = "none";
   this.profileError.innerText = "";
 };
