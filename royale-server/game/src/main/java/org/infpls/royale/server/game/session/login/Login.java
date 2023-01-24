@@ -104,6 +104,7 @@ public class Login extends SessionState {
     } else {
       RoyaleAccount acc = lobbyDao.findAccount(lobbyDao.findToken(p.session));
       session.setAccount(acc);
+      lobbyDao.saveDatabase();
 
       String session = lobbyDao.findToken(p.session);
       AccountData account = new AccountData(p.session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
@@ -114,6 +115,7 @@ public class Login extends SessionState {
   /* Logout of our account and delete the session */
   private void accountLogout(final PacketLOR p) throws IOException {
     lobbyDao.removeToken(p.session);
+    lobbyDao.saveDatabase();
     sendPacket(new PacketLLO());
   }
 
@@ -137,6 +139,7 @@ public class Login extends SessionState {
     RoyaleAccount acc = session.getAccount();
     acc.changeCharacter(p.character);
     acc.updateName(p.nickname);
+    lobbyDao.saveDatabase();
 
     sendPacket(new PacketLPU(p.character, p.nickname));
   }
@@ -154,6 +157,7 @@ public class Login extends SessionState {
     }
 
     acc.updatePassword(hashedPassword);
+    lobbyDao.saveDatabase();
     sendPacket(new PacketLCP(""));
   }
 
