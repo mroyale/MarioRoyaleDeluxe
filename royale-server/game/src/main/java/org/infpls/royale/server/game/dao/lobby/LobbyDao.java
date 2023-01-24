@@ -23,7 +23,7 @@ public class LobbyDao {
   private GameLobby jail;
 
   private String database;
-  private final List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
+  private List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
   private final HashMap<String, String> loggedIn; /* Session tokens of players that have logged in */
   
   public LobbyDao() {
@@ -33,20 +33,27 @@ public class LobbyDao {
       Oak.log(Oak.Level.CRIT, "Failed to start jail lobby!");
     }
 
+    boolean dbExists = true;
     try {
       System.out.println("Opening database file");
       File db = new File("/tmp/database.json");
-      Scanner reader = new Scanner(db);
-      while (reader.hasNextLine()) {
-        database = reader.nextLine();
+      if(!db.exists()) { 
+        dbExists = false;
       }
-      reader.close();
+      if (dbExists) {
+        Scanner reader = new Scanner(db);
+        while (reader.hasNextLine()) {
+          database = reader.nextLine();
+        }
+        reader.close();
+      }
     } catch (FileNotFoundException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
     
     accounts = new Gson().fromJson(database, new TypeToken<List<RoyaleAccount>>() {}.getType());
+    //accounts = Collections.synchronizedList(new ArrayList());
     loggedIn = new HashMap<String, String>();
   }
   

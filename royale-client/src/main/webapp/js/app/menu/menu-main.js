@@ -17,6 +17,14 @@ function MenuMain() {
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
 
+  this.registerMenu = document.getElementById("register");
+  this.registerCloseBtn = document.getElementById("signup-close");
+  this.signupName = document.getElementById("signup-name");
+  this.signupPassword = document.getElementById("signup-password");
+  this.signupVerify = document.getElementById("signup-verify");
+  this.signupBtn = document.getElementById("signup-register");
+  this.signupError = document.getElementById("signup-error");
+
   
   var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
   this.menuMusic = document.createElement('audio');
@@ -35,7 +43,7 @@ function MenuMain() {
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
   this.loginBtn.onclick = function() { that.login(); };
-  this.registerBtn.onclick = function() { that.register(); };
+  this.registerBtn.onclick = function() { that.showRegisterMenu(); };
 };
 
 /* When the launch button is clicked. */
@@ -48,7 +56,19 @@ MenuMain.prototype.login = function() {
   app.menu.login.show();
 };
 
-/* When the register button is clicked. */
+/* Register Menu */
+MenuMain.prototype.showRegisterMenu = function() {
+  this.registerMenu.style.display = "";
+};
+
+MenuMain.prototype.hideRegisterMenu = function() {
+  this.registerMenu.style.display = "none";
+  this.signupName.value = "";
+  this.signupPassword.value = "";
+  this.signupVerify.value = "";
+  this.signupError.value = "";
+};
+
 MenuMain.prototype.register = function() {
   app.menu.register.show();
 };

@@ -129,16 +129,21 @@
       </div>
 
       <!-- Register -->
-      <div id='register' class='container-center'>
-        <div class='name'><input id='register-name' class='name-input' maxlength="20" placeholder="Username"/></div>
-        <div class='name'><input id='register-pass' class='name-input' placeholder="Password" type="password"/></div>
-        <div class='name'><input id='register-verify' class='name-input' placeholder="Verify Password" type="password"/></div>
-        <div class='container-go'>
-          <span id='register-signup' class='launch'>Register</span> | <span id='register-back' class='launch'>Cancel</span>
-        </div>
-        <div class='container-go'>
-          <span class="result" id="register-error"></span>
-        </div>
+      <div id="register" class="container-register" style="display:none;">
+        <span style="position: absolute;right: 10px;" id="signup-close">x</span>
+        <p>Register</p>
+
+        <p style="margin-block-end: 0;">Username</p>
+        <p style="margin-block-start: -0.5em;margin-block-end: 0;color: orange;">(PERMANENT)</p>
+        <input class="profile-nickname" id="signup-name">
+        
+        <p style="margin-block-end: 0;">Password</p>
+        <input class="profile-nickname" id="signup-password" type="password">
+        <p style="margin-block-end: 0;">Verify Password</p>
+        <input class="profile-nickname" id="signup-verify" type="password">
+
+        <div style="bottom: -5%;position: relative;"><img src="./img/home/signup.png" id="signup-register" class="button-register"></div> 
+        <p id="signup-error"></p>  
       </div>
 
       <!-- World Selection -->
@@ -239,7 +244,6 @@
       <script src='js/app/menu/menu-account.js'></script>
       <script src='js/app/menu/menu-name.js'></script>
       <script src='js/app/menu/menu-login.js'></script>
-      <script src='js/app/menu/menu-register.js'></script>
       <script src='js/app/menu/menu-game.js'></script>
       
       <!-- Game Core -->

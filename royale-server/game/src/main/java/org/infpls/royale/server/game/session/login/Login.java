@@ -84,7 +84,7 @@ public class Login extends SessionState {
   private void accountRegister(final PacketLRR p) throws IOException {
     final Gson json = new GsonBuilder().create();
     if (lobbyDao.findAccount(p.username) == null) {
-      RoyaleAccount newAcc = lobbyDao.createAccount(p.username, p.password);
+      RoyaleAccount newAcc = lobbyDao.createAccount(p.username.trim(), p.password);
       session.setAccount(newAcc);
       String session = lobbyDao.addToken(p.username);
 
