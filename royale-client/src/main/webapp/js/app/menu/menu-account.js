@@ -68,6 +68,15 @@ MenuAccount.prototype.launch = function() {
   app.menu.name.show();
 };
 
+/* Menus */
+MenuAccount.prototype.hideSettingsMenu = function() {
+  this.settingsMenu.style.display = "none";
+};
+
+MenuAccount.prototype.hidePrivateMenu = function() {
+  document.getElementById("worlds").style.display = "none";
+};
+
 /* Change Password Menu */
 MenuAccount.prototype.showPasswordMenu = function() {
   this.hideProfileMenu();

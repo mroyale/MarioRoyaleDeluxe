@@ -10,6 +10,9 @@ MenuError.prototype.show = function(disp, msg, ex) {
   app.net.close();
   
   app.menu.hideAll();
+  app.menu.mainMember.hideProfileMenu();
+  app.menu.mainMember.hidePasswordMenu();
+  app.menu.mainMember.hidePrivateMenu();
   app.menu.navigation("error", "error");
   app.menu.background("b");
   this.error.innerHTML = disp;
