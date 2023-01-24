@@ -315,7 +315,7 @@ EditorDisplay.prototype.drawObjectTool = function() {
 };
 
 EditorDisplay.prototype.drawSpawnpoint = function() {
-  if(!this.game.tool || this.game.tool.lore === undefined) { return; }
+  if(!this.game.tool) { return; }
   
   var context = this.context;
 
@@ -325,13 +325,13 @@ EditorDisplay.prototype.drawSpawnpoint = function() {
     var spn = zone.spawnpoint[i];
     var pos = shor2.decode(spn.pos);
         
-    context.fillStyle = spn === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,0,0,0.5)";
+    context.fillStyle = spn === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,255,0,0.5)";
     context.fillRect(pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
   }
 };
 
 EditorDisplay.prototype.drawWarp = function() {
-  if(!this.game.tool || this.game.tool.vore === undefined) { return; }
+  if(!this.game.tool) { return; }
   
   var context = this.context;
 
@@ -346,7 +346,7 @@ EditorDisplay.prototype.drawWarp = function() {
     context.fillStyle = "white";
     context.fillText(id, pos.x*Display.TEXRES, (zone.dimensions().y-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
 
-    context.fillStyle = wrp === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,0,0,0.5)";
+    context.fillStyle = wrp === this.game.tool.selected ? "rgba(0,0,255,0.5)" : "rgba(255,0,255,0.5)";
     context.fillRect(pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES,Display.TEXRES,Display.TEXRES);
   }
 };
