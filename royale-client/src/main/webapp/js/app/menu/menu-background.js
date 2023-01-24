@@ -20,6 +20,7 @@ function MenuDisplay() {
         
         var that = this;
         this.frameReq = setInterval(() => {that.draw();}, 1000 / 60) // 60FPS
+        document.getElementById("next").style.display = "";
     }).catch(err => {
         console.error(err);
     });

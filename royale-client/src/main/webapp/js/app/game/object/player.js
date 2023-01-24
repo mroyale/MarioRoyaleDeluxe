@@ -83,6 +83,9 @@ PlayerObject.NAME = "Player"; // Used by editor
 PlayerObject.ANIMATION_RATE = 6;
 PlayerObject.DIM_OFFSET = vec2.make(-.05, 0.);
 
+PlayerObject.OFFSET_32X_LEFT = vec2.make(.50, 0.);
+PlayerObject.OFFSET_32X_RIGHT = vec2.make(-.48, 0.);
+
 PlayerObject.DEAD_FREEZE_TIME = 28;
 PlayerObject.DEAD_TIME = 140;
 PlayerObject.DEAD_UP_FORCE = 1;
@@ -171,33 +174,33 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "S_SWIM1", ID: 0x0A, INDEX: 0x0006},
   {NAME: "S_SWIM2", ID: 0x0B, INDEX: 0x0005},
   /* [B]ig Mario */
-  {NAME: "B_STAND", ID: 0x20, INDEX: [[0x003E], [0x02E]]}, 
-  {NAME: "B_DOWN", ID: 0x21, INDEX: [[0x003A], [0x02A]]},
-  {NAME: "B_RUN0", ID: 0x22, INDEX: [[0x003D], [0x02D]]},
-  {NAME: "B_RUN1", ID: 0x23, INDEX: [[0x003C], [0x02C]]},
-  {NAME: "B_RUN2", ID: 0x24, INDEX: [[0x003B], [0x02B]]},
-  {NAME: "B_SLIDE", ID: 0x25, INDEX: [[0x0039], [0x0029]]},
-  {NAME: "B_FALL", ID: 0x26, INDEX: [[0x0038], [0x028]]},
-  {NAME: "B_CLIMB0", ID: 0x27, INDEX: [[0x0037], [0x027]]},
-  {NAME: "B_CLIMB1", ID: 0x28, INDEX: [[0x0036], [0x026]]},
-  {NAME: "B_TRANSFORM", ID:0x29, INDEX:[[0x003F], [0x02F]]},
-  {NAME: "B_TAUNT", ID:0x2A, INDEX:[[0x005E], [0x004E]]},
+  {NAME: "B_STAND", ID: 0x20, INDEX: [[63, 62], [47, 46]]}, 
+  {NAME: "B_DOWN", ID: 0x21, INDEX: [[55, 54], [39, 38]]},
+  {NAME: "B_RUN0", ID: 0x22, INDEX: [[61, 60], [45, 44]]},
+  {NAME: "B_RUN1", ID: 0x23, INDEX: [[59, 58], [43, 42]]},
+  {NAME: "B_RUN2", ID: 0x24, INDEX: [[57, 56], [41, 40]]},
+  {NAME: "B_SLIDE", ID: 0x25, INDEX: [[53, 52], [37, 36]]},
+  {NAME: "B_FALL", ID: 0x26, INDEX: [[51, 50], [35, 34]]},
+  {NAME: "B_CLIMB0", ID: 0x27, INDEX: [[49, 48], [33, 32]]},
+  {NAME: "B_CLIMB1", ID: 0x28, INDEX: [[95, 94], [79, 78]]},
+  {NAME: "B_TRANSFORM", ID:0x29, INDEX:[[81, 80], [65, 64]]},
+  {NAME: "B_TAUNT", ID:0x2A, INDEX:[[89, 88], [73, 72]]},
   /* [F]ire flower Mario */
-  {NAME: "F_STAND", ID: 0x40, INDEX: [[0x007E], [0x06E]]}, 
-  {NAME: "F_DOWN", ID: 0x41, INDEX: [[0x007A], [0x06A]]},
-  {NAME: "F_RUN0", ID: 0x42, INDEX: [[0x007D], [0x06D]]},
-  {NAME: "F_RUN1", ID: 0x43, INDEX: [[0x007C], [0x06C]]},
-  {NAME: "F_RUN2", ID: 0x44, INDEX: [[0x007B], [0x06B]]},
-  {NAME: "F_SLIDE", ID: 0x45, INDEX: [[0x0079], [0x069]]},
-  {NAME: "F_FALL", ID: 0x46, INDEX: [[0x0078], [0x068]]},
-  {NAME: "F_CLIMB0", ID: 0x47, INDEX: [[0x0077], [0x067]]},
-  {NAME: "F_CLIMB1", ID: 0x48, INDEX: [[0x0076], [0x066]]},
-  {NAME: "F_ATTACK", ID: 0x49, INDEX: [[0x0095], [0x085]]},
-  {NAME: "F_TRANSFORM", ID:0x50, INDEX:[[0x007F], [0x006F]]},
-  {NAME: "F_TAUNT", ID:0x51, INDEX:[[0x009E], [0x008E]]},
+  {NAME: "F_STAND", ID: 0x40, INDEX: [[159, 158], [143, 142]]}, 
+  {NAME: "F_DOWN", ID: 0x41, INDEX: [[151, 150], [135, 134]]},
+  {NAME: "F_RUN0", ID: 0x42, INDEX: [[157, 156], [141, 140]]},
+  {NAME: "F_RUN1", ID: 0x43, INDEX: [[155, 154], [139, 138]]},
+  {NAME: "F_RUN2", ID: 0x44, INDEX: [[153, 152], [137, 136]]},
+  {NAME: "F_SLIDE", ID: 0x45, INDEX: [[149, 148], [133, 132]]},
+  {NAME: "F_FALL", ID: 0x46, INDEX: [[147, 146], [131, 130]]},
+  {NAME: "F_CLIMB0", ID: 0x47, INDEX: [[191, 190], [175, 174]]},
+  {NAME: "F_CLIMB1", ID: 0x48, INDEX: [[145, 144], [129, 128]]},
+  {NAME: "F_ATTACK", ID: 0x49, INDEX: [[177, 176], [161, 160]]},
+  {NAME: "F_TRANSFORM", ID:0x50, INDEX:[[223, 222], [207, 206]]},
+  {NAME: "F_TAUNT", ID:0x51, INDEX:[[185, 184], [169, 168]]},
   /* [G]eneric */
   {NAME: "G_DEAD", ID: 0x60, INDEX: 0x0002},
-  {NAME: "G_HIDE", ID: 0x70, INDEX: 0x00FF}
+  {NAME: "G_HIDE", ID: 0x70, INDEX: 0x0000}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -1037,8 +1040,8 @@ PlayerObject.prototype.draw = function(sprites) {
     var s = this.sprite.INDEX;
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
-        if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
-        sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
+        if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
+        sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
       }
     }
   }
