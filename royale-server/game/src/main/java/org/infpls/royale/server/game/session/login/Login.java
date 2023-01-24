@@ -91,7 +91,7 @@ public class Login extends SessionState {
       AccountData newAccount = new AccountData(session, newAcc.getUsername(), newAcc.getNickname(), "", 0, 0, 0, 0, 0);
       sendPacket(new PacketLRG(true, json.toJson(newAccount)));
     } else {
-      sendPacket(new PacketLRG(false, "Account with that name already exists"));
+      sendPacket(new PacketLRG(false, "Username is taken"));
     }
   }
 

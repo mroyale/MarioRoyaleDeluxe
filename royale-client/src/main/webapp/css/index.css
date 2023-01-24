@@ -203,6 +203,16 @@ img {
   content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAAAQCAYAAAC1MDndAAABgElEQVRYCe2Xy23DMBBEefTRLeTo+tKCS3BdbsPHlKBgBDxjOd6lZMRCLhRA7HI4+xvoA7XWWvu5fy1zvWogbVZxbpfTMterBrppngI9bm2ZK2hwPa9PVScQj9mWUK19L762Ykbn5BpxOHuHS8xe280/EkiPW5VUDWaX8BhTDeJ4zBdzwHOM2hFXXfjeQ3UWefgItM6fCSQi7yKC3KoRLpqKe/GdQ44RrrOMp9ycjeKrHqoYarl9zl8J5AG+94JbewZ0XoU7T3v1EPEoRsTxZfHhUs/nKfefECgrXjUWcXxZ/DhAhrlI4jhGP1le+KUg/pH6hEBVI94oTYkfryyeoSNXPjjxFeY4e3rYbY8SyAfRQLFJ+Vrg+NkejKGcm+HEwJWF95bNBOItvpVIRWNh3ysezHkaQJfj2T5i9CRshMez6BM/st38I4FGn/lRgT1n1YB7Yo/mINCfPvNHN/nf+evP/PW8PObqNNAd1aQYt9a0/R+9tFn/6Lmtpu3/6CXOLxwwAOJi8aReAAAADmVYSWZNTQAqAAAACAAAAAAAAADSU5MAAAAASUVORK5CYII=')
 }
 
+.dark-bg {
+  position: absolute;
+  top: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background: #00000080;
+  z-index: 2;
+}
+
 @media only screen and (max-width: 769px) {
   .launch {
     margin-left: 2px}}
@@ -599,6 +609,7 @@ img {
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 3
 }
 
 .container-private {

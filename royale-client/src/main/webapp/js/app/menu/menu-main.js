@@ -24,6 +24,7 @@ function MenuMain() {
   this.signupVerify = document.getElementById("signup-verify");
   this.signupBtn = document.getElementById("signup-register");
   this.signupError = document.getElementById("signup-error");
+  this.darkBackground = document.getElementById("dark-bg");
 
   
   var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
@@ -44,6 +45,8 @@ function MenuMain() {
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
   this.loginBtn.onclick = function() { that.login(); };
   this.registerBtn.onclick = function() { that.showRegisterMenu(); };
+  this.signupBtn.onclick = function() { that.register(); };
+  this.registerCloseBtn.onclick = function() { that.hideRegisterMenu(); };
 };
 
 /* When the launch button is clicked. */
@@ -59,6 +62,7 @@ MenuMain.prototype.login = function() {
 /* Register Menu */
 MenuMain.prototype.showRegisterMenu = function() {
   this.registerMenu.style.display = "";
+  this.darkBackground.style.display = "";
 };
 
 MenuMain.prototype.hideRegisterMenu = function() {
@@ -66,11 +70,26 @@ MenuMain.prototype.hideRegisterMenu = function() {
   this.signupName.value = "";
   this.signupPassword.value = "";
   this.signupVerify.value = "";
-  this.signupError.value = "";
+  this.signupError.innerText = "";
+  this.darkBackground.style.display = "none";
 };
 
 MenuMain.prototype.register = function() {
-  app.menu.register.show();
+  var name = this.signupName.value;
+  var pass = this.signupPassword.value;
+  var verify = this.signupVerify.value;
+
+  var that = this;
+  if (name.length < 4) { that.registerError("Username is too short"); return; }
+  if (name.length > 20) { that.registerError("Username is too long"); return; }
+  if (pass.length < 4) { that.registerError("Password is too short"); return; }
+  if (pass != verify) { that.registerError("Passwords don't match"); return; }
+  
+  app.register(name, pass);
+};
+
+MenuMain.prototype.registerError = function(msg) {
+  this.signupError.innerText = msg;
 };
 
 MenuMain.prototype.startPad = function() {

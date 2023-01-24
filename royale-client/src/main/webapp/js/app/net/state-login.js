@@ -55,6 +55,8 @@ StateLogin.prototype.handleLogin = function(p) {
 // LRG
 StateLogin.prototype.handleRegister = function(p) {
   if (p.status) {
+    app.menu.main.hideRegisterMenu();
+
     var data = JSON.parse(p.msg);
     app.net.username = data.username;
     app.net.nickname = data.nickname;
@@ -67,8 +69,8 @@ StateLogin.prototype.handleRegister = function(p) {
     app.menu.mainMember.show(stats);
   } else {
     Cookies.remove("session");
-    app.menu.register.show();
-    app.menu.register.reportError(p.msg);
+    app.menu.main.show();
+    app.menu.main.registerError(p.msg);
   }
 };
 
