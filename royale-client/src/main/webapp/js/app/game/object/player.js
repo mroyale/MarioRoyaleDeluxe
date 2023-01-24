@@ -166,7 +166,7 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "S_FALL", ID: 0x05, INDEX: 0x000A},
   {NAME: "S_CLIMB0", ID: 0x06, INDEX: 0x0009},
   {NAME: "S_CLIMB1", ID: 0x07, INDEX: 0x0008},
-  {NAME: "S_TAUNT", ID: 0x08, INDEX: 0x001D},
+  {NAME: "S_TAUNT", ID: 0x08, INDEX: 0x0003},
   {NAME: "S_SWIM0", ID: 0x09, INDEX: 0x0007},
   {NAME: "S_SWIM1", ID: 0x0A, INDEX: 0x0006},
   {NAME: "S_SWIM2", ID: 0x0B, INDEX: 0x0005},
@@ -196,7 +196,7 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "F_TRANSFORM", ID:0x50, INDEX:[[0x007F], [0x006F]]},
   {NAME: "F_TAUNT", ID:0x51, INDEX:[[0x009E], [0x008E]]},
   /* [G]eneric */
-  {NAME: "G_DEAD", ID: 0x60, INDEX: 0x001C},
+  {NAME: "G_DEAD", ID: 0x60, INDEX: 0x0002},
   {NAME: "G_HIDE", ID: 0x70, INDEX: 0x00FF}
 ];
 
