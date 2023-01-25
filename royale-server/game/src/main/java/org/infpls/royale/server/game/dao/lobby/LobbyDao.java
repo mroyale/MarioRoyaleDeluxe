@@ -52,9 +52,11 @@ public class LobbyDao {
       e.printStackTrace();
     }
     
-    accounts = new Gson().fromJson(database, new TypeToken<List<RoyaleAccount>>() {}.getType());
-    //accounts = Collections.synchronizedList(new ArrayList());
     loggedIn = new HashMap<String, String>();
+    accounts = new Gson().fromJson(database, new TypeToken<List<RoyaleAccount>>() {}.getType());
+    if (accounts == null) {
+      accounts = Collections.synchronizedList(new ArrayList());
+    }
   }
   
   public RoyaleAccount findAccount(String username) {
