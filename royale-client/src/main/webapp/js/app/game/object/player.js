@@ -184,7 +184,10 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "B_CLIMB0", ID: 0x27, INDEX: [[49, 48], [33, 32]]},
   {NAME: "B_CLIMB1", ID: 0x28, INDEX: [[95, 94], [79, 78]]},
   {NAME: "B_TRANSFORM", ID:0x29, INDEX:[[81, 80], [65, 64]]},
-  {NAME: "B_TAUNT", ID:0x2A, INDEX:[[89, 88], [73, 72]]},
+  {NAME: "B_TAUNT", ID:0x2A, INDEX: [[89, 88], [73, 72]]},
+  {NAME: "B_SWIM0", ID: 0x09, INDEX: [[87, 86], [71, 70]]},
+  {NAME: "B_SWIM1", ID: 0x0A, INDEX: [[85, 84], [69, 68]]},
+  {NAME: "B_SWIM2", ID: 0x0B, INDEX: [[83, 82], [67, 66]]},
   /* [F]ire flower Mario */
   {NAME: "F_STAND", ID: 0x40, INDEX: [[159, 158], [143, 142]]}, 
   {NAME: "F_DOWN", ID: 0x41, INDEX: [[151, 150], [135, 134]]},
@@ -197,7 +200,10 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "F_CLIMB1", ID: 0x48, INDEX: [[145, 144], [129, 128]]},
   {NAME: "F_ATTACK", ID: 0x49, INDEX: [[177, 176], [161, 160]]},
   {NAME: "F_TRANSFORM", ID:0x50, INDEX:[[223, 222], [207, 206]]},
-  {NAME: "F_TAUNT", ID:0x51, INDEX:[[185, 184], [169, 168]]},
+  {NAME: "F_TAUNT", ID: 0x51, INDEX: [[185, 184], [169, 168]]},
+  {NAME: "F_SWIM0", ID: 0x52, INDEX: [[183, 182], [167, 166]]},
+  {NAME: "F_SWIM1", ID: 0x53, INDEX: [[181, 180], [165, 164]]},
+  {NAME: "F_SWIM2", ID: 0x54, INDEX: [[179, 178], [163, 162]]},
   /* [G]eneric */
   {NAME: "G_DEAD", ID: 0x60, INDEX: 0x0002},
   {NAME: "G_HIDE", ID: 0x70, INDEX: 0x0000}
@@ -252,6 +258,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.POLE, ID: 0x26, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_CLIMB0]},
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x27, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_CLIMB0,PlayerObject.SPRITE.B_CLIMB1]},
   {NAME: PlayerObject.SNAME.TAUNT, ID: 0x28, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_TAUNT]},
+  {NAME: PlayerObject.SNAME.SWIM, ID: 0x29, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_SWIM0, PlayerObject.SPRITE.B_SWIM1, PlayerObject.SPRITE.B_SWIM2]},
   /* Fire Mario -> 0x40 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x40, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_STAND]},
   {NAME: PlayerObject.SNAME.DOWN, ID: 0x41, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.F_DOWN]},
@@ -263,6 +270,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.POLE, ID: 0x47, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_CLIMB0]},
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x48, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_CLIMB0,PlayerObject.SPRITE.F_CLIMB1]},
   {NAME: PlayerObject.SNAME.TAUNT, ID: 0x49, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_TAUNT]},
+  {NAME: PlayerObject.SNAME.SWIM, ID: 0x4A, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SWIM0, PlayerObject.SPRITE.F_SWIM1, PlayerObject.SPRITE.F_SWIM2]},
   /* Generic -> 0x60 */
   {NAME: PlayerObject.SNAME.DEAD, DIM: DIM0, ID: 0x60, SPRITE: [PlayerObject.SPRITE.G_DEAD]},
   {NAME: PlayerObject.SNAME.HIDE, DIM: DIM0, ID: 0x70, SPRITE: [PlayerObject.SPRITE.G_HIDE]},
@@ -477,7 +485,7 @@ PlayerObject.prototype.control = function() {
     }
     else {
       this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):PlayerObject.MOVE_SPEED_MAX);
-      this.setState(PlayerObject.SNAME.RUN);
+      if (this.grounded /* We need to check for this. Otherwise the water animation is bugged for some reason. */) { this.setState(PlayerObject.SNAME.RUN); }
       this.skidEffect = false;
     }
     if(this.grounded || this.underWater) { this.reverse = this.btnD[0] >= 0; }
@@ -544,7 +552,11 @@ PlayerObject.prototype.control = function() {
     }
   }
   
-  if(!this.grounded) {
+  if(this.underWater && !this.grounded) {
+    this.setState(PlayerObject.SNAME.SWIM);
+  }
+
+  if(!this.grounded && !this.underWater) {
     this.setState(PlayerObject.SNAME.FALL);
   }
   
