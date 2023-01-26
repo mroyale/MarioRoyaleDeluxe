@@ -33,10 +33,17 @@ function MenuAccount() {
   this.passwordVerify = document.getElementById("password-verify");
 
   this.darkBackground = document.getElementById("dark-bg");
+
+  var that = this;
+  $(document).keyup(function(event) {
+    if (event.which === 13) {
+        if(that.profileMenu.style.display === "") { that.saveProfile(); };
+        if(that.passwordMenu.style.display === "") { that.savePassword(); };
+    }
+  });
   
   this.padLoop = undefined;
   
-  var that = this;
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; };
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
