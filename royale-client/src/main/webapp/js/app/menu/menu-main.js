@@ -34,6 +34,13 @@ function MenuMain() {
   this.signinBtn = document.getElementById("login-signin");
   this.signinError = document.getElementById("login-error");
 
+  var that = this;
+  $(document).keyup(function(event) {
+    if (event.which === 13) {
+        if (that.loginMenu.style.display === "") { that.login(); };
+        if (that.registerMenu.style.display === "") { that.register(); };
+    }
+  });
   
   var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
   this.menuMusic = document.createElement('audio');
@@ -44,7 +51,6 @@ function MenuMain() {
   
   this.padLoop = undefined;
   
-  var that = this;
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; }
 
   this.launchBtn.onclick = function() { that.launch(); };
