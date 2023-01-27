@@ -116,10 +116,11 @@ PlayerObject.JUMP_DECEL = 0.005;
 PlayerObject.BLOCK_BUMP_THRESHOLD = 0.12;
 
 PlayerObject.POWER_INDEX_SIZE = 0x20;
-PlayerObject.GENERIC_INDEX = 0x60;
+PlayerObject.GENERIC_INDEX = 0x90;
 
 PlayerObject.DAMAGE_TIME = 90;
 PlayerObject.TRANSFORM_TIME = 36;
+PlayerObject.LEAF_TRANSFORM_TIME = 16;
 PlayerObject.TRANSFORM_ANIMATION_RATE = 4;
 PlayerObject.STAR_LENGTH = 720;
 PlayerObject.SPIN_LENGTH = 10;
@@ -204,9 +205,28 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "F_SWIM0", ID: 0x52, INDEX: [[183, 182], [167, 166]]},
   {NAME: "F_SWIM1", ID: 0x53, INDEX: [[181, 180], [165, 164]]},
   {NAME: "F_SWIM2", ID: 0x54, INDEX: [[179, 178], [163, 162]]},
+  /* [L]eaf Mario */
+  {NAME: "L_STAND", ID: 0x60, INDEX: [[255, 254], [239, 238]]},
+  {NAME: "L_DOWN", ID: 0x61, INDEX: [[247, 246], [231, 230]]},
+  {NAME: "L_RUN0", ID: 0x62, INDEX: [[253, 252], [237, 236]]},
+  {NAME: "L_RUN1", ID: 0x63, INDEX: [[251, 250], [235, 234]]},
+  {NAME: "L_RUN2", ID: 0x64, INDEX: [[249, 248], [233, 232]]},
+  {NAME: "L_SLIDE", ID: 0x65, INDEX: [[245, 244], [229, 228]]},
+  {NAME: "L_FALL", ID: 0x66, INDEX: [[243, 242], [227, 226]]},
+  {NAME: "L_CLIMB0", ID: 0x67, INDEX: [[241, 240], [225, 224]]},
+  {NAME: "L_CLIMB1", ID: 0x68, INDEX: [[287, 286], [271, 270]]},
+  {NAME: "L_TRANSFORM", ID: 0x69, INDEX: [[0, 0], [0, 0]]},
+  {NAME: "L_TAUNT", ID: 0x70, INDEX: [[281, 280], [265, 264]]},
+  {NAME: "L_ATTACK0", ID: 0x71, INDEX: [[315, 314], [299, 298]]},
+  {NAME: "L_ATTACK1", ID: 0x72, INDEX: [[313, 312], [297, 296]]},
+  {NAME: "L_ATTACK2", ID: 0x73, INDEX: [[311, 310], [295, 294]]},
+  {NAME: "L_ATTACK3", ID: 0x74, INDEX: [[309, 308], [293, 292]]},
+  {NAME: "L_SWIM0", ID: 0x75, INDEX: [[279, 278], [263, 262]]},
+  {NAME: "L_SWIM1", ID: 0x76, INDEX: [[277, 276], [261, 260]]},
+  {NAME: "L_SWIM2", ID: 0x77, INDEX: [[275, 274], [259, 258]]},
   /* [G]eneric */
-  {NAME: "G_DEAD", ID: 0x60, INDEX: 0x0002},
-  {NAME: "G_HIDE", ID: 0x70, INDEX: 0x0000}
+  {NAME: "G_DEAD", ID: 0x90, INDEX: 0x0002},
+  {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0000}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -271,11 +291,23 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x48, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_CLIMB0,PlayerObject.SPRITE.F_CLIMB1]},
   {NAME: PlayerObject.SNAME.TAUNT, ID: 0x49, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_TAUNT]},
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x4A, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SWIM0, PlayerObject.SPRITE.F_SWIM1, PlayerObject.SPRITE.F_SWIM2]},
-  /* Generic -> 0x60 */
-  {NAME: PlayerObject.SNAME.DEAD, DIM: DIM0, ID: 0x60, SPRITE: [PlayerObject.SPRITE.G_DEAD]},
-  {NAME: PlayerObject.SNAME.HIDE, DIM: DIM0, ID: 0x70, SPRITE: [PlayerObject.SPRITE.G_HIDE]},
-  {NAME: PlayerObject.SNAME.GHOST, DIM: DIM0, ID: 0xFF, SPRITE: []},
-  {NAME: PlayerObject.SNAME.DEADGHOST, DIM: DIM0, ID: 0xFE, SPRITE: [PlayerObject.SPRITE.G_DEAD]}
+  /* Leaf Mario -> 0x60 */
+  {NAME: PlayerObject.SNAME.STAND, ID: 0x60, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_STAND]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x61, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.L_DOWN]},
+  {NAME: PlayerObject.SNAME.RUN, ID: 0x62, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_RUN2,PlayerObject.SPRITE.L_RUN1,PlayerObject.SPRITE.L_RUN0]},
+  {NAME: PlayerObject.SNAME.SLIDE, ID: 0x63, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SLIDE]},
+  {NAME: PlayerObject.SNAME.FALL, ID: 0x64, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_FALL]},
+  {NAME: PlayerObject.SNAME.ATTACK, ID: 0x65, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_ATTACK]},
+  {NAME: PlayerObject.SNAME.TRANSFORM, ID: 0x66, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.L_TRANSFORM]},
+  {NAME: PlayerObject.SNAME.POLE, ID: 0x67, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_CLIMB0]},
+  {NAME: PlayerObject.SNAME.CLIMB, ID: 0x68, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_CLIMB0,PlayerObject.SPRITE.L_CLIMB1]},
+  {NAME: PlayerObject.SNAME.TAUNT, ID: 0x69, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_TAUNT]},
+  {NAME: PlayerObject.SNAME.SWIM, ID: 0x6A, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SWIM0, PlayerObject.SPRITE.L_SWIM1, PlayerObject.SPRITE.L_SWIM2]},
+  /* Generic -> 0x90 */
+  {NAME: PlayerObject.SNAME.DEAD, DIM: DIM0, ID: 0x90, SPRITE: [PlayerObject.SPRITE.G_DEAD]},
+  {NAME: PlayerObject.SNAME.HIDE, DIM: DIM0, ID: 0x9A, SPRITE: [PlayerObject.SPRITE.G_HIDE]},
+  {NAME: PlayerObject.SNAME.GHOST, DIM: DIM0, ID: 0xFFF, SPRITE: []},
+  {NAME: PlayerObject.SNAME.DEADGHOST, DIM: DIM0, ID: 0xFFE, SPRITE: [PlayerObject.SPRITE.G_DEAD]}
 ];
 
 /* === INSTANCE ============================================================= */
@@ -378,6 +410,8 @@ PlayerObject.prototype.step = function() {
   /* Transform */
   if(this.isState(PlayerObject.SNAME.TRANSFORM)) {
     if(--this.transformTimer > 0) {
+      var target = this.transformTarget;
+      if (this.transformTimer === 14 && target === 3) { this.game.world.getZone(this.level, this.zone).effects.push(new TransformEffect(vec2.make(this.pos.x, this.pos.y+.5))); }
       var ind = parseInt(this.anim/PlayerObject.TRANSFORM_ANIMATION_RATE) % 3;
       var high = this.power>this.transformTarget?this.power:this.transformTarget;
       switch(ind) {
@@ -927,7 +961,7 @@ PlayerObject.prototype.transform = function(to) {
   }
   
   this.transformTarget = to;
-  this.transformTimer = PlayerObject.TRANSFORM_TIME;
+  this.transformTimer = to === 3 ? PlayerObject.LEAF_TRANSFORM_TIME : PlayerObject.TRANSFORM_TIME;
   this.setState(PlayerObject.SNAME.TRANSFORM);
 };
 
@@ -1040,7 +1074,7 @@ PlayerObject.prototype.isState = function(SNAME) {
 };
 
 PlayerObject.prototype.draw = function(sprites) {
-  if(this.isState(PlayerObject.SNAME.HIDE) || this.pipeDelay > 0) { return; } // Don't render when hidden or when in a pipe
+  if(this.isState(PlayerObject.SNAME.HIDE) || this.pipeDelay > 0 || (this.transformTimer > 0 && this.transformTarget === 3)) { return; } // Don't render when hidden, transforming into a tanooki or when in a pipe
   if(this.damageTimer > 0 && this.damageTimer % 3 > 1) { return; } // Post damage timer blinking
     
   var mod; // Special draw mode

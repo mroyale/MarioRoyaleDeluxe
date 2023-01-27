@@ -210,7 +210,7 @@ Display.prototype.drawObject = function() {
   for(var i=0;i<sprites.length;i++) {
     var sprite = sprites[i];
     
-    var st = util.sprite.getSprite(tex, sprite.index);
+    var st = util.sprite.getSprite(sprite.player ? mario : tex, sprite.index);
     var rx = !!sprite.reverse, ry = false;
     var x, y;
     
