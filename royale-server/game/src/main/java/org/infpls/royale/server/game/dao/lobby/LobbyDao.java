@@ -137,7 +137,7 @@ public class LobbyDao {
     for(int i=0;i<lobbies.size();i++) {
       final GameLobby lobby = lobbies.get(i);
 
-      if(!lobby.isFull() && !lobby.isLocked() && lobby.getMode() == gameMode) {
+      if(!lobby.isFull() && !lobby.isLocked() && lobby.getMode() == gameMode && !lobby.isPrivate()) {
         return lobby;
       }
     }

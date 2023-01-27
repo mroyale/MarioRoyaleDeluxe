@@ -58,6 +58,7 @@ function PlayerObject(game, level, zone, pos, pid, character) {
   
   this.attackCharge = PlayerObject.MAX_CHARGE;
   this.attackTimer = 0;
+  this.spinCharge = PlayerObject.MAX_CHARGE;
   
   this.autoTarget = undefined; // Vec2 target for automatic movement.
   
@@ -297,7 +298,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.RUN, ID: 0x62, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_RUN2,PlayerObject.SPRITE.L_RUN1,PlayerObject.SPRITE.L_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x63, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x64, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_FALL]},
-  {NAME: PlayerObject.SNAME.ATTACK, ID: 0x65, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_ATTACK]},
+  {NAME: PlayerObject.SNAME.ATTACK, ID: 0x65, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_ATTACK0,PlayerObject.SPRITE.L_ATTACK1,PlayerObject.SPRITE.L_ATTACK2,PlayerObject.SPRITE.L_ATTACK3]},
   {NAME: PlayerObject.SNAME.TRANSFORM, ID: 0x66, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.L_TRANSFORM]},
   {NAME: PlayerObject.SNAME.POLE, ID: 0x67, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_CLIMB0]},
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x68, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_CLIMB0,PlayerObject.SPRITE.L_CLIMB1]},
@@ -411,7 +412,7 @@ PlayerObject.prototype.step = function() {
   if(this.isState(PlayerObject.SNAME.TRANSFORM)) {
     if(--this.transformTimer > 0) {
       var target = this.transformTarget;
-      if (this.transformTimer === 14 && target === 3) { this.game.world.getZone(this.level, this.zone).effects.push(new TransformEffect(vec2.make(this.pos.x, this.pos.y+.5))); }
+      if (this.transformTimer === 14 && (target === 3 || this.power === 3)) { this.game.world.getZone(this.level, this.zone).effects.push(new TransformEffect(vec2.make(this.pos.x, this.pos.y+.5))); }
       var ind = parseInt(this.anim/PlayerObject.TRANSFORM_ANIMATION_RATE) % 3;
       var high = this.power>this.transformTarget?this.power:this.transformTarget;
       switch(ind) {
@@ -467,6 +468,8 @@ PlayerObject.prototype.step = function() {
   if(this.damageTimer > 0) { this.damageTimer--; }
   if(this.attackCharge < PlayerObject.MAX_CHARGE) { this.attackCharge++; }
   if(this.attackTimer > 0) { this.attackTimer--; }
+  if(this.spinCharge < PlayerObject.MAX_CHARGE) { this.spinCharge++; }
+  if(this.spinTimer > 0) { this.spinTimer--; }
   
   if(this.autoTarget) { this.autoMove(); }  
   this.control();
@@ -500,7 +503,7 @@ PlayerObject.prototype.autoMove = function() {
 };
 
 PlayerObject.prototype.control = function() {
-  if(this.grounded) { this.btnBg = this.btnB; this.spinCooldown = 0; this.spinTimer = 0; }
+  if(this.grounded) { this.btnBg = this.btnB; /*this.spinCooldown = 0; this.spinTimer = 0;*/ }
   
   if(this.isState(PlayerObject.SNAME.DOWN) && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
     if(this.btnD[1] !== -1) {
@@ -513,13 +516,15 @@ PlayerObject.prototype.control = function() {
   if(this.btnD[0] !== 0) {
     if(Math.abs(this.moveSpeed) > 0.01 && !(this.btnD[0] >= 0 ^ this.moveSpeed < 0)) {
       this.moveSpeed += (this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL) * this.btnD[0];
-      this.setState(PlayerObject.SNAME.SLIDE);
+      this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.SLIDE);
 
       if (!this.skidEffect && this.grounded) { this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos)); this.skidEffect = true; }
     }
     else {
       this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):PlayerObject.MOVE_SPEED_MAX);
-      if (this.grounded /* We need to check for this. Otherwise the water animation is bugged for some reason. */) { this.setState(PlayerObject.SNAME.RUN); }
+      if (this.grounded /* We need to check for this. Otherwise the water animation is bugged for some reason. */) {
+        this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
+      }
       this.skidEffect = false;
     }
     if(this.grounded || this.underWater) { this.reverse = this.btnD[0] >= 0; }
@@ -528,11 +533,11 @@ PlayerObject.prototype.control = function() {
     if (!this.underWater || this.grounded) {
         if(Math.abs(this.moveSpeed) > 0.01) {
           this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed) - (this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
-          this.setState(PlayerObject.SNAME.RUN);
+          this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
         }
         else {
           this.moveSpeed = 0;
-          this.setState(PlayerObject.SNAME.STAND);
+          this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.STAND);
         }
         if(this.btnD[1] === -1) {
           this.setState(PlayerObject.SNAME.DOWN);
@@ -560,9 +565,9 @@ PlayerObject.prototype.control = function() {
     if(this.jumping > jumpMax) {
       this.jumping = -1;
     }
-    if(this.spinTimer < 0) {
+    /*if(this.spinTimer < 0) {
       this.spinTimer = 0;
-    }
+    }*/
   }
   else {
     this.btnAHot = false;
@@ -591,16 +596,19 @@ PlayerObject.prototype.control = function() {
   }
 
   if(!this.grounded && !this.underWater) {
-    this.setState(PlayerObject.SNAME.FALL);
+    this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
     this.attack();
     this.game.out.push(NET013.encode(0x01));
   }
+  if(this.btnB && !this.btnBde && this.power === 3 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.spinTimer < 1 && this.spinCharge >= PlayerObject.ATTACK_CHARGE) {
+    this.spin();
+  }
   this.btnBde = this.btnB;
   
-  if(this.attackTimer > 0 && this.power === 2 && (this.isState(PlayerObject.SNAME.STAND) || this.isState(PlayerObject.SNAME.RUN)) && !this.isState(PlayerObject.SNAME.TAUNT)) {
+  if((this.attackTimer > 0 || this.spinTimer > 0) && (this.power === 2 || this.power === 3) && (this.isState(PlayerObject.SNAME.STAND) || this.isState(PlayerObject.SNAME.RUN)) && !this.isState(PlayerObject.SNAME.TAUNT)) {
     this.setState(PlayerObject.SNAME.ATTACK);
   }
 };
@@ -853,8 +861,17 @@ PlayerObject.prototype.interaction = function() {
     if(obj === this || this.dead) { continue; }
     if(obj.level === this.level && obj.zone === this.zone && obj.isTangible()) {
       var hit = squar.intersection(obj.pos, obj.dim, this.pos, this.dim);
+      if(this.spinTimer) {
+        var fdim = vec2.make(2, this.dim.y);
+        var fpos = vec2.make(this.pos.x-.5, this.pos.y);
+        var hit = squar.intersection(obj.pos, obj.dim, fpos, fdim);
+        if (hit && obj.bonk) {
+          obj.bonk();
+          this.game.out.push(NET020.encode(obj.level, obj.zone, obj.oid, 0x01));
+        }
+      }
       if(hit) {
-        if(this.starTimer > 0 && obj.bonk) {
+        if((this.starTimer > 0 || this.spinTimer > 0) && obj.bonk) {
           /* Touch something with Star */
           obj.bonk();
           this.game.out.push(NET020.encode(obj.level, obj.zone, obj.oid, 0x01));
@@ -895,6 +912,12 @@ PlayerObject.prototype.arrow = function() {
 
 PlayerObject.prototype.sound = GameObject.prototype.sound;
 
+PlayerObject.prototype.spin = function() {
+  this.spinTimer = PlayerObject.ATTACK_DELAY;
+  this.spinCharge -= PlayerObject.ATTACK_CHARGE;
+  this.play("spin.mp3", 1., .04);
+};
+
 PlayerObject.prototype.attack = function() {
   this.attackTimer = PlayerObject.ATTACK_DELAY;
   this.attackCharge -= PlayerObject.ATTACK_CHARGE;
@@ -904,8 +927,8 @@ PlayerObject.prototype.attack = function() {
 };
 
 PlayerObject.prototype.bounce = function() {
-  this.spinTimer = 0;
-  this.spinCooldown = 0;
+  /*this.spinTimer = 0;
+  this.spinCooldown = 0;*/
   this.jumping = 0;
   this.isBounce = true;
 };
@@ -931,6 +954,7 @@ PlayerObject.prototype.invuln = function() {
 PlayerObject.prototype.powerup = function(obj) {
   if(obj instanceof MushroomObject && this.power < 1) { this.transform(1); this.rate = 0x73; return; } /* this.rate is a disguised anti cheat value */
   if(obj instanceof FlowerObject && this.power < 2) { this.transform(2); this.rate = 0x71; return; }
+  if(obj instanceof LeafObject && this.power < 2) { this.transform(3); this.rate = 0x72; return; }
   if(obj instanceof StarObject) { this.star(); this.game.out.push(NET013.encode(0x02)); this.rate = 0x43; return; }
   if(obj instanceof LifeObject) { this.game.lifeage(); return; }
   if(obj instanceof CoinObject) { this.game.coinage(); return; }
@@ -956,12 +980,12 @@ PlayerObject.prototype.star = function() {
 
 PlayerObject.prototype.transform = function(to) {
   if (!this.isState(PlayerObject.STATE.TRANSFORM)) {
-    if(this.power<to) { this.play("powerup.mp3", 1., .04); }
-    else { this.play("powerdown.mp3", 1., .04); }
+    if(this.power<to) { this.play(to === 3 ? "leaf.mp3" : "powerup.mp3", 1., .04); }
+    else { this.play(this.power === 3 ? "leaf.mp3" : "powerdown.mp3", 1., .04); }
   }
   
   this.transformTarget = to;
-  this.transformTimer = to === 3 ? PlayerObject.LEAF_TRANSFORM_TIME : PlayerObject.TRANSFORM_TIME;
+  this.transformTimer = (to === 3 || this.power === 3) ? PlayerObject.LEAF_TRANSFORM_TIME : PlayerObject.TRANSFORM_TIME;
   this.setState(PlayerObject.SNAME.TRANSFORM);
 };
 
@@ -1074,7 +1098,7 @@ PlayerObject.prototype.isState = function(SNAME) {
 };
 
 PlayerObject.prototype.draw = function(sprites) {
-  if(this.isState(PlayerObject.SNAME.HIDE) || this.pipeDelay > 0 || (this.transformTimer > 0 && this.transformTarget === 3)) { return; } // Don't render when hidden, transforming into a tanooki or when in a pipe
+  if(this.isState(PlayerObject.SNAME.HIDE) || this.pipeDelay > 0 || (this.transformTimer > 0 && (this.transformTarget === 3 || this.power === 3))) { return; } // Don't render when hidden, transforming into a tanooki or when in a pipe
   if(this.damageTimer > 0 && this.damageTimer % 3 > 1) { return; } // Post damage timer blinking
     
   var mod; // Special draw mode
