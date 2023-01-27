@@ -19,7 +19,7 @@ public class Controller {
   protected boolean dead;
   protected byte level, zone;
   protected Vec2 position;
-  protected byte sprite;
+  protected short sprite;
   protected byte character;
   public int kills;
   

@@ -962,7 +962,7 @@ NET011.decode = function(/* NET011_SERV */ a) {
 var NET012 = {}; // UPDATE_PLAYER_OBJECT [0x12] // As Uint8Array
 /* ======================================================================================== */
 NET012.DESIGNATION = 0x12;
-NET012.BYTES = 16;
+NET012.BYTES = 17;
 
 /* Client->Server */
 NET012.encode = function(/* byte */ levelID, /* byte */ zoneID, /* vec2 */ pos, /* byte */ spriteID, /* byte */ reverse, /* byte */ character) {
@@ -972,7 +972,7 @@ NET012.encode = function(/* byte */ levelID, /* byte */ zoneID, /* vec2 */ pos, 
     NET012.DESIGNATION, levelID, zoneID,
     barr[3], barr[2], barr[1], barr[0],
     barr[7], barr[6], barr[5], barr[4],
-    spriteID,
+    spriteID >> 8 & 0xFF, spriteID & 0xFF,
     reverse,
     character
   ]);
@@ -991,9 +991,9 @@ NET012.decode = function(/* NET012_SERV */ a) {
     level: a[2],
     zone: a[3],
     pos: vec2.make(v1.getFloat32(0), v2.getFloat32(0)),
-    sprite: a[12],
-    reverse: a[13] !== 0,
-    character: a[14]
+    sprite: (a[13] & 0x00FF) | ((a[12] << 8) & 0xFF00),
+    reverse: a[14] !== 0,
+    character: a[15]
   };
 };
 

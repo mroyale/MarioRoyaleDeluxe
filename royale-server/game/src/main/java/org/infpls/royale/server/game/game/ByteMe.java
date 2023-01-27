@@ -118,28 +118,28 @@ public class ByteMe {
   public static class NET012 extends NETX {
     public final byte level, zone, character;
     public final Vec2 pos;             // Vec2
-    public final byte sprite;
+    public final short sprite;
     public final byte reverse;
     public NET012(short pid, ByteBuffer data) {
       super((byte)0x12, pid);
       level = data.get();
       zone = data.get();
       pos = new Vec2(data.getFloat(), data.getFloat());
-      sprite = data.get();
+      sprite = data.getShort();
       reverse=data.get();
       character = data.get();
     }
     
     @Override
     public ByteBuffer encode() {
-      final ByteBuffer bb = ByteBuffer.allocate(16);
+      final ByteBuffer bb = ByteBuffer.allocate(17);
       bb.put(designation);
       bb.putShort(pid);
       bb.put(level);
       bb.put(zone);
       bb.putFloat(pos.x);
       bb.putFloat(pos.y);
-      bb.put(sprite);
+      bb.putShort(sprite);
       bb.put(reverse);
       bb.put(character);
       return bb;
