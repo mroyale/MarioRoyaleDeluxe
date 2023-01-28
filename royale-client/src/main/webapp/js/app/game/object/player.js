@@ -332,6 +332,7 @@ PlayerObject.prototype.trigger = function(type) {
     case 0x01 : { this.attack(); break; }
     case 0x02 : { this.star(); break; }
     case 0x03 : { this.invuln(); break; }
+    case 0x04 : { this.spin(); break; }
   }
 };
 
@@ -861,11 +862,11 @@ PlayerObject.prototype.interaction = function() {
     if(obj === this || this.dead) { continue; }
     if(obj.level === this.level && obj.zone === this.zone && obj.isTangible()) {
       var hit = squar.intersection(obj.pos, obj.dim, this.pos, this.dim);
+      var fdim = vec2.make(2, this.dim.y);
+      var fpos = vec2.make(this.pos.x-.5, this.pos.y);
+      var fhit = squar.intersection(obj.pos, obj.dim, fpos, fdim);
       if(this.spinTimer) {
-        var fdim = vec2.make(2, this.dim.y);
-        var fpos = vec2.make(this.pos.x-.5, this.pos.y);
-        var hit = squar.intersection(obj.pos, obj.dim, fpos, fdim);
-        if (hit && obj.bonk) {
+        if (fhit && obj.bonk) {
           obj.bonk();
           this.game.out.push(NET020.encode(obj.level, obj.zone, obj.oid, 0x01));
         }
