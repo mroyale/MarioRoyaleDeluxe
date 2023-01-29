@@ -646,6 +646,7 @@ PlayerObject.prototype.physics = function() {
   var on = [];              // Tiles we are directly standing on
   var psh = [];             // Tiles we are directly pushing against
   var bmp = [];             // Tiles we bumped from below when jumping
+  var smsh = [];            // Tiles we.. smashed... by spinning  into them with the raccoon powerup
   var slopes = [];          // Tiles which are slopes
   var slopecollide = [];    // Slopes we collided with
   var semisolids = [];      // Tiles which are semisolids
@@ -665,6 +666,10 @@ PlayerObject.prototype.physics = function() {
     }
     else if(tile.definition.COLLIDE) {
       if(tile.definition.HIDDEN) { hit.push(tile); continue; }
+
+      if ((!this.reverse && squar.intersection(vec2.chop(vec2.make(tile.pos.x+1, tile.pos.y)), tdim, vec2.chop(mov), this.dim)) || (this.reverse && squar.intersection(vec2.chop(vec2.make(tile.pos.x-1, tile.pos.y)), tdim, vec2.chop(mov), this.dim))) {
+        if(this.spinTimer === PlayerObject.ATTACK_DELAY-1 && this.pos.y <= tile.pos.y) { smsh.push(tile); }
+      }
       
       if(squar.intersection(tile.pos, tdim, mov, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
         if(Math.abs(this.moveSpeed) > 0.01  && this.grounded && this.pos.y <= tile.pos.y) { psh.push(tile); }
@@ -825,6 +830,12 @@ PlayerObject.prototype.physics = function() {
       var tile = psh[i];
       tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.PUSH);
     }
+  }
+
+  /* Tile Smash events */
+  for(var i=0;i<smsh.length;i++) {
+    var tile = smsh[i];
+    tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.BIG_BUMP);
   }
   
   /* Tile Bump events */

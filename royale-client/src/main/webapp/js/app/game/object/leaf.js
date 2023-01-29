@@ -21,7 +21,7 @@ LeafObject.ASYNC = false;
 LeafObject.ID = 0x57;
 LeafObject.NAME = "Tanooki Leaf"; // Used by editor
 
-LeafObject.IMPULSE = 0.83;
+LeafObject.IMPULSE = 0.5;
 LeafObject.DRAG = .95;
 LeafObject.FALL_SPEED_ACCEL = .025;
 
@@ -69,7 +69,7 @@ LeafObject.prototype.physics = function() {
       this.directionTimer = 0;
     } else {
       this.dir ? this.pos.x += 0.025 : this.pos.x -= 0.025;
-      this.pos.y -= 0.01;
+      this.pos.y -= 0.015;
     }
   }
 };
