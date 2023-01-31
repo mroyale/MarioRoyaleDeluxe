@@ -23,6 +23,7 @@ function MenuAccount() {
   this.playMenu = document.getElementById("playMember");
   this.playCloseBtn = document.getElementById("playMember-close");
   this.playGo = document.getElementById("playMember-go");
+  this.playPriv = document.getElementById("playMember-priv");
 
   this.playVanilla = document.getElementById("playMember-royale");
   this.playPVP = document.getElementById("playMember-pvp");
@@ -61,7 +62,8 @@ function MenuAccount() {
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
 
-  this.playGo.onclick = function() { that.launch(); };
+  this.playGo.onclick = function() { that.launch(false); };
+  this.playPriv.onclick = function() { that.launch(true); };
   this.profileSaveBtn.onclick = function() { that.saveProfile(); };
   this.passwordSaveBtn.onclick = function() { that.savePassword(); };
 
@@ -123,9 +125,9 @@ MenuAccount.prototype.changeGamemode = function(mode) {
   }
 };
 
-MenuAccount.prototype.launch = function() {
+MenuAccount.prototype.launch = function(priv) {
   this.hidePlayMenu();
-  app.join(app.net.nickname, app.net.squad, false, app.net.gm);
+  app.join(app.net.nickname, app.net.squad, Boolean(priv), parseInt(app.net.gm));
 };
 
 /* Change Password Menu */
