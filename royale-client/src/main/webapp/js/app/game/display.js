@@ -369,10 +369,31 @@ Display.prototype.drawUI = function() {
   }
   
   if(this.game.victory > 0) {
+    this.game.stopGameTimer();
+
     context.fillStyle = "white";
+    context.strokeStyle = "blue";
+
     context.font = "32px SmbWeb";
     context.textAlign = "center";
     context.fillText((this.game.victory<=3?"VICTORY ROYALE #":"TOO BAD #") + this.game.victory, W*.5, 40);
+    context.strokeText((this.game.victory<=3?"VICTORY ROYALE #":"TOO BAD #") + this.game.victory, W*.5, 40);
+
+    context.fillStyle = "white";
+    context.font = "24px SmbWeb";
+    context.textAlign = "center";
+    context.fillText("MATCH STATS:", 0.8 * W, 0.3 * H);
+    context.strokeText("MATCH STATS:", 0.8 * W, 0.3 * H);
+    context.font = "20px SmbWeb";
+
+    context.fillText(this.game.getGameTimer() + " ELAPSED TIME", 0.8 * W, 0.3 * H + 24);
+    context.strokeText(this.game.getGameTimer() + " ELAPSED TIME", 0.8 * W, 0.3 * H + 24);
+
+    context.fillText(this.game.kills + " PLAYERS KILLED", 0.8 * W, 0.3 * H + 28 + 16);
+    context.strokeText(this.game.kills + " PLAYERS KILLED", 0.8 * W, 0.3 * H + 28 + 16);
+
+    context.fillText(this.game.coinsCollected + " COINS COLLECTED", 0.8 * W, 0.3 * H + 32 + 16 + 16);
+    context.strokeText(this.game.coinsCollected + " COINS COLLECTED", 0.8 * W, 0.3 * H + 32 + 16 + 16);
   }
   else {
     context.fillStyle = "white";
@@ -401,6 +422,12 @@ Display.prototype.drawUI = function() {
 
     var w;
     if(this.game instanceof Game) {
+      context.font = "24px SmbWeb";
+      var time = this.game.getGameTimer();
+      var w =  context.measureText(time).width;
+      context.fillText(time, (W/2)-(w/2), 32);
+      context.strokeText(time, (W/2)-(w/2), 32);
+
       var txt = this.game.remain + " PLAYERS REMAIN";
       w = context.measureText(txt).width;
       context.fillText(txt, W-w-8, 32);

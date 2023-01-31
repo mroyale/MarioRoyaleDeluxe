@@ -10,6 +10,7 @@ MenuError.prototype.show = function(disp, msg, ex) {
   app.net.close();
   
   app.menu.hideAll();
+  app.menu.mainMember.hidePlayMenu();
   app.menu.mainMember.hideProfileMenu();
   app.menu.mainMember.hidePasswordMenu();
   app.menu.mainMember.hidePrivateMenu();

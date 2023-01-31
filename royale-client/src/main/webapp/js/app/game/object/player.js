@@ -79,7 +79,7 @@ function PlayerObject(game, level, zone, pos, pid, character) {
 /* === STATIC =============================================================== */
 PlayerObject.ASYNC = false;
 PlayerObject.ID = 0x01;
-PlayerObject.NAME = "Player"; // Used by editor
+PlayerObject.NAME = "Player [Do not use!]"; // Used by editor
 
 PlayerObject.ANIMATION_RATE = 6;
 PlayerObject.DIM_OFFSET = vec2.make(-.05, 0.);
@@ -541,7 +541,7 @@ PlayerObject.prototype.control = function() {
           this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.STAND);
         }
         if(this.btnD[1] === -1) {
-          this.setState(PlayerObject.SNAME.DOWN);
+          this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.DOWN);
         }
     }
   }
@@ -970,7 +970,7 @@ PlayerObject.prototype.powerup = function(obj) {
   if(obj instanceof StarObject) { this.star(); this.game.out.push(NET013.encode(0x02)); this.rate = 0x43; return; }
   if(obj instanceof LifeObject) { this.game.lifeage(); return; }
   if(obj instanceof CoinObject) { this.game.coinage(); return; }
-  if(obj instanceof AxeObject) { this.game.out.push(NET018.encode()); return; }  // Asks server what result to get from picking up the axe and 'winning'
+  if(obj instanceof AxeObject) { this.game.out.push(NET018.encode()); this.game.stopGameTimer(); return; }  // Asks server what result to get from picking up the axe and 'winning'
   if(obj instanceof PoisonObject) { this.damage(obj); return; }
 };
 

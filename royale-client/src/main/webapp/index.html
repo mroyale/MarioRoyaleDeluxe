@@ -95,7 +95,7 @@
       <div id='mainMember' class='container-center'>
         <div class='title'>Mario Royale</div>
         <div class="container-launch">
-          <div id="mainMember-launch" class="launch">
+          <div id="mainMember-play" class="launch">
             <img src="./img/home/play.png" class="launch-img">
           </div>
 
@@ -118,6 +118,18 @@
 
       
       <div class="dark-bg" id="dark-bg" style="display:none;">&nbsp;</div>
+
+      <!-- Play Menu - Logged In -->
+      <div id="playMember" class="container-password" style="height:380px;display:none;">
+        <span style="position:absolute;right: 10px;" id="playMember-close">x</span>
+        <p>Choose Game</p>
+        <div style="image-rendering: pixelated;">
+          <img id="playMember-royale" src="./img/home/vanilla.png" style="width: 192px;height: 192px;">
+          <img id="playMember-pvp" src="./img/home/pvp.png" style="width: 192px;height: 192px;">
+        </div>
+        
+        <div style="bottom: -5%;position: relative;"><img src="./img/home/go.png" id="playMember-go" class="button-go"></div>
+      </div>
       
       <!-- Login -->
       <div id="login" class="container-password" style="display:none;">
@@ -129,7 +141,7 @@
         <p style="margin-block-end: 0;">Password</p>
         <input class="profile-nickname" id="login-password" type="password">
   
-        <div style="bottom: -5%;position: relative;"><img src="./img/home/signin.png" style="width: 120px;height: 48px;" id="login-signin" class="button-login"></div> 
+        <div style="bottom: -5%;position: relative;"><img src="./img/home/signin.png" id="login-signin" class="button-login"></div> 
         <p id="login-error"></p>
       </div>
 
@@ -201,17 +213,10 @@
       </div>
 
       <!-- Settings -->
-      <div id="settings" class="container-private" style="display:none;width: 400px;text-align: center;">
+      <div id="settings" class="container-password" style="display:none;">
         <span style="position: absolute;right: 10px;" id="settingsClose">x</span>
-        <span style="font-size: 24px;">Settings</span><br>
-        <div>
-          <span style="font-size: 20px;">Music Volume</span>
-          <input type="range" style="width:95%;" id="musicVolume">
-        </div>
-        <div style="margin-top: 5px;">
-          <span style="font-size: 20px;">SFX Volume</span>
-          <input type="range" style="width: 95%;" id="sfxVolume">
-        </div>
+        <p>Settings</p>
+        <p>Hide ingame timer (doesnt work yet) [X]</p>
       </div>
 
       <!-- Message Block -->

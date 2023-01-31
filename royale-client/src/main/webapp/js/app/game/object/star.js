@@ -20,6 +20,7 @@ StarObject.NAME = "Star"; // Used by editor
 StarObject.JUMP_LENGTH = 36;
 StarObject.MOVE_SPEED_MAX = 0.08;
 StarObject.JUMP_DELAY = 2;
+StarObject.FALL_SPEED_MAX = 0.225;
 
 StarObject.SPRITE = {};
 StarObject.SPRITE_LIST = [

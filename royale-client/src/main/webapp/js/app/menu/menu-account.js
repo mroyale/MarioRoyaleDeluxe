@@ -7,51 +7,65 @@ function MenuAccount() {
   this.linkElement = document.getElementById("link");
   this.linkMemberElement = document.getElementById("linkMember");
   this.winElement = document.getElementById("win");
-  this.launchBtn = document.getElementById("mainMember-launch");
 
   this.controlBtn = document.getElementById("mainMember-controls");
   this.changelogBtn = document.getElementById("mainMember-changelog");
   this.settingsBtn = document.getElementById("mainMember-settings");
 
+  this.playBtn = document.getElementById("mainMember-play");
   this.profileBtn = document.getElementById("mainMember-profile");
   this.passwordBtn = document.getElementById("mainMember-password");
   this.logoutBtn = document.getElementById("mainMember-logout");
 
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
+
+  this.playMenu = document.getElementById("playMember");
+  this.playCloseBtn = document.getElementById("playMember-close");
+  this.playGo = document.getElementById("playMember-go");
+
+  this.playVanilla = document.getElementById("playMember-royale");
+  this.playPVP = document.getElementById("playMember-pvp");
+
   
   this.profileMenu = document.getElementById("profile");
   this.profileSaveBtn = document.getElementById("profile-save");
   this.profileCloseBtn = document.getElementById("profile-close");
-
+  
   this.passwordMenu = document.getElementById("password");
   this.passwordSaveBtn = document.getElementById("password-save");
   this.passwordCloseBtn = document.getElementById("password-close");
   this.passwordError = document.getElementById("password-error");
-
+  
   this.passwordNew = document.getElementById("password-new");
   this.passwordVerify = document.getElementById("password-verify");
-
+  
   this.darkBackground = document.getElementById("dark-bg");
-
+  
   var that = this;
   $(document).keyup(function(event) {
     if (event.which === 13) {
-        if(that.profileMenu.style.display === "") { that.saveProfile(); };
-        if(that.passwordMenu.style.display === "") { that.savePassword(); };
+      if(that.profileMenu.style.display === "") { that.saveProfile(); };
+      if(that.passwordMenu.style.display === "") { that.savePassword(); };
+      if(that.playMenu.style.display === "") { that.launch(); };
     }
   });
   
+  this.playVanilla.onclick = function() { that.changeGamemode(0); };
+  this.playPVP.onclick = function() { that.changeGamemode(1); };
+
   this.padLoop = undefined;
   
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; };
+  this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
 
+  this.playGo.onclick = function() { that.launch(); };
   this.profileSaveBtn.onclick = function() { that.saveProfile(); };
   this.passwordSaveBtn.onclick = function() { that.savePassword(); };
 
-  this.launchBtn.onclick = function() { app.join(app.net.nickname, app.net.squad); };
+  this.playBtn.onclick = function() { that.showPlayMenu(); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
@@ -72,11 +86,6 @@ function MenuAccount() {
   this.pendingChar = null;
 };
 
-/* When the launch button is clicked. */
-MenuAccount.prototype.launch = function() {
-  app.menu.name.show();
-};
-
 /* Menus */
 MenuAccount.prototype.hideSettingsMenu = function() {
   this.settingsMenu.style.display = "none";
@@ -86,9 +95,43 @@ MenuAccount.prototype.hidePrivateMenu = function() {
   document.getElementById("worlds").style.display = "none";
 };
 
+/* Play Menu */
+MenuAccount.prototype.showPlayMenu = function() {
+  this.hideProfileMenu();
+  this.hidePasswordMenu();
+  this.darkBackground.style.display = "";
+  this.playMenu.style.display = "";
+
+  var mode = Cookies.get("mode") === '1' ? 1 : 0;
+  this.changeGamemode(mode);
+};
+
+MenuAccount.prototype.hidePlayMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.playMenu.style.display = "none";
+};
+
+MenuAccount.prototype.changeGamemode = function(mode) {
+  app.net.gm = mode;
+  Cookies.set("mode", mode, {expires: 30});
+
+  var that = this;
+  switch(mode) {
+    default:
+    case 0 : { that.playVanilla.src = "img/home/vanilla-selected.png"; that.playPVP.src = "img/home/pvp.png"; break; }
+    case 1 : { that.playVanilla.src = "img/home/vanilla.png"; that.playPVP.src = "img/home/pvp-selected.png"; break; }
+  }
+};
+
+MenuAccount.prototype.launch = function() {
+  this.hidePlayMenu();
+  app.join(app.net.nickname, app.net.squad, false, app.net.gm);
+};
+
 /* Change Password Menu */
 MenuAccount.prototype.showPasswordMenu = function() {
   this.hideProfileMenu();
+  this.hidePlayMenu();
   this.darkBackground.style.display = "";
   this.passwordMenu.style.display = "";
   this.passwordNew.value = "";
@@ -124,6 +167,7 @@ MenuAccount.prototype.passwordReport = function(msg) {
 /* Profile Menu */
 MenuAccount.prototype.showProfileMenu = function() {
   this.hidePasswordMenu();
+  this.hidePlayMenu();
   this.darkBackground.style.display = "";
   this.profileMenu.style.display = "";
   this.profileUsername.innerText = app.net.username;

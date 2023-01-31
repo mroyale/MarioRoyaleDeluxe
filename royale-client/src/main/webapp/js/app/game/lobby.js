@@ -18,6 +18,10 @@ Lobby.prototype.changePrivMenu = Game.prototype.changePrivMenu;
 Lobby.prototype.getDebug = Game.prototype.getDebug;
 Lobby.prototype.load = Game.prototype.load;
 
+Lobby.prototype.getGameTimer = Game.prototype.getGameTimer;
+Lobby.prototype.resumeGameTimer = Game.prototype.resumeGameTimer;
+Lobby.prototype.stopGameTimer = Game.prototype.stopGameTimer;
+
 Lobby.prototype.send = Game.prototype.send;
 Lobby.prototype.handlePacket = Game.prototype.handlePacket;
 Lobby.prototype.updatePlayerList = Game.prototype.updatePlayerList;

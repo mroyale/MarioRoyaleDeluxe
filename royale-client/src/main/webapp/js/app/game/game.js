@@ -55,8 +55,15 @@ function Game(data) {
   this.lives = this.gameMode ? 0 : 1; // Game over if you die in PVP
   this.coins = 0;
 
+  this.coinsCollected = 0;
+  this.kills = 0;
+
   this.announceMessage = "";
   this.announceTimer = -1;
+
+  this.gameTimerStopped = null;
+  this.gameTimerStopTime = 0;
+  this.poleTimes = 0;
   
   this.victory = 0;
   this.victoryMusic = false;
@@ -285,6 +292,33 @@ Game.prototype.load = function(data) {
   }
 };
 
+Game.prototype.getGameTimer = function (compact) {
+  if (this.gameTimerStopped !== null) return this.gameTimerStopped;
+  if (this.startDelta === undefined) return compact ? "00:00" : "00:00:000";
+  var now = util.time.now() - this.poleTimes; // get the time now minus the poleTimes
+  var diff = now - this.startDelta; // diff in seconds between now and start
+  var m = Math.floor(diff / 60000); // get minutes value
+  var s = Math.floor(diff / 1000) % 60; // get seconds value
+  var ms = diff % 1000; // get milliseconds value
+  if (m < 10) m = "0" + m; // add a leading zero if it's single digit
+  if (s < 10) s = "0" + s; // add a leading zero if it's single digit
+  if (ms < 10) ms = "00" + ms; // add two leadings zeros if it's single digit
+  else if (ms < 100) ms = "0" + ms; // add a leading zero if it's double digit
+  return m + ":" + s + (compact ? '' : (":" + ms));
+};
+
+Game.prototype.resumeGameTimer = function () {
+  if (this.gameTimerStopped === null) return;
+  this.gameTimerStopped = null;
+  this.poleTimes += util.time.now() - this.gameTimerStopTime;
+};
+
+Game.prototype.stopGameTimer = function (touchMode = false) {
+  if (this.gameTimerStopped !== null) return;
+  this.gameTimerStopped = this.getGameTimer(app.compactMode ? app.compactMode : touchMode);
+  this.gameTimerStopTime = util.time.now();
+};
+
 /* Immiedately sends a json packet */
 Game.prototype.send = function(packet) {
   app.net.send(packet);
@@ -422,7 +456,7 @@ Game.prototype.doNET013 = function(n) {
 
 /* PLAYER_KILL_EVENT [0x17] */
 Game.prototype.doNET017 = function(n) {
-  
+  this.kills += 1;
 };
 
 /* PLAYER_RESULT_REQUEST [0x18] */
@@ -884,6 +918,7 @@ Game.prototype.levelWarp = function(lid) {
 /* When this client player collects a coin */
 Game.prototype.coinage = function() {
   this.coins = Math.min(99, this.coins+1);
+  this.coinsCollected += 1;
   if(this.coins >= Game.COINS_TO_LIFE) { this.lifeage(); this.coins = 0; }
   this.play("coin.mp3",.4,0.);
   this.out.push(NET021.encode());
@@ -891,6 +926,7 @@ Game.prototype.coinage = function() {
 
 /* When the client player collects a life */
 Game.prototype.lifeage = function() {
+  if (this.gameMode === 1) { return; }
   this.lives = Math.min(99, this.lives+1);
   this.play("life.mp3",1.,0.);
 };

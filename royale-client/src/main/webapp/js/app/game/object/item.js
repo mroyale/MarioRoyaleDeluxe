@@ -42,7 +42,7 @@ ItemObject.ANIMATION_RATE = 6;
 ItemObject.MOVE_SPEED_MAX = 0.0375;
 
 ItemObject.JUMP_SPEED_MAX = 0.300;
-ItemObject.FALL_SPEED_MAX = 0.225;
+ItemObject.FALL_SPEED_MAX = 0.1125;
 ItemObject.FALL_SPEED_ACCEL = 0.075;
 ItemObject.JUMP_DECEL = 0.015;
 ItemObject.JUMP_LENGTH = 3;
@@ -101,7 +101,7 @@ ItemObject.prototype.physics = function() {
     if(this.grounded) {
       this.fallSpeed = 0;
     }
-    this.fallSpeed = Math.max(this.fallSpeed - ItemObject.FALL_SPEED_ACCEL, -ItemObject.FALL_SPEED_MAX);
+    this.fallSpeed = Math.max(this.fallSpeed - ItemObject.FALL_SPEED_ACCEL, (this instanceof StarObject ? -StarObject.FALL_SPEED_MAX : -ItemObject.FALL_SPEED_MAX));
   }
   
   var movx = vec2.add(this.pos, vec2.make(this.moveSpeed, 0.));
