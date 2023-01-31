@@ -113,6 +113,10 @@ CHEEP CHEEP::38
 [variant]
  - 0 or 1. 0 is green, 1 is red and moves faster.
 
+BLOOPER::39
+[]
+ - No params.
+
 FIREBALL PROJECTILE::161
 []
  - No params. Don't use this.
@@ -141,6 +145,10 @@ ONEUP::83
 []
  - No params. It's better to use item block tiles for items.
 
+TANOOKI LEAF::86
+[]
+ - No params. Jumps and then swerves around. It's better to use item block tiles for items.
+
 COIN::97
 []
  - No params.
@@ -152,6 +160,7 @@ AXE::85
 POISON MUSHROOM::86
 []
  - No params.
+
 
 CHECKMARK::254
 []

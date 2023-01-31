@@ -308,7 +308,8 @@ Display.prototype.drawUI = function() {
   var SFX = [0x01, 0x04];
   var MUSIC = [0x00, 0x03];
   var TEXT = [0x02, 0x05];
-  var PAD = 0x06;
+  var OPT = 0x06;
+  var PAD = 0x07;
   var c = COIN[parseInt(this.game.frame/6) % COIN.length];
 
   var tex = this.resource.getTexture("obj");
@@ -421,10 +422,12 @@ Display.prototype.drawUI = function() {
     var w;
     if(this.game instanceof Game) {
       context.font = "24px SmbWeb";
-      var time = this.game.getGameTimer();
-      var w =  context.measureText(time).width;
-      context.fillText(time, (W/2)-(w/2), 32);
-      context.strokeText(time, (W/2)-(w/2), 32);
+      if (!app.settings.hideTimer) {
+        var time = this.game.getGameTimer();
+        var w =  context.measureText(time).width;
+        context.fillText(time, (W/2)-(w/2), 32);
+        context.strokeText(time, (W/2)-(w/2), 32);
+      }
 
       var txt = this.game.remain + " PLAYERS REMAIN";
       w = context.measureText(txt).width;
@@ -449,14 +452,20 @@ Display.prototype.drawUI = function() {
     }
 
     var st = util.sprite.getSprite(uitex, MUSIC[this.game.audio.muteMusic?1:0]);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-24-8, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-32, 40, 24, 24);
+
     var st = util.sprite.getSprite(uitex, SFX[this.game.audio.muteSound?1:0]);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-24-8-24-8, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-64, 40, 24, 24);
+
     var st = util.sprite.getSprite(uitex, TEXT[this.game.disableText?1:0]);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-24-8-24-8-24-8, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-96, 40, 24, 24);
+
+    var st = util.sprite.getSprite(uitex, OPT);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-128, 40, 24, 24);
+
     if(this.game.input.pad.connected()) {
       var st = util.sprite.getSprite(uitex, PAD);
-      context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-24-8-24-8-24-8-24-8, 40, 24, 24);
+      context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-160, 40, 24, 24);
     }
   }
 };

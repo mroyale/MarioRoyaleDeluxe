@@ -546,7 +546,8 @@ Game.prototype.doTouch = function(imp) {
     {pos: vec2.make(W-S, H-(S*3)), dim: vec2.make(S, S), click: function() { tmp.touchRun = !tmp.touchRun; }},
     {pos: vec2.make(W-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.audio.muteMusic = !tmp.audio.muteMusic; tmp.audio.saveSettings(); }},
     {pos: vec2.make(W-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.audio.muteSound = !tmp.audio.muteSound; tmp.audio.saveSettings(); }},
-    {pos: vec2.make(W-24-8-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.disableText = !tmp.disableText; Cookies.set("text", tmp.disableText?1:0, {expires: 30}); }}
+    {pos: vec2.make(W-24-8-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.disableText = !tmp.disableText; Cookies.set("text", tmp.disableText?1:0, {expires: 30}); }},
+    {pos: vec2.make(W-24-8-24-8-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { var stg = document.getElementById("settings"); stg.style.display = (stg.style.display === "" ? "none": ""); }}
   ];
   
   /* Check to see if we touched any of the on screen buttons */
@@ -622,7 +623,8 @@ Game.prototype.doInput = function(imp) {
   var btns = [
     {pos: vec2.make(W-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.audio.muteMusic = !tmp.audio.muteMusic; tmp.audio.saveSettings(); }},
     {pos: vec2.make(W-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.audio.muteSound = !tmp.audio.muteSound; tmp.audio.saveSettings(); }},
-    {pos: vec2.make(W-24-8-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.disableText = !tmp.disableText; Cookies.set("text", tmp.disableText?1:0, {expires: 30}); }}
+    {pos: vec2.make(W-24-8-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { tmp.disableText = !tmp.disableText; Cookies.set("text", tmp.disableText?1:0, {expires: 30}); }},
+    {pos: vec2.make(W-24-8-24-8-24-8-24-8, 40), dim: vec2.make(24, 24), click: function() { var stg = document.getElementById("settings"); stg.style.display = (stg.style.display === "" ? "none": ""); }}
   ];
   for(var i=0;i<imp.mouse.length;i++) {
     var m = imp.mouse[i];

@@ -611,6 +611,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
+  image-rendering: pixelated;
 }
 
 .container-password {
@@ -629,6 +630,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
+  image-rendering: pixelated;
 }
 
 .container-register {
@@ -647,6 +649,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
+  image-rendering: pixelated;
 }
 
 .container-private {

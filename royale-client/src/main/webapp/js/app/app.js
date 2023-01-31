@@ -9,14 +9,21 @@ function App() {
   this.settings = {
     musicMuted: Cookies.get("music") === '1',
     soundMuted: Cookies.get("sound") === '1',
-    hideNames: Cookies.get("text") === '1'
+    hideNames: Cookies.get("text") === '1',
+    hideTimer: Cookies.get("timer") === '1'
   }
 
-  var musicVolume = document.getElementById("musicVolume");
-  var sfxVolume = document.getElementById("sfxVolume");
-
-  
+  var that = this;
+  var tmr = document.getElementById("hideTimer");
+  tmr.onclick = function() { that.toggleTimer(); };
+  tmr.innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
 }
+
+App.prototype.toggleTimer = function() {
+  this.settings.hideTimer = !this.settings.hideTimer
+  Cookies.set("timer", this.settings.hideTimer?1:0, {'expires': 30});
+  document.getElementById("hideTimer").innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
+};
 
 App.prototype.init = function() {
   var that = this;
