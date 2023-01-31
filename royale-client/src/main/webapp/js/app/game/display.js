@@ -369,8 +369,6 @@ Display.prototype.drawUI = function() {
   }
   
   if(this.game.victory > 0) {
-    this.game.stopGameTimer();
-
     context.fillStyle = "white";
     context.strokeStyle = "blue";
 
