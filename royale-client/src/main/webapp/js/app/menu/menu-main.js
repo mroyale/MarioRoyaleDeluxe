@@ -19,6 +19,15 @@ function MenuMain() {
 
   this.darkBackground = document.getElementById("dark-bg");
 
+  this.playMenu = document.getElementById("play");
+  this.playCloseBtn = document.getElementById("play-close");
+  this.playName = document.getElementById("play-name");
+  this.playPriv = document.getElementById("play-priv");
+  this.playGo = document.getElementById("play-go");
+
+  this.playVanilla = document.getElementById("play-royale");
+  this.playPVP = document.getElementById("play-pvp");
+
   this.registerMenu = document.getElementById("register");
   this.registerCloseBtn = document.getElementById("signup-close");
   this.signupName = document.getElementById("signup-name");
@@ -37,10 +46,14 @@ function MenuMain() {
   var that = this;
   $(document).keyup(function(event) {
     if (event.which === 13) {
+        if (that.playMenu.style.display === "") { that.launch(false); }
         if (that.loginMenu.style.display === "") { that.login(); };
         if (that.registerMenu.style.display === "") { that.register(); };
     }
   });
+
+  this.playVanilla.onclick = function() { that.changeGamemode(0); };
+  this.playPVP.onclick = function() { that.changeGamemode(1); };
   
   var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
   this.menuMusic = document.createElement('audio');
@@ -53,7 +66,10 @@ function MenuMain() {
   
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; }
 
-  this.launchBtn.onclick = function() { that.launch(); };
+  this.launchBtn.onclick = function() { that.showPlayMenu(); };
+  this.playGo.onclick = function() { that.launch(false); };
+  this.playPriv.onclick = function() { that.launch(true); };
+  this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
@@ -63,10 +79,43 @@ function MenuMain() {
   this.registerBtn.onclick = function() { that.showRegisterMenu(); };
   this.registerCloseBtn.onclick = function() { that.hideRegisterMenu(); };
   this.signupBtn.onclick = function() { that.register(); };
+
+  var nam = Cookies.get("name");
+  this.playName.value = nam?nam.slice(0,20):"";
 };
 
-MenuMain.prototype.launch = function() {
-  app.menu.name.show();
+/* Play Menu */
+MenuMain.prototype.showPlayMenu = function() {
+  this.hideRegisterMenu();
+  this.hideLoginMenu();
+  this.darkBackground.style.display = "";
+  this.playMenu.style.display = "";
+
+  var mode = Cookies.get("mode") === '1' ? 1 : 0;
+  this.changeGamemode(mode);
+};
+
+MenuMain.prototype.hidePlayMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.playMenu.style.display = "none";
+};
+
+MenuMain.prototype.changeGamemode = function(mode) {
+  app.gm = mode;
+  Cookies.set("mode", mode, {expires: 30});
+
+  var that = this;
+  switch(mode) {
+    default:
+    case 0 : { that.playVanilla.src = "img/home/vanilla-selected.png"; that.playPVP.src = "img/home/pvp.png"; break; }
+    case 1 : { that.playVanilla.src = "img/home/vanilla.png"; that.playPVP.src = "img/home/pvp-selected.png"; break; }
+  }
+};
+
+MenuMain.prototype.launch = function(priv) {
+  this.hidePlayMenu();
+  Cookies.set("name", this.playName.value, {expires: 30});
+  app.join(this.playName.value, "", Boolean(priv), parseInt(app.gm));
 };
 
 /* Login Menu */

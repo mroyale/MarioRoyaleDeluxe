@@ -15,7 +15,6 @@ function Menu() {
     {id: "disclaim", obj: new MenuDisclaim()},
     {id: "main", obj: new MenuMain()},
     {id: "mainMember", obj: new MenuAccount()},
-    {id: "name", obj: new MenuName()},
     {id: "game", obj: new MenuGame()}
   ];
   

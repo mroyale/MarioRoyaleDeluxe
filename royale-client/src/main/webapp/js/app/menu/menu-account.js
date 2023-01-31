@@ -46,9 +46,9 @@ function MenuAccount() {
   var that = this;
   $(document).keyup(function(event) {
     if (event.which === 13) {
+      if(that.playMenu.style.display === "") { that.launch(false); };
       if(that.profileMenu.style.display === "") { that.saveProfile(); };
       if(that.passwordMenu.style.display === "") { that.savePassword(); };
-      if(that.playMenu.style.display === "") { that.launch(); };
     }
   });
   

@@ -107,17 +107,23 @@
         </div>
       </div>
       
-      <!-- Enter Name -->
-      <div id='name' class='container-center'>
-        <div class='name'><input id='name-input' type='text' class='name-input' maxlength="20" placeholder='Name'/></div>
-        <div class='team'><input id='team-input' type='text' class='team-input' maxlength="3" placeholder='Squad Code'/></div>
-        <div class='container-go'>
-          <span id ='name-launch' class='launch'>Go!</span> <span id='name-pvp' class='launch'>PVP</span> <span class='launch'>|</span> <span id='name-private' class='launch'>Private</span>
+      <div class="dark-bg" id="dark-bg" style="display:none;">&nbsp;</div>
+
+      <!-- Play Menu - Guest -->
+      <div id="play" class="container-password" style="height:430px;display:none;">
+        <span style="position:absolute;right: 10px;" id="play-close">x</span>
+        <p>Choose Game</p>
+        <input class="profile-nickname" id="play-name" placeholder="Nickname" style="margin-block-end: 1em" maxlength="20">
+        <div style="image-rendering: pixelated;">
+          <img id="play-royale" src="./img/home/vanilla.png" style="width: 192px;height: 192px;">
+          <img id="play-pvp" src="./img/home/pvp.png" style="width: 192px;height: 192px;">
+        </div>
+        
+        <div style="bottom: -5%;position: relative;">
+          <img src="./img/home/go.png" id="play-go" class="button-go">
+          <img src="./img/home/private.png" id="play-priv" class="button-private" style="margin-left:20px">
         </div>
       </div>
-
-      
-      <div class="dark-bg" id="dark-bg" style="display:none;">&nbsp;</div>
 
       <!-- Play Menu - Logged In -->
       <div id="playMember" class="container-password" style="height:380px;display:none;">
@@ -255,7 +261,6 @@
       <script src='js/app/menu/menu-disclaim.js'></script>
       <script src='js/app/menu/menu-main.js'></script>
       <script src='js/app/menu/menu-account.js'></script>
-      <script src='js/app/menu/menu-name.js'></script>
       <script src='js/app/menu/menu-game.js'></script>
       
       <!-- Game Core -->
