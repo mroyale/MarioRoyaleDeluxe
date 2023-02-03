@@ -56,8 +56,8 @@ public class Login extends SessionState {
   /* Handle player logging into their account. */
   private void accountLogin(final PacketLLR p) throws IOException {
     final Gson json = new GsonBuilder().create();
-    final RoyaleAccount acc = lobbyDao.findAccount(p.username);
-    
+    String name = p.username.trim().toUpperCase();
+    final RoyaleAccount acc = lobbyDao.findAccount(name);
     
     String hashedPassword = Hashing.sha256()
     .hashString(p.password, StandardCharsets.UTF_8)
@@ -74,7 +74,7 @@ public class Login extends SessionState {
     }
     
     session.setAccount(acc);
-    String session = lobbyDao.addToken(p.username);
+    String session = lobbyDao.addToken(name);
     AccountData account = new AccountData(session, acc.getUsername(), acc.getNickname(), acc.getSquad(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
 
     sendPacket(new PacketLLG(true, json.toJson(account)));
@@ -83,10 +83,11 @@ public class Login extends SessionState {
   /* Handle player registering a new account. */
   private void accountRegister(final PacketLRR p) throws IOException {
     final Gson json = new GsonBuilder().create();
-    if (lobbyDao.findAccount(p.username) == null) {
-      RoyaleAccount newAcc = lobbyDao.createAccount(p.username.trim(), p.password);
+    String name = p.username.toUpperCase().trim();
+    if (lobbyDao.findAccount(name) == null) {
+      RoyaleAccount newAcc = lobbyDao.createAccount(name, p.password);
       session.setAccount(newAcc);
-      String session = lobbyDao.addToken(p.username);
+      String session = lobbyDao.addToken(name);
 
       AccountData newAccount = new AccountData(session, newAcc.getUsername(), newAcc.getNickname(), "", 0, 0, 0, 0, 0);
       sendPacket(new PacketLRG(true, json.toJson(newAccount)));

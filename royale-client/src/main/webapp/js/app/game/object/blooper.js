@@ -21,6 +21,8 @@ function BlooperObject(game, level, zone, pos, oid) {
   this.dim = vec2.make(.8,.8);
   this.moveSpeed = 0;
   this.fallSpeed = 0;
+  this.direction = false;
+  this.moveTimer = 0;
 }
 
 
@@ -47,8 +49,8 @@ BlooperObject.SOFFSET = vec2.make(.15,.15);
 
 BlooperObject.SPRITE = {};
 BlooperObject.SPRITE_LIST = [
-  {NAME: "IDLE0", ID: 0x00, INDEX: [172, 156]},
-  {NAME: "IDLE1", ID: 0x01, INDEX: 173},
+  {NAME: "IDLE", ID: 0x00, INDEX: [172, 156]},
+  {NAME: "COMPRESS", ID: 0x01, INDEX: 173},
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -59,7 +61,8 @@ for(var i=0;i<BlooperObject.SPRITE_LIST.length;i++) {
 
 BlooperObject.STATE = {};
 BlooperObject.STATE_LIST = [
-  {NAME: "IDLE", ID: 0x00, SPRITE: [BlooperObject.SPRITE.IDLE0, BlooperObject.SPRITE.IDLE1]},
+  {NAME: "IDLE", ID: 0x00, SPRITE: [BlooperObject.SPRITE.IDLE]},
+  {NAME: "COMPRESS", ID: 0x01, SPRITE: [BlooperObject.SPRITE.COMPRESS]},
   {NAME: "BONK", ID: 0x51, SPRITE: []}
 ];
 
@@ -76,10 +79,15 @@ BlooperObject.prototype.update = function(event) {
   /* Event trigger */
   switch(event) {
     case 0x01: this.bonk(); break;
+    case 0xA0: this.enable(); break;
   }
 };
 
 BlooperObject.prototype.step = function() {
+  /* Disabled */
+  if(this.disabled) { this.proximity(); return; }
+  else if(this.disabledTimer > 0) { this.disabledTimer--; }
+
   /* Bonked */
   if(this.state === BlooperObject.STATE.BONK) {
     if(this.bonkTimer++ > BlooperObject.BONK_TIME || this.pos.y+this.dim.y < 0) { this.destroy(); return; }
@@ -100,11 +108,53 @@ BlooperObject.prototype.step = function() {
 };
 
 BlooperObject.prototype.physics = function() {
-  if(this.pos.x > 0) { this.pos.x -= BlooperObject.SPEED; }
+  if(this.pos.x > 0) {
+    this.setState(BlooperObject.STATE.COMPRESS);
+
+    if (++this.moveTimer >= 50) {
+      this.setState(BlooperObject.STATE.IDLE);
+      var ang = 45 * Math.PI / 180;
+      var x = Math.cos(ang) * BlooperObject.SPEED/2;
+      var y = Math.sin(ang) * BlooperObject.SPEED/2;
+
+      this.pos.x += (this.direction ? x : -x);
+      this.pos.y += y;
+
+      if (this.moveTimer >= 110) {
+        this.moveTimer = 0;
+      }
+    } else {
+      this.pos.y -= BlooperObject.SPEED/2;
+    }
+  }
   else { this.destroy(); }
 };
 
+/* Face nearest player */
+BlooperObject.prototype.face = function() {
+  var nearest;
+  var target;
+  for(var i=0;i<this.game.objects.length;i++) {
+     var obj = this.game.objects[i];
+     if(obj instanceof PlayerObject && obj.level === this.level && obj.zone === this.zone && obj.isTangible()) {
+       if(!nearest || Math.abs(nearest) > vec2.distance(obj.pos, this.pos)) { nearest = obj.pos.x - this.pos.x; target = obj; }
+     }
+  }
+  if(!nearest) { this.direction = false; }
+  else { this.direction = nearest<0; this.target = focus; }
+};
+
 BlooperObject.prototype.sound = GameObject.prototype.sound;
+
+/* Tests against client player to see if they are near enough that we should enable this enemy. */
+/* On a successful test we send a object event 0xA0 to the server to trigger this enemy being enabled for all players */
+BlooperObject.prototype.proximity = function() {
+  var ply = this.game.getPlayer();
+  if(ply && !ply.dead && ply.level === this.level && ply.zone === this.zone && !this.proxHit && vec2.distance(ply.pos, this.pos) < BlooperObject.ENABLE_DIST) {
+    this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0xA0));
+    this.proxHit = true;
+  }
+};
 
 BlooperObject.prototype.disable = function() { this.disabled = true; };
 BlooperObject.prototype.enable = function() { this.disabled = false; };
@@ -129,11 +179,7 @@ BlooperObject.prototype.playerCollide = function(p) {
 };
 
 BlooperObject.prototype.playerStomp = function(p) {
-  if(this.dead || this.garbage) { return; }
-  p.bounce();
-  this.bonk();
-  this.play("stomp.mp3", 1., .04);
-  this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0x01));
+  this.playerCollide(p);
 };
 
 BlooperObject.prototype.playerBump = function(p) {
@@ -155,7 +201,19 @@ BlooperObject.prototype.draw = function(sprites) {
   var mod;
   if(this.state === BlooperObject.STATE.BONK) { mod = 0x03; }
   else { mod = 0x00; }
-  sprites.push({pos: vec2.subtract(this.pos, BlooperObject.SOFFSET), reverse: false, index: this.sprite.INDEX, mode: mod});
+  if(this.sprite.INDEX instanceof Array) {
+    var s = this.sprite.INDEX;
+    for(var i=0;i<s.length;i++) {
+      for(var j=0;j<s[i].length;j++) {
+        var sp = s[mod!==0x03?i:(s.length-1-i)][j];
+        sprites.push({pos: vec2.add(this.pos, vec2.make(j,i)), reverse: false, index: sp, mode: mod});
+      }
+    }
+  }
+  else {
+    var sp = this.sprite.INDEX;
+    sprites.push({pos: this.pos, reverse: false, index: sp, mode: mod});
+  }
 };
 
 BlooperObject.prototype.play = GameObject.prototype.play;
