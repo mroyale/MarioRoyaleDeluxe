@@ -30,7 +30,7 @@ function App() {
 
 App.prototype.toggleMusic = function() {
   this.settings.musicMuted = !this.settings.musicMuted;
-  Cookies.get("music", this.settings.musicMuted?1:0, {'expires': 30});
+  Cookies.set("music", this.settings.musicMuted?1:0, {'expires': 30});
   document.getElementById("muteMusic").innerText = (this.settings.musicMuted ? "[X]" : "[ ]") + " Mute Music Volume";
 
   if (this.ingame()) {
@@ -41,7 +41,7 @@ App.prototype.toggleMusic = function() {
 
 App.prototype.toggleSound = function() {
   this.settings.soundMuted = !this.settings.soundMuted;
-  Cookies.get("sound", this.settings.soundMuted?1:0, {'expires': 30});
+  Cookies.set("sound", this.settings.soundMuted?1:0, {'expires': 30});
   document.getElementById("muteSound").innerText = (this.settings.soundMuted ? "[X]" : "[ ]") + " Mute Sound Volume";
 
   if (this.ingame()) {

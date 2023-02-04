@@ -9,10 +9,14 @@ function MenuDisplay() {
 
     const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart"];
     this.loadWorld(worldList[Math.floor(Math.random() * worldList.length)]).then(data => {
+        this.world = data;
         this.resource = new Resource(data.resource);
         this.camera = new Camera(this);
         
-        this.zone = data.world[0].zone[0];
+        var levels = data.world;
+        var level = Math.floor(Math.random() * levels.length);
+
+        this.zone = data.world[level].zone[0];
         this.objects = this.zone.obj;
         if (this.zone.background.length) { this.downloadBackgrounds(this.zone.background) }
         this.loadAnimations(data.assets || "assets.json", data.resource);
