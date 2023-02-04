@@ -266,28 +266,90 @@ MenuDisplay.prototype.drawObject = function() {
     
     var zone = this.zone;
     var dim = this.dimensions();
+    var tex = this.resource.getTexture("obj");
+
+    var PLATFORM = 0x00A0;
+  
+    var COIN = [0x00F0, 0x00F1, 0x00F2, 0x00F3];
+    var c = COIN[parseInt(this.frame/10) % COIN.length];
+
+    var FLAG = [0x0033, 0x0034, 0x0035];
+    var f = FLAG[parseInt(this.frame/12) % FLAG.length];
+
+    var AXE = [0x00EC, 0x00ED, 0x00EE, 0x00EF];
+    var a = AXE[parseInt(this.frame/6) % AXE.length];
     
     /* Culling Bounds */
-    var w = ((this.canvas.width/Display.TEXRES)*.75)/this.camera.scale;
+    var w = ((this.canvas.width/MenuDisplay.TEXRES)*.75)/this.camera.scale;
     var cx0 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x - w)));
     var cx1 = Math.max(0, Math.min(dim.x, parseInt(this.camera.pos.x + w)));
     
     var texts = [];
+    var coins = [];
+    var flags = [];
+    var axes = [];
+    var plats = [];
     for(var i=0;i<this.objects.length;i++) {
         var obj = this.objects[i];
         if (obj.type === 253) {
-            texts.push({'offset': obj.param[0], 'size': obj.param[1], 'color': obj.param[2], 'text': obj.param[3], 'pos': shor2.decode(obj.pos)});
+          texts.push({'offset': obj.param[0], 'size': obj.param[1], 'color': obj.param[2], 'text': obj.param[3], 'pos': shor2.decode(obj.pos)});
         }
+        if (obj.type === 97) {
+          coins.push({'pos': shor2.decode(obj.pos)});
+        }
+        if (obj.type === 177) {
+          flags.push({'pos': shor2.decode(obj.pos)});
+        }
+        if (obj.type === 85) {
+          axes.push({'pos': shor2.decode(obj.pos)});
+        }
+        if (obj.type === 145 || obj.type === 146) {
+          plats.push({'pos': shor2.decode(obj.pos), 'width': obj.param[0]});
+        }
+    }
+
+    for(var i=0;i<plats.length;i++) {
+      var plat = plats[i];
+      var pos = plat.pos;
+
+      var st = util.sprite.getSprite(tex, PLATFORM);
+      for (var i=0;i<plat.width;i++) {
+        context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, (pos.x+i)*MenuDisplay.TEXRES,(this.dimensions().y-pos.y-1)*MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES);
+      }
+    }
+
+    for(var i=0;i<coins.length;i++) {
+      var coin = coins[i];
+      var pos = coin.pos;
+
+      var st = util.sprite.getSprite(tex, c);
+      context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, pos.x*MenuDisplay.TEXRES,(this.dimensions().y-pos.y-1)*MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES);
+    }
+
+    for(var i=0;i<flags.length;i++) {
+      var flag = flags[i];
+      var pos = flag.pos;
+
+      var st = util.sprite.getSprite(tex, f);
+      context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, (pos.x-0.5)*MenuDisplay.TEXRES,(this.dimensions().y-pos.y-1)*MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES);
+    }
+
+    for(var i=0;i<axes.length;i++) {
+      var axe = axes[i];
+      var pos = axe.pos;
+
+      var st = util.sprite.getSprite(tex, f);
+      context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, pos.x*MenuDisplay.TEXRES,(this.dimensions().y-pos.y-1)*MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES);
     }
     
     for(var i=0;i<texts.length;i++) {
       var txt = texts[i];
-      var x = (Display.TEXRES*txt.pos.x)+(Display.TEXRES*.5);
-      var y = (Display.TEXRES*(dim.y-txt.pos.y-1.))+(Display.TEXRES*.5);
+      var x = (MenuDisplay.TEXRES*txt.pos.x)+(MenuDisplay.TEXRES*.5);
+      var y = (MenuDisplay.TEXRES*(dim.y-txt.pos.y-1.))+(MenuDisplay.TEXRES*.5);
       
       context.fillStyle = txt.color;
       context.strokeStyle = "blue";
-      context.font = (txt.size*Display.TEXRES) + "px SmbWeb";
+      context.font = (txt.size*MenuDisplay.TEXRES) + "px SmbWeb";
       context.textAlign = "center";
       context.strokeText(txt.text, x, y);
       context.fillText(txt.text, x, y);
