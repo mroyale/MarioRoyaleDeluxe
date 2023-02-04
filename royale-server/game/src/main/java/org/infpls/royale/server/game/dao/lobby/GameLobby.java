@@ -153,8 +153,8 @@ public abstract class GameLobby {
   
   private void voteEvent(RoyaleSession session) {
     session.readyVote = true;
-    if(players.size() < (gameMode == "pvp" ? MIN_PLAYERS_PVP : MIN_PLAYERS) || locked) { return; }
     if(isPrivate()) { whereWeDroppin(); return; }
+    if(players.size() < (gameMode == "pvp" ? MIN_PLAYERS_PVP : MIN_PLAYERS) || locked) { return; }
     
     int vr = 0;
     for(int i=0;i<players.size();i++) {

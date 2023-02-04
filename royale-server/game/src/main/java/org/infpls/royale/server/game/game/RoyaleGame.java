@@ -39,58 +39,7 @@ public class RoyaleGame extends RoyaleCore {
       else if(startTimer++ % 30 == 0) { send(new PacketG13(START_DELAY-startTimer)); }
       return;
     } else if(deathmatch) {
-      if(++age >= MAX_DM_AGE-1800) {
-        if (age >= MAX_DM_AGE && !extendedDM) {
-          boolean valid = false;
-          int highest = -1;
-          String highestSid = ""; //sid of the highest player
-
-          for(int i=0;i<controllers.size();i++) {
-            final Controller controller = controllers.get(i);
-            if (controller.kills > highest) {
-              highest = controller.kills;
-              highestSid = controller.session.getSessionId();
-              valid = true;
-            } else if(controller.kills == highest && controllers.size() > 1) { valid = false; }
-          }
-
-          if(!valid) {
-            send(new PacketG14("EXTENDED TIME: \n1 MINUTE", false));
-            extendedDM = true;
-          } else {
-              for (final Controller player : controllers) {
-                  if (player.session.getSessionId().equals(highestSid)) {
-                      player.send(new PacketGWN());
-                      send(new PacketG14(player.getName() + " has won!", false));
-                      return;
-                  }
-              }
-          }
-        }
-
-        if(!minuteLeft) {
-          send(new PacketG14("1 MINUTE REMAINING!", true));
-          minuteLeft = true;
-        }
-      } else if(extendedDM && age >= (MAX_DM_AGE + DM_EXTENDED_TIME)) {
-        int highest = 0;
-        String highestSid = ""; //sid of the highest player
-
-          for (final Controller controller : controllers) {
-              if (controller.kills > highest) {
-                  highest = controller.kills;
-                  highestSid = controller.session.getSessionId();
-              }
-          }
-
-          for (final Controller player : controllers) {
-              if (player.session.getSessionId().equals(highestSid)) {
-                  player.send(new PacketGWN());
-                  send(new PacketG14(player.getName() + " has won!", false));
-                  return;
-              }
-          }
-      }
+      
     }
     
     super.input(inputs);

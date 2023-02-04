@@ -35,7 +35,7 @@ FireballProj.SOFFSET = vec2.make(-.25, -.25); // Difference between position of 
 
 FireballProj.DEAD_ANIM_LENGTH = 3;
 
-FireballProj.SPEED = 0.3;
+FireballProj.SPEED = 0.225;
 FireballProj.BOUNCE_SPEED = 0.35;
 FireballProj.FALL_SPEED_MAX = 0.225;
 FireballProj.FALL_SPEED_ACCEL = 0.045;
