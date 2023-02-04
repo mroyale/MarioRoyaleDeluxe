@@ -55,9 +55,9 @@ function MenuMain() {
   this.playVanilla.onclick = function() { that.changeGamemode(0); };
   this.playPVP.onclick = function() { that.changeGamemode(1); };
   
-  var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
+  //var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
   this.menuMusic = document.createElement('audio');
-  this.menuMusic.src = menuMusic[parseInt(Math.random() * menuMusic.length)];
+  //this.menuMusic.src = menuMusic[parseInt(Math.random() * menuMusic.length)];
   this.menuMusic.volume = Cookies.get("music") === '1' ? 0 : 0.5;
   this.menuMusic.loop = true;
   this.menuMusic.load();
@@ -72,7 +72,7 @@ function MenuMain() {
   this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
-  this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
+  this.settingsBtn.onclick = function() { that.showSettingsMenu(); };
   this.loginBtn.onclick = function() { that.showLoginMenu(); };
   this.loginCloseBtn.onclick = function() { that.hideLoginMenu(); };
   this.signinBtn.onclick = function() { that.login(); };
@@ -114,9 +114,7 @@ MenuMain.prototype.changeGamemode = function(mode) {
 
 /* Settings Menu */
 MenuMain.prototype.showSettingsMenu = function() {
-  if (!app.ingame()) {
-    this.darkBackground.style.display = "";
-  }
+  this.darkBackground.style.display = "";
   this.settingsMenu.style.display = "";
 };
 

@@ -7,8 +7,9 @@ function MenuDisplay() {
     this.context = this.canvas.getContext("2d");
     this.frame = 0;
 
-    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart"];
-    this.loadWorld(worldList[Math.floor(Math.random() * worldList.length)]).then(data => {
+    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2"];
+    this.worldName = worldList[Math.floor(Math.random() * worldList.length)]; 
+    this.loadWorld(this.worldName).then(data => {
         this.world = data;
         this.resource = new Resource(data.resource);
         this.camera = new Camera(this);
@@ -20,8 +21,10 @@ function MenuDisplay() {
         this.objects = this.zone.obj;
         if (this.zone.background.length) { this.downloadBackgrounds(this.zone.background) }
         this.loadAnimations(data.assets || "assets.json", data.resource);
-        this.position();
         
+        this.position();
+        this.setMusic();
+
         var that = this;
         this.frameReq = setInterval(() => {that.draw();}, 1000 / 60) // 60FPS
         document.getElementById("next").style.display = "";
@@ -87,6 +90,30 @@ MenuDisplay.prototype.downloadBackgrounds = function(list) {
           default : { app.menu.warn.show("Failed to load resource with unknown extension: " + ext); break; }
         }
     }
+};
+
+MenuDisplay.prototype.setMusic = function() {
+  var pref = "audio/title/";
+  switch (this.worldName) {
+    case "bkg-mariokart" : {
+      app.menu.main.menuMusic.src = pref + "title-mk.mp3";
+      app.menu.main.menuMusic.load();
+      break;
+    }
+
+    case "bkg-smb2" : {
+      app.menu.main.menuMusic.src = pref + "title-smb2.mp3";
+      app.menu.main.menuMusic.load();
+      break;
+    }
+
+    default : {
+      var music = ["title.mp3", "titlelost.mp3"];
+      app.menu.main.menuMusic.src = pref + music[parseInt(Math.random() * music.length)];
+      app.menu.main.menuMusic.load();
+      break;
+    }
+  }
 };
 
 MenuDisplay.prototype.loadWorld = function(world) {
