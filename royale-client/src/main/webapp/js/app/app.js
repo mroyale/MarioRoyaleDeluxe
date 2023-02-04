@@ -15,12 +15,42 @@ function App() {
 
   var that = this;
   var tmr = document.getElementById("hideTimer");
+  var mus = document.getElementById("muteMusic");
+  var sfx = document.getElementById("muteSound");
+
+  mus.onclick = function() { that.toggleMusic(); };
+  mus.innerText = (this.settings.musicMuted ? "[X]" : "[ ]") + " Mute Music Volume";
+
+  sfx.onclick = function() { that.toggleSound(); };
+  sfx.innerText = (this.settings.soundMuted ? "[X]" : "[ ]") + " Mute Sound Volume";
+
   tmr.onclick = function() { that.toggleTimer(); };
   tmr.innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
 }
 
+App.prototype.toggleMusic = function() {
+  this.settings.musicMuted = !this.settings.musicMuted;
+  Cookies.get("music", this.settings.musicMuted?1:0, {'expires': 30});
+  document.getElementById("muteMusic").innerText = (this.settings.musicMuted ? "[X]" : "[ ]") + " Mute Music Volume";
+
+  if (this.ingame()) {
+    this.game.audio.muteMusic = this.settings.musicMuted;
+  }
+  this.menu.main.menuMusic.volume = this.settings.musicMuted ? 0 : 0.5;
+};
+
+App.prototype.toggleSound = function() {
+  this.settings.soundMuted = !this.settings.soundMuted;
+  Cookies.get("sound", this.settings.soundMuted?1:0, {'expires': 30});
+  document.getElementById("muteSound").innerText = (this.settings.soundMuted ? "[X]" : "[ ]") + " Mute Sound Volume";
+
+  if (this.ingame()) {
+    this.game.audio.muteSound = this.settings.soundMuted;
+  }
+};
+
 App.prototype.toggleTimer = function() {
-  this.settings.hideTimer = !this.settings.hideTimer
+  this.settings.hideTimer = !this.settings.hideTimer;
   Cookies.set("timer", this.settings.hideTimer?1:0, {'expires': 30});
   document.getElementById("hideTimer").innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
 };

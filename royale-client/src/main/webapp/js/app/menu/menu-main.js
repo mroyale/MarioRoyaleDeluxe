@@ -112,6 +112,19 @@ MenuMain.prototype.changeGamemode = function(mode) {
   }
 };
 
+/* Settings Menu */
+MenuMain.prototype.showSettingsMenu = function() {
+  if (!app.ingame()) {
+    this.darkBackground.style.display = "";
+  }
+  this.settingsMenu.style.display = "";
+};
+
+MenuMain.prototype.hideSettingsMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.settingsMenu.style.display = "none";
+};
+
 MenuMain.prototype.launch = function(priv) {
   this.hidePlayMenu();
   Cookies.set("name", this.playName.value, {expires: 30});

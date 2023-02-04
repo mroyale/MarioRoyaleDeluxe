@@ -57,7 +57,7 @@ function MenuAccount() {
 
   this.padLoop = undefined;
   
-  this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; };
+  this.settingsCloseBtn.onclick = function() { that.hideSettingsMenu(); };
   this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
@@ -70,7 +70,7 @@ function MenuAccount() {
   this.playBtn.onclick = function() { that.showPlayMenu(); };
   this.controlBtn.onclick = function() { window.open("control.html"); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
-  this.settingsBtn.onclick = function() { that.settingsMenu.style.display = ""; };
+  this.settingsBtn.onclick = function() { that.showSettingsMenu(); };
   this.profileBtn.onclick = function() { that.showProfileMenu(); };
   this.passwordBtn.onclick = function() { that.showPasswordMenu(); };
   this.logoutBtn.onclick = function() { app.net.send({'type': 'llo', 'session': Cookies.get("session")}); }
@@ -89,7 +89,17 @@ function MenuAccount() {
 };
 
 /* Menus */
+
+/* Settings Menu */
+MenuAccount.prototype.showSettingsMenu = function() {
+  if (!app.ingame()) {
+    this.darkBackground.style.display = "";
+  }
+  this.settingsMenu.style.display = "";
+};
+
 MenuAccount.prototype.hideSettingsMenu = function() {
+  this.darkBackground.style.display = "none";
   this.settingsMenu.style.display = "none";
 };
 
