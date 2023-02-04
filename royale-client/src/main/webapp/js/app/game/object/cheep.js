@@ -34,8 +34,8 @@ CheepObject.NAME = "Cheep Cheep"; // Used by editor
 CheepObject.ANIMATION_RATE = 12;
 CheepObject.VARIANT_OFFSET = 2;
 
-CheepObject.SPEED = 0.510;
-CheepObject.SPEED_FAST = 0.625;
+CheepObject.SPEED = 0.019;
+CheepObject.SPEED_FAST = 0.023;
 
 CheepObject.BONK_TIME = 90;
 CheepObject.BONK_IMP = vec2.make(0.25, 0.4);

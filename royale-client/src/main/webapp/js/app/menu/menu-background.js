@@ -288,7 +288,6 @@ MenuDisplay.prototype.drawObject = function() {
     var coins = [];
     var flags = [];
     var axes = [];
-    var plats = [];
     for(var i=0;i<this.objects.length;i++) {
         var obj = this.objects[i];
         if (obj.type === 253) {
@@ -303,19 +302,6 @@ MenuDisplay.prototype.drawObject = function() {
         if (obj.type === 85) {
           axes.push({'pos': shor2.decode(obj.pos)});
         }
-        if (obj.type === 145 || obj.type === 146) {
-          plats.push({'pos': shor2.decode(obj.pos), 'width': obj.param[0]});
-        }
-    }
-
-    for(var i=0;i<plats.length;i++) {
-      var plat = plats[i];
-      var pos = plat.pos;
-
-      var st = util.sprite.getSprite(tex, PLATFORM);
-      for (var i=0;i<plat.width;i++) {
-        context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, (pos.x+i)*MenuDisplay.TEXRES,(this.dimensions().y-pos.y-1)*MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES);
-      }
     }
 
     for(var i=0;i<coins.length;i++) {
