@@ -49,7 +49,7 @@ BlooperObject.SOFFSET = vec2.make(.15,.15);
 
 BlooperObject.SPRITE = {};
 BlooperObject.SPRITE_LIST = [
-  {NAME: "IDLE", ID: 0x00, INDEX: [172, 156]},
+  {NAME: "IDLE", ID: 0x00, INDEX: [[172], [156]]},
   {NAME: "COMPRESS", ID: 0x01, INDEX: 173},
 ];
 
@@ -111,7 +111,7 @@ BlooperObject.prototype.physics = function() {
   if(this.pos.x > 0) {
     this.setState(BlooperObject.STATE.COMPRESS);
 
-    if (++this.moveTimer >= 50) {
+    if (++this.moveTimer >= 50+(parseInt(Math.random()*20))) {
       this.setState(BlooperObject.STATE.IDLE);
       var ang = 45 * Math.PI / 180;
       var x = Math.cos(ang) * BlooperObject.SPEED/2;
@@ -124,7 +124,7 @@ BlooperObject.prototype.physics = function() {
         this.moveTimer = 0;
       }
     } else {
-      this.pos.y -= BlooperObject.SPEED/2;
+      this.pos.y -= BlooperObject.SPEED/3;
     }
   }
   else { this.destroy(); }
