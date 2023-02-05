@@ -15,8 +15,8 @@ function Audio(game) {
   this.musicPrefix = "music";
   this.soundPrefix = "sfx";
 
-  this.muteMusic = app.settings.musicMuted===1;
-  this.muteSound = app.settings.soundMuted===1;
+  this.muteMusic = app.settings.musicMuted;
+  this.muteSound = app.settings.soundMuted;
   
   if(!this.initWebAudio()) { this.initFallback(); }
 }

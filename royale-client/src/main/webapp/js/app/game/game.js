@@ -331,7 +331,6 @@ Game.prototype.handlePacket = function(packet) {
     /* Ingame Type Packets gxx */
     case "g12" : { this.updatePlayerList(packet); return true; }
     case "g13" : { this.gameStartTimer(packet); return true; }
-    case "g14" : { this.deathmatchTime(packet); return true; }
     case "gwn" : { this.out.push(NET018.encode()); return true; }
     /* Input Type Packets ixx */
     default : { return false; }
@@ -357,13 +356,6 @@ Game.prototype.gameStartTimer = function(packet) {
   }
   if(packet.time > 0) { this.startTimer = packet.time; this.remain = this.players.length; }
   else { this.doStart(); }
-};
-
-/* G14 */
-Game.prototype.deathmatchTime = function(packet) {
-  if (packet.hurry) { this.play("hurry.mp3",1.,0.); }
-  this.announceMessage = packet.message || "";
-  this.announceTimer = 5*60;
 };
 
 /* Checks all players for team */
@@ -464,7 +456,7 @@ Game.prototype.doNET018 = function(n) {
   if(n.result <= 0x00) { return; }
   if(n.pid === this.pid) { this.rate = n.extra; }
   else if(this.rate !== 0x00) { n.result++; }
-
+  
   var obj = this.getGhost(n.pid);
   if(obj) { 
     var txt = this.getText(obj.level, obj.zone, n.result.toString());
@@ -473,11 +465,12 @@ Game.prototype.doNET018 = function(n) {
       this.createObject(TextObject.ID, txt.level, txt.zone, vec2.add(txt.pos, vec2.make(0, -3)), [undefined, -0.1, 0.25, "#FFFFFF", nam]);
     }
   }
-
+  
   if(n.pid !== this.pid) { return; }
   var ply = this.getPlayer();
   if(ply) { ply.axe(n.result); }
   this.victory = n.result;
+  this.stopGameTimer();
 };
 
 /* OBJECT_EVENT_TRIGGER [0x20] */
@@ -714,13 +707,13 @@ Game.prototype.doStep = function() {
   this.doMusic();
   this.audio.update();
   
-  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game && !app.net.deathmatch) {
+  if (ply && this.getRemain() === 1 && this.gameMode && !ply.dead && this.victory === 0 && this.frame > 60 && this instanceof Game) {
     this.out.push(NET018.encode());
   }
 
   /* Triggers game over if player is dead for 15 frames and has zero lives. If we have a life we respawn instead. */
   if(this.startDelta !== undefined && !this.gameOver && !ply) {
-    if((this.lives > 0 || this.getDebug("lives") || app.net.deathmatch) && this.victory <= 0) {
+    if((this.lives > 0 || this.getDebug("lives")) && this.victory <= 0) {
       var rsp = this.getZone().level;
       this.doSpawn(); 
       this.levelWarp(rsp);

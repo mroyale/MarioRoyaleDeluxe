@@ -20,8 +20,6 @@ public abstract class GameLobby {
   private final static int MAX_PLAYERS = 75;         // Max players, game starts automatically
   private final static float MIN_VOTE_FRAC = .50f;   // Needs 50% ready vote to start early
   private final static int MAX_AGE = 216000;        // Max number of frames before we just close the lobby. This is 1 hour.
-
-  private final static int MAX_DM_AGE = 450; // How long a deathmatch game lasts. This is 5 minutes (18000 server ticks)
   
   private final static int START_DELAY = 150; // Delay before the game starts the world countdown timer. (5 seconds)
   
@@ -46,7 +44,6 @@ public abstract class GameLobby {
 
   private final boolean privat;
   private final String gameMode;
-  private boolean deathmatch;
 
   public GameLobby(boolean priv, String mode) throws IOException {
     lid = Key.generate32();
@@ -68,11 +65,6 @@ public abstract class GameLobby {
     
     game = new RoyaleLobby();
     gameFile = gameMode == "pvp" ? GAME_FILES_PVP[(int)Math.min(GAME_FILES_PVP.length-1, Math.random()*GAME_FILES_PVP.length)] : GAME_FILES[(int)Math.min(GAME_FILES.length-1, Math.random()*GAME_FILES.length)];
-
-    if (gameMode == "pvp") {
-      int rng = 1; //(int)Math.round(Math.random());
-      deathmatch = (rng == 1);
-    }
 
     loop = new GameLoop(this);
   }
@@ -124,7 +116,7 @@ public abstract class GameLobby {
     try { if(isClosed() || loading.contains(session) || players.contains(session)) { session.close("Error joining lobby."); return; } }
     catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during player disconnect.", ioex); return; }
     loading.add(session);
-    sendPacket(new PacketG01(LOBBY_FILE, false /* Deathmatch is predetermined, but we do this so players don't know. */), session);
+    sendPacket(new PacketG01(LOBBY_FILE), session);
   }
   
   private void readyEvent(RoyaleSession session) throws IOException {
@@ -199,10 +191,10 @@ public abstract class GameLobby {
       try { if(isClosed()) { session.close("Error during game setup."); return; } }
       catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during game setup.", ioex); return; }
       loading.add(session);
-      sendPacket(new PacketG01(gameFile, deathmatch), session);
+      sendPacket(new PacketG01(gameFile), session);
     }
     
-    game = new RoyaleGame(deathmatch);
+    game = new RoyaleGame();
   }
   
   protected void close() throws IOException {

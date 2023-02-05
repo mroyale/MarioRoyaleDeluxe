@@ -92,7 +92,6 @@ App.prototype.load = function(data, dm) {
   if(this.game instanceof Game) { this.menu.error.show("State error. Game already loaded."); return; }
   if(this.game instanceof Lobby) { this.game.destroy(); }
   
-  this.net.deathmatch = dm;
   switch(data.type) {
     case "game" : { this.game = new Game(data); break; }
     case "lobby": { this.game = new Lobby(data); break; }

@@ -85,6 +85,11 @@ public class Login extends SessionState {
     final Gson json = new GsonBuilder().create();
     String name = p.username.toUpperCase().trim();
     if (lobbyDao.findAccount(name) == null) {
+      if(!(name.matches("[a-zA-Z0-9 ]*"))) {
+        sendPacket(new PacketLRG(false, "Invalid username"));
+        return;
+      }
+
       RoyaleAccount newAcc = lobbyDao.createAccount(name, p.password);
       session.setAccount(newAcc);
       String session = lobbyDao.addToken(name);
@@ -167,7 +172,7 @@ public class Login extends SessionState {
     /* Username */
     String name = p.name==null?"Infringio":p.name.trim();
     if(name.length() > 20) { name = name.substring(0, 20); }
-    else if(name.length() < 1) { name = "Infringio"; }
+    else if(name.length() < 1 || !(name.matches("[a-zA-Z0-9 ]*"))) { name = "Infringio"; }
     
     /* Team */
     String team = p.team==null?"":p.team.trim().toLowerCase();

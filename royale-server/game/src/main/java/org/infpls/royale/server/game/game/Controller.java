@@ -288,14 +288,38 @@ private static final byte[] VALID_SPRITES = new byte[] {
   
   public String getName() {
     RoyaleAccount acc = session.getAccount();
-    if (acc == null) {
-      return "[G]" + session.getUser();
+
+    /* Guest */
+    if (acc == null) { return "[G]" + session.getUser(); }
+
+    /* Developer */
+    if (isDev()) {
+      return "[DEV]" + session.getUser();
     }
 
     return session.getUser();
   }
   public String getTeam() { return session.getTeam(); }
   public boolean getPriv() { return session.getPrivate(); }
+  public boolean isDev() {
+    RoyaleAccount acc = session.getAccount();
+    if (acc == null) { return false; }
+
+    String[] DEVELOPERS = new String[] {
+      "TERMINALARCH",
+      "CASINI LOOGI",
+      "RAYTHEMAYMAY",
+      "WACOPYRIGHTINFRINGIO",
+      "DIMENSION",
+      "INVADER",
+      "NIGHTCAT"
+    };
+    for(int i=0;i<DEVELOPERS.length;i++) {
+      if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }
+    }
+
+    return false;
+  }
   
   /* Called when the player using this controller disconnects */
   public void destroy() {

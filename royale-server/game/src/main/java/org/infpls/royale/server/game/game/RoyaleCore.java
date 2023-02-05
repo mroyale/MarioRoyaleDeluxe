@@ -58,7 +58,7 @@ public abstract class RoyaleCore {
     final List<PacketG12.NamePair> players = new ArrayList();
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
-      players.add(new PacketG12.NamePair(c.pid, c.getName(), c.getTeam()));
+      players.add(new PacketG12.NamePair(c.pid, c.getName(), c.getTeam(), c.isDev()));
     }
     send(new PacketG12(players));
   }
@@ -86,7 +86,7 @@ public abstract class RoyaleCore {
     final List<PacketG12.NamePair> players = new ArrayList();
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
-      players.add(new PacketG12.NamePair(c.pid, c.getName(), c.getTeam()));
+      players.add(new PacketG12.NamePair(c.pid, c.getName(), c.getTeam(), c.isDev()));
     }
     send(new PacketG12(players));
   }

@@ -159,6 +159,7 @@ PlayerObject.ARROW_THRESHOLD_MAX = 6;
 PlayerObject.TEAM_OFFSET = vec2.make(0., 0.);
 PlayerObject.TEAM_SIZE = .3;
 PlayerObject.TEAM_COLOR = "rgba(255,255,255,0.75)";
+PlayerObject.DEV_TEAM_COLOR = "rgba(255,255,0,1)";
 
 PlayerObject.SPRITE = {};
 PlayerObject.SPRITE_LIST = [
@@ -1160,7 +1161,8 @@ PlayerObject.prototype.write = function(texts) {
     texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT});
   }
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
-    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.INDEX instanceof Array?2.:1.)), PlayerObject.TEAM_OFFSET), size: PlayerObject.TEAM_SIZE, color: PlayerObject.TEAM_COLOR, text: this.name});
+    var dev = this.game.getPlayerInfo(this.pid).isDev;
+    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.INDEX instanceof Array?2.:1.)), PlayerObject.TEAM_OFFSET), size: PlayerObject.TEAM_SIZE, color: dev ? PlayerObject.DEV_TEAM_COLOR : PlayerObject.TEAM_COLOR, text: this.name, 'outline': dev ? "#FFF" : null});
   }
 };
 

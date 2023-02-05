@@ -239,7 +239,7 @@ Display.prototype.drawObject = function() {
     var y = (Display.TEXRES*(dim.y-txt.pos.y-1.))+(Display.TEXRES*.5);
     
     context.fillStyle = txt.color;
-    context.strokeStyle = "blue";
+    context.strokeStyle = txt.outline ? txt.outline : "blue";
     context.font = (txt.size*Display.TEXRES) + "px SmbWeb";
     context.textAlign = "center";
     context.strokeText(txt.text, x, y);
@@ -345,13 +345,6 @@ Display.prototype.drawUI = function() {
     context.fillText(level.name, W*.5, H*.5);
     
     if(this.game.startTimer >= 0) {
-      if(app.net.deathmatch) {
-        context.fillStyle = "yellow";
-        context.font = "24px SmbWeb";
-        context.textAlign = "center";
-        context.fillText("- DEATHMATCH -", W*.5, (H*.5)-40);
-      }
-
       context.fillStyle = "white";
       context.font = "24px SmbWeb";
       context.textAlign = "center";
@@ -411,7 +404,7 @@ Display.prototype.drawUI = function() {
     var st = util.sprite.getSprite(app.net.character ? luitex : martex, PLAY);
     context.drawImage(app.net.character ? luitex : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
 
-    if (app.net.deathmatch || this.game.getDebug("lives")) {
+    if (this.game.getDebug("lives")) {
       context.fillText("×INF", l-48, 60);
       context.strokeText("×INF", l-48, 60);
     } else {
