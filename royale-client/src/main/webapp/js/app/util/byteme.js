@@ -584,6 +584,7 @@ td32.TILE_PROPERTIES = {
   /* Warp Tile */
   0x51: {
     NAME: "WARP TILE",
+    DATA: "Target Warp ID",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
@@ -602,6 +603,7 @@ td32.TILE_PROPERTIES = {
   /* Warp Pipe */
   0x52: {
     NAME: "WARP PIPE SLOW",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: true,
@@ -628,6 +630,7 @@ td32.TILE_PROPERTIES = {
   /* Warp Pipe Horiz */
   0x53: {
     NAME: "WARP PIPE RIGHT SLOW",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: true,
@@ -645,6 +648,7 @@ td32.TILE_PROPERTIES = {
   /* Warp Pipe */
   0x54: {
     NAME: "WARP PIPE FAST",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: true,
@@ -671,6 +675,7 @@ td32.TILE_PROPERTIES = {
   /* Warp Pipe Horiz */
   0x55: {
     NAME: "WARP PIPE RIGHT FAST",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: true,
@@ -688,6 +693,7 @@ td32.TILE_PROPERTIES = {
   /* End of Level Warp */
   0x56: {
     NAME: "LEVEL END WARP",
+    DATA: "Target Level ID",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,

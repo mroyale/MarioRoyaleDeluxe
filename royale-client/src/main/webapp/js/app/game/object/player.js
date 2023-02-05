@@ -451,8 +451,8 @@ PlayerObject.prototype.step = function() {
       switch(this.pipeExt) {
         case 1 : { this.pos.y -= ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.STAND); this.pos = vec2.add(this.pos, PlayerObject.PIPE_EXT_OFFSET); break; }
         case 2 : { this.pos.y += ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.STAND); this.pos = vec2.add(this.pos, PlayerObject.PIPE_EXT_OFFSET); break; }
-        case 3 : { this.pos.x -= ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.RUN); break; }
-        case 4 : { this.pos.x += ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.RUN); break; }
+        case 3 : { this.pos.x -= ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.RUN); this.reverse = false; break; }
+        case 4 : { this.pos.x += ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.RUN); this.reverse = true; break; }
         default : { return; }
       };
       this.game.cameraLocked = false;
@@ -1008,6 +1008,19 @@ PlayerObject.prototype.warp = function(wid) {
   this.level = wrp.level;
   this.zone = wrp.zone;
   this.pos = wrp.pos;
+
+  /* Horizontal directions direct you 3 tiles away from the warp. This is a shotty fix. */
+  switch (this.pipeExt) {
+    case 3 : {
+      this.pos.x += 2.50;
+      break;
+    }
+
+    case 4 : {
+      this.pos.x -= 2.50;
+      break;
+    }
+  }
   
   this.autoTarget = undefined;
   this.grounded = false;

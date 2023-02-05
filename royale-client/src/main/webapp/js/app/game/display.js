@@ -399,8 +399,8 @@ Display.prototype.drawUI = function() {
     context.strokeStyle = "blue";
     context.font = "24px SmbWeb";
     context.textAlign = "left";
-    context.fillText((app.loggedIn() ? "" : "[G] ") + (ply?ply.name:"INFRINGIO"), 56, 32);
-    context.strokeText((app.loggedIn() ? "" : "[G] ") + (ply?ply.name:"INFRINGIO"), 56, 32);
+    context.fillText(ply?ply.name:"INFRINGIO", 56, 32);
+    context.strokeText(ply?ply.name:"INFRINGIO", 56, 32);
 
     var st = util.sprite.getSprite(tex, c);
     var ctxt = "×"+(this.game.coins<=9?"0"+this.game.coins:this.game.coins);

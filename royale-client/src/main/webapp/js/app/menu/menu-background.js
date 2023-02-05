@@ -27,7 +27,7 @@ function MenuDisplay() {
 
         var that = this;
         this.frameReq = setInterval(() => {that.draw();}, 1000 / 60) // 60FPS
-        document.getElementById("next").style.display = "";
+        document.getElementById("next").style.display = ""; // Done loading
     }).catch(err => {
         console.error(err);
     });
@@ -39,7 +39,7 @@ MenuDisplay.prototype.dimensions = function() {
 };
 
 MenuDisplay.prototype.position = function() {
-    this.camera.positionX(14);
+    this.camera.positionX(16);
     this.camera.positionY(7);
 };
 

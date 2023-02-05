@@ -7,10 +7,9 @@ Retention: 30 minutes up to 2 hours
 Community Opinion: Good beta, bugs can be worked out.
 
 Bugs Found:
-- Horizontal warp pipe directions warp you at a wrong position or something
+- Hammer/Fire Bro physics are weird. In the lobby fire bros can fire on the ceiling and kill someone.
 
 Features to add:
-- Carrying shells, sprites already exist for these but it's hard to add them.
 - Dev kit; basically the console and tools for moderation.
 - Backport custom textures, though make an easier way to manage them, give them names for example.
 - New anti cheat: VAC (Virgin Anti Cheat)

@@ -286,7 +286,14 @@ private static final byte[] VALID_SPRITES = new byte[] {
   public boolean isDead() { return dead; }
   public int getKills() { return kills; }
   
-  public String getName() { return session.getUser(); }
+  public String getName() {
+    RoyaleAccount acc = session.getAccount();
+    if (acc == null) {
+      return "[G]" + session.getUser();
+    }
+
+    return session.getUser();
+  }
   public String getTeam() { return session.getTeam(); }
   public boolean getPriv() { return session.getPrivate(); }
   
