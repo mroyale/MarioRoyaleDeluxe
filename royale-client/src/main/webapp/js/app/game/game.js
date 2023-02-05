@@ -607,7 +607,7 @@ Game.prototype.doInput = function(imp) {
   var keys = this.input.keyboard.keys;
   var pad = this.input.pad;
   
-  if(!this.inx27 && keys[27]) { /* MENU */ } this.inx27 = keys[27]; // ESC
+  if(!this.inx27 && keys[27]) { app.menu.main.settingsMenu.style.display = (app.menu.main.settingsMenu.style.display === "" ? "none" : ""); } this.inx27 = keys[27]; // ESC
   
   /* @TODO: Hacky last second additions */
   /* Check if client has clicked on the button to mute sound */
