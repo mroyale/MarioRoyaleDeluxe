@@ -594,7 +594,7 @@ PlayerObject.prototype.control = function() {
   }
   
   if(this.underWater && !this.grounded) {
-    this.setState(PlayerObject.SNAME.SWIM);
+    this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.SWIM);
   }
 
   if(!this.grounded && !this.underWater) {
@@ -889,7 +889,7 @@ PlayerObject.prototype.interaction = function() {
           obj.bonk();
           this.game.out.push(NET020.encode(obj.level, obj.zone, obj.oid, 0x01));
         }
-        if(obj instanceof PlayerObject && obj.starTimer > 0 && !this.autoTarget) {
+        if(obj instanceof PlayerObject && (obj.starTimer > 0 || (obj.spinTimer > 0 && this.game.gameMode === 1)) && !this.autoTarget) {
           /* Touch other player who has Star */
           this.damage(obj);
           if(this.dead) { this.game.out.push(NET017.encode(obj.pid)); }

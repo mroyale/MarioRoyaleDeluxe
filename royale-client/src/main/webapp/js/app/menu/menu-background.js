@@ -7,7 +7,7 @@ function MenuDisplay() {
     this.context = this.canvas.getContext("2d");
     this.frame = 0;
 
-    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2"];
+    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2", "bkg-spm"];
     this.worldName = worldList[Math.floor(Math.random() * worldList.length)]; 
     this.loadWorld(this.worldName).then(data => {
         this.world = data;
@@ -29,7 +29,8 @@ function MenuDisplay() {
         this.frameReq = setInterval(() => {that.draw();}, 1000 / 60) // 60FPS
         document.getElementById("next").style.display = ""; // Done loading
     }).catch(err => {
-        console.error(err);
+        app.menu.error.show("Failed to load background. Please check the console for details.");
+        console.error("##STATUS##", err.statusCode, "\n##INFO##", err);
     });
 };
 
@@ -103,6 +104,12 @@ MenuDisplay.prototype.setMusic = function() {
 
     case "bkg-smb2" : {
       app.menu.main.menuMusic.src = pref + "title-smb2.mp3";
+      app.menu.main.menuMusic.load();
+      break;
+    }
+
+    case "bkg-spm" : {
+      app.menu.main.menuMusic.src = pref + "title-spm.mp3";
       app.menu.main.menuMusic.load();
       break;
     }

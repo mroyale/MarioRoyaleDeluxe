@@ -31,8 +31,9 @@ const levelSelectors = [
     {name: 'SMB :: World 7', worldId: 'world-7' },
     {name: 'SMB :: World 8', worldId: 'world-8' },
     {name: 'PVP :: Mario Kart', worldId: 'pvp-mariokart'},
-    {name: 'PVP :: Super Mario Bros. 2 R', worldId: 'pvp-smb2'},
-    {name: 'PVP :: Mario Maker Beta', worldId: 'pvp-maker'}
+    {name: 'PVP :: Super Mario Bros. 2', worldId: 'pvp-smb2'},
+    {name: 'PVP :: Mario Maker Beta', worldId: 'pvp-maker'},
+    {name: 'PVP :: Super Paper Mario', worldId: 'pvp-spm'}
 ];
 
 /* Editor */
@@ -43,6 +44,7 @@ const mapsheets = [
     {name: 'Mario Kart (PVP)', url: "img/game/mariokart_map.png"},
     {name: 'Rainbow Road (PVP)', url: "img/game/rainbowroad_map.png"},
     {name: 'Maker 2014 (PVP)', url: "img/game/maker_map.png"},
+    {name: 'Super Paper Mario (PVP)', url: "img/game/spm_map.png"},
     {name: 'Lobby', url: "https://raw.githubusercontent.com/RayTheMaymay/hostingthings/main/lobby.png"},
     {name: 'Custom', url: "custom"}
 ];
@@ -57,6 +59,7 @@ const assetsurl = [
     {name: "Super Mario Bros. 1", url: "assets.json"},
     {name: "Super Mario Bros. 2", url: "assets-smb2.json"},
     {name: "Maker 2014 (PVP)", url: "assets-maker.json"},
+    {name: "Super Paper Mario (PVP)", url: "assets-spm.json"},
     {name: "No Animations", url: "assets-noanim.json"},
     {name: "Custom", url: "custom"},
 ];
@@ -66,7 +69,8 @@ const musicPaths = [
     {name: "Mario Kart", url: "mariokart/music"},
     {name: "Mario Bros.", url: "mariobros/music"},
     {name: "Super Mario Bros. 2", url: "smb2/music"},
-    {name: "Maker 2014", url: "maker/music"}
+    {name: "Maker 2014", url: "maker/music"},
+    {name: "Super Paper Mario", url: "spm/music"},
 ];
 
 const soundPaths = [
@@ -74,7 +78,8 @@ const soundPaths = [
     {name: "Mario Kart", url: "mariokart/sfx"},
     {name: "Mario Bros.", url: "mariobros/sfx"},
     {name: "Super Mario Bros. 2", url: "smb2/sfx"},
-    {name: "Maker 2014", url: "maker/sfx"}
+    {name: "Maker 2014", url: "maker/sfx"},
+    {name: "Super Paper Mario", url: "spm/sfx"},
 ]
 
 /* Functions */

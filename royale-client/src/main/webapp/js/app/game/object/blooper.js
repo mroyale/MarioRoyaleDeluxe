@@ -23,13 +23,17 @@ function BlooperObject(game, level, zone, pos, oid) {
   this.fallSpeed = 0;
   this.direction = false;
   this.moveTimer = 0;
+  this.holdTime = 20;
+
+  /* Not a finished/WORKING object, so just make it not work. */
+  this.destroy();
 }
 
 
 /* === STATIC =============================================================== */
 BlooperObject.ASYNC = false;
 BlooperObject.ID = 39;
-BlooperObject.NAME = "Blooper"; // Used by editor
+BlooperObject.NAME = "Blooper (DISABLED)"; // Used by editor
 
 BlooperObject.ANIMATION_RATE = 12;
 
@@ -110,8 +114,8 @@ BlooperObject.prototype.step = function() {
 BlooperObject.prototype.physics = function() {
   if(this.pos.x > 0) {
     this.setState(BlooperObject.STATE.COMPRESS);
-
-    if (++this.moveTimer >= 50+(parseInt(Math.random()*20))) {
+    this.face();
+    if (++this.moveTimer >= 20 + this.holdTime) {
       this.setState(BlooperObject.STATE.IDLE);
       var ang = 45 * Math.PI / 180;
       var x = Math.cos(ang) * BlooperObject.SPEED/2;
@@ -125,6 +129,7 @@ BlooperObject.prototype.physics = function() {
       }
     } else {
       this.pos.y -= BlooperObject.SPEED/3;
+      this.holdTime = Math.min(20, Math.max(35, parseInt(Math.random()*15)))
     }
   }
   else { this.destroy(); }
@@ -141,7 +146,7 @@ BlooperObject.prototype.face = function() {
      }
   }
   if(!nearest) { this.direction = false; }
-  else { this.direction = nearest<0; this.target = focus; }
+  else { this.direction = nearest<0; this.direction = !this.direction; this.target = focus; }
 };
 
 BlooperObject.prototype.sound = GameObject.prototype.sound;
