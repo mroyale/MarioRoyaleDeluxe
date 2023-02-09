@@ -463,6 +463,7 @@ PlayerObject.prototype.step = function() {
     }
     return;
   }
+  this.pipeExt = -1;
   
   /* Normal Gameplay */
   this.lastPos = this.pos;
