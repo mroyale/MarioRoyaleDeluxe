@@ -518,14 +518,14 @@ PlayerObject.prototype.control = function() {
   if(this.btnD[0] !== 0) {
     if(Math.abs(this.moveSpeed) > 0.01 && !(this.btnD[0] >= 0 ^ this.moveSpeed < 0)) {
       this.moveSpeed += (this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL) * this.btnD[0];
-      this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.SLIDE);
+      this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.SLIDE);
 
       if (!this.skidEffect && this.grounded) { this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos)); this.skidEffect = true; }
     }
     else {
       this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):PlayerObject.MOVE_SPEED_MAX);
       if (this.grounded /* We need to check for this. Otherwise the water animation is bugged for some reason. */) {
-        this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
+        this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
       }
       this.skidEffect = false;
     }
@@ -535,14 +535,14 @@ PlayerObject.prototype.control = function() {
     if (!this.underWater || this.grounded) {
         if(Math.abs(this.moveSpeed) > 0.01) {
           this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed) - (this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
-          this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
+          this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
         }
         else {
           this.moveSpeed = 0;
-          this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.STAND);
+          this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.STAND);
         }
         if(this.btnD[1] === -1) {
-          this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.DOWN);
+          this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.DOWN);
         }
     }
   }
@@ -594,11 +594,11 @@ PlayerObject.prototype.control = function() {
   }
   
   if(this.underWater && !this.grounded) {
-    this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.SWIM);
+    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.SWIM);
   }
 
   if(!this.grounded && !this.underWater) {
-    this.spinTimer > 0 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.FALL);
+    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
@@ -997,6 +997,10 @@ PlayerObject.prototype.transform = function(to) {
     else { this.play(this.power === 3 ? "leaf.mp3" : "powerdown.mp3", 1., .04); }
   }
   
+  if (to !== this.power) {
+    this.spinTimer = 0;
+  }
+
   this.transformTarget = to;
   this.transformTimer = (to === 3 || this.power === 3) ? PlayerObject.LEAF_TRANSFORM_TIME : PlayerObject.TRANSFORM_TIME;
   this.setState(PlayerObject.SNAME.TRANSFORM);
