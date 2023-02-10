@@ -44,6 +44,18 @@ Editor.prototype.load = function(data) {
   var def = document.getElementById("editor-tool-tile-def");
   var type = document.getElementById("editor-tool-object-type");
 
+  var objs = [];
+  for (var obj of GameObject.OBJECT_LIST) { objs.push(obj.ID) };
+  objs.sort((a, b) => { return a-b });
+
+  for (var obj of objs) {
+    var elem = document.createElement("option");
+    elem.value = obj;
+    elem.innerText = obj + " - " + GameObject.OBJECT(obj).NAME;
+
+    document.getElementById("editor-tool-tile-data-objid").appendChild(elem);
+  }
+
   var mapsheet = document.getElementById("editor-tool-resources-map");
   var objsheet = document.getElementById("editor-tool-resources-obj");
   var assets = document.getElementById("editor-tool-resources-assets");

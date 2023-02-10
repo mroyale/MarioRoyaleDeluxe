@@ -333,6 +333,7 @@ PlayerObject.prototype.update = function(data) {
   this.reverse = data.reverse;
   this.character = data.character;
   if (this.damageTimer) this.damageTimer--;
+  if (this.spinTimer) this.spinTimer--;
 };
 
 PlayerObject.prototype.trigger = function(type) {

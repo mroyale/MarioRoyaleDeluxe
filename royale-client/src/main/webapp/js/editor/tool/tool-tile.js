@@ -15,6 +15,7 @@ function ToolTile(editor) {
   this.valDepth = document.getElementById("editor-tool-tile-depth");
   this.valDef = document.getElementById("editor-tool-tile-def");
   this.valData = document.getElementById("editor-tool-tile-data");
+  this.valDataObj = document.getElementById("editor-tool-tile-data-objid");
   this.valDataName = document.getElementById("editor-tool-data-name");
   
   var tmp = this;
@@ -23,6 +24,7 @@ function ToolTile(editor) {
   this.valDepth.onchange = function() { tmp.update(); };
   this.valDef.onchange = function() { tmp.update(); };
   this.valData.onchange = function() { tmp.update(); };
+  this.valDataObj.onchange = function() { tmp.valData.value = tmp.valDataObj.value; tmp.update(); }
   
   this.brush = td32.encode(30, 0, 0, 0, 0);
 }
@@ -63,7 +65,7 @@ ToolTile.prototype.update = function() {
     var bump = Math.max(0, parseInt(this.valBump.value)) || 0;
     var depth = Math.max(0, Math.min(1, parseInt(this.valDepth.value))) || 0;
     var def = Math.max(0, parseInt(this.valDef.value)) || 0;
-    var data = this.valData.value ? this.valData.value : "";
+    var data = this.valData.value ? isNaN(this.valData.value) ? this.valData.value : parseInt(this.valData.value) : 0;
     
     if(isNaN(index) || isNaN(bump) || isNaN(depth) || isNaN(def)) { throw "oof"; }
     
@@ -77,16 +79,26 @@ ToolTile.prototype.setBrush = function(brush) {
   this.brush = brush;
   
   var td = td32.asArray(this.brush);
+  var type = td32.decode(this.brush).definition;
   
   this.valIndex.value = td[0];
   this.valBump.value = td[1];
   this.valDepth.value = td[2]?1:0;
   this.valDef.value = td[3];
   this.valData.value = td[4];
+
+  if(type.DATA) {
+    this.valData.style.display = (type.DATA.includes("Object") ? "none" : "");
+    this.valDataObj.style.display = (type.DATA.includes("Object") ? "" : "none");
+    this.valDataObj.value = td[4];
+  } else {
+    this.valData.style.display = "";
+    this.valDataObj.style.display = "none";
+  }
   
   this.valRaw.innerHTML = this.brush;
   this.valName.innerHTML = td32.decode(this.brush).definition.NAME;
-  this.valDataName.innerText = td32.decode(this.brush).definition.DATA || "Unused Extra Data";
+  this.valDataName.innerText = type.DATA || "Unused Extra Data";
   this.valRaw.classList.remove("red");
 };
 
