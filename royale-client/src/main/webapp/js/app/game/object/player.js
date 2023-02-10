@@ -38,7 +38,9 @@ function PlayerObject(game, level, zone, pos, pid, character) {
   this.starMusic = undefined;
   this.damageTimer = 0;      // Post damage invincibility timer
   this.spinTimer = 0;
-  this.spinCooldown = 0;
+
+  this.glideTimer = 0;
+  this.glideCooldown = 0;
   
   this.transformTimer = 0;
   this.transformTarget = -1;
@@ -226,6 +228,9 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "L_SWIM0", ID: 0x75, INDEX: [[279, 278], [263, 262]]},
   {NAME: "L_SWIM1", ID: 0x76, INDEX: [[277, 276], [261, 260]]},
   {NAME: "L_SWIM2", ID: 0x77, INDEX: [[275, 274], [259, 258]]},
+  {NAME: "L_GLIDE0", ID: 0x78, INDEX: [[273, 272], [257, 256]]},
+  {NAME: "L_GLIDE1", ID: 0x79, INDEX: [[319, 318], [303, 302]]},
+  {NAME: "L_GLIDE2", ID: 0x80, INDEX: [[317, 316], [301, 300]]},
   /* [G]eneric */
   {NAME: "G_DEAD", ID: 0x90, INDEX: 0x0002},
   {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0000}
@@ -250,6 +255,7 @@ PlayerObject.SNAME = {
   TRANSFORM: "TRANSFORM",
   TAUNT: "TAUNT",
   SWIM: "SWIM",
+  GLIDE: "GLIDE",
   DEAD: "DEAD",
   HIDE: "HIDE",
   GHOST: "GHOST",
@@ -292,7 +298,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.POLE, ID: 0x47, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_CLIMB0]},
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x48, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_CLIMB0,PlayerObject.SPRITE.F_CLIMB1]},
   {NAME: PlayerObject.SNAME.TAUNT, ID: 0x49, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_TAUNT]},
-  {NAME: PlayerObject.SNAME.SWIM, ID: 0x4A, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SWIM0, PlayerObject.SPRITE.F_SWIM1, PlayerObject.SPRITE.F_SWIM2]},
+  {NAME: PlayerObject.SNAME.SWIM, ID: 0x50, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SWIM0, PlayerObject.SPRITE.F_SWIM1, PlayerObject.SPRITE.F_SWIM2]},
   /* Leaf Mario -> 0x60 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x60, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_STAND]},
   {NAME: PlayerObject.SNAME.DOWN, ID: 0x61, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.L_DOWN]},
@@ -304,7 +310,8 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.POLE, ID: 0x67, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_CLIMB0]},
   {NAME: PlayerObject.SNAME.CLIMB, ID: 0x68, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_CLIMB0,PlayerObject.SPRITE.L_CLIMB1]},
   {NAME: PlayerObject.SNAME.TAUNT, ID: 0x69, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_TAUNT]},
-  {NAME: PlayerObject.SNAME.SWIM, ID: 0x6A, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SWIM0, PlayerObject.SPRITE.L_SWIM1, PlayerObject.SPRITE.L_SWIM2]},
+  {NAME: PlayerObject.SNAME.SWIM, ID: 0x70, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SWIM0, PlayerObject.SPRITE.L_SWIM1, PlayerObject.SPRITE.L_SWIM2]},
+  {NAME: PlayerObject.SNAME.GLIDE, ID: 0x71, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_GLIDE0, PlayerObject.SPRITE.L_GLIDE1, PlayerObject.SPRITE.L_GLIDE2]},
   /* Generic -> 0x90 */
   {NAME: PlayerObject.SNAME.DEAD, DIM: DIM0, ID: 0x90, SPRITE: [PlayerObject.SPRITE.G_DEAD]},
   {NAME: PlayerObject.SNAME.HIDE, DIM: DIM0, ID: 0x9A, SPRITE: [PlayerObject.SPRITE.G_HIDE]},
@@ -473,6 +480,7 @@ PlayerObject.prototype.step = function() {
   if(this.attackTimer > 0) { this.attackTimer--; }
   if(this.spinCharge < PlayerObject.MAX_CHARGE) { this.spinCharge++; }
   if(this.spinTimer > 0) { this.spinTimer--; }
+  if(this.glideTimer > 0) { this.glideTimer--; }
   
   if(this.autoTarget) { this.autoMove(); }  
   this.control();
@@ -506,7 +514,7 @@ PlayerObject.prototype.autoMove = function() {
 };
 
 PlayerObject.prototype.control = function() {
-  if(this.grounded) { this.btnBg = this.btnB; /*this.spinCooldown = 0; this.spinTimer = 0;*/ }
+  if(this.grounded) { this.btnBg = this.btnB; this.glideTimer = 0; }
   
   if(this.isState(PlayerObject.SNAME.DOWN) && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
     if(this.btnD[1] !== -1) {
@@ -559,18 +567,18 @@ PlayerObject.prototype.control = function() {
       this.play(this.underWater ? "swim.mp3" : this.power>0?"jump1.mp3":"jump0.mp3", .7, .04);
       this.btnAHot = true;
     } else {
-      /*if (this.spinTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && !this.spinCooldown) {
-        this.spinTimer = PlayerObject.SPIN_LENGTH;
+      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3) {
+        this.glideTimer = 20;
         this.play("spin.mp3", .7, .04);
         this.btnAHot = true;
-      } else if (this.spinCooldown) { this.spinCooldown--; }*/
+      }
     }
     if(this.jumping > jumpMax) {
       this.jumping = -1;
     }
-    /*if(this.spinTimer < 0) {
-      this.spinTimer = 0;
-    }*/
+    if(this.glideTimer < 0) {
+      this.glideTimer = 0;
+    }
   }
   else {
     this.btnAHot = false;
@@ -599,7 +607,7 @@ PlayerObject.prototype.control = function() {
   }
 
   if(!this.grounded && !this.underWater) {
-    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.FALL);
+    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
@@ -629,7 +637,7 @@ PlayerObject.prototype.physics = function() {
     if(this.grounded) {
       this.fallSpeed = 0;
     }
-    this.fallSpeed = Math.max(this.fallSpeed + (this.underWater?-PlayerObject.WATER_FALL_ACCEL:-PlayerObject.FALL_SPEED_ACCEL), -PlayerObject.FALL_SPEED_MAX);
+    this.fallSpeed = Math.max(this.fallSpeed + (this.underWater?-PlayerObject.WATER_FALL_ACCEL:-PlayerObject.FALL_SPEED_ACCEL), this.glideTimer ? -0.2 : -PlayerObject.FALL_SPEED_MAX);
   }
   
   var mov = vec2.add(this.pos, vec2.make(this.moveSpeed / 3, this.fallSpeed / 3));
@@ -670,8 +678,8 @@ PlayerObject.prototype.physics = function() {
     else if(tile.definition.COLLIDE) {
       if(tile.definition.HIDDEN) { hit.push(tile); continue; }
 
-      var dim = vec2.make(1., 2.);
-      var dimPos = this.reverse ? vec2.make(mov.x + 0.85, mov.y) : vec2.make(mov.x - 0.85, mov.y);
+      var dim = vec2.make(1., 1.85);
+      var dimPos = this.reverse ? vec2.make(mov.x + 0.80, mov.y) : vec2.make(mov.x - 0.95, mov.y);
       if(squar.intersection(tile.pos, tdim, dimPos, dim)) {
         if(this.spinTimer === PlayerObject.ATTACK_DELAY-1 && this.pos.y <= tile.pos.y) { smsh.push(tile); }
       }
@@ -944,8 +952,7 @@ PlayerObject.prototype.attack = function() {
 };
 
 PlayerObject.prototype.bounce = function() {
-  /*this.spinTimer = 0;
-  this.spinCooldown = 0;*/
+  this.glideTimer = 0;
   this.jumping = 0;
   this.isBounce = true;
 };
@@ -1111,7 +1118,7 @@ PlayerObject.prototype.setState = function(SNAME, KEEPANIM) {
   var STATE = this.getStateByPowerIndex(SNAME, this.power);
   if(STATE === this.state) { return; }
   this.state = STATE;
-  if(STATE.SPRITE.length > 0) { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
+  if(STATE.SPRITE.length > 0 && this.pid !== this.game.pid) { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
   this.dim = STATE.DIM;
 
   //this.anim = 0;
