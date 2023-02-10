@@ -510,7 +510,7 @@ PlayerObject.prototype.control = function() {
   
   if(this.isState(PlayerObject.SNAME.DOWN) && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
     if(this.btnD[1] !== -1) {
-      this.moveSpeed = (this.moveSpeed + PlayerObject.STUCK_SLIDE_SPEED) * .5; // Rirp
+      this.moveSpeed = (this.moveSpeed + (this.reverse ? PlayerObject.STUCK_SLIDE_SPEED : -PlayerObject.STUCK_SLIDE_SPEED)) * .5; // Rirp
     }
     this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed)-(this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
     return;

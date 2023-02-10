@@ -40,7 +40,13 @@ StateGame.prototype.load = function(p) {
         that.send({type: "g03"});
       },
       error: function() {
-        app.menu.error.show("Server returned FNF(404) for game file: " + app.game.worldSelected);
+        if (e.status === 404) {
+          app.menu.error.show("Server returned FNF(404) for game file: " + p.game);
+        }
+  
+        if (e.status === 200) {
+          app.menu.error.show("Failed to parse game file: " + p.game);
+        }
       }
     });
     return;
@@ -60,8 +66,14 @@ StateGame.prototype.load = function(p) {
       app.load(data);
       that.send({type: "g03"});
     },
-    error: function() {
-      app.menu.error.show("Server returned FNF(404) for game file: " + p.game);
+    error: function(e) {
+      if (e.status === 404) {
+        app.menu.error.show("Server returned FNF(404) for game file: " + p.game);
+      }
+
+      if (e.status === 200) {
+        app.menu.error.show("Failed to parse game file: " + p.game);
+      }
     }
   });
 };

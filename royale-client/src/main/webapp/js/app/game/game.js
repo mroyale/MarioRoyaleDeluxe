@@ -691,8 +691,8 @@ Game.prototype.doStep = function() {
   if(ply && !ply.dead && !this.cameraLocked) {
     switch (zone.camera) {
       case 0 : { this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), zone.dimensions().y * .5)); break; } // Horizontal Scrolling
-      case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); this.display.camera.positionY(Math.min(9, -ply.pos.y + zone.dimensions().y)); break; } // Vertical Scrolling (horizontal is always centered)
-      case 2 : { this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), Math.min(9, -ply.pos.y + zone.dimensions().y))); break; } // Free Roam (horizontal and vertical)
+      case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); break; } // Vertical Scrolling (horizontal is always centered)
+      case 2 : { this.display.camera.position(vec2.make(Math.max(15, ply.pos.x), Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y))); break; } // Free Roam (horizontal and vertical)
     }
   }
   
