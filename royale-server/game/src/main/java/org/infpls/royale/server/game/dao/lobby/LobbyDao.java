@@ -36,7 +36,7 @@ public class LobbyDao {
     boolean dbExists = true;
     try {
       System.out.println("Opening database file");
-      File db = new File("/tmp/database.json");
+      File db = new File("/var/lib/tomcat9/webapps/database.json");
       if(!db.exists()) { 
         dbExists = false;
       }
@@ -100,9 +100,9 @@ public class LobbyDao {
     try {
       // Create new file
       Gson gson = new GsonBuilder().create();
-      File file = new File("/tmp/database.json");
+      File file = new File("/var/lib/tomcat9/webapps/database.json");
 
-      FileWriter fw = new FileWriter("/tmp/database.json");
+      FileWriter fw = new FileWriter("/var/lib/tomcat9/webapps/database.json");
       BufferedWriter bw = new BufferedWriter(fw);
 
       // Write in file
