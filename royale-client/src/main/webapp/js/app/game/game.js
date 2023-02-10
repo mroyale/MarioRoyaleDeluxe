@@ -92,8 +92,8 @@ Game.TICK_RATE = 1000/60;
 Game.FDLC_TARGET = 3;
 Game.FDLC_MAX = Game.FDLC_TARGET+2;
 
-Game.LEVEL_WARP_TIME = 150;
-Game.GAME_OVER_TIME = 300;
+Game.LEVEL_WARP_TIME = 240;
+Game.GAME_OVER_TIME = 360;
 
 Game.COINS_TO_LIFE = 30;
 
@@ -677,7 +677,15 @@ Game.prototype.doStep = function() {
 
     /* EXPERIMENTAL: Update objects ONLY if they're in the same place as us. */
     /* We need an 'else' statement because there are situations where the player object is inaccessible */
-    if (ply) { if (ply.level === obj.level && ply.zone === obj.zone) obj.step(); }
+    if (ply) {
+      if (ply.level === obj.level && ply.zone === obj.zone) {
+        if (obj instanceof HammerObject || obj instanceof HammerProj || obj instanceof FireHammerObject) {
+          if (this.frame % 2 === 0) { obj.step(); }
+        } else {
+          obj.step();
+        }
+      }
+    }
     else { obj.step(); }
 
     if(obj.garbage) { this.objects.splice(i--, 1); }

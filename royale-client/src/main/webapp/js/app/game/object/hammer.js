@@ -33,10 +33,10 @@ HammerProj.SOFFSET = vec2.make(-.25, -.25); // Difference between position of sp
 
 HammerProj.THROW_DELAY = 13;
 
-HammerProj.IMPULSE = vec2.make(.48, 0.8);
-HammerProj.DRAG = .935;
-HammerProj.FALL_SPEED_MAX = 0.45;
-HammerProj.FALL_SPEED_ACCEL = 0.085;
+HammerProj.IMPULSE = vec2.make(.48, 0.915);
+HammerProj.DRAG = .965;
+HammerProj.FALL_SPEED_MAX = 0.65;
+HammerProj.FALL_SPEED_ACCEL = 0.095;
 
 HammerProj.SPRITE = {};
 HammerProj.SPRITE_LIST = [

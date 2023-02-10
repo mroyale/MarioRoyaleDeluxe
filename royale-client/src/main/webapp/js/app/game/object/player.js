@@ -608,6 +608,7 @@ PlayerObject.prototype.control = function() {
   }
   if(this.btnB && !this.btnBde && this.power === 3 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.spinTimer < 1 && this.spinCharge >= PlayerObject.ATTACK_CHARGE) {
     this.spin();
+    this.game.out.push(NET013.encode(0x04));
   }
   this.btnBde = this.btnB;
   
@@ -669,7 +670,9 @@ PlayerObject.prototype.physics = function() {
     else if(tile.definition.COLLIDE) {
       if(tile.definition.HIDDEN) { hit.push(tile); continue; }
 
-      if ((!this.reverse && squar.intersection(vec2.chop(vec2.make(tile.pos.x+1, tile.pos.y)), tdim, vec2.chop(mov), this.dim)) || (this.reverse && squar.intersection(vec2.chop(vec2.make(tile.pos.x-1, tile.pos.y)), tdim, vec2.chop(mov), this.dim))) {
+      var dim = vec2.make(1., 2.);
+      var dimPos = this.reverse ? vec2.make(mov.x + 0.85, mov.y) : vec2.make(mov.x - 0.85, mov.y);
+      if(squar.intersection(tile.pos, tdim, dimPos, dim)) {
         if(this.spinTimer === PlayerObject.ATTACK_DELAY-1 && this.pos.y <= tile.pos.y) { smsh.push(tile); }
       }
       
