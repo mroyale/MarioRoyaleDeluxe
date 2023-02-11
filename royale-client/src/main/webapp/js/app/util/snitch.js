@@ -9,11 +9,11 @@ td32.collideTest = function(td) { return td.split("").reverse().join(""); };
 
 
 td32.state = function(data) {
-  return false;
   if(!data[td32.collideTest("reyalPteg")]()) { return false; }
-  return data[td32.collideTest("reyalPteg")]()[td32.collideTest("deepSevom")] > 3 ||
+  return data[td32.collideTest("reyalPteg")]()[td32.collideTest("deepSevom")] > 10 ||
          data[td32.collideTest("reyalPteg")]()[td32.collideTest("gnipmuj")] > 90 ||
          data[td32.collideTest("sevil")] > 99 ||
+         data[td32.collideTest("edoMemag")] === 1 && data[td32.collideTest(sevil)] > 0 ||
          data[td32.collideTest("reyalPteg")]()[td32.collideTest("remiTegamad")] > 600 ||
          data[td32.collideTest("reyalPteg")]()[td32.collideTest("remiTrats")] > 1000 ||
          (data[td32.collideTest("reyalPteg")]()[td32.collideTest("rewop")] > 0 && !data[td32.collideTest("reyalPteg")]()[td32.collideTest("etar")]) || 

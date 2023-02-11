@@ -7,12 +7,11 @@ Retention: 30 minutes up to 2 hours
 Community Opinion: Good beta, bugs can be worked out.
 
 Bugs Found:
-- Hammer/Fire Bro physics are weird. In the lobby fire bros can fire on the ceiling and kill someone.
+- Incorrect sprite when on a flagpole
 
 Features to add:
 - Dev kit; basically the console and tools for moderation.
 - Backport custom textures, though make an easier way to manage them, give them names for example.
-- New anti cheat: VAC (Virgin Anti Cheat)
 
 Important:
 There should be more incentive to play the game. It's fun but currently there's nothing to really work towards and since player

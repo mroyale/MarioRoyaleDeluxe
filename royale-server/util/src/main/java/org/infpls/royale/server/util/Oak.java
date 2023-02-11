@@ -89,7 +89,7 @@ public class Oak {
   
   public static void log(Level level, String src, String msg, Exception ex) {
     System.out.println(new Date().toString() + " - " + src + " :: " + msg);
-    /* if(ex != null) { ex.printStackTrace(); } */ // Don't log to catalina.out
+    if(ex != null) { ex.printStackTrace(); } // Don't log to catalina.out
     write(level, src, msg, ex);
   }
   

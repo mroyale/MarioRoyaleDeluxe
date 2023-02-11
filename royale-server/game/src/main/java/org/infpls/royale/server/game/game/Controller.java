@@ -157,10 +157,9 @@ public class Controller {
     character = n.character;
     
     /* Anti Cheat */
-    /*if(level - acSequence > 1) { strike("Level Sequence Skip"); }
-    if(level > 3) { strike("Invalid Level"); return true; }
-    if(zone > 5) { strike("Invalid Zone"); return true; }
-    if(position.y > 30) { strike("Y position greater than 30"); }*/
+    /*if(level - acSequence > 1) { strike("Level Sequence Skip"); }*/
+    if(level > 65535 || level < 0) { strike("Invalid Level"); return true; }
+    if(zone > 65535 || zone < 0) { strike("Invalid Zone"); return true; }
     
     acSequence = n.level;
     return false;
@@ -208,8 +207,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
     /* Anti Cheat */
     if(n.type == 0x02) {
       if(game instanceof RoyaleLobby) { strike("Star In Lobby"); }
-      if(game.frame < AC_STAR_MIN_TIME) { strike("Star Early"); }
-      if(starCount++ > AC_STAR_MAX_COUNT) { strike("Too Many Stars"); }
+      if(game.frame < AC_STAR_MIN_TIME && game.gameMode != "pvp") { strike("Star Early"); }
     }
   }
   
