@@ -207,7 +207,6 @@ private static final byte[] VALID_SPRITES = new byte[] {
     /* Anti Cheat */
     if(n.type == 0x02) {
       if(game instanceof RoyaleLobby) { strike("Star In Lobby"); }
-      if(game.frame < AC_STAR_MIN_TIME && game.gameMode != "pvp") { strike("Star Early"); }
     }
   }
   

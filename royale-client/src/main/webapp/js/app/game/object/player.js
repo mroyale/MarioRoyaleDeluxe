@@ -1124,10 +1124,8 @@ PlayerObject.prototype.setState = function(SNAME, KEEPANIM) {
   var STATE = this.getStateByPowerIndex(SNAME, this.power);
   if(STATE === this.state) { return; }
   this.state = STATE;
-  if(STATE.SPRITE.length > 0 && this.pid !== this.game.pid) { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
+  if(STATE.SPRITE.length > 0 && SNAME === "POLE") { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
   this.dim = STATE.DIM;
-
-  //this.anim = 0;
 };
 
 /* Lmoa */
