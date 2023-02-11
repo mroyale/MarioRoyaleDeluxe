@@ -96,7 +96,7 @@ public class Login extends SessionState {
       } else if(name.length() > 20) {
         sendPacket(new PacketLRG(false, "Username is too long"));
         return;
-      } else if(pass.length() < 4) {
+      } else if(p.password.length() < 4) {
         sendPacket(new PacketLRG(false, "Password is too short"));
         return;
       }
