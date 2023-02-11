@@ -81,9 +81,11 @@ function MenuAccount() {
 
   this.marioHead = document.getElementById("profile-selectMario");
   this.luigiHead = document.getElementById("profile-selectLuigi");
+  this.infringioHead = document.getElementById("profile-selectInfringio");
 
   this.marioHead.addEventListener("click", (function () { return function (event) { that.selectCharacter(0); }; })());
   this.luigiHead.addEventListener("click", (function () { return function (event) { that.selectCharacter(1); }; })());
+  this.infringioHead.addEventListener("click", (function () { return function (event) { that.selectCharacter(2); }; })());
 
   this.pendingChar = null;
 };
@@ -186,8 +188,9 @@ MenuAccount.prototype.showProfileMenu = function() {
   this.profileNickname.value = app.net.nickname;
   switch (app.net.character) {
     default :
-    case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; break; }
-    case 1 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luiselect.png"; break; }
+    case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; this.infringioHead.src = "img/home/infhead.png"; break; }
+    case 1 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luiselect.png"; this.infringioHead.src = "img/home/infhead.png"; break; }
+    case 2 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luihead.png"; this.infringioHead.src = "img/home/infselect.png"; break; }
   }
 };
 
@@ -204,8 +207,9 @@ MenuAccount.prototype.profileReport = function(msg) {
 MenuAccount.prototype.selectCharacter = function(char) {
   switch (char) {
     default :
-    case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; break; }
-    case 1 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luiselect.png"; break; }
+    case 0 : { this.marioHead.src = "img/home/marselect.png"; this.luigiHead.src = "img/home/luihead.png"; this.infringioHead.src = "img/home/infhead.png"; break; }
+    case 1 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luiselect.png"; this.infringioHead.src = "img/home/infhead.png"; break; }
+    case 2 : { this.marioHead.src = "img/home/marhead.png"; this.luigiHead.src = "img/home/luihead.png"; this.infringioHead.src = "img/home/infselect.png"; break; }
   }
   this.pendingChar = char;
 };

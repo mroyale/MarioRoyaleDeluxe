@@ -307,7 +307,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
 
     String[] DEVELOPERS = new String[] {
       "TERMINALARCH",
-      "CASINI LOOGI",
+      "CASINILOOGI",
       "RAYTHEMAYMAY",
       "WACOPYRIGHTINFRINGIO",
       "DIMENSION",

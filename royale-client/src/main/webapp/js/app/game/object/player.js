@@ -1038,6 +1038,11 @@ PlayerObject.prototype.warp = function(wid) {
       break;
     }
   }
+
+  /* Fix for getting stuck in pipes and then being able to clip out of bounds */
+  if (this.power > 0 && this.pipeExt === 2) {
+    this.pos.y -= 1;
+  }
   
   this.autoTarget = undefined;
   this.grounded = false;
