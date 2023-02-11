@@ -9,6 +9,8 @@ function Jail(data) {
   this.lobbyTimer = 90;
 };
 
+Jail.prototype.changePrivMenu = Game.prototype.changePrivMenu;
+Jail.prototype.getDebug = Game.prototype.getDebug;
 Jail.prototype.load = Game.prototype.load;
 
 Jail.prototype.send = Game.prototype.send;

@@ -241,6 +241,11 @@ private static final byte[] VALID_SPRITES = new byte[] {
   
   /* PLAYER_SNITCH */
   public void process019(ByteMe.NET019 n) {
+    if (isDev()) {
+      /* Developers cannot get banned. */
+      return;
+    }
+
     /* Anti Cheat */
     strike("Snitched");
   }
