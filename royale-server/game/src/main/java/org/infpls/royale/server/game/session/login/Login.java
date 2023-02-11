@@ -90,6 +90,17 @@ public class Login extends SessionState {
         return;
       }
 
+      if(name.length() < 4) {
+        sendPacket(new PacketLRG(false, "Username is too short"));
+        return;
+      } else if(name.length() > 20) {
+        sendPacket(new PacketLRG(false, "Username is too long"));
+        return;
+      } else if(pass.length() < 4) {
+        sendPacket(new PacketLRG(false, "Password is too short"));
+        return;
+      }
+
       RoyaleAccount newAcc = lobbyDao.createAccount(name, p.password);
       session.setAccount(newAcc);
       String session = lobbyDao.addToken(name);
