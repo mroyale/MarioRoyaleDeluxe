@@ -29,7 +29,7 @@ Network.prototype.connectWS = function() {
     return;
   }
   
-  this.webSocket = new WebSocket("ws://" + address + "/royale/ws");
+  this.webSocket = new WebSocket(`${ window.location.protocol == "https:" ? "wss" : "ws" }://` + address + `/royale/ws`);
   this.webSocket.binaryType = 'arraybuffer';
   
   this.webSocket.onopen = function(event) {

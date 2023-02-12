@@ -1124,7 +1124,11 @@ PlayerObject.prototype.setState = function(SNAME, KEEPANIM) {
   var STATE = this.getStateByPowerIndex(SNAME, this.power);
   if(STATE === this.state) { return; }
   this.state = STATE;
-  if(STATE.SPRITE.length > 0 && SNAME === "POLE") { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
+  if(SNAME === PlayerObject.SNAME.POLE) {
+    if(STATE.SPRITE.length > 0) { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
+  } else if(this.power !== 3) {
+    if(STATE.SPRITE.length > 0) { this.sprite = STATE.SPRITE[0]; } // Ghost state special case
+  }
   this.dim = STATE.DIM;
 };
 
@@ -1180,7 +1184,8 @@ PlayerObject.prototype.write = function(texts) {
     texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT});
   }
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
-    var dev = this.game.getPlayerInfo(this.pid).isDev;
+    var ply = this.game.getPlayerInfo(this.pid)
+    var dev = ply ? ply.isDev : false;
     texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.INDEX instanceof Array?2.:1.)), PlayerObject.TEAM_OFFSET), size: PlayerObject.TEAM_SIZE, color: dev ? PlayerObject.DEV_TEAM_COLOR : PlayerObject.TEAM_COLOR, text: this.name, 'outline': dev ? "#FFF" : null});
   }
 };

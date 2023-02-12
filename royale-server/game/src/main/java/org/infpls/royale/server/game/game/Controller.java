@@ -157,9 +157,10 @@ public class Controller {
     character = n.character;
     
     /* Anti Cheat */
-    /*if(level - acSequence > 1) { strike("Level Sequence Skip"); }*/
+    /*if(level - acSequence > 1) { strike("Level Sequence Skip"); }
     if(level > 65535 || level < 0) { strike("Invalid Level"); return true; }
     if(zone > 65535 || zone < 0) { strike("Invalid Zone"); return true; }
+    */
     
     acSequence = n.level;
     return false;
@@ -241,11 +242,6 @@ private static final byte[] VALID_SPRITES = new byte[] {
   
   /* PLAYER_SNITCH */
   public void process019(ByteMe.NET019 n) {
-    if (isDev()) {
-      /* Developers cannot get banned. */
-      return;
-    }
-
     /* Anti Cheat */
     strike("Snitched");
   }
