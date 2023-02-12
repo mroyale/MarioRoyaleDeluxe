@@ -7,7 +7,7 @@ function BreakEffect(pos, sprite) {
   Effect.call(this, pos);
   
   this.sprite = sprite; // Index of sprite for the map tile we are 'breaking'
-  this.life = 25;
+  this.life = 50;
   
   this.bits = [
     {
@@ -53,8 +53,8 @@ function BreakEffect(pos, sprite) {
   ];
 };
 
-BreakEffect.FALL_SPEED = 0.0775;
-BreakEffect.DRAG = 0.975;
+BreakEffect.FALL_SPEED = 0.0258;
+BreakEffect.DRAG = 0.915;
 
 BreakEffect.prototype.step = function() {
   for(var i=0;i<this.bits.length;i++) {

@@ -46,6 +46,7 @@ public class Login extends SessionState {
         case "llo" : { accountLogout(gson.fromJson(data, PacketLOR.class)); break; }
         case "lpu" : { accountUpdate(gson.fromJson(data, PacketLPU.class)); break; }
         case "lcp" : { accountPassword(gson.fromJson(data, PacketLCP.class)); break; }
+        case "lsc" : { /* This doesn't do anything. This is to keep the websocket alive. */ break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
