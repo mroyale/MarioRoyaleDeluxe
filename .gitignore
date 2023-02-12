@@ -9,3 +9,4 @@ bin/
 *.war
 node_modules/
 .env
+royale-discord/
