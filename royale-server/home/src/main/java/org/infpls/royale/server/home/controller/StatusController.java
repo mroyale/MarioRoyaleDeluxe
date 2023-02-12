@@ -17,7 +17,7 @@ public class StatusController {
   @RequestMapping(value = "/status", method = RequestMethod.GET, produces = "application/json")
   public @ResponseBody ResponseEntity getStatus() {
     final Gson gson = new GsonBuilder().create();
-    final Status status = new Status(dao.getUserDao().getOnlineUserCount(0)+1, dao.getUserDao().getOnlineUserCount(1)+1);
+    final Status status = new Status(dao.getUserDao().getOnlineUserCount(0), dao.getUserDao().getOnlineUserCount(1));
     return new ResponseEntity(gson.toJson(status), HttpStatus.OK);
   }
   

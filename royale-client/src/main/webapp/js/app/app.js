@@ -13,6 +13,8 @@ function App() {
     hideTimer: Cookies.get("timer") === '1'
   }
 
+  this.statusUpdate = null;
+
   var that = this;
   var tmr = document.getElementById("hideTimer");
   var mus = document.getElementById("muteMusic");
@@ -66,6 +68,14 @@ App.prototype.init = function() {
       if(data.result) { that.menu.error.show(data.result); return; }
       /* OK */
       that.menu.main.show(data.active);
+
+      document.getElementById("players-royale").innerText = data.playersVanilla;
+      document.getElementById("players-pvp").innerText = data.playersPVP;
+
+      document.getElementById("playersMember-royale").innerText = data.playersVanilla;
+      document.getElementById("playersMember-pvp").innerText = data.playersPVP;
+
+      that.statusUpdate = setInterval(function() { that.updateStatus(); }, 5000);
     };
 
     var serverError = function() {
@@ -85,6 +95,31 @@ App.prototype.init = function() {
   document.getElementById("next").onclick = function() {
     fadeOutCallback(next);
   }
+};
+
+App.prototype.updateStatus = function() {
+  var serverResponse = function(data) {
+    if(data.result) { that.menu.error.show(data.result); return; }
+
+    /* OK */
+    document.getElementById("players-royale").innerText = data.playersVanilla;
+    document.getElementById("players-pvp").innerText = data.playersPVP;
+
+    document.getElementById("playersMember-royale").innerText = data.playersVanilla;
+    document.getElementById("playersMember-pvp").innerText = data.playersPVP;
+  };
+
+  var serverError = function() {
+    that.menu.error.show("An unknown error occured while updating status info...");
+  };
+
+  $.ajax({
+    url: "/royale/status",
+    type: 'GET',
+    timeout: 3000,
+    success: function(data) { serverResponse(data); },
+    error: function() { serverError(); }
+  });
 };
 
 /* Load a game from .game file */

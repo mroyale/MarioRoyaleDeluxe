@@ -358,7 +358,7 @@ MenuDisplay.prototype.drawObject = function() {
       var axe = axes[i];
       var pos = axe.pos;
 
-      var st = util.sprite.getSprite(tex, f);
+      var st = util.sprite.getSprite(tex, a);
       context.drawImage(tex, st[0], st[1], MenuDisplay.TEXRES, MenuDisplay.TEXRES, pos.x*MenuDisplay.TEXRES,(this.dimensions().y-pos.y-1)*MenuDisplay.TEXRES, MenuDisplay.TEXRES, MenuDisplay.TEXRES);
     }
     
