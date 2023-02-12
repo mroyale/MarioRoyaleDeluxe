@@ -155,10 +155,10 @@ public class Login extends SessionState {
 
     RoyaleAccount acc = session.getAccount();
     acc.changeCharacter(p.character);
-    acc.updateName(p.nickname);
+    acc.updateName(p.nickname.toUpperCase());
     lobbyDao.saveDatabase();
 
-    sendPacket(new PacketLPU(p.character, p.nickname));
+    sendPacket(new PacketLPU(p.character, p.nickname.toUpperCase()));
   }
   
   /* Change the account password */

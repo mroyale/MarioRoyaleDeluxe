@@ -7,3 +7,5 @@ logs/
 .project
 bin/
 *.war
+node_modules/
+.env
