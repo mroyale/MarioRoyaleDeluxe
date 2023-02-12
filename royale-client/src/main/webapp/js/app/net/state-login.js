@@ -47,7 +47,7 @@ StateLogin.prototype.handleLogin = function(p) {
     
     var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
     app.menu.mainMember.show(stats);
-    app.menu.mainMember.statusUpdater = setInterval(function() { app.net.send({'type': 'lsc'}); }, 5000);
+    app.menu.mainMember.scienceInterval = setInterval(function() { app.net.send({'type': 'lsc'}); }, 5000);
   } else {
     Cookies.remove("session");
     app.menu.main.show();
@@ -71,7 +71,7 @@ StateLogin.prototype.handleRegister = function(p) {
     
     var stats = {'wins': data.wins, 'deaths': data.deaths, 'kills': data.kills, 'coins': data.coins};
     app.menu.mainMember.show(stats);
-    app.menu.mainMember.statusUpdater = setInterval(function() { app.net.send({'type': 'lsc'}); }, 5000);
+    app.menu.mainMember.scienceInterval = setInterval(function() { app.net.send({'type': 'lsc'}); }, 5000);
   } else {
     Cookies.remove("session");
     app.menu.main.show();
