@@ -6,9 +6,11 @@ function App() {
   this.menu = new Menu();                // Handles HTML menus
   this.net = new Network();              // Handles websockets
 
+  var music = Cookies.get("music");
+  var sound = Cookies.get("sound");
   this.settings = {
-    musicVolume: parseInt(Cookies.get("music")) === undefined ? Audio.MUSIC_VOLUME*100 : parseInt(Cookies.get("music")),
-    soundVolume: parseInt(Cookies.get("sound")) === undefined ? Audio.EFFECT_VOLUME*100 : parseInt(Cookies.get("sound")),
+    musicVolume: isNaN(parseInt(music)) ? Audio.MUSIC_VOLUME*100 : parseInt(music),
+    soundVolume: isNaN(parseInt(sound)) ? Audio.EFFECT_VOLUME*100 : parseInt(sound),
     hideNames: Cookies.get("text") === '1',
     hideTimer: Cookies.get("timer") === '1'
   }
