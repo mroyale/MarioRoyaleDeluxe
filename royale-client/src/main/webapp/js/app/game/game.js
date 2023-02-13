@@ -349,7 +349,6 @@ Game.prototype.updatePlayerList = function(packet) {
 /* G13 */
 Game.prototype.gameStartTimer = function(packet) {
   if(this.startTimer < 0 && !app.settings.soundMuted) {
-    //this.play("alert.mp3",1.,0.);
     var snd = document.createElement("audio");
     snd.src = "audio/" + this.audio.soundPrefix + "/alert.mp3";
     snd.volume = Audio.EFFECT_VOLUME;
@@ -720,7 +719,7 @@ Game.prototype.doStep = function() {
     this.out.push(NET018.encode());
   }
 
-  /* Triggers game over if player is dead for 15 frames and has zero lives. If we have a life we respawn instead. */
+  /* Triggers game over if player is dead for 45 frames and has zero lives. If we have a life we respawn instead. */
   if(this.startDelta !== undefined && !this.gameOver && !ply) {
     if((this.lives > 0 || this.getDebug("lives")) && this.victory <= 0) {
       var rsp = this.getZone().level;
