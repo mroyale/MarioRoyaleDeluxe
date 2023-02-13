@@ -62,7 +62,7 @@ MenuDisplay.prototype.loadAnimations = function(url, resource) {
     };
 
     var link = isLink(url);
-    $.getJSON(link ? url : '/royale/assets/' + url, function(dat) {
+    $.getJSON(link ? url : window.location.pathname + 'assets/' + url, function(dat) {
       if (dat.tileAnim) {
         TILE_ANIMATION = []
         TILE_ANIMATION_FILTERED = [];
@@ -127,7 +127,7 @@ MenuDisplay.prototype.loadWorld = function(world) {
     var address = window.location.host;
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: window.location.protocol + "//" + address + "/royale/game/" + world,
+            url: window.location.protocol + "//" + address + window.location.pathname + "game/" + world,
             type: 'GET',
             timeout: 5000,
             success: function(data) {

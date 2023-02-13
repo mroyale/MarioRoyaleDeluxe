@@ -140,7 +140,6 @@ MenuAccount.prototype.changeGamemode = function(mode) {
 MenuAccount.prototype.launch = function(priv) {
   this.hidePlayMenu();
   app.join(app.net.nickname, app.net.squad, Boolean(priv), parseInt(app.net.gm));
-  clearInterval(this.scienceInterval);
 };
 
 /* Change Password Menu */

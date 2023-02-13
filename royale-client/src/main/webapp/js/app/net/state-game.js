@@ -32,7 +32,7 @@ StateGame.prototype.load = function(p) {
 
   if (app.ingame() && app.game.worldSelected && app.net.prefLobby && !app.game.customLevelData) {
     $.ajax({
-      url: window.location.protocol + "//" + address + "/royale/game/" + app.game.worldSelected,
+      url: window.location.protocol + "//" + address + window.location.pathname + "game/" + app.game.worldSelected,
       type: 'GET',
       timeout: 5000,
       success: function(data) {
@@ -59,7 +59,7 @@ StateGame.prototype.load = function(p) {
   }
   
   $.ajax({
-    url: window.location.protocol + "//" + address + "/royale/game/" + p.game,
+    url: window.location.protocol + "//" + address + window.location.pathname + "game/" + p.game,
     type: 'GET',
     timeout: 5000,
     success: function(data) {

@@ -233,7 +233,7 @@ Game.prototype.load = function(data) {
 
   if (data.assets) {
     var link = isLink(data.assets);
-    $.getJSON(link ? data.assets : '/royale/assets/' + data.assets, function(dat) {
+    $.getJSON(link ? data.assets : window.location.pathname + 'assets/' + data.assets, function(dat) {
         if (dat.tileAnim) {
           TILE_ANIMATION = []
           TILE_ANIMATION_FILTERED = [];
