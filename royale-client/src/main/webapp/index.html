@@ -262,8 +262,10 @@
       <div id="settings" class="container-password" style="display:none;height:420px;">
         <span style="position: absolute;right: 10px;" id="settingsClose">x</span>
         <p>Settings</p>
-        <div id="muteMusic">[ ] Mute Music Volume</div>
-        <div id="muteSound" style="margin-block-end: 0.5em;">[ ] Mute Sound Volume</div>
+        <div>Music Volume</div>
+        <input type="range" min="0" max="100" value="50" class="slider" id="musicSlider" style="width: 80%;">
+        <div>Sound Volume</div>
+        <input type="range" min="0" max="100" value="50" class="slider" id="soundSlider" style="width: 80%;margin-block-end: 0.5em;">
         <div id="hideTimer">[ ] Hide In-Game Timer</div>
       </div>
 

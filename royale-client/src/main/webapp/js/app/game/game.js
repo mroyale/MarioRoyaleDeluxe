@@ -348,11 +348,11 @@ Game.prototype.updatePlayerList = function(packet) {
 
 /* G13 */
 Game.prototype.gameStartTimer = function(packet) {
-  if(this.startTimer < 0) {
+  if(this.startTimer < 0 && !app.settings.soundMuted) {
     //this.play("alert.mp3",1.,0.);
     var snd = document.createElement("audio");
     snd.src = "audio/" + this.audio.soundPrefix + "/alert.mp3";
-    snd.volume = 0.7;
+    snd.volume = Audio.EFFECT_VOLUME;
     snd.play();
   }
   if(packet.time > 0) { this.startTimer = packet.time; this.remain = this.players.length; }

@@ -15,8 +15,8 @@ function Audio(game) {
   this.musicPrefix = "music";
   this.soundPrefix = "sfx";
 
-  this.muteMusic = app.settings.musicMuted;
-  this.muteSound = app.settings.soundMuted;
+  this.muteMusic = app.settings.musicVolume === 0;
+  this.muteSound = app.settings.soundVolume === 0;
   
   if(!this.initWebAudio()) { this.initFallback(); }
 }
@@ -181,14 +181,8 @@ Audio.prototype.saveSettings = function() {
     app.menu.main.menuMusic.volume = this.muteMusic?0:Audio.MUSIC_VOLUME;
   }
 
-  Cookies.set("music", this.muteMusic?1:0, {expires: 30});
-  Cookies.set("sound", this.muteSound?1:0, {expires: 30});
-
-  var mus = document.getElementById("muteMusic");
-  var sfx = document.getElementById("muteSound");
-
-  mus.innerText = (this.muteMusic ? "[X]" : "[ ]") + " Mute Music Volume";
-  sfx.innerText = (this.muteSound ? "[X]" : "[ ]") + " Mute Sound Volume";
+  Cookies.set("muteMusic", this.muteMusic?1:0, {expires: 30});
+  Cookies.set("muteSound", this.muteSound?1:0, {expires: 30});
 };
 
 Audio.prototype.setMusic = function(path, loop) {

@@ -55,10 +55,8 @@ function MenuMain() {
   this.playVanilla.onclick = function() { that.changeGamemode(0); };
   this.playPVP.onclick = function() { that.changeGamemode(1); };
   
-  //var menuMusic = ["audio/music/title1.mp3", "audio/music/title2.mp3"];
   this.menuMusic = document.createElement('audio');
-  //this.menuMusic.src = menuMusic[parseInt(Math.random() * menuMusic.length)];
-  this.menuMusic.volume = Cookies.get("music") === '1' ? 0 : 0.5;
+  this.menuMusic.volume = Cookies.get("music") === '1' ? 0 : Audio.MUSIC_VOLUME;
   this.menuMusic.loop = true;
   this.menuMusic.load();
   

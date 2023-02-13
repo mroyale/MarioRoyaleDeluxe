@@ -7,8 +7,8 @@ function App() {
   this.net = new Network();              // Handles websockets
 
   this.settings = {
-    musicMuted: Cookies.get("music") === '1',
-    soundMuted: Cookies.get("sound") === '1',
+    musicVolume: parseInt(Cookies.get("music")) === undefined ? Audio.MUSIC_VOLUME*100 : parseInt(Cookies.get("music")),
+    soundVolume: parseInt(Cookies.get("sound")) === undefined ? Audio.EFFECT_VOLUME*100 : parseInt(Cookies.get("sound")),
     hideNames: Cookies.get("text") === '1',
     hideTimer: Cookies.get("timer") === '1'
   }
@@ -17,37 +17,43 @@ function App() {
 
   var that = this;
   var tmr = document.getElementById("hideTimer");
-  var mus = document.getElementById("muteMusic");
-  var sfx = document.getElementById("muteSound");
+  var mus = document.getElementById("musicSlider");
+  var sfx = document.getElementById("soundSlider");
 
-  mus.onclick = function() { that.toggleMusic(); };
-  mus.innerText = (this.settings.musicMuted ? "[X]" : "[ ]") + " Mute Music Volume";
+  mus.oninput = function() { that.updateVolume("music"); };
+  sfx.oninput = function() { that.updateVolume("sfx"); }
 
-  sfx.onclick = function() { that.toggleSound(); };
-  sfx.innerText = (this.settings.soundMuted ? "[X]" : "[ ]") + " Mute Sound Volume";
+  mus.value = this.settings.musicVolume;
+  sfx.value = this.settings.soundVolume;
+
+  Audio.MUSIC_VOLUME = this.settings.musicVolume/100;
+  Audio.EFFECT_VOLUME = this.settings.soundVolume/100;
+
+  this.menu.main.menuMusic.volume = mus.value === 0 ? 0 : Audio.MUSIC_VOLUME;
 
   tmr.onclick = function() { that.toggleTimer(); };
   tmr.innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
 }
 
-App.prototype.toggleMusic = function() {
-  this.settings.musicMuted = !this.settings.musicMuted;
-  Cookies.set("music", this.settings.musicMuted?1:0, {'expires': 30});
-  document.getElementById("muteMusic").innerText = (this.settings.musicMuted ? "[X]" : "[ ]") + " Mute Music Volume";
+App.prototype.updateVolume = function(type) {
+  var mus = document.getElementById("musicSlider");
+  var sfx = document.getElementById("soundSlider");
 
-  if (this.ingame()) {
-    this.game.audio.muteMusic = this.settings.musicMuted;
-  }
-  this.menu.main.menuMusic.volume = this.settings.musicMuted ? 0 : 0.5;
-};
+  switch(type) {
+    case "music" : {
+      Cookies.set("music", mus.value, {'expires': 30});
+      Audio.MUSIC_VOLUME = parseInt(mus.value)/100;
+      this.menu.main.menuMusic.volume = parseInt(mus.value)/100;
+      this.settings.musicVolume = parseInt(mus.value);
+      break;
+    }
 
-App.prototype.toggleSound = function() {
-  this.settings.soundMuted = !this.settings.soundMuted;
-  Cookies.set("sound", this.settings.soundMuted?1:0, {'expires': 30});
-  document.getElementById("muteSound").innerText = (this.settings.soundMuted ? "[X]" : "[ ]") + " Mute Sound Volume";
-
-  if (this.ingame()) {
-    this.game.audio.muteSound = this.settings.soundMuted;
+    case "sfx" : {
+      Cookies.set("sfx", sfx.value, {'expires': 30});
+      Audio.EFFECT_VOLUME = parseInt(sfx.value)/100;
+      this.settings.soundVolume = parseInt(sfx.value);
+      break;
+    }
   }
 };
 
@@ -75,7 +81,7 @@ App.prototype.init = function() {
       document.getElementById("playersMember-royale").innerText = data.playersVanilla;
       document.getElementById("playersMember-pvp").innerText = data.playersPVP;
 
-      that.statusUpdate = setInterval(function() { that.updateStatus(); }, 5000);
+      that.statusUpdate = setInterval(function() { that.updateStatus(); }, 1000);
     };
 
     var serverError = function() {
@@ -98,6 +104,7 @@ App.prototype.init = function() {
 };
 
 App.prototype.updateStatus = function() {
+  var that = this;
   var serverResponse = function(data) {
     if(data.result) { that.menu.error.show(data.result); return; }
 
