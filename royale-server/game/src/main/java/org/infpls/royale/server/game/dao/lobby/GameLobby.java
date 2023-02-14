@@ -108,6 +108,7 @@ public abstract class GameLobby {
         case DISCONNECT : { disconnectEvent(evt.session); break; }
         case EJECT : { ejectEvent(evt.session); break; }
         case VOTE : { voteEvent(evt.session); break; }
+        case START : { startEvent(evt.session); break; }
       }
     }
   }
@@ -154,6 +155,12 @@ public abstract class GameLobby {
     }
     
     if((float)vr/(float)players.size() >= MIN_VOTE_FRAC) { startTimer(); }
+  }
+
+  private void startEvent(RoyaleSession session) {
+    if(session.isDev()) {
+      whereWeDroppin();
+    }
   }
   
   protected void close(final String message) throws IOException {

@@ -1005,7 +1005,7 @@ PlayerObject.prototype.star = function() {
 
 PlayerObject.prototype.transform = function(to) {
   if (!this.isState(PlayerObject.STATE.TRANSFORM)) {
-    if(this.power<to) { this.play(to === 3 ? "leaf.mp3" : "powerup.mp3", 1., .04); }
+    if(this.power<=to) { this.play(to === 3 ? "leaf.mp3" : "powerup.mp3", 1., .04); }
     else { this.play(this.power === 3 ? "leaf.mp3" : "powerdown.mp3", 1., .04); }
   }
   

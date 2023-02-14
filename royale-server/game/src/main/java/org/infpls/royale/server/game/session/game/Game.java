@@ -34,6 +34,7 @@ public class Game extends SessionState {
     < g13 game start countdown timer update
     = g21 ping
     > g50 vote ready
+    > gfs force start (dev only)
   */
   
   @Override
@@ -49,6 +50,7 @@ public class Game extends SessionState {
         case "g03" : { clientReady(gson.fromJson(data, PacketG03.class)); break; }
         case "g21" : { ping(gson.fromJson(data, PacketG21.class)); break; }
         case "g50" : { voteReady(gson.fromJson(data, PacketG50.class)); break; }
+        case "gfc" : { forceStart(gson.fromJson(data, PacketGFC.class)); break; }
         
         /* Input Type Packets nxx */
         
@@ -77,6 +79,10 @@ public class Game extends SessionState {
   
   private void voteReady(PacketG50 p) throws IOException {
     lobby.pushEvent(new SessionEvent(session, SessionEvent.Type.VOTE));
+  };
+
+  private void forceStart(PacketGFC p) throws IOException {
+    lobby.pushEvent(new SessionEvent(session, SessionEvent.Type.START));
   };
   
   /* See RoyaleSession for details. Don't call this without good reason. */

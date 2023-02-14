@@ -16,6 +16,8 @@ function BulletObject(game, level, zone, pos, oid, direction) {
   
   /* Var */
   this.bonkTimer = 0;
+  this.deadTimer = 0;
+  this.life = BulletObject.LIFE_MAX;
   
   /* Physics */
   this.dim = vec2.make(.8,.8);
@@ -33,6 +35,8 @@ BulletObject.NAME = "Bullet"; // Used by editor
 BulletObject.ANIMATION_RATE = 12;
 
 BulletObject.SPEED = 0.1075;
+BulletObject.LIFE_MAX = 300; // 5
+BulletObject.DEAD_ANIM_LENGTH = 3;
 
 BulletObject.BONK_TIME = 90;
 BulletObject.BONK_IMP = vec2.make(0.25, 0.4);
@@ -51,6 +55,9 @@ BulletObject.SPRITE_LIST = [
   {NAME: "IDLE0", ID: 0x00, INDEX: 0x0030},
   {NAME: "IDLE1", ID: 0x01, INDEX: 0x0031},
   {NAME: "IDLE2", ID: 0x02, INDEX: 0x0032},
+  {NAME: "DEAD0", ID: 0x03, INDEX: 0x00D4},
+  {NAME: "DEAD1", ID: 0x04, INDEX: 0x00D5},
+  {NAME: "DEAD2", ID: 0x05, INDEX: 0x00D6}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -62,6 +69,7 @@ for(var i=0;i<BulletObject.SPRITE_LIST.length;i++) {
 BulletObject.STATE = {};
 BulletObject.STATE_LIST = [
   {NAME: "IDLE", ID: 0x00, SPRITE: [BulletObject.SPRITE.IDLE0, BulletObject.SPRITE.IDLE1, BulletObject.SPRITE.IDLE2]},
+  {NAME: "DEAD", ID: 0x50, SPRITE: [BulletObject.SPRITE.DEAD0, BulletObject.SPRITE.DEAD1, BulletObject.SPRITE.DEAD2]},
   {NAME: "BONK", ID: 0x51, SPRITE: []}
 ];
 
@@ -82,6 +90,13 @@ BulletObject.prototype.update = function(event) {
 };
 
 BulletObject.prototype.step = function() {
+  /* Dead */
+  if(this.state === BulletObject.STATE.DEAD) {
+    if(this.deadTimer < BulletObject.DEAD_ANIM_LENGTH) { this.sprite = this.state.SPRITE[this.deadTimer++]; }
+    else { this.destroy(); }
+    return;
+  }
+
   /* Bonked */
   if(this.state === BulletObject.STATE.BONK) {
     if(this.bonkTimer++ > BulletObject.BONK_TIME || this.pos.y+this.dim.y < 0) { this.destroy(); return; }
@@ -99,6 +114,8 @@ BulletObject.prototype.step = function() {
   /* Normal Gameplay */
   this.physics();
   this.sound();
+
+  if(this.life-- < 1) { this.kill(); }
 };
 
 BulletObject.prototype.physics = function() {
@@ -142,7 +159,11 @@ BulletObject.prototype.playerBump = function(p) {
   this.playerCollide(p);
 };
 
-BulletObject.prototype.kill = function() { };
+BulletObject.prototype.kill = function() {
+  this.dead = true;
+  this.setState(BulletObject.STATE.DEAD);
+};
+
 BulletObject.prototype.isTangible = GameObject.prototype.isTangible;
 BulletObject.prototype.destroy = GameObject.prototype.destroy;
 

@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import org.infpls.royale.server.util.Oak;
 import org.infpls.royale.server.util.Key;
 import org.infpls.royale.server.game.session.RoyaleAccount;
+import org.infpls.royale.server.game.session.LeaderboardAccount;
 
 public class LobbyDao {
   private final List<GameLobby> lobbies;
@@ -68,6 +69,26 @@ public class LobbyDao {
     }
 
     return null;
+  }
+
+  public List<LeaderboardAccount> getLeaderboards() {
+    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+      @Override
+      public int compare(RoyaleAccount a1, RoyaleAccount a2) {
+          return a2.getCoins() - a1.getCoins();
+      }
+  });
+
+    // Create a list of simpler objects containing only specific fields, limited to top 10
+    List<LeaderboardAccount> top = new ArrayList<>();
+    
+    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
+      RoyaleAccount account = accounts.get(i);
+      LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getCoins());
+      top.add(simpleAccount);
+    }
+
+    return top;
   }
 
   public String addToken(String username) {

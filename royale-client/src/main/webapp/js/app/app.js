@@ -132,16 +132,11 @@ App.prototype.updateStatus = function() {
     document.getElementById("playersMember-pvp").innerText = data.playersPVP;
   };
 
-  var serverError = function() {
-    that.menu.error.show("An unknown error occured while updating status info...");
-  };
-
   $.ajax({
     url: window.location.pathname + "status",
     type: 'GET',
     timeout: 3000,
     success: function(data) { serverResponse(data); },
-    error: function() { serverError(); }
   });
 };
 

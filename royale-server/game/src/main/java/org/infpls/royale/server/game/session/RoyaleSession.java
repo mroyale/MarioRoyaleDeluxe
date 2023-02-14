@@ -153,6 +153,26 @@ public final class RoyaleSession {
   public boolean isOpen() { 
     return webSocket.isOpen();
   }
+
+  public boolean isDev() {
+    RoyaleAccount acc = getAccount();
+    if (acc == null) { return false; }
+
+    String[] DEVELOPERS = new String[] {
+      "TERMINALARCH",
+      "CASINILOOGI",
+      "RAYTHEMAYMAY",
+      "WACOPYRIGHTINFRINGIO",
+      "DIMENSION",
+      "INVADER",
+      "NIGHTCAT"
+    };
+    for(int i=0;i<DEVELOPERS.length;i++) {
+      if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }
+    }
+
+    return false;
+  }
   
   /* Foricbly removes player from the game they are in. Used in event of critical connection error. */
   /* Does not write to socket or do anything that would cause blocking. */

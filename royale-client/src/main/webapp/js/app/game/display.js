@@ -311,6 +311,7 @@ Display.prototype.drawUI = function() {
   var TEXT = [0x02, 0x05];
   var OPT = 0x06;
   var PAD = 0x07;
+  var KILL = 0x09;
   var c = COIN[parseInt(this.game.frame/6) % COIN.length];
 
   var tex = this.resource.getTexture("obj");
@@ -405,6 +406,13 @@ Display.prototype.drawUI = function() {
     context.strokeText(ctxt, l-48, 100);
     var st = util.sprite.getSprite(app.net.character ? (app.net.character === 2 ? inftex : luitex) : martex, PLAY);
     context.drawImage(app.net.character ? (app.net.character === 2 ? inftex : luitex) : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
+
+    var st = util.sprite.getSprite(uitex, KILL);
+    var ctxt = "×"+(this.game.kills<=9?"0"+this.game.kills:this.game.kills);
+    var l = context.measureText(ctxt).width + 30;
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 116, 48, 48);
+    context.fillText(ctxt, l-48, 150);
+    context.strokeText(ctxt, l-48, 150);
 
     if (this.game.getDebug("lives")) {
       context.fillText("×INF", l-48, 60);
