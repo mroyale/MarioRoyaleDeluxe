@@ -50,7 +50,7 @@ public class Game extends SessionState {
         case "g03" : { clientReady(gson.fromJson(data, PacketG03.class)); break; }
         case "g21" : { ping(gson.fromJson(data, PacketG21.class)); break; }
         case "g50" : { voteReady(gson.fromJson(data, PacketG50.class)); break; }
-        case "gfc" : { forceStart(gson.fromJson(data, PacketGFC.class)); break; }
+        case "gfs" : { forceStart(gson.fromJson(data, PacketGFS.class)); break; }
         
         /* Input Type Packets nxx */
         
@@ -81,7 +81,7 @@ public class Game extends SessionState {
     lobby.pushEvent(new SessionEvent(session, SessionEvent.Type.VOTE));
   };
 
-  private void forceStart(PacketGFC p) throws IOException {
+  private void forceStart(PacketGFS p) throws IOException {
     lobby.pushEvent(new SessionEvent(session, SessionEvent.Type.START));
   };
   

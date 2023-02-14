@@ -2,8 +2,8 @@ package org.infpls.royale.server.game.session.game;
 
 import org.infpls.royale.server.game.session.Packet;
 
-public class PacketGFC extends Packet {
-  public PacketGFC() {
+public class PacketGFS extends Packet {
+  public PacketGFS() {
     super("gfc");
   }
 }
