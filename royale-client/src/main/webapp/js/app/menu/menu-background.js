@@ -27,7 +27,11 @@ function MenuDisplay() {
 
         var that = this;
         this.frameReq = setInterval(() => {that.draw();}, 1000 / 60) // 60FPS
-        document.getElementById("next").style.display = ""; // Done loading
+        
+        if(app.goToLobby) { document.getElementById("next").click(); /* Skip disclaimer if we're returning to the lobby */ }
+        else {
+          document.getElementById("next").style.display = ""; // Done loading
+        }
     }).catch(err => {
         app.menu.error.show("Failed to load background. Please check the console for details.");
         console.error("##STATUS##", err.statusCode, "\n##INFO##", err);

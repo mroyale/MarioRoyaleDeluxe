@@ -249,6 +249,7 @@ MenuAccount.prototype.show = function(stats) {
   this.linkMemberElement.style.display = "block";
   this.linkElement.style.display = "block";
   this.element.style.display = "block";
+  if(app.goToLobby) { this.launch(); }
 };
 
 MenuAccount.prototype.hide = function() {

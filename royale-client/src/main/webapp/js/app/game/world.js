@@ -92,6 +92,21 @@ Level.prototype.getWarp = function(wid) {
   }
 };
 
+/* Returns all warp IDs in the level */
+Level.prototype.getWarps = function() {
+  var warps = [];
+
+  for(var j=0;j<this.zones.length;j++) {
+    var zon = this.zones[j];
+    for(var k=0;k<zon.warp.length;k++) {
+      var wrp = zon.warp[k];
+      warps.push(wrp.id);
+    }
+  }
+
+  return warps;
+};
+
 /* ========================================================================== */
 
 function Zone(game, level, data) {

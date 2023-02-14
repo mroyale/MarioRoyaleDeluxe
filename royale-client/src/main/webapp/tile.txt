@@ -91,10 +91,13 @@ WARP PIPE RIGHT FAST::85
 LEVEL END WARP::86
  - When touched it ends the level and takes you to the next. Extra data value correpond to the id of the level this goes to.
 
-WARP PIPE LEFT SLOW::87
+RANDOM WARP TILE::87
+ - When touched it warps you to a random warp in the level. No extra data.
+
+WARP PIPE LEFT SLOW::89
  - No delay. Extra data value correponds to the id of the warp point you want it to go to.
 
-WARP PIPE LEFT FAST::88
+WARP PIPE LEFT FAST::90
  - Reeee. Extra data value correponds to the id of the warp point you want it to go to.
 
 FLAGPOLE::160

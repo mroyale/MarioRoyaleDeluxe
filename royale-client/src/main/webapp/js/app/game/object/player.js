@@ -978,8 +978,8 @@ PlayerObject.prototype.invuln = function() {
 
 PlayerObject.prototype.powerup = function(obj) {
   if(obj instanceof MushroomObject && this.power < 1) { this.transform(1); this.rate = 0x73; return; } /* this.rate is a disguised anti cheat value */
-  if(obj instanceof FlowerObject && this.power < 2) { this.transform(2); this.rate = 0x71; return; }
-  if(obj instanceof LeafObject && this.power < 2) { this.transform(3); this.rate = 0x72; return; }
+  if(obj instanceof FlowerObject && this.power <= 2) { this.transform(2); this.rate = 0x71; return; }
+  if(obj instanceof LeafObject && this.power <= 2) { this.transform(3); this.rate = 0x72; return; }
   if(obj instanceof StarObject) { this.star(); this.game.out.push(NET013.encode(0x02)); this.rate = 0x43; return; }
   if(obj instanceof LifeObject) { this.game.lifeage(); return; }
   if(obj instanceof CoinObject) { this.game.coinage(); return; }

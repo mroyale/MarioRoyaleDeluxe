@@ -272,6 +272,14 @@
       <div id='messageBlock' class='container-private' style="display: none; transition: all .2s ease-in-out;">
         
       </div>
+
+      <!-- Return to Main/Lobby -->
+      <!-- Stolen from Legacy. If it ain't broke, don't fix it. -->
+      <div id='return' class='container-return' style='display: none;'>
+        <span id='return-main' class='launch' onclick='location.reload();'>Return to Main</span><br>
+        <span id='return-lobby' class='launch' onclick='Cookies.set("go_to_lobby", "1");location.reload();'>Return to
+          Lobby</span>
+      </div>
       
       <!-- Game -->
       <div id='game' class='fullscreen' oncontextmenu="return false">

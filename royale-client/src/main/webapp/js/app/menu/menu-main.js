@@ -124,6 +124,7 @@ MenuMain.prototype.hideSettingsMenu = function() {
 MenuMain.prototype.launch = function(priv) {
   this.hidePlayMenu();
   Cookies.set("name", this.playName.value, {expires: 30});
+  Cookies.set("priv", priv, {'expires': 30});
   app.join(this.playName.value, "", Boolean(priv), parseInt(app.gm));
 };
 

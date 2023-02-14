@@ -471,6 +471,9 @@ Game.prototype.doNET018 = function(n) {
   if(ply) { ply.axe(n.result); }
   this.victory = n.result;
   this.stopGameTimer();
+  setTimeout(function () {
+    document.getElementById('return').style.display = "block";    // Show 'return to main' and 'return to lobby'
+  }, 3000);
 };
 
 /* OBJECT_EVENT_TRIGGER [0x20] */

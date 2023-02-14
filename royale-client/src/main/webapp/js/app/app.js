@@ -9,13 +9,19 @@ function App() {
   var music = Cookies.get("music");
   var sound = Cookies.get("sound");
   this.settings = {
-    musicVolume: isNaN(parseInt(music)) ? Audio.MUSIC_VOLUME*100 : parseInt(music),
-    soundVolume: isNaN(parseInt(sound)) ? Audio.EFFECT_VOLUME*100 : parseInt(sound),
-    hideNames: Cookies.get("text") === '1',
-    hideTimer: Cookies.get("timer") === '1'
+    'musicVolume': isNaN(parseInt(music)) ? Audio.MUSIC_VOLUME*100 : parseInt(music),
+    'soundVolume': isNaN(parseInt(sound)) ? Audio.EFFECT_VOLUME*100 : parseInt(sound),
+    'hideNames': Cookies.get("text") === '1',
+    'hideTimer': Cookies.get("timer") === '1'
   }
 
   this.statusUpdate = null;
+  this.session = Cookies.get("session");
+
+  this.goToLobby = Cookies.get("go_to_lobby") === '1';
+  if(this.goToLobby) {
+    Cookies.remove("go_to_lobby");
+  }
 
   var that = this;
   var tmr = document.getElementById("hideTimer");
@@ -72,6 +78,14 @@ App.prototype.init = function() {
     that.menu.load.show();
     var serverResponse = function(data) {
       fadeIn();
+
+      if (that.goToLobby && !that.session) {
+        var nam = Cookies.get("name");
+        var priv = Cookies.get("priv");
+        var gm = Cookies.get("mode");
+        that.join(nam?nam.slice(0,20):"", "", priv?Boolean(parseInt(priv)):false, gm?parseInt(gm):0);
+        return;
+      }
 
       if(data.result) { that.menu.error.show(data.result); return; }
       /* OK */

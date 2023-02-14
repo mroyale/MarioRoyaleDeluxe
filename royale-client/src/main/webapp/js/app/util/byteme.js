@@ -456,7 +456,7 @@ td32.TILE_PROPERTIES = {
   /* Vine Block */
   0x18: {
     NAME: "VINE BLOCK",
-    DATA: "Warp ID",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: false,
@@ -708,9 +708,32 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Random Warp Tile */
+  0x57: {
+    NAME: "Random Warp Tile",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Touch */
+        /* Stand */
+        case 0x00 :
+        case 0x05 : {
+          if(game.pid === pid) {
+            var warps = this.game.world.getLevel(level).getWarps();
+            game.getPlayer().warp(warps[Math.floor(Math.random() * warps.length)]);
+            game.cameraLocked = false;
+          }
+          break;
+        }
+      }
+    }
+  },
   /* Warp Pipe Horiz */
   89: {
     NAME: "WARP PIPE LEFT SLOW",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: true,
@@ -728,6 +751,7 @@ td32.TILE_PROPERTIES = {
   /* Warp Pipe Horiz */
   90: {
     NAME: "WARP PIPE LEFT FAST",
+    DATA: "Target Warp ID",
     COLLIDE: true,
     HIDDEN: false,
     ASYNC: true,
