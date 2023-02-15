@@ -736,7 +736,7 @@ Game.prototype.doStep = function() {
     else if(++this.gameOverTimer > 45) { this.gameOver = true; this.gameOverTimer = 0; }
   }
   /* Triggers page refresh after 5 seconds of a game over. */
-  else if(this.gameOver) { if(++this.gameOverTimer > Game.GAME_OVER_TIME) { app.close(); } }
+  else if(this.gameOver) { if(++this.gameOverTimer > Game.GAME_OVER_TIME) { Cookies.set("go_to_lobby", "1"); app.close(); } }
   else { this.gameOverTimer = 0; }
   
   this.lastDraw = this.frame;

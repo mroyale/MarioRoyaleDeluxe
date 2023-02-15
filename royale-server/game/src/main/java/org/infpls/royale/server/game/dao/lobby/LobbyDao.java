@@ -71,7 +71,7 @@ public class LobbyDao {
     return null;
   }
 
-  public List<LeaderboardAccount> getLeaderboards() {
+  /*public List<LeaderboardAccount> getLeaderboards() {
     Collections.sort(accounts, new Comparator<RoyaleAccount>() {
       @Override
       public int compare(RoyaleAccount a1, RoyaleAccount a2) {
@@ -89,6 +89,57 @@ public class LobbyDao {
     }
 
     return top;
+  }*/
+
+  public Map<String, List<LeaderboardAccount>> getLeaderboards() {
+    Map<String, List<LeaderboardAccount>> leaderboards = new HashMap<>();
+
+    // Sort the ArrayList by 'wins' property and add to the leaderboards map
+    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+        @Override
+        public int compare(RoyaleAccount a1, RoyaleAccount a2) {
+            return a2.getWins() - a1.getWins();
+        }
+    });
+    List<LeaderboardAccount> winsLeaderboard = new ArrayList<>();
+    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
+        RoyaleAccount account = accounts.get(i);
+        LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getWins());
+        winsLeaderboard.add(simpleAccount);
+    }
+    leaderboards.put("wins", winsLeaderboard);
+
+    // Sort the ArrayList by 'coins' property and add to the leaderboards map
+    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+        @Override
+        public int compare(RoyaleAccount a1, RoyaleAccount a2) {
+            return a2.getCoins() - a1.getCoins();
+        }
+    });
+    List<LeaderboardAccount> coinsLeaderboard = new ArrayList<>();
+    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
+        RoyaleAccount account = accounts.get(i);
+        LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getCoins());
+        coinsLeaderboard.add(simpleAccount);
+    }
+    leaderboards.put("coins", coinsLeaderboard);
+
+    // Sort the ArrayList by 'kills' property and add to the leaderboards map
+    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+        @Override
+        public int compare(RoyaleAccount a1, RoyaleAccount a2) {
+            return a2.getKills() - a1.getKills();
+        }
+    });
+    List<LeaderboardAccount> killsLeaderboard = new ArrayList<>();
+    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
+        RoyaleAccount account = accounts.get(i);
+        LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getKills());
+        killsLeaderboard.add(simpleAccount);
+    }
+    leaderboards.put("kills", killsLeaderboard);
+
+    return leaderboards;
   }
 
   public String addToken(String username) {

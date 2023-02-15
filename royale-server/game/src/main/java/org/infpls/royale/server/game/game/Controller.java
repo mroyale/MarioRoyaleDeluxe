@@ -104,7 +104,7 @@ public class Controller {
               if(wr == null) { break; }
               else if(!strike) {
                 RoyaleAccount acc = session.getAccount();
-                if (acc != null) {
+                if (acc != null && session.getPrivate() != true) {
                   acc.updateWins(1);
                 }
                 glo.add(wr);
@@ -138,7 +138,7 @@ public class Controller {
   /* KILL_PLAYER_OBJECT */
   public void process011(ByteMe.NET011 n) {
     RoyaleAccount acc = session.getAccount();
-    if (acc != null) {
+    if (acc != null && session.getPrivate() != true) {
       acc.updateDeaths(1);
     }
 
@@ -223,7 +223,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
     if(kler != null) {
       kler.send(n.encode().array());
       RoyaleAccount klerAcc = kler.session.getAccount();
-      if (klerAcc != null) {
+      if (klerAcc != null && kler.session.getPrivate() != true) {
         klerAcc.updateKills(1);
       }
     }
@@ -254,7 +254,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
   /* PLAYER_COLLECT_COIN */
   public void process021(ByteMe.NET021 n) {
     RoyaleAccount acc = session.getAccount();
-    if (acc != null) {
+    if (acc != null && session.getPrivate() != true) {
       acc.updateCoins(1);
     }
   }

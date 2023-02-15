@@ -21,7 +21,7 @@ public class LeaderboardController {
   @RequestMapping(value = "/leaderboards", method = RequestMethod.GET, produces = "application/json")
   public @ResponseBody ResponseEntity getLeaderboard() {
     final Gson gson = new GsonBuilder().create();
-    final List<LeaderboardAccount> top = dao.getLobbyDao().getLeaderboards();
+    final Map<String, List<LeaderboardAccount>> top = dao.getLobbyDao().getLeaderboards();
 
     return new ResponseEntity(gson.toJson(top), HttpStatus.OK);
   }
