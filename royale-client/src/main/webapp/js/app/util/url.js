@@ -33,7 +33,8 @@ const levelSelectors = [
     {name: 'PVP :: Mario Kart', worldId: 'pvp-mariokart'},
     {name: 'PVP :: Super Mario Bros. 2', worldId: 'pvp-smb2'},
     {name: 'PVP :: Mario Maker Beta', worldId: 'pvp-maker'},
-    {name: 'PVP :: Super Paper Mario', worldId: 'pvp-spm'}
+    {name: 'PVP :: Super Paper Mario', worldId: 'pvp-spm'},
+    {name: 'PVP :: New Super Mario Bros.', worldId: 'pvp-nsmb'}
 ];
 
 /* Editor */
@@ -45,6 +46,7 @@ const mapsheets = [
     {name: 'Rainbow Road (PVP)', url: "img/game/rainbowroad_map.png"},
     {name: 'Maker 2014 (PVP)', url: "img/game/maker_map.png"},
     {name: 'Super Paper Mario (PVP)', url: "img/game/spm_map.png"},
+    {name: 'New Super Mario Bros. (PVP)', url: "img/game/nsmb_map.png"},
     {name: 'Lobby', url: "https://raw.githubusercontent.com/RayTheMaymay/hostingthings/main/lobby.png"},
     {name: 'Custom', url: "custom"}
 ];
@@ -52,6 +54,7 @@ const mapsheets = [
 const objsheets = [
     {name: 'Super Mario Bros. 1', url: "img/game/smb_obj.png"},
     {name: 'Super Mario Maker 2014', url: "img/game/maker_obj.png"},
+    {name: 'New Super Mario Bros. (PVP)', url: "img/game/nsmb_obj.png"},
     {name: 'Custom', url: "custom"},
 ];
 
@@ -60,6 +63,7 @@ const assetsurl = [
     {name: "Super Mario Bros. 2", url: "assets-smb2.json"},
     {name: "Maker 2014 (PVP)", url: "assets-maker.json"},
     {name: "Super Paper Mario (PVP)", url: "assets-spm.json"},
+    {name: "New Super Mario Bros. (PVP)", url: "assets-nsmb.json"},
     {name: "No Animations", url: "assets-noanim.json"},
     {name: "Custom", url: "custom"},
 ];
@@ -71,6 +75,7 @@ const musicPaths = [
     {name: "Super Mario Bros. 2", url: "smb2/music"},
     {name: "Maker 2014", url: "maker/music"},
     {name: "Super Paper Mario", url: "spm/music"},
+    {name: "New Super Mario Bros.", url: "nsmb/music"},
 ];
 
 const soundPaths = [
@@ -80,6 +85,7 @@ const soundPaths = [
     {name: "Super Mario Bros. 2", url: "smb2/sfx"},
     {name: "Maker 2014", url: "maker/sfx"},
     {name: "Super Paper Mario", url: "spm/sfx"},
+    {name: "New Super Mario Bros.", url: "nsmb/sfx"},
 ]
 
 /* Functions */

@@ -455,20 +455,20 @@ Display.prototype.drawUI = function() {
     }
 
     var st = util.sprite.getSprite(uitex, MUSIC[app.settings.musicVolume===0?1:this.game.audio.muteMusic?1:0]);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-32, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-48, 40, 36, 36);
 
     var st = util.sprite.getSprite(uitex, SFX[app.settings.soundVolume===0?1:this.game.audio.muteSound?1:0]);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-64, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-92, 40, 36, 36);
 
     var st = util.sprite.getSprite(uitex, TEXT[this.game.disableText?1:0]);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-96, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-136, 40, 36, 36);
 
     var st = util.sprite.getSprite(uitex, OPT);
-    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-128, 40, 24, 24);
+    context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-180, 40, 36, 36);
 
     if(this.game.input.pad.connected()) {
       var st = util.sprite.getSprite(uitex, PAD);
-      context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-160, 40, 24, 24);
+      context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-224, 40, 36, 36);
     }
   }
 };

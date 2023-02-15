@@ -181,7 +181,9 @@ FireballProj.prototype.interaction = function() {
         if (this.game.gameMode === 1 && obj instanceof PlayerObject && obj.pid == this.game.pid && obj.dead && !(this.owner instanceof Object))
           this.game.out.push(NET017.encode(this.owner));
 
-        if (this.owner instanceof FireHammerObject && obj instanceof PlayerObject && obj.pid == this.game.pid) {
+        if(this.owner instanceof FireHammerObject && !(obj instanceof FireHammerObject)) { continue; } // Fire bro fireballs shouldn't explode on our enemies
+
+        if(this.owner instanceof FireHammerObject && obj instanceof PlayerObject && obj.pid == this.game.pid) {
           obj.damage(this);
         }
         

@@ -19,7 +19,7 @@ function PlantObject(game, level, zone, pos, oid, variant) {
   
   /* Physics */
   this.loc = [vec2.copy(this.pos), vec2.add(this.pos, vec2.make(0., -1.5))];
-  this.dim = vec2.make(.8, 1.);
+  this.dim = vec2.make(.8, .8);
   this.moveSpeed = 0;  // These are only used during a bonk.
   this.fallSpeed = 0; 
   

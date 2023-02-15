@@ -141,7 +141,12 @@ MenuAccount.prototype.launch = function(priv) {
   this.hidePlayMenu();
   clearInterval(this.scienceInterval);
   Cookies.set("priv", priv, {'expires': 14});
-  app.join(app.net.nickname, app.net.squad, Boolean(Cookies.get("priv")), parseInt(Cookies.get("mode")));
+  app.join(app.net.nickname, app.net.squad, Cookies.get("priv") === 'true', parseInt(Cookies.get("mode")));
+};
+
+MenuAccount.prototype.quickLaunch = function() {
+  clearInterval(this.scienceInterval);
+  app.join(app.net.nickname, app.net.squad, Cookies.get("priv") === 'true', parseInt(Cookies.get("mode")));
 };
 
 /* Change Password Menu */
@@ -250,7 +255,7 @@ MenuAccount.prototype.show = function(stats) {
   this.linkMemberElement.style.display = "block";
   this.linkElement.style.display = "block";
   this.element.style.display = "block";
-  if(app.goToLobby) { this.launch(); }
+  if(app.goToLobby) { this.quickLaunch(); }
 };
 
 MenuAccount.prototype.hide = function() {
