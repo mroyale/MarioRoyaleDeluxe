@@ -10,5 +10,4 @@ bin/
 node_modules/
 .env
 royale-discord/
-royale-discord
 backup/
