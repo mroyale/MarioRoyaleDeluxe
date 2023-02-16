@@ -23,6 +23,5 @@ Features to add, backport and whatever the hell else:
 - leaderboards
 - smw goal post
 - flip blocks
-- outline option to text
 - tile animations to editor
 - sex except only player with username "terminalarch" is able to use it

@@ -97,6 +97,7 @@ PlayerObject.WATER_SPEED_MAX = 0.250;
 PlayerObject.RUN_SPEED_MAX = 0.465;
 PlayerObject.STAR_SPEED_MAX = 0.485;
 PlayerObject.MOVE_SPEED_MAX = 0.250;
+PlayerObject.AUTO_SPEED_MAX = 0.150;
 PlayerObject.MOVE_SPEED_ACCEL = 0.013;
 PlayerObject.MOVE_ICE_ACCEL = 0.0065;
 PlayerObject.MOVE_SPEED_DECEL = 0.0180;
@@ -533,7 +534,7 @@ PlayerObject.prototype.control = function() {
       if (!this.skidEffect && this.grounded) { this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos)); this.skidEffect = true; }
     }
     else {
-      this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):PlayerObject.MOVE_SPEED_MAX);
+      this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):this.autoTarget?PlayerObject.AUTO_SPEED_MAX:PlayerObject.MOVE_SPEED_MAX);
       if (this.grounded /* We need to check for this. Otherwise the water animation is bugged for some reason. */) {
         this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
       }

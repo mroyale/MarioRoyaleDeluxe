@@ -4,7 +4,7 @@
 /* global NET011, NET020 */
 
 /* Special object, renders text at the givin position. */
-function TextObject(game, level, zone, pos, oid, offset, size, color, text) {
+function TextObject(game, level, zone, pos, oid, offset, size, color, text, outline) {
   GameObject.call(this, game, level, zone, pos);
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
@@ -15,6 +15,7 @@ function TextObject(game, level, zone, pos, oid, offset, size, color, text) {
   this.offset = vec2.make(0., parseFloat(offset)); // Y value offset.
   this.size = parseFloat(size);
   this.color = color;
+  this.outline = outline ? outline : "blue";
   this.text = text;
 }
 
@@ -67,7 +68,7 @@ TextObject.prototype.setState = function(STATE) {
 };
 
 TextObject.prototype.write = function(texts) {
-  texts.push({pos: vec2.add(this.pos, this.offset), size: this.size, color: this.color, text: this.text});
+  texts.push({pos: vec2.add(this.pos, this.offset), size: this.size, color: this.color, text: this.text, outline: this.outline});
 };
 
 /* Register object class */
