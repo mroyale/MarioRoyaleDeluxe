@@ -816,11 +816,6 @@ PlayerObject.prototype.physics = function() {
     platform.riding(this);
   }
 
-  /* On Tile */
-  for(var i=0;i<on.length;i++) {
-    var tile = on[i];
-    tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.STAND);
-  }
   
   /* Tile Touch events */
   for(var i=0;i<tiles.length;i++) {
@@ -828,6 +823,12 @@ PlayerObject.prototype.physics = function() {
     if(squar.intersection(tile.pos, tdim, mov, this.dim)) {
       tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.TOUCH);
     }
+  }
+  
+  /* On Tile */
+  for(var i=0;i<on.length;i++) {
+    var tile = on[i];
+    tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.STAND);
   }
   
   /* Tile Down events */
