@@ -8,26 +8,31 @@ body {
   background-repeat: repeat-x;
   background-size: cover;
   font-family: SmbWeb;
-  font-size: 8px;
+  font-size: 10px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   line-height: 1.4;
   color: #FFF;
   text-shadow: 2px 0 0 #B82E3F, -2px 0 0 #B82E3F, 0 2px 0 #B82E3F, 0 -2px 0 #B82E3F, 1px 1px #B82E3F, -1px -1px 0 #B82E3F, 1px -1px 0 #B82E3F, -1px 1px 0 #B82E3F;
-  margin-left: 12px;
   max-width: 1000px
 }
 
-a {color: #F0F0F0; text-decoration: none}
+a {
+  color: #F0F0F0;
+  text-decoration: none
+}
+
+.container {
+  margin-left: 4px
+}
 
 .ver {
-  font-weight: bold;
   font-size: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 8px
 }
 
 .chng {
-  font-size: 12px;
+  font-size: 12px
 }
 
 .note {
@@ -37,8 +42,6 @@ a {color: #F0F0F0; text-decoration: none}
   color: #DDD
 }
 
-.hr {
-  margin-top: 8px;
-  margin-bottom: 8px;
-  border-bottom: dashed 2px #FFF
+.warn {
+  color: #FF8099
 }
