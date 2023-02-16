@@ -106,7 +106,7 @@ App.prototype.init = function() {
     };
 
     $.ajax({
-      url: window.location.pathname + "status",
+      url: /royale/ + "status",
       type: 'GET',
       timeout: 3000,
       success: function(data) { serverResponse(data); },
@@ -133,7 +133,7 @@ App.prototype.updateStatus = function() {
   };
 
   $.ajax({
-    url: window.location.pathname + "status",
+    url: /royale/ + "status",
     type: 'GET',
     timeout: 3000,
     success: function(data) { serverResponse(data); },

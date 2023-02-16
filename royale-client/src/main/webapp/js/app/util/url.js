@@ -6,7 +6,7 @@ let TILE_ANIMATION_FILTERED = [];
 /* This function gets the assets file for animations. */
 
 (function() {
-    $.getJSON(window.location.pathname + 'assets/assets.json', function(data) {
+    $.getJSON(/royale/ + 'assets/assets.json', function(data) {
         if (data.tileAnim) {
             for (var anim of data.tileAnim) {
                 var obj = {};
