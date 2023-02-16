@@ -27,7 +27,7 @@
   display: inline-block
 }
 
-.tooltip .tooltiptext {
+.tooltip .tooltip-text {
   visibility: hidden;
   background: #000;
   color: #FFF;
@@ -41,7 +41,7 @@
   margin-left: -138%;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltip-text {
   visibility: visible
 }
 

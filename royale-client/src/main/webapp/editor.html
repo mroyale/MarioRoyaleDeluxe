@@ -67,28 +67,28 @@
           <!-- Resources Tool -->
           <div id='editor-tool-resources' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Map Spritesheet<span class="tooltiptext">The map graphics, use "Custom" to import your own spritesheet</span></div><div class='tool-type'>dropdown</div>
+              <div class='tool-var tooltip'>Map Spritesheet<span class="tooltip-text">The map graphics, use "Custom" to import your own spritesheet</span></div><div class='tool-type'>dropdown</div>
               <select id='editor-tool-resources-map' type='text' class="tool-val"></select>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Obj Spritesheet<span class="tooltiptext">The object graphics, use "Custom" to import your own spritesheet</span></div><div class='tool-type'>dropdown</div>
+              <div class='tool-var tooltip'>Obj Spritesheet<span class="tooltip-text">The object graphics, use "Custom" to import your own spritesheet</span></div><div class='tool-type'>dropdown</div>
               <select id='editor-tool-resources-obj' type='text' class="tool-val"></select>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Animation Data<span class="tooltiptext">The animation data, this is used to animate tiles in your world. use "Custom" to import your own</span></div><div class='tool-type'>dropdown</div>
+              <div class='tool-var tooltip'>Animation Data<span class="tooltip-text">The animation data, this is used to animate tiles in your world. use "Custom" to import your own</span></div><div class='tool-type'>dropdown</div>
               <select id='editor-tool-resources-assets' type='text' class="tool-val"></select>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Custom Map<span class="tooltiptext">The URL which will be used as the map spritesheet</span></div><div class='tool-type'>string path/URL</div>
+              <div class='tool-var tooltip'>Custom Map<span class="tooltip-text">The URL which will be used as the map spritesheet</span></div><div class='tool-type'>string path/URL</div>
               <input id='editor-tool-resources-cmap' type='text' class="tool-val" disabled=""/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Custom Obj<span class="tooltiptext">The URL which will be used as the object spritesheet</span></div><div class='tool-type'>string path/URL</div>
+              <div class='tool-var tooltip'>Custom Obj<span class="tooltip-text">The URL which will be used as the object spritesheet</span></div><div class='tool-type'>string path/URL</div>
               <input id='editor-tool-resources-cobj' type='text' class="tool-val" disabled=""/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Custom Animations<span class="tooltiptext">The URL which will be used as the animation data</span></div><div class='tool-type'>string path/URL</div>
+              <div class='tool-var tooltip'>Custom Animations<span class="tooltip-text">The URL which will be used as the animation data</span></div><div class='tool-type'>string path/URL</div>
               <input id='editor-tool-resources-cassets' type='text' class="tool-val" disabled=""/>
             </div>
             <div class='tool-div'></div>
@@ -100,11 +100,11 @@
           <!-- World Tool -->
           <div id='editor-tool-world' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Initial Level<span class="tooltiptext">Should always be 0</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Initial Level<span class="tooltip-text">Should always be 0</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-world-initial' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Gamemode<span class="tooltiptext">Determines gamemode. Classic is regular Mario Royale, PVP is last man standing.</span></div><div class='tool-type'>string</div>
+              <div class='tool-var tooltip'>Gamemode<span class="tooltip-text">Determines gamemode. Classic is regular Mario Royale, PVP is last man standing.</span></div><div class='tool-type'>string</div>
               <select id='editor-tool-world-mode' type='text' class="tool-val">
                 <option value="royale">Classic</option>
                 <option value="pvp">PVP</option>
@@ -122,15 +122,15 @@
           <!-- Level Tool -->
           <div id='editor-tool-level' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>ID<span class="tooltiptext">Can be whatever you want, but make sure that multiple levels don’t have the same ID</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>ID<span class="tooltip-text">Can be whatever you want, but make sure that multiple levels don’t have the same ID</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-level-id' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Name<span class="tooltiptext">What appears in-between loading screens from level to level</span></div><div class='tool-type'>string</div>
+              <div class='tool-var tooltip'>Name<span class="tooltip-text">What appears in-between loading screens from level to level</span></div><div class='tool-type'>string</div>
               <input id='editor-tool-level-name' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Initial Zone<span class="tooltiptext">The zone in which the player will start in</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Initial Zone<span class="tooltip-text">The zone in which the player will start in</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-level-initial' type='text' class="tool-val"/>
             </div>
             <div class='tool-div'></div>
@@ -145,28 +145,28 @@
           <!-- Zone Tool -->
           <div id='editor-tool-zone' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>ID<span class="tooltiptext">Can be whatever you want, but make sure that multiple zones don’t have the same ID</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>ID<span class="tooltip-text">Can be whatever you want, but make sure that multiple zones don’t have the same ID</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-zone-id' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>X Position<span class="tooltiptext">Controls your horizontal position where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, this means unless you intend to use debug mode, this parameter doesn’t matter.</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>X Position<span class="tooltip-text">Controls your horizontal position where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, this means unless you intend to use debug mode, this parameter doesn’t matter.</span></div><div class='tool-type'>short</div>
               <input id='editor-tool-zone-initial-x' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Y Position<span class="tooltiptext">Controls your vertical position of where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, this means unless you intend to use debug mode, this parameter doesn’t matter.</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>Y Position<span class="tooltip-text">Controls your vertical position of where you start the zone off. This only affects how you start when entering a level, as zones are connected through warps, this means unless you intend to use debug mode, this parameter doesn’t matter.</span></div><div class='tool-type'>short</div>
               <input id='editor-tool-zone-initial-y' type='text' class="tool-val"/>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Color<span class="tooltiptext">Should be defined in hexadecimal. If you’re unsure what this is, Google is your friend</span></div><div class='tool-type'>HTML color</div>
+              <div class='tool-var tooltip'>Color<span class="tooltip-text">Should be defined in hexadecimal. If you’re unsure what this is, Google is your friend</span></div><div class='tool-type'>HTML color</div>
               <input id='editor-tool-zone-color' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Music<span class="tooltiptext">The music that will play in this zone. If your music isn’t working, make sure your music path corresponds to the music folder you’d like to use</span></div><div class='tool-type'>string path</div>
+              <div class='tool-var tooltip'>Music<span class="tooltip-text">The music that will play in this zone. If your music isn’t working, make sure your music path corresponds to the music folder you’d like to use</span></div><div class='tool-type'>string path</div>
               <input id='editor-tool-zone-music' type='text' class="tool-val"/>
             </div>
             <div class="tool-box" style="position: absolute;">
-              <div class="tool-var tooltip">Camera Mode<span class="tooltiptext">Controls the scrolling of the camera. Free Roam enables horizontal and vertical scrolling</span></div><div class="tool-type">byte</div>
+              <div class="tool-var tooltip">Camera Mode<span class="tooltip-text">Controls the scrolling of the camera. Free Roam enables horizontal and vertical scrolling</span></div><div class="tool-type">byte</div>
               <select id="editor-tool-zone-camera" type="text" class="tool-val">
                 <option value="0">Horizontal</option>
                 <option value="1">Vertical</option>
@@ -175,11 +175,11 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Width<span class="tooltiptext">How wide your zone is. Unlike other parameters in Zone, you don’t apply a width change by pressing “Apply”. You change the width by pressing “Resize”.</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Width<span class="tooltip-text">How wide your zone is. Unlike other parameters in Zone, you don’t apply a width change by pressing “Apply”. You change the width by pressing “Resize”.</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-zone-width' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Height<span class="tooltiptext">How tall your zone is. Unlike other parameters in Zone, you don’t apply a height change by pressing “Apply”. You change the height by pressing “Resize”.</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Height<span class="tooltip-text">How tall your zone is. Unlike other parameters in Zone, you don’t apply a height change by pressing “Apply”. You change the height by pressing “Resize”.</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-zone-height' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
@@ -222,23 +222,23 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Sprite Index<span class="tooltiptext">Defines the visual of the tile</span></div><div class='tool-type'>11-bit int</div>
+              <div class='tool-var tooltip'>Sprite Index<span class="tooltip-text">Defines the visual of the tile</span></div><div class='tool-type'>11-bit int</div>
               <input id='editor-tool-tile-index' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Bump State<span class="tooltiptext">Should always be 0 unless you have some insane reason</span></div><div class='tool-type'>4-bit int</div>
+              <div class='tool-var tooltip'>Bump State<span class="tooltip-text">Should always be 0 unless you have some insane reason</span></div><div class='tool-type'>4-bit int</div>
               <input id='editor-tool-tile-bump' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Depth<span class="tooltiptext">Depth 0 is background, 1 is foreground. Pipes and ? Blocks should generally be foreground.</span></div><div class='tool-type'>1-bit</div>
+              <div class='tool-var tooltip'>Depth<span class="tooltip-text">Depth 0 is background, 1 is foreground. Pipes and ? Blocks should generally be foreground.</span></div><div class='tool-type'>1-bit</div>
               <input id='editor-tool-tile-depth' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Tile Definition<span class="tooltiptext">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Tile Definition<span class="tooltip-text">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>byte</div>
               <select id='editor-tool-tile-def' class="tool-val"></select>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'><span id="editor-tool-data-name">Unused Extra Data</span><span class="tooltiptext">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'><span id="editor-tool-data-name">Unused Extra Data</span><span class="tooltip-text">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-tile-data' type='text' class="tool-val"/>
               <select id='editor-tool-tile-data-objid' class="tool-val"></select>
             </div>
@@ -253,25 +253,25 @@
           <!-- Object Tool -->
           <div id='editor-tool-object' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Type<span class="tooltiptext">The type of object</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Type<span class="tooltip-text">The type of object</span></div><div class='tool-type'>byte</div>
               <!--<input id='editor-tool-object-type' type='text' class="tool-val"/>-->
               <select id='editor-tool-object-type' class="tool-val"></select>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Name<span class="tooltiptext">The name of the object</span></div><div class='tool-type'>string</div>
+              <div class='tool-var tooltip'>Name<span class="tooltip-text">The name of the object</span></div><div class='tool-type'>string</div>
               <div id='editor-tool-object-name' class="tool-val-im"></div>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Position<span class="tooltiptext">The position of the object</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>Position<span class="tooltip-text">The position of the object</span></div><div class='tool-type'>short</div>
               <div id='editor-tool-object-pos' class="tool-val-im"></div>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Position<span class="tooltiptext">Decoded position of the object</span></div><div class='tool-type'>vec2</div>
+              <div class='tool-var tooltip'>Position<span class="tooltip-text">Decoded position of the object</span></div><div class='tool-type'>vec2</div>
               <div id='editor-tool-object-pos-vec' class="tool-val-im"></div>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Params<span class="tooltiptext">The parameters of the object</span></div><div class='tool-type'>string[]</div>
+              <div class='tool-var tooltip'>Params<span class="tooltip-text">The parameters of the object</span></div><div class='tool-type'>string[]</div>
               <input id='editor-tool-object-param' type='text' class="tool-val"/>
             </div>
             <div class='tool-div'></div>
@@ -284,16 +284,16 @@
           <!-- Warp Tool -->
           <div id='editor-tool-warp' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>ID<span class="tooltiptext">The ID of the warp</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>ID<span class="tooltip-text">The ID of the warp</span></div><div class='tool-type'>byte</div>
               <input id='editor-tool-warp-id' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Position<span class="tooltiptext">The position of the warp</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>Position<span class="tooltip-text">The position of the warp</span></div><div class='tool-type'>short</div>
               <div id='editor-tool-warp-pos' class="tool-val-im"></div>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Direction<span class="tooltiptext">The animation direction of the warp</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Direction<span class="tooltip-text">The animation direction of the warp</span></div><div class='tool-type'>byte</div>
               <select id='editor-tool-warp-data' type='text' class="tool-val">
                 <option value="0">0 - Default/None</option>
                 <option value="1">1 - Up</option>
@@ -316,7 +316,7 @@
           <!-- Warp Tool -->
           <div id='editor-tool-spawnpoint' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Position<span class="tooltiptext">The position of this spawnpoint</span></div><div class='tool-type'>short</div>
+              <div class='tool-var tooltip'>Position<span class="tooltip-text">The position of this spawnpoint</span></div><div class='tool-type'>short</div>
               <div id='editor-tool-spawnpoint-pos' class="tool-val-im"></div>
             </div>
             <div class='tool-div'></div>
@@ -357,11 +357,11 @@
           <!-- Rep Tool -->
           <div id='editor-tool-rep' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Target<span class="tooltiptext">td32 to target</span></div><div class='tool-type'>td32</div>
+              <div class='tool-var tooltip'>Target<span class="tooltip-text">td32 to target</span></div><div class='tool-type'>td32</div>
               <input id='editor-tool-rep-target' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Replacement<span class="tooltiptext">td32 to replace</span></div><div class='tool-type'>td32</div>
+              <div class='tool-var tooltip'>Replacement<span class="tooltip-text">td32 to replace</span></div><div class='tool-type'>td32</div>
               <input id='editor-tool-rep-replace' type='text' class="tool-val"/>
             </div>
             <div class='tool-div'></div>
@@ -378,23 +378,23 @@
           <div id='editor-tool-bg' class='tool-container' style='display: none'>
             <div id='editor-tool-bg-container' style='display: none'>
               <div class='tool-box'>
-                <div class='tool-var tooltip'>Image URL<span class="tooltiptext">URL of the image to use as the background</span></div><div class='tool-type'>string URL</div>
+                <div class='tool-var tooltip'>Image URL<span class="tooltip-text">URL of the image to use as the background</span></div><div class='tool-type'>string URL</div>
                 <input id='editor-tool-bg-url' type='text' class="tool-val"/>
               </div>
               <div class='tool-box'>
-                <div class='tool-var tooltip'>X Offset<span class="tooltiptext">Horizontal offset for this image</span></div><div class='tool-type'>int px</div>
+                <div class='tool-var tooltip'>X Offset<span class="tooltip-text">Horizontal offset for this image</span></div><div class='tool-type'>int px</div>
                 <input id='editor-tool-bg-offx' type='text' class="tool-val"/>
               </div>
               <div class='tool-box'>
-                <div class='tool-var tooltip'>Y Offset<span class="tooltiptext">Vertical offset for this image</span></div><div class='tool-type'>int px</div>
+                <div class='tool-var tooltip'>Y Offset<span class="tooltip-text">Vertical offset for this image</span></div><div class='tool-type'>int px</div>
                 <input id='editor-tool-bg-offy' type='text' class="tool-val"/>
               </div>
               <div class='tool-box'>
-                <div class='tool-var tooltip'>Loop Count<span class="tooltiptext">How many times to loop. Leave at 0 to use default</span></div><div class='tool-type'>int</div>
+                <div class='tool-var tooltip'>Loop Count<span class="tooltip-text">How many times to loop. Leave at 0 to use default</span></div><div class='tool-type'>int</div>
                 <input id='editor-tool-bg-loop' type='text' class="tool-val"/>
               </div>
               <div class='tool-box'>
-                <div class='tool-var tooltip'>Parallax Scroll Speed<span class="tooltiptext">The speed the background scrolls along with the camera</span></div><div class='tool-type'>float</div>
+                <div class='tool-var tooltip'>Parallax Scroll Speed<span class="tooltip-text">The speed the background scrolls along with the camera</span></div><div class='tool-type'>float</div>
                 <input id='editor-tool-bg-speed' type='text' class="tool-val"/>
               </div>
               <div class='tool-div'></div>
@@ -413,7 +413,7 @@
           <!-- Ref Tool -->
           <div id='editor-tool-ref' class='tool-container' style='display: none'>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Image URL<span class="tooltiptext">URL of the image to use</span></div><div class='tool-type'>string URL</div>
+              <div class='tool-var tooltip'>Image URL<span class="tooltip-text">URL of the image to use</span></div><div class='tool-type'>string URL</div>
               <input id='editor-tool-ref-img' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
@@ -421,15 +421,15 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>X Offset<span class="tooltiptext">Horizontal offset</span></div><div class='tool-type'>int px</div>
+              <div class='tool-var tooltip'>X Offset<span class="tooltip-text">Horizontal offset</span></div><div class='tool-type'>int px</div>
               <input id='editor-tool-ref-x' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Y Offset<span class="tooltiptext">Vertical offset</span></div><div class='tool-type'>int px</div>
+              <div class='tool-var tooltip'>Y Offset<span class="tooltip-text">Vertical offset</span></div><div class='tool-type'>int px</div>
               <input id='editor-tool-ref-y' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Depth<span class="tooltiptext">If 0, will appear behind the level. If 1, will appear in front of the level.</span></div><div class='tool-type'>1-bit</div>
+              <div class='tool-var tooltip'>Depth<span class="tooltip-text">If 0, will appear behind the level. If 1, will appear in front of the level.</span></div><div class='tool-type'>1-bit</div>
               <input id='editor-tool-ref-depth' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
