@@ -35,7 +35,7 @@ BulletObject.NAME = "Bullet"; // Used by editor
 BulletObject.ANIMATION_RATE = 12;
 
 BulletObject.SPEED = 0.1075;
-BulletObject.LIFE_MAX = 300; // 5
+BulletObject.LIFE_MAX = 600; // 10
 BulletObject.DEAD_ANIM_LENGTH = 3;
 
 BulletObject.BONK_TIME = 90;

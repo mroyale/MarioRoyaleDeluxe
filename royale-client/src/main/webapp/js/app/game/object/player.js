@@ -820,7 +820,9 @@ PlayerObject.prototype.physics = function() {
   /* Tile Touch events */
   for(var i=0;i<tiles.length;i++) {
     var tile = tiles[i];
-    if(squar.intersection(tile.pos, tdim, mov, this.dim)) {
+
+    var add = this.reverse? vec2.make(0.01, 0) : vec2.make(-0.01, 0);
+    if(squar.intersection(tile.pos, tdim, vec2.add(mov, add), this.dim)) {
       tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.TOUCH);
     }
   }
@@ -830,7 +832,7 @@ PlayerObject.prototype.physics = function() {
     var tile = on[i];
     tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.STAND);
   }
-  
+
   /* Tile Down events */
   if(this.isState(PlayerObject.SNAME.DOWN) && this.moveSpeed < 0.05) {
     for(var i=0;i<on.length;i++) {
@@ -979,8 +981,8 @@ PlayerObject.prototype.invuln = function() {
 
 PlayerObject.prototype.powerup = function(obj) {
   if(obj instanceof MushroomObject && this.power < 1) { this.transform(1); this.rate = 0x73; return; } /* this.rate is a disguised anti cheat value */
-  if(obj instanceof FlowerObject && this.power <= 2) { this.transform(2); this.rate = 0x71; return; }
-  if(obj instanceof LeafObject && this.power <= 2) { this.transform(3); this.rate = 0x72; return; }
+  if(obj instanceof FlowerObject && this.power <= 3 && !(this.power === 2)) { this.transform(2); this.rate = 0x71; return; }
+  if(obj instanceof LeafObject && this.power <= 3 && (this.power !== 3)) { this.transform(3); this.rate = 0x72; return; }
   if(obj instanceof StarObject) { this.star(); this.game.out.push(NET013.encode(0x02)); this.rate = 0x43; return; }
   if(obj instanceof LifeObject) { this.game.lifeage(); return; }
   if(obj instanceof CoinObject) { this.game.coinage(); return; }

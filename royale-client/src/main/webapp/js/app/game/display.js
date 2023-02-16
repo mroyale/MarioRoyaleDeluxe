@@ -188,6 +188,7 @@ Display.prototype.drawObject = function() {
   var sprites = [];
   var texts = [];
   var names = [];
+  var regens = [];
   for(var i=0;i<this.game.objects.length;i++) {
     var obj = this.game.objects[i];
     if(obj.level === zone.level && obj.zone === zone.id && obj.pid !== this.game.pid) {
@@ -198,6 +199,10 @@ Display.prototype.drawObject = function() {
         if(obj.draw) { obj.draw(sprites); }
       }
     }
+  }
+
+  for(var i=0;i<zone.regens.length;i++) {
+    regens.push(zone.regens[i]);
   }
   
   var ply = this.game.getPlayer();
@@ -258,6 +263,16 @@ Display.prototype.drawObject = function() {
     context.textAlign = "center";
     context.strokeText(txt.text, x, y);
     context.fillText(txt.text, x, y);
+  }
+
+  for(var i=0;i<regens.length;i++) {
+    var rgn = regens[i];
+
+    context.fillStyle = "white";
+    context.strokeStyle = "blue";
+    context.font = "10px SmbWeb";
+    context.strokeText(parseInt(rgn.time/60)+1, rgn.x*16+3.5, (Display.TEXRES*(dim.y-rgn.y-2.5))+(Display.TEXRES*.5));
+    context.fillText(parseInt(rgn.time/60)+1, rgn.x*16+3.5, (Display.TEXRES*(dim.y-rgn.y-2.5))+(Display.TEXRES*.5));
   }
 };
 

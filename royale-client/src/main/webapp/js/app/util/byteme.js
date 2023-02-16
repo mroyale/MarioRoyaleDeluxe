@@ -395,6 +395,35 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Item Block Regen */
+  0x1A: {
+    NAME: "ITEM BLOCK REGEN",
+    DATA: "Object ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Small bump */
+        /* Big bump */
+        /* Shell */
+        case 0x10 :
+        case 0x11 :
+        case 0x04 : {
+          if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
+          var raw = game.world.getZone(level, zone).tile(x,y);
+          var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
+          var og = td32.data(raw, td.data);                      // Replacement td32 data for tile.
+          game.world.getZone(level, zone).replace(x,y,rep);
+          game.world.getZone(level, zone).regen(x,y,og);
+          game.createObject(td.data, level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
+          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+          game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
+          break;
+        }
+      }
+    }
+  },
   /* Coin Block Normal */
   0x12: {
     NAME: "COIN BLOCK STANDARD",

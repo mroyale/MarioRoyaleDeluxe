@@ -125,7 +125,7 @@ TroopaObject.prototype.step = function() {
   this.interaction();
   this.sound();
   
-  if(this.pos.y < 0.) { this.destroy(); }
+  if(this.pos.y < -2.) { this.destroy(); }
 };
 
 TroopaObject.prototype.control = function() {

@@ -128,7 +128,7 @@ SpinyObject.prototype.step = function() {
   this.physics();
   this.sound();
   
-  if(this.pos.y < 0.) { this.destroy(); }
+  if(this.pos.y < -2.) { this.destroy(); }
 };
 
 SpinyObject.prototype.control = function() {

@@ -145,6 +145,7 @@ function Zone(game, level, data) {
   this.effects = [];
   this.vines = [];
   this.sounds = [];
+  this.regens = []; // used by display to render time remaining
 }
 
 Zone.prototype.getLayer = function(z) {
@@ -199,6 +200,12 @@ Zone.prototype.step = function() {
     var snd = this.sounds[i];
     if(snd.done()) { this.sounds.splice(i--, 1); }
   }
+
+  /* Update regen timers */
+  for(var i=0;i<this.regens.length;i++) {
+    var rgn = this.regens[i];
+    if(--rgn.time < 0) { this.regens.splice(i--, 1); }
+  }
   
   /* !!! Snitch !!! */
   td32.update(this.game);
@@ -220,6 +227,15 @@ Zone.prototype.bump = function(x,y) {
 Zone.prototype.replace = function(x,y,td) {
   var yo = this.dimensions().y-1-y;
   this.mainLayer.data[yo][x] = td;
+};
+
+Zone.prototype.regen = function(x,y,td) {
+  var that = this;
+  var yo = this.dimensions().y-1-y;
+  this.regens.push({x: x, y: yo, time: 300});
+  setTimeout(function() {
+    that.mainLayer.data[yo][x] = td;
+  }, 5000);
 };
 
 Zone.prototype.grow = function(x,y,td) {

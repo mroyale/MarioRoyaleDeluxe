@@ -130,7 +130,7 @@ GoombaObject.prototype.step = function() {
   this.physics();
   this.sound();
   
-  if(this.pos.y < 0.) { this.destroy(); }
+  if(this.pos.y < -2.) { this.destroy(); }
 };
 
 GoombaObject.prototype.control = function() {

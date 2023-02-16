@@ -139,7 +139,7 @@ FireHammerObject.prototype.step = function() {
   else if(this.attackTimer++ > FireHammerObject.ATTACK_DELAY) { this.attack(); this.play("fireball.mp3", 1., .04); }
   else { this.hammer = undefined; }
   
-  if(this.pos.y < 0.) { this.destroy(); }
+  if(this.pos.y < -2.) { this.destroy(); }
 };
 
 FireHammerObject.prototype.control = function() {

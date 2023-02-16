@@ -126,7 +126,7 @@ BowserObject.prototype.step = function() {
     if(this.attackAnimTimer > 0) { this.setState(BowserObject.STATE.ATTACK); this.attackAnimTimer--; }
   }
 
-  if(this.pos.y < 0.) { this.destroy(); }
+  if(this.pos.y < -2.) { this.destroy(); }
 };
 
 BowserObject.prototype.control = function() {

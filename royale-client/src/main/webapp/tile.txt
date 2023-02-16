@@ -43,14 +43,19 @@ ITEM BLOCK STANDARD::17
  - You must set an extra data value for this that corresponds to the object id you want it to contain.
  - Standard values are (81,82,83,84,86) for (mushroom,fireflower,life,star,poison mushroom)
 
-ITEM BLOCK PROGRESSIVE:20
+ITEM BLOCK PROGRESSIVE::20
  - If a small player hits this block, then a mushroom will be released, if it's hit by a big player, a fire flower will be released.
  - This item block doesn't use extra data.
 
-ITEM BLOCK INFINITE:25
+ITEM BLOCK INFINITE::25
  - You must set an extra data value for this that corresponds to the object id you want it to contain.
- - Standard values are (81,82,83,84,86) for (mushroom,fireflower,life,star,poison mushroom)
+ - Standard values are (81,82,83,84,86,87) for (mushroom,fireflower,life,star,poison mushroom,tanooki leaf)
  - Unlike standard item blocks, this can be hit infinitely.
+
+ITEM BLOCK REGEN::26
+ - You must set an extra data value for this that corresponds to the object id you want it to contain.
+ - Standard values are (81,82,83,84,86,87) for (mushroom,fireflower,life,star,poison mushroom,tanooki leaf)
+ - This block regenerates after 5 seconds, upon which it can be used again. This is intended for PVP use.
 
 COIN BLOCK STANDARD::18
  - Used for blocks containing coins.
