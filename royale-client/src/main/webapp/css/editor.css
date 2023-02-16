@@ -42,6 +42,13 @@ a {
   text-decoration: none
 }
 
+.note {
+  font-size: 10px;
+  font-style: italic;
+  margin-bottom: 8px;
+  color: #DDD
+}
+
 .file-error {
   font-size: 75%
 }
@@ -77,8 +84,7 @@ a {
 
 .panel-right {
     width: 250px;
-    float: right;
-    overflow-y: scroll
+    float: right
 }
 
 .panel-top {
