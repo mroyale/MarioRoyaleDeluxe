@@ -563,7 +563,7 @@ PlayerObject.prototype.control = function() {
   for(var i=0;i<PlayerObject.JUMP_SPEED_INC_THRESHOLD.length&&Math.abs(this.moveSpeed)>=PlayerObject.JUMP_SPEED_INC_THRESHOLD[i];i++) { jumpMax++; }
   
   if(this.btnA) {
-    if(this.grounded || (this.underWater && !this.btnAHot)) {
+    if((this.grounded || this.underWater) && !this.btnAHot) {
       this.jumping = 0;
       this.play(this.underWater ? "swim.mp3" : this.power>0?"jump1.mp3":"jump0.mp3", .7, .04);
       this.btnAHot = true;

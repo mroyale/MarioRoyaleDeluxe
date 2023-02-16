@@ -63,7 +63,7 @@ public class UserDao {
     int sum = 0;
     for(int i=0;i<sessions.size();i++) {
       final RoyaleSession session = sessions.get(i);
-      if (session.gameMode == mode) {
+      if (session.gameMode == mode && session.getPrivate() != true) {
         sum += 1;
       }
     }

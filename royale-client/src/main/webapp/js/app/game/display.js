@@ -271,8 +271,8 @@ Display.prototype.drawObject = function() {
     context.fillStyle = "white";
     context.strokeStyle = "blue";
     context.font = "10px SmbWeb";
-    context.strokeText(parseInt(rgn.time/60)+1, rgn.x*16+3.5, (Display.TEXRES*(dim.y-rgn.y-2.5))+(Display.TEXRES*.5));
-    context.fillText(parseInt(rgn.time/60)+1, rgn.x*16+3.5, (Display.TEXRES*(dim.y-rgn.y-2.5))+(Display.TEXRES*.5));
+    //context.strokeText(parseInt(rgn.time/60)+1, rgn.x*16+3.5, (Display.TEXRES*(dim.y-rgn.y-2.5))+(Display.TEXRES*.5));
+    //context.fillText(parseInt(rgn.time/60)+1, rgn.x*16+3.5, (Display.TEXRES*(dim.y-rgn.y-2.5))+(Display.TEXRES*.5));
   }
 };
 

@@ -677,20 +677,9 @@ Game.prototype.doStep = function() {
   /* Step & delete garbage */
   for(var i=0;i<this.objects.length;i++) {
     var obj = this.objects[i];
-
-    /* EXPERIMENTAL: Update objects ONLY if they're in the same place as us. */
-    /* We need an 'else' statement because there are situations where the player object is inaccessible */
-    if (ply) {
-      if (ply.level === obj.level && ply.zone === obj.zone) {
-        if (obj instanceof HammerObject || obj instanceof HammerProj || obj instanceof FireHammerObject) {
-          if (this.frame % 2 === 0) { obj.step(); }
-        } else {
-          obj.step();
-        }
-      }
-    }
-    else { obj.step(); }
-
+    if (obj instanceof HammerObject || obj instanceof HammerProj || obj instanceof FireHammerObject) {
+      if (this.frame % 2 === 0) { obj.step(); }
+    } else { obj.step(); }
     if(obj.garbage) { this.objects.splice(i--, 1); }
   }
   
