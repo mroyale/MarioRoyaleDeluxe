@@ -5,18 +5,18 @@
 
 @-webkit-keyframes scroll {
   0% {
-    background-position: 0px 0px
+    background-position: 0
   }
-  100% {
-    background-position: 100% 0px
+  to {
+    background-position: 100%
   }
 }
 @keyframes scroll {
   0% {
-    background-position: 0px 0px
+    background-position: 0
   }
-  100% {
-    background-position: 100% 0px
+  to {
+    background-position: 100%
   }
 }
 

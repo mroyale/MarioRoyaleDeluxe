@@ -216,7 +216,7 @@ a {
   display: inline-block
 }
 
-.tooltip .tooltiptext {
+.tooltip .tooltip-text {
   visibility: hidden;
   width: 250;
   background: #000;
@@ -230,6 +230,6 @@ a {
   left: 105%
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltip-text {
   visibility: visible
 }

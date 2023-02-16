@@ -83,7 +83,7 @@ img {
   width: 95%;
   display: block;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto
 }
 
 .launch-img:hover {
@@ -92,7 +92,7 @@ img {
 
 .main-buttons {
   margin-left: 80px;
-  margin-top: 5px;
+  margin-top: 5px
 }
 
 .launch-settings {
@@ -101,7 +101,7 @@ img {
   align-items: left;
   display: inline;
   margin-left: 5px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .launch-settings:hover {
@@ -113,7 +113,7 @@ img {
   width: 285px;
   float: left;
   margin-right: 5px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .launch-controls:hover {
@@ -127,7 +127,7 @@ img {
   text-align: left;
   float: left;
   display: inline;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .launch-changelog:hover {
@@ -140,7 +140,7 @@ img {
   align-items: left;
   display: inline;
   margin-left: 5px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .launch-editor:hover {
@@ -153,7 +153,7 @@ img {
   float: left;
   margin-right: 5px;
   cursor: pointer;
-  margin-left: 29px;
+  margin-left: 29px
 }
 
 .launch-discord:hover {
@@ -166,11 +166,11 @@ img {
   float: left;
   margin-right: 5px;
   cursor: pointer;
-  margin-left: 29px;
+  margin-left: 29px
 }
 
 .launch-login:hover {
-  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAeCAYAAADtubaCAAABxUlEQVRoBe2bUW6DMBBE/dnPXKGfPV+vkCPkXLlGPnsEqkEaNF4WSlspwfZEshbvroF4HusQQSmllK/7++TmOQALMwy3j7fJzXOAorAA8biVyW3gObhe5lWiAoLLhsEYA4xK7z0gsHwYiv6hIBCz3hkQgIC/JQxE/0BUem8BYRDGAGGls4EYVPitmwcDYSCqKmEgDESXQJTyOaFVX07KIuO0MY9+tZqjfmxnMfqYy35TtocKAQH4iWJBDI1neVkcedxXFs9i8GkucwyEXJnPmIw9EWLsSB85aHrucRxj6idEGXTMP73tvUKoYNj+qU8xKS4FjOMyv46N45l/emsg6uXmiPDIobAxX6HQPOaf3vYIBISgGFGw3/YpYBy35d/KY/7pbW9AZFeoisQ4fBQni2vJz+IcrzFsxz6P0YztAQhMNsVQqyKoH9sa++947pv7jH36m7C9ANHEZD/57utPc2Ig/E9lBY6BMBAGooXS/apzdIVwhXCFeNXV18JxswrBZ+wqclr4Mj7H1e30EQ0rvfeA8EO2YywnBMIP2bqiLBVleah6VSGul+nhNvQcoGIUEMLSYTv2+51gYX6/k2XDduz3OwHDN2rrEblETWq2AAAADmVYSWZNTQAqAAAACAAAAAAAAADSU5MAAAAASUVORK5CYII=');
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAeCAYAAADtubaCAAABxUlEQVRoBe2bUW6DMBBE/dnPXKGfPV+vkCPkXLlGPnsEqkEaNF4WSlspwfZEshbvroF4HusQQSmllK/7++TmOQALMwy3j7fJzXOAorAA8biVyW3gObhe5lWiAoLLhsEYA4xK7z0gsHwYiv6hIBCz3hkQgIC/JQxE/0BUem8BYRDGAGGls4EYVPitmwcDYSCqKmEgDESXQJTyOaFVX07KIuO0MY9+tZqjfmxnMfqYy35TtocKAQH4iWJBDI1neVkcedxXFs9i8GkucwyEXJnPmIw9EWLsSB85aHrucRxj6idEGXTMP73tvUKoYNj+qU8xKS4FjOMyv46N45l/emsg6uXmiPDIobAxX6HQPOaf3vYIBISgGFGw3/YpYBy35d/KY/7pbW9AZFeoisQ4fBQni2vJz+IcrzFsxz6P0YztAQhMNsVQqyKoH9sa++947pv7jH36m7C9ANHEZD/57utPc2Ig/E9lBY6BMBAGooXS/apzdIVwhXCFeNXV18JxswrBZ+wqclr4Mj7H1e30EQ0rvfeA8EO2YywnBMIP2bqiLBVleah6VSGul+nhNvQcoGIUEMLSYTv2+51gYX6/k2XDduz3OwHDN2rrEblETWq2AAAADmVYSWZNTQAqAAAACAAAAAAAAADSU5MAAAAASUVORK5CYII=')
 }
 
 .launch-register {
@@ -178,16 +178,16 @@ img {
   width: 399px;
   float: left;
   margin-right: 5px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .launch-register:hover {
-  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAeCAYAAADtubaCAAACEElEQVRoBe1bQW7CMBD0sUe+0GPf1y/wBN7FNzj2Cakm0qDxYjsgJGLYiWStvbPehNlh06KklFLK3/l78TAH0MIqhtPP1+JhDtAUroK4nMrikZiD42G9S1SC4G3DwsghjKreI0Hg9mFRfL4oKIi13i1BQAT8W8KC+HxBVPXuCcJCyCGEmzpbEEkL3/vnwYKwIKouYUFYEFMLopTfJQ694IhxvRUzwhXDnDnVMkZ9On8G594p7EwdAgS3DvhBVg/Hnq2YEU5sdA7EYPSOZ3A9/+6imFUQkeDemv5YTPpplWj4eGBOTP3AuTfGaBxj7jl/a1/rOng9u9h3FQSJZOFaBWnFtOKUeC0a98PXi1GstXd0fRqvefRcL5/PKggWY4tQJTISHNckt+dXHDG9uHv9zKF59XNxjjjG7G5nFQTJVNJiIRhDQlu47ifZMY5+WM3Zi7vXr7mYW6+nl0ev5+XzdxUEiaUFuZF0YrAjfITpXhanV0j167mZQ3HM45r5d7UzCYIFBVEkhcTFNf20xDUHMdgRPsLiXsYyN9e09Ecb8d6a/t3sbILYjYjeT7nZ/BaEf6msvoQWhAVhQWS7DTzyed0h3CHcIR75xmSLbXUIPmNXKScbMYk+b1XvkSD8kG2O2wkF4YdsE3WBrW5/faj6pkMcD8vFIzUH6BgFCmHrsM39fie0sL7fybZhm/v9TojhH6lQFUHPZwq7AAAADmVYSWZNTQAqAAAACAAAAAAAAADSU5MAAAAASUVORK5CYII=');
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAeCAYAAADtubaCAAACEElEQVRoBe1bQW7CMBD0sUe+0GPf1y/wBN7FNzj2Cakm0qDxYjsgJGLYiWStvbPehNlh06KklFLK3/l78TAH0MIqhtPP1+JhDtAUroK4nMrikZiD42G9S1SC4G3DwsghjKreI0Hg9mFRfL4oKIi13i1BQAT8W8KC+HxBVPXuCcJCyCGEmzpbEEkL3/vnwYKwIKouYUFYEFMLopTfJQ694IhxvRUzwhXDnDnVMkZ9On8G594p7EwdAgS3DvhBVg/Hnq2YEU5sdA7EYPSOZ3A9/+6imFUQkeDemv5YTPpplWj4eGBOTP3AuTfGaBxj7jl/a1/rOng9u9h3FQSJZOFaBWnFtOKUeC0a98PXi1GstXd0fRqvefRcL5/PKggWY4tQJTISHNckt+dXHDG9uHv9zKF59XNxjjjG7G5nFQTJVNJiIRhDQlu47ifZMY5+WM3Zi7vXr7mYW6+nl0ev5+XzdxUEiaUFuZF0YrAjfITpXhanV0j167mZQ3HM45r5d7UzCYIFBVEkhcTFNf20xDUHMdgRPsLiXsYyN9e09Ecb8d6a/t3sbILYjYjeT7nZ/BaEf6msvoQWhAVhQWS7DTzyed0h3CHcIR75xmSLbXUIPmNXKScbMYk+b1XvkSD8kG2O2wkF4YdsE3WBrW5/faj6pkMcD8vFIzUH6BgFCmHrsM39fie0sL7fybZhm/v9TojhH6lQFUHPZwq7AAAADmVYSWZNTQAqAAAACAAAAAAAAADSU5MAAAAASUVORK5CYII=')
 }
 
 .button-save {
   cursor: pointer;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .button-save:hover {
@@ -198,7 +198,7 @@ img {
   cursor: pointer;
   width: 120px;
   height: 72px;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .button-go:hover {
@@ -209,7 +209,7 @@ img {
   cursor: pointer;
   width: 168px;
   height: 72px;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .button-private:hover {
@@ -220,7 +220,7 @@ img {
   cursor: pointer;
   width: 120px;
   height: 48px;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .button-login:hover {
@@ -231,7 +231,7 @@ img {
   cursor: pointer;
   width: 216px;
   height: 48px;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .button-register:hover {
@@ -245,7 +245,7 @@ img {
   width: 100%;
   height: 100%;
   background: #00000080;
-  z-index: 2;
+  z-index: 2
 }
 
 @media only screen and (max-width: 769px) {
@@ -309,12 +309,12 @@ img {
 .dis-next {
   text-align: center;
   font-size: 24px;
-  margin-top: 24px;
+  margin-top: 24px
 }
 
 .dis-next:hover {
   color: yellow;
-  cursor: pointer;
+  cursor: pointer
 }
 
 @media only screen and (max-width: 769px) {
@@ -338,12 +338,12 @@ img {
   background-color: rgb(255 255 255 / 25%);
   font-family: SmbWeb;
   font-size: 32px;
-  text-shadow: 2px 0 0 #f30000, -2px 0 0 #ff0000, 0 2px 0 #ed0000, 0 -2px 0 #ff0000, 1px 1px #fb0000, -1px -1px 0 #ff0a0a, 1px -1px 0 #eb0808, -1px 1px 0 #ff0404;
+  text-shadow: 2px 0 0 #f30000, -2px 0 0 #ff0000, 0 2px 0 #ed0000, 0 -2px 0 #ff0000, 1px 1px #fb0000, -1px -1px 0 #ff0a0a, 1px -1px 0 #eb0808, -1px 1px 0 #ff0404
 }
 
 .warn {
   position: absolute;
-  margin: 0 0 0 0;
+  margin: 0;
   padding: 5px 32px 2px 4px;
   font-family: "Calibri", monospace;
   color: #FFF;
@@ -380,7 +380,7 @@ img {
   top: 35%;
   left: 10px;
   display: inline-grid;
-  row-gap: 6px;
+  row-gap: 6px
 }
 
 .link-profile {
@@ -428,17 +428,6 @@ img {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABRklEQVRIDcWXwQ3CMAxFfeTIChxZqfMwQudiDY6MUPTTfOTg2EpoCAfLqIT/7G+3FSIi8rxftpkBZoKu19M2M9DkG/xYZZsSt3NytwDT7tEFFLoRGLaPhBOcdGtgwDjrkeBC1wOPBhq9VjBt6skGphe3BxwKadFV0saGO9ILRsecv5dRIM+5xX4LdgUz9C9gFEU33AJbO9YC1dktO0yfCz93gZf9cWrAGWqufyxcUchhMIrJBRXCERTfHQITGuU8b1PUITAqz91ymbz8PVh1ZWap4AbgWd7c8SLbXfYODTh3Xr3+c7CeJd3xoLg+rGMFCZ3huV4wRFsCSxda3wNOG0wbG/IYsHr+QrA13C2vdcyXvfsjzqkzF7oROLSqE4omCE66NTAO0crRXb91Dfh2TvcY7rNfBxwQVEIrZmUw0/8n2jArA/oCwx1lWE/YS40AAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
-.link-github {
-  cursor: pointer;
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url(../img/home/github.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 64px 64px
-}
-
 .link-discord {
   cursor: pointer;
   display: inline-block;
@@ -457,16 +446,7 @@ img {
   margin-top: 6px;
   margin-left: 6px;
   padding: 0;
-  background: #00000000;
-}
-
-.link-patch {
-  font-family: SmbWeb;
-  color: #FFF;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: bold;
-  font-size: 18px
+  background: #00000000
 }
 
 .link-b {
@@ -520,52 +500,6 @@ img {
   margin-left: 16px
 }
 
-.rtfpn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 844px;
-  height: 378px;
-  background-image: url(../img/home/rtfpn.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 844px 378px;
-  z-index: -1
-}
-
-@media only screen and (max-width: 769px) {
-  .rtfpn {
-    display: none;
-    width: 0;
-    height: 0
-  }
-}
-
-.rtfpn2 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 844px;
-  height: 378px;
-  background-image: url(../img/home/rtfpn2.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 844px 378px;
-  z-index: -1
-}
-
-@media only screen and (max-width: 769px) {
-  .rtfpn2 {
-    display: none;
-    width: 0;
-    height: 0
-  }
-}
-
-@media only screen and (max-width: 769px) {
-  .link-patch {
-    font-size: 12px}}
-
 #loader {
   animation: spin 1s linear infinite;
   height: 10px;
@@ -591,8 +525,8 @@ img {
   width: 80%;
   text-align: center;
   font-family: 'SmbWeb';
-  color: white;
-  font-size: 18px;
+  color: #FFF;
+  font-size: 18px
 }
 
 .container-settings {
@@ -611,7 +545,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .container-password {
@@ -630,7 +564,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .container-register {
@@ -649,7 +583,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  image-rendering: pixelated;
+  image-rendering: pixelated
 }
 
 .container-private {
@@ -657,43 +591,41 @@ img {
   top: 25%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  color: #FFFFFF;
-  margin: 0 0 0 0;
-  background: #000000c0;
+  color: #FFF;
+  margin: 0;
+  background: #000000C0;
   font-family: 'SmbWeb';
   padding: 5px;
   font-size: 18px;
-  border: 2px solid white;
-  border-radius: 3px;
+  border: 2px solid #FFF;
+  border-radius: 3px
 }
 
 .container-return {
   font-family: SmbWeb;
   font-size: 32px;
-  color: #FFFFFF;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-
+  color: #FFF;
+  margin: 0;
+  padding: 0;
   position: absolute;
   top: 85%;
   left: 50%;
   transform: translateX(-50%) translateY(-90%);
-  white-space: nowrap;
+  white-space: nowrap
 }
 
 #levels {
-  width: 100%;
+  width: 100%
 }
 
-
-.link-patch, .dis-lg, .dis-sm, .dis-next, .players, .name-input, .team-input {
+.dis-lg, .dis-sm, .dis-next, .players, .name-input, .team-input {
   text-shadow: 2px 0 0 #00216D, -2px 0 0 #00216D, 0 2px 0 #00216D, 0 -2px 0 #00216D, 1px 1px #00216D, -1px -1px 0 #00216D, 1px -1px 0 #00216D, -1px 1px 0 #00216D}
 
 .launch, .win {
   text-shadow: 2px 0 0 #00216D, -2px 0 0 #00216D, 0 2px 0 #00216D, 0 -2px 0 #00216D, 1px 1px #00216D, -1px -1px 0 #00216D, 1px -1px 0 #00216D, -1px 1px 0 #00216D}
 
 ::placeholder {
-  text-shadow: 0 0 whitesmoke;
+  text-shadow: 0 0 whitesmoke
 }
 
 @keyframes spin {
