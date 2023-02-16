@@ -5,21 +5,24 @@
 
 @-webkit-keyframes scroll {
   0% {
-    background-position: 0 0}
-  100% {
-    background-position: 100% 0}
+    background-position: 0
+  }
+  to {
+    background-position: 100%
+  }
 }
-
 @keyframes scroll {
   0% {
-    background-position: 0 0}
-  100% {
-    background-position: 100% 0}
+    background-position: 0
+  }
+  to {
+    background-position: 100%
+  }
 }
 
 #worlds {
   text-align: center;
-  width: 400px;
+  width: 400px
 }
 
 .tooltip {
@@ -38,7 +41,7 @@
   z-index: 1;
   top: -50px;
   width: 20em;
-  margin-left: -138%;
+  margin-left: -138%
 }
 
 .tooltip:hover .tooltip-text {
@@ -50,7 +53,7 @@
   appearance: none;
   width: 100%;
   height: 10px;
-  background: #FFD700;
+  background: #FFD700
 }
 
 .slider::-webkit-slider-thumb {
@@ -59,12 +62,12 @@
   width: 20px;
   height: 20px;
   background: #FFD700;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
   background: #FFD700;
-  cursor: pointer;
+  cursor: pointer
 }

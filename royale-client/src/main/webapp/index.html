@@ -53,13 +53,13 @@
           }, false);
           </script>
     </head>
-    <body id='body' ondragstart="return false;" ondrop="return false;" style='display: none; opacity: 1; background-color: black;'>
+    <body id='body' ondragstart="return false;" ondrop="return false;" style='display: none; opacity: 1; background-color: #000;'>
       <!-- Warning -->
       <div id='warn' class='warn'></div>
 
       <!-- Background Renderer -->
-      <div id="background" class="fullscreen" style='display:none;' oncontextmenu="return false">
-        <canvas id="menu-canvas" width="320" height="240" style="position:absolute; z-index:-2;">
+      <div id="background" class="fullscreen" style='display:none' oncontextmenu="return false">
+        <canvas id="menu-canvas" width="320" height="240" style="position:absolute; z-index:-2">
           Your browser doesn’t appear to support the <code>&lt;canvas&gt;</code> element.
         </canvas>
       </div>
@@ -75,7 +75,7 @@
       </div>
 
       <!-- Member Links (only show up when logged in) -->
-      <div id='linkMember' style="display:none;">
+      <div id='linkMember' style="display:none">
         <div class="link-ml">
           <div class="link-profile" id="mainMember-profile"></div>
           <div class="link-password" id="mainMember-password"></div>
@@ -97,7 +97,7 @@
         <div class='dis-sm'>All game assets are properties of their respective owners.</div>
 
         <!-- Trick the user into interacting with the site so we can play title music -->
-        <div class="dis-next" id="next" style="display:none;">Continue</div>
+        <div class="dis-next" id="next" style="display:none">Continue</div>
       </div>
       
       <!-- Loading Screen -->
@@ -145,137 +145,137 @@
       <div class="dark-bg" id="dark-bg" style="display:none;">&nbsp;</div>
 
       <!-- Play Menu - Guest -->
-      <div id="play" class="container-password" style="height:430px;display:none;">
-        <span style="position:absolute;right: 10px;" id="play-close">x</span>
+      <div id="play" class="container-password" style="height:430px;display:none">
+        <span style="position:absolute;right: 10px" id="play-close">x</span>
         <p>Choose Game</p>
         <input class="profile-nickname" id="play-name" placeholder="Nickname" style="margin-block-end: 1em" maxlength="20">
-        <div style="image-rendering: pixelated;">
-          <div class="tooltip"><img id="play-royale" src="img/home/vanilla.png" style="width: 192px;height: 192px;"><span class="tooltip-text">Players Online: <span style="color: lime;" id="players-royale">1</span></span></div>
-          <div class="tooltip"><img id="play-pvp" src="img/home/pvp.png" style="width: 192px;height: 192px;"><span class="tooltip-text">Players Online: <span style="color: lime;" id="players-pvp">1</span></span></div>
+        <div style="image-rendering: pixelated">
+          <div class="tooltip"><img id="play-royale" src="img/home/vanilla.png" style="width: 192px;height: 192px"><span class="tooltip-text">Players Online: <span style="color: lime" id="players-royale">1</span></span></div>
+          <div class="tooltip"><img id="play-pvp" src="img/home/pvp.png" style="width: 192px;height: 192px"><span class="tooltip-text">Players Online: <span style="color: lime" id="players-pvp">1</span></span></div>
         </div>
         
-        <div style="bottom: -5%;position: relative;">
+        <div style="bottom: -5%;position: relative">
           <img src="./img/home/go.png" id="play-go" class="button-go">
           <img src="./img/home/private.png" id="play-priv" class="button-private" style="margin-left:20px">
         </div>
       </div>
 
       <!-- Play Menu - Logged In -->
-      <div id="playMember" class="container-password" style="height:380px;display:none;">
-        <span style="position:absolute;right: 10px;" id="playMember-close">x</span>
+      <div id="playMember" class="container-password" style="height:380px;display:none">
+        <span style="position:absolute;right: 10px" id="playMember-close">x</span>
         <p>Choose Game</p>
-        <div style="image-rendering: pixelated;">
-          <div class="tooltip"><img id="playMember-royale" src="img/home/vanilla.png" style="width: 192px;height: 192px;"><span class="tooltip-text">Players Online: <span style="color: lime;" id="playersMember-royale">1</span></span></div>
-          <div class="tooltip"><img id="playMember-pvp" src="img/home/pvp.png" style="width: 192px;height: 192px;"><span class="tooltip-text">Players Online: <span style="color: lime;" id="playersMember-pvp">1</span></span></div>
+        <div style="image-rendering: pixelated">
+          <div class="tooltip"><img id="playMember-royale" src="img/home/vanilla.png" style="width: 192px;height: 192px"><span class="tooltip-text">Players Online: <span style="color: lime" id="playersMember-royale">1</span></span></div>
+          <div class="tooltip"><img id="playMember-pvp" src="img/home/pvp.png" style="width: 192px;height: 192px"><span class="tooltip-text">Players Online: <span style="color: lime" id="playersMember-pvp">1</span></span></div>
         </div>
         
-        <div style="bottom: -5%;position: relative;">
+        <div style="bottom: -5%;position: relative">
           <img src="./img/home/go.png" id="playMember-go" class="button-go">
           <img src="./img/home/private.png" id="playMember-priv" class="button-private" style="margin-left:20px">
         </div>
       </div>
       
       <!-- Login -->
-      <div id="login" class="container-password" style="display:none;">
-        <span style="position: absolute;right: 10px;" id="login-close">x</span>
+      <div id="login" class="container-password" style="display:none">
+        <span style="position: absolute;right: 10px" id="login-close">x</span>
         <p>Login</p>
           
-        <p style="margin-block-end: 0;">Username</p>
+        <p style="margin-block-end: 0">Username</p>
         <input class="profile-nickname" id="login-name">
-        <p style="margin-block-end: 0;">Password</p>
+        <p style="margin-block-end: 0">Password</p>
         <input class="profile-nickname" id="login-password" type="password">
   
-        <div style="bottom: -5%;position: relative;"><img src="./img/home/signin.png" id="login-signin" class="button-login"></div> 
-        <p id="login-error" style="font-size: 15px;"></p>
+        <div style="bottom: -5%;position: relative"><img src="./img/home/signin.png" id="login-signin" class="button-login"></div> 
+        <p id="login-error" style="font-size: 15px"></p>
       </div>
 
       <!-- Register -->
-      <div id="register" class="container-register" style="display:none;">
-        <span style="position: absolute;right: 10px;" id="signup-close">x</span>
+      <div id="register" class="container-register" style="display:none">
+        <span style="position: absolute;right: 10px" id="signup-close">x</span>
         <p>Register</p>
 
         <p style="margin-block-end: 0;">Username</p>
-        <p style="margin-block-start: -0.5em;margin-block-end: 0;color: orange;">(PERMANENT)</p>
+        <p style="margin-block-start: -0.5em;margin-block-end: 0;color: orange">(PERMANENT)</p>
         <input class="profile-nickname" id="signup-name">
         
-        <p style="margin-block-end: 0;">Password</p>
+        <p style="margin-block-end: 0">Password</p>
         <input class="profile-nickname" id="signup-password" type="password">
-        <p style="margin-block-end: 0;">Verify Password</p>
+        <p style="margin-block-end: 0">Verify Password</p>
         <input class="profile-nickname" id="signup-verify" type="password">
 
-        <div style="bottom: -5%;position: relative;"><img src="./img/home/signup.png" id="signup-register" class="button-register"></div> 
+        <div style="bottom: -5%;position: relative"><img src="./img/home/signup.png" id="signup-register" class="button-register"></div> 
         <p id="signup-error"></p>  
       </div>
 
       <!-- World Selection -->
-      <div id='worlds' class='container-private' style="display: none;">
-        <span id="wrldbtn" style="border: 2px solid white;">Worlds</span> <span id="debgbtn">Debug</span>
-        <div id='wrld' style="margin-top: 15px;">
+      <div id='worlds' class='container-private' style="display: none">
+        <span id="wrldbtn" style="border: 2px solid #FFF">Worlds</span> <span id="debgbtn">Debug</span>
+        <div id='wrld' style="margin-top: 15px">
           <select name='levels' id='levels'><option disabled value="" selected>-- Select World --</option></select>
           <p><span id="updone">Custom</span> <input type="file" id="levelSelectInput" name="levelSelectInput[]" accept=".json,.game,.txt"></p>
         </div>
-        <div id='debg' style='display:none;'>
-          <p style="display: inline;">Infinite Lives</p><input type="checkbox" id="infLives"><br>
-          <p style="display: inline;">No Damage Mode</p><input type="checkbox" id="godMode"><br>
-          <p style="display: inline;">Level ID</p><input id="levelID" type="number" value=0><br>
-          <p style="display: inline;">Zone ID</p><input id="zoneID" type="number" value=0>
+        <div id='debg' style='display:none'>
+          <p style="display: inline">Infinite Lives</p><input type="checkbox" id="infLives"><br>
+          <p style="display: inline">No Damage Mode</p><input type="checkbox" id="godMode"><br>
+          <p style="display: inline">Level ID</p><input id="levelID" type="number" value=0><br>
+          <p style="display: inline">Zone ID</p><input id="zoneID" type="number" value=0>
         </div>
       </div>
 
       <!-- Manage Profile -->
       <div id="profile" class="container-settings" style="display:none;">
-        <span style="position: absolute;right: 10px;" id="profile-close">x</span>
+        <span style="position: absolute;right: 10px" id="profile-close">x</span>
         <p>Manage Profile</p>
         
-        <p style="margin-block-end: 0;">Username</p>
-        <p style="margin-block-end: 0;margin-block-start: 0;color: gray;" id="profile-username"></p>
-        <p style="margin-block-end: 0;">Nickname</p>
+        <p style="margin-block-end: 0">Username</p>
+        <p style="margin-block-end: 0;margin-block-start: 0;color: gray" id="profile-username"></p>
+        <p style="margin-block-end: 0">Nickname</p>
         <input class="profile-nickname" id="profile-nickname" placeholder="Nickname">
 
         <p>Choose Character</p>
         <div>
-          <img id="profile-selectMario" src="img/home/marhead.png" style="width: 60px;height: 64px;">
-          <img id="profile-selectLuigi" src="img/home/luihead.png" style="width: 60px;height: 64px;margin-left: 30px;">
-          <img id="profile-selectInfringio" src="img/home/infhead.png" style="width: 60px;height: 64px;margin-left: 30px;">
+          <img id="profile-selectMario" src="img/home/marhead.png" style="width: 60px;height: 64px">
+          <img id="profile-selectLuigi" src="img/home/luihead.png" style="width: 60px;height: 64px;margin-left: 30px">
+          <img id="profile-selectInfringio" src="img/home/infhead.png" style="width: 60px;height: 64px;margin-left: 30px">
         </div>
 
-        <div style="bottom: -5%;position: relative;"><img src="./img/home/save.png" style="width: 120px;height: 48px;" id="profile-save" class="button-save"></div> 
+        <div style="bottom: -5%;position: relative"><img src="./img/home/save.png" style="width: 120px;height: 48px" id="profile-save" class="button-save"></div> 
         <p id="profile-error"></p>  
       </div>
 
       <!-- Change Password -->
-      <div id="password" class="container-password" style="display:none;">
-        <span style="position: absolute;right: 10px;" id="password-close">x</span>
+      <div id="password" class="container-password" style="display:none">
+        <span style="position: absolute;right: 10px" id="password-close">x</span>
         <p>Change Password</p>
         
-        <p style="margin-block-end: 0;">New Password</p>
+        <p style="margin-block-end: 0">New Password</p>
         <input class="profile-nickname" id="password-new" type="password">
-        <p style="margin-block-end: 0;">Verify New Password</p>
+        <p style="margin-block-end: 0">Verify New Password</p>
         <input class="profile-nickname" id="password-verify" type="password">
 
-        <div style="bottom: -5%;position: relative;"><img src="./img/home/save.png" style="width: 120px;height: 48px;" id="password-save" class="button-save"></div> 
+        <div style="bottom: -5%;position: relative"><img src="./img/home/save.png" style="width: 120px;height: 48px" id="password-save" class="button-save"></div> 
         <p id="password-error"></p>  
       </div>
 
       <!-- Settings -->
-      <div id="settings" class="container-password" style="display:none;height:420px;">
-        <span style="position: absolute;right: 10px;" id="settingsClose">x</span>
+      <div id="settings" class="container-password" style="display:none;height:420px">
+        <span style="position: absolute;right: 10px" id="settingsClose">x</span>
         <p>Settings</p>
         <div>Music Volume</div>
-        <input type="range" min="0" max="100" value="50" class="slider" id="musicSlider" style="width: 80%;">
+        <input type="range" min="0" max="100" value="50" class="slider" id="musicSlider" style="width: 80%">
         <div>Sound Volume</div>
-        <input type="range" min="0" max="100" value="50" class="slider" id="soundSlider" style="width: 80%;margin-block-end: 0.5em;">
+        <input type="range" min="0" max="100" value="50" class="slider" id="soundSlider" style="width: 80%;margin-block-end: 0.5em">
         <div id="hideTimer">[ ] Hide In-Game Timer</div>
       </div>
 
       <!-- Message Block -->
-      <div id='messageBlock' class='container-private' style="display: none; transition: all .2s ease-in-out;">
+      <div id='messageBlock' class='container-private' style="display: none; transition: all .2s ease-in-out">
         
       </div>
 
       <!-- Return to Main/Lobby -->
       <!-- Stolen from Legacy. If it ain't broke, don't fix it. -->
-      <div id='return' class='container-return' style='display: none;'>
+      <div id='return' class='container-return' style='display: none'>
         <span id='return-main' class='launch' onclick='location.reload();'>Return to Main</span><br>
         <span id='return-lobby' class='launch' onclick='Cookies.set("go_to_lobby", "1");location.reload();'>Return to
           Lobby</span>
