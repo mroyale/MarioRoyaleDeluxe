@@ -75,7 +75,8 @@ function Game(data) {
   /* Set inital camera position */
   var dim = this.getZone().dimensions();
   this.display.camera.position(vec2.scale(dim, .5));
-  this.cameraLocked = false;    // Don't update camera position if this is true
+  this.cameraLockedX = false;    // Don't update camera X position if this is true
+  this.cameraLockedY = false;    // Don't update camera Y position if this is true
   
   /* Level Warp */
   this.levelWarpTimer = 0;      // How long to show level name/lives screen.
@@ -664,7 +665,8 @@ Game.prototype.doStep = function() {
       ply.show();
       ply.invuln();
       this.levelWarpId = undefined;
-      this.cameraLocked = false;
+      this.cameraLockedX = false;
+      this.cameraLockedY = false;
       ply.moveSpeed = 0;
       ply.fallSpeed = 0;
     }
@@ -688,11 +690,11 @@ Game.prototype.doStep = function() {
   
   /* Update Camera Position */
   var zone = this.getZone();
-  if(ply && !ply.dead && !this.cameraLocked) {
+  if(ply && !ply.dead) {
     switch (zone.camera) {
-      case 0 : { this.display.camera.position(vec2.make(Math.max(13.8, ply.pos.x), zone.dimensions().y * .5)); break; } // Horizontal Scrolling
-      case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); break; } // Vertical Scrolling (horizontal is always centered)
-      case 2 : { this.display.camera.position(vec2.make(Math.max(13.8, ply.pos.x), Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y))); break; } // Free Roam (horizontal and vertical)
+      case 0 : { if(!this.cameraLockedX) { this.display.camera.position(vec2.make(Math.max(13.8, ply.pos.x), zone.dimensions().y * .5)); } break; } // Horizontal Scrolling
+      case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); if(!this.cameraLockedY) { this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); } break; } // Vertical Scrolling (horizontal is always centered)
+      case 2 : { if(!this.cameraLockedX) { this.display.camera.positionX(vec2.make(Math.max(13.8, ply.pos.x))); } if(!this.cameraLockedY) { this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); } break; } // Free Roam (horizontal and vertical)
     }
   }
   

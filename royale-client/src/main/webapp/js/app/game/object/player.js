@@ -466,7 +466,8 @@ PlayerObject.prototype.step = function() {
         case 4 : { this.pos.x += ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.RUN); this.reverse = true; break; }
         default : { return; }
       };
-      this.game.cameraLocked = false;
+      this.game.cameraLockedX = false;
+      this.game.cameraLockedY = false;
       this.pipeTimer = PlayerObject.PIPE_TIME;
       this.pipeDir = this.pipeExt;
       this.pipeDelay = this.pipeDelayLength;
@@ -1032,13 +1033,19 @@ PlayerObject.prototype.transform = function(to) {
 PlayerObject.prototype.warp = function(wid) {
   var wrp = this.game.world.getLevel(this.level).getWarp(wid);
   if(!wrp) { return; } /* Error */
+
+  if(this.zone !== wrp.zone) {
+    /* Unlock camera when warping zones */
+    this.game.cameraLockedX = false;
+    this.game.cameraLockedY = false;
+  }
     
   this.level = wrp.level;
   this.zone = wrp.zone;
   this.pos = wrp.pos;
 
   /* Horizontal directions direct you 3 tiles away from the warp. This is a shotty fix. */
-  switch (this.pipeExt) {
+  switch(this.pipeExt) {
     case 3 : {
       this.pos.x += 2.50;
       break;

@@ -600,9 +600,9 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
-  /* Lock Camera Scroll */
+  /* Lock Camera Scroll X */
   30: {
-    NAME: "LOCK CAMERA SCROLL",
+    NAME: "LOCK X AXIS SCROLL",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
@@ -610,7 +610,9 @@ td32.TILE_PROPERTIES = {
       switch (type) {
         /* Touch */
         case 0x00 : {
-          game.cameraLocked = true;
+          if(game.pid === pid) {
+            game.cameraLockedX = true;
+          }
           break;
         }
       }
@@ -618,7 +620,7 @@ td32.TILE_PROPERTIES = {
   },
   /* Unlock Camera Scroll */
   31: {
-    NAME: "UNLOCK CAMERA SCROLL",
+    NAME: "UNLOCK X AXIS SCROLL",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
@@ -626,7 +628,45 @@ td32.TILE_PROPERTIES = {
       switch (type) {
         /* Touch */
         case 0x00 : {
-          game.cameraLocked = false;
+          if(game.pid === pid) {
+            game.cameraLockedX = false;
+          }
+          break;
+        }
+      }
+    }
+  },
+  /* Lock Y Scroll */
+  32: {
+    NAME: "LOCK Y AXIS SCROLL",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Touch */
+        case 0x00 : {
+          if(game.pid === pid) {
+            game.cameraLockedY = true;
+          }
+          break;
+        }
+      }
+    }
+  },
+  /* Unlock Y Scroll */
+  33: {
+    NAME: "UNLOCK Y AXIS SCROLL",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Touch */
+        case 0x00 : {
+          if(game.pid === pid) {
+            game.cameraLockedY = false;
+          }
           break;
         }
       }
@@ -645,7 +685,7 @@ td32.TILE_PROPERTIES = {
         case 0x00 : {
           if(game.pid === pid) {
             game.getPlayer().warp(parseInt(td.data));
-            game.cameraLocked = false;
+            game.cameraLockedX = false;
           }
         }
       }
@@ -774,7 +814,7 @@ td32.TILE_PROPERTIES = {
           if(game.pid === pid) {
             var warps = this.game.world.getLevel(level).getWarps();
             game.getPlayer().warp(warps[Math.floor(Math.random() * warps.length)]);
-            game.cameraLocked = false;
+            game.cameraLockedX = false;
           }
           break;
         }
@@ -907,7 +947,7 @@ td32.TILE_PROPERTIES = {
         case 0x00 : {
           if(game.pid === pid) {
             var ply = game.getPlayer();
-            if(ply.pos.x >= x && ply.pos.x <= x+1. && ply.btnU) { ply.vine(vec2.make(x,y), parseInt(td.data)); game.cameraLocked = false; }
+            if(ply.pos.x >= x && ply.pos.x <= x+1. && ply.btnU) { ply.vine(vec2.make(x,y), parseInt(td.data)); }
           }
         }
       }
