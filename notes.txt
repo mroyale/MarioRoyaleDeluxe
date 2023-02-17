@@ -13,7 +13,6 @@ Features to add, backport and whatever the hell else:
 - Hammer suit (AAAAAAAAAAAAA i don't think this will be that hard I just need the delay to be lower or something)
 - clear pipes How the fuck am I supposed to be able to add that
 - Warp pipe single
-- conveyors
 - physics update
 - control as pop up window
 - changelogs as pop up window
