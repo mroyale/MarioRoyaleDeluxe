@@ -167,8 +167,9 @@ CHECKMARK::254
  - No params. Don't use this.
 
 TEXT::253
-[offset,size,color,text]
+[offset,size,color,text,outline]
  - float, vertical offset for text position
  - float 1.0 = the size of 1 tile
  - HTML color code, #FFF for white
  - string, just a text string after this
+ - HTML color code aswell, default is blue
