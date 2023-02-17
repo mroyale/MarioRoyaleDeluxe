@@ -150,7 +150,9 @@ td32.TILE_PROPERTIES = {
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
+        /* Shell */
+        case 0x10 :
+        case 0x04 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
           break;
@@ -173,7 +175,9 @@ td32.TILE_PROPERTIES = {
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
+        /* Shell */
+        case 0x10 :
+        case 0x04 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
           break;
