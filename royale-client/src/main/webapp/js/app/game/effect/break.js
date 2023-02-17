@@ -7,7 +7,7 @@ function BreakEffect(pos, sprite) {
   Effect.call(this, pos);
   
   this.sprite = sprite; // Index of sprite for the map tile we are 'breaking'
-  this.life = 50;
+  this.life = 200;
   
   this.bits = [
     {

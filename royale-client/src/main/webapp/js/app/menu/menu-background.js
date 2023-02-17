@@ -1,13 +1,18 @@
 "use strict";
 /* Background menu renderer */
 
+/* global app */
+/* global util */
+/* global Resource Camera */
+
 function MenuDisplay() {
     this.canvas = document.getElementById("menu-canvas");
     this.container = document.getElementById("background");
     this.context = this.canvas.getContext("2d");
     this.frame = 0;
 
-    const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb"];
+    //const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb"];
+    const worldList = ["bkg-spm"];
     this.worldName = worldList[Math.floor(Math.random() * worldList.length)]; 
     this.loadWorld(this.worldName).then(data => {
         this.world = data;

@@ -345,6 +345,24 @@ td32.TILE_PROPERTIES = {
         }
     }
   },
+  /* Conveyor Block Left */
+  14: {
+    NAME: "CONVEYOR BLOCK LEFT",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    CONVEYOR: 0x00,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
+  /* Conveyor Block Right */
+  15: {
+    NAME: "CONVEYOR BLOCK RIGHT",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    CONVEYOR: 0x01,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
   /* Item Block Normal */
   0x11: {
     NAME: "ITEM BLOCK STANDARD",
@@ -792,6 +810,66 @@ td32.TILE_PROPERTIES = {
             game.getPlayer().pipe(3, parseInt(td.data), 0);
           }
         }
+      }
+    }
+  },
+  /* Warp Pipe Up Slow */
+  91: {
+    NAME: "WARP PIPE UP SLOW",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function (game, pid, td, level, zone, x, y, type) {
+      switch (type) {
+          /* Small+Big Bump */
+          case 0x10:
+          case 0x11: {
+            if (game.pid === pid) {
+              var ply = game.getPlayer();
+              var l = game.world.getZone(level, zone).getTile(vec2.make(x - 1, y));
+              var r = game.world.getZone(level, zone).getTile(vec2.make(x + 1, y));
+
+              var cx;
+              if (l.definition === this) { cx = x; }
+              else if (r.definition === this) { cx = x + 1; }
+              else { return; }
+
+              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, td.data, 50); }
+            }
+
+            break;
+          }
+      }
+    }
+  },
+  /* Warp Pipe Up Fast */
+  92: {
+    NAME: "WARP PIPE UP FAST",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function (game, pid, td, level, zone, x, y, type) {
+      switch (type) {
+          /* Small+Big Bump */
+          case 0x10:
+          case 0x11: {
+            if (game.pid === pid) {
+              var ply = game.getPlayer();
+              var l = game.world.getZone(level, zone).getTile(vec2.make(x - 1, y));
+              var r = game.world.getZone(level, zone).getTile(vec2.make(x + 1, y));
+
+              var cx;
+              if (l.definition === this) { cx = x; }
+              else if (r.definition === this) { cx = x + 1; }
+              else { return; }
+
+              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, td.data, 0); }
+            }
+
+            break;
+          }
       }
     }
   },

@@ -29,6 +29,7 @@ function PlayerObject(game, level, zone, pos, pid, character) {
   this.grounded = false;
   this.underWater = false; // false: no, true: yes
   this.icePhysics = false; // false: no, true: yes
+  this.conveyor = -1; // -1: nothing, 0: left, 1: right
   
   /* Var */
   this.name = undefined;     // If this is set for whatever reason, it will display a name tag over this player.
@@ -637,6 +638,9 @@ PlayerObject.prototype.physics = function() {
     this.isBounce = false;
     this.isSpring = false;
     if(this.grounded) {
+      if(this.conveyor !== -1) {
+        this.pos.x += (this.conveyor === 0 ? -0.05 : 0.05);
+      }
       this.fallSpeed = 0;
     }
     this.fallSpeed = Math.max(this.fallSpeed + (this.underWater?-PlayerObject.WATER_FALL_ACCEL:-PlayerObject.FALL_SPEED_ACCEL), this.glideTimer ? -0.2 : -PlayerObject.FALL_SPEED_MAX);
@@ -654,6 +658,7 @@ PlayerObject.prototype.physics = function() {
   var grounded = false;
   var underwater = false;
   var ice = false;
+  var conveyor = -1; // -1: none, 0: left, 1: right // Needs to be a variable otherwise speed fluctuates
 
   var hit = [];
   var on = [];              // Tiles we are directly standing on
@@ -745,6 +750,7 @@ PlayerObject.prototype.physics = function() {
       if(this.fallSpeed > PlayerObject.BLOCK_BUMP_THRESHOLD) { bmp.push(tile); }
       if(this.fallSpeed < 0 && this.pos.y >= tile.pos.y) {
         if (tile.definition.ICE) { ice = true; }
+        if (tile.definition.CONVEYOR !== undefined) { conveyor = tile.definition.CONVEYOR; }
         on.push(tile);
       }
     }
@@ -809,6 +815,7 @@ PlayerObject.prototype.physics = function() {
   }
   
   this.icePhysics = ice;
+  this.conveyor = conveyor;
   this.grounded = grounded;
   this.pos = mov;
   
