@@ -6,11 +6,10 @@ body {
   margin: 0;
   padding: 0}
 
-.background-a {
+.background-a, .background-b {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   background-color: #00000000;
-  /*background-image: url(../img/home/bkga.png);*/
   background-repeat: repeat-x;
   background-position: center center;
   background-attachment: fixed;
@@ -18,17 +17,17 @@ body {
   -webkit-animation: scroll 150s linear infinite;
   animation: scroll 150s linear infinite}
 
+/*Revert to bkga if rendering surface is too thin
+  Despite being deprecated, device-width is used instead of width
+  so it only triggers on mobile devices, not thin browser windows*/
+@media (max-device-width: 1033px) {
+  #menu-canvas {display: none}
+  .background-a {background-image: url(../img/home/bkga.png)}
+}
+
 .background-b {
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  background-color: #000;
-  background-image: url(../img/home/bkgb.png);
-  background-repeat: repeat-x;
-  background-position: center center;
-  background-attachment: fixed;
-  background-size: cover;
-  -webkit-animation: scroll 150s linear infinite;
-  animation: scroll 150s linear infinite}
+  background-image: url(../img/home/bkgb.png)
+}
 
 .background-c {
   background: #000}
