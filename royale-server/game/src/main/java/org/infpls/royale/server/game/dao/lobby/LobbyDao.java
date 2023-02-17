@@ -71,25 +71,17 @@ public class LobbyDao {
     return null;
   }
 
-  /*public List<LeaderboardAccount> getLeaderboards() {
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
-      @Override
-      public int compare(RoyaleAccount a1, RoyaleAccount a2) {
-          return a2.getCoins() - a1.getCoins();
+  /* Used in profile update so that you can't have someone else's name */
+  public boolean hasUserNick(String name) {
+    for(int i=0;i<accounts.size();i++) {
+      final RoyaleAccount account = accounts.get(i);
+      if(account.username.equals(name) || account.nickname.equals(name)) {
+        return true;
       }
-  });
-
-    // Create a list of simpler objects containing only specific fields, limited to top 10
-    List<LeaderboardAccount> top = new ArrayList<>();
-    
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-      RoyaleAccount account = accounts.get(i);
-      LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getCoins());
-      top.add(simpleAccount);
     }
 
-    return top;
-  }*/
+    return false;
+  }
 
   public Map<String, List<LeaderboardAccount>> getLeaderboards() {
     Map<String, List<LeaderboardAccount>> leaderboards = new HashMap<>();

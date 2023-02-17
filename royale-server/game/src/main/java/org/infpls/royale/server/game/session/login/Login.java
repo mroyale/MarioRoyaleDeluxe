@@ -152,13 +152,15 @@ public class Login extends SessionState {
       sendPacket(new PacketLPU(p.character, p.nickname, "You must provide a nickname"));
       return;
     }
+
+    String name = p.nickname.trim().toUpperCase();
     
-    if (p.nickname.length() < 4) {
+    if (name.length() < 4) {
       sendPacket(new PacketLPU(p.character, p.nickname, "Nickname is too short"));
       return;
     }
 
-    if (p.nickname.length() > 20) {
+    if (name.length() > 20) {
       sendPacket(new PacketLPU(p.character, p.nickname, "Nickname is too long"));
       return;
     }
@@ -174,12 +176,17 @@ public class Login extends SessionState {
       return;
     }
 
+    if(lobbyDao.hasUserNick(name)) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Name is already taken"));
+      return;
+    }
+
     RoyaleAccount acc = session.getAccount();
     acc.changeCharacter(p.character);
-    acc.updateName(p.nickname.toUpperCase());
+    acc.updateName(name);
     lobbyDao.saveDatabase();
 
-    sendPacket(new PacketLPU(p.character, p.nickname.toUpperCase()));
+    sendPacket(new PacketLPU(p.character, name));
   }
   
   /* Change the account password */
