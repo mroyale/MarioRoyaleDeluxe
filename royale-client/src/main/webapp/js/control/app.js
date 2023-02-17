@@ -159,16 +159,16 @@ App.prototype.updateAnalog = function() {
 };
 
 App.prototype.draw = function() {
-  this.testPadId.innerHTML = this.pad?this.pad.id:"No gamepad detected.";
-  this.testAnalog.innerHTML = this.analog.x + ", " + this.analog.y;
+  this.testPadId.innerHTML = this.pad?this.pad.id:"Awaiting input...";
+  this.testAnalog.innerHTML = roundTo((this.analog.x),-2) + ", " + roundTo((this.analog.y),-2);
   
-  this.kTitle.style.color = this.settingK?"#00FF00":"#FFFFFF";
-  this.gTitle.style.color = this.settingG?"#00FF00":"#FFFFFF";
+  this.kTitle.style.color = this.settingK?"#80FF80":"#FFD700";
+  this.gTitle.style.color = this.settingG?"#80FF80":"#FFD700";
   
   for(var i=0;i<INPUTS.length;i++) {
     var ktest = this.keys[this.assignK[INPUTS[i]]];
     if(this.pad) { var gtest = this.pad.buttons[this.assignG[INPUTS[i]]].pressed; }
-    this.test[INPUTS[i]].style.color = ktest||gtest?"#00FF00":"#763E15";
+    this.test[INPUTS[i]].style.color = ktest||gtest?"#80FF80":"#FFFFFF";
   }
   
   for(var i=0;i<INPUTS.length;i++) {
@@ -179,11 +179,21 @@ App.prototype.draw = function() {
     this.elementG[INPUTS[i]].innerHTML = "0x" + this.assignG[INPUTS[i]].toString(16).toUpperCase();
   }
   
-  if(this.analog.x > 0.25) { this.test.right.style.color = "#00FF00"; }
-  if(this.analog.x < -0.25) { this.test.left.style.color = "#00FF00"; }
-  if(this.analog.y > 0.25) { this.test.down.style.color = "#00FF00"; }
-  if(this.analog.y < -0.25) { this.test.up.style.color = "#00FF00"; }
+  if(this.analog.x > 0.25) { this.test.right.style.color = "#80FF80"; }
+  if(this.analog.x < -0.25) { this.test.left.style.color = "#80FF80"; }
+  if(this.analog.y > 0.25) { this.test.down.style.color = "#80FF80"; }
+  if(this.analog.y < -0.25) { this.test.up.style.color = "#80FF80"; }
 };
+
+/* Round analog axes down to two decimal places
+Condensed version of https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor#decimal_adjustment */
+function round(value, exp) {
+  const [magnitude, exponent = 0] = value.toString().split("e");
+  const adjustedValue = Math["round"](`${magnitude}e${exponent - exp}`);
+  const [newMagnitude, newExponent = 0] = adjustedValue.toString().split("e");
+  return Number(`${newMagnitude}e${+newExponent + exp}`);
+}
+const roundTo = (value, exp) => round(value, exp);
 
 var app = new App();
 app.init();
