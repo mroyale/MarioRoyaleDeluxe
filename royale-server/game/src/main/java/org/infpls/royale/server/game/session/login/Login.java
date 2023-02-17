@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import org.infpls.royale.server.game.dao.lobby.LobbyDao;
 import org.infpls.royale.server.game.session.*;
 
+import org.infpls.royale.server.util.Filter;
+
 public class Login extends SessionState {
   
   private final LobbyDao lobbyDao;
@@ -22,6 +24,7 @@ public class Login extends SessionState {
     this.lobbyDao = lobbyDao;
     
     sendPacket(new PacketS00('l'));
+    Filter.loadConfigs();
   }
   
   /* Packet Info [ < outgoing | > incoming ]
@@ -91,6 +94,12 @@ public class Login extends SessionState {
         return;
       }
 
+      ArrayList<String> swearWords = Filter.badWordsFound(name);
+      if(swearWords.size() > 0) {
+        sendPacket(new PacketLRG(false, "Invalid username"));
+        return;
+      }
+
       if(name.length() < 4) {
         sendPacket(new PacketLRG(false, "Username is too short"));
         return;
@@ -154,6 +163,17 @@ public class Login extends SessionState {
       return;
     }
 
+    ArrayList<String> swearWords = Filter.badWordsFound(p.nickname);
+    if(swearWords.size() > 0) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Invalid nickname"));
+      return;
+    }
+
+    if(!(p.nickname.matches("[a-zA-Z0-9 ]*"))) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Invalid nickname"));
+      return;
+    }
+
     RoyaleAccount acc = session.getAccount();
     acc.changeCharacter(p.character);
     acc.updateName(p.nickname.toUpperCase());
@@ -183,8 +203,10 @@ public class Login extends SessionState {
   private void login(final PacketL00 p) throws IOException {
     /* Username */
     String name = p.name==null?"Infringio":p.name.trim();
+    ArrayList<String> swearWords = Filter.badWordsFound(name);
     if(name.length() > 20) { name = name.substring(0, 20); }
     else if(name.length() < 1 || !(name.matches("[a-zA-Z0-9 ]*"))) { name = "Infringio"; }
+    if(swearWords.size() > 0) { name = "Infringio"; }
     
     /* Team */
     String team = p.team==null?"":p.team.trim().toLowerCase();
