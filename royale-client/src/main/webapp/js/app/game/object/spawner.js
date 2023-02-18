@@ -24,6 +24,7 @@ function SpawnerObject(game, level, zone, pos, oid, type, delay, direction) {
 SpawnerObject.ASYNC = false;
 SpawnerObject.ID = 37;
 SpawnerObject.NAME = "Object Spawner"; // Used by editor
+SpawnerObject.PARAMS = [{'name': "Object Type", 'type': "int"}, {'name': "Spawn Delay", 'type': "int"}, {'name': "Direction", 'type': "int"}];
 
 SpawnerObject.ANIMATION_RATE = 3;
 

@@ -44,6 +44,7 @@ function TroopaObject(game, level, zone, pos, oid, fly, variant) {
 TroopaObject.ASYNC = false;
 TroopaObject.ID = 0x13;
 TroopaObject.NAME = "Koopa Troopa Red"; // Used by editor
+TroopaObject.PARAMS = [{'name': "Fly", 'type': 'int'}];
 
 TroopaObject.FLY_DISTANCE = 3;
 

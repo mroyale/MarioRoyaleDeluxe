@@ -24,6 +24,7 @@ function FireObject(game, level, zone, pos, oid, start, size) {
 FireObject.ASYNC = true;
 FireObject.ID = 0x21;
 FireObject.NAME = "Firebar"; // Used by editor
+FireObject.PARAMS = [{'name': 'Start Offset', 'type': 'int'}, {'name': 'Size', 'type': 'int'}];
 
 FireObject.ANIMATION_RATE = 4;
 FireObject.OFFSET = vec2.make(0.25, 0.25); // Difference between position of sprite and hitbox.

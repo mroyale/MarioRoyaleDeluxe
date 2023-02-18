@@ -14,10 +14,9 @@ Features to add, backport and whatever the hell else:
 - physics update
 - control as pop up window
 - changelogs as pop up window
-- object multiple paramaters thing
 - private lobbies (this is painful because of uploading levels. also i need to rework this to use an automatic code system like ADASIGHA)
 - personal suggestion of mine: random lobby music
-- leaderboards
+- leaderboards ingame
 - smw goal post
 - flip blocks
 - tile animations to editor

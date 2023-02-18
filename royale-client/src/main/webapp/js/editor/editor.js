@@ -13,6 +13,33 @@ function Editor(data) {
   
   this.input = new Input(this, this.canvas);
   this.display = new EditorDisplay(this, this.container, this.canvas, data.resource);
+
+  var valParams = document.getElementById("editor-tool-object-params");
+  this.objParamLimit = 7;
+  for(var i=0; i<this.objParamLimit; ++i) {
+    var box = document.createElement("div");
+    box.setAttribute("id", "editor-tool-object-param-box-"+i);
+    box.setAttribute("class", "tool-box");
+    valParams.appendChild(box);
+
+    var varParamNameLabel = document.createElement("div");
+    varParamNameLabel.setAttribute("id", "editor-tool-object-param-name-"+i);
+    varParamNameLabel.setAttribute("class", "tool-var");
+    varParamNameLabel.innerText = "Param"+(i+1);
+    box.appendChild(varParamNameLabel);
+
+    var varParamTypeLabel = document.createElement("div");
+    varParamTypeLabel.setAttribute("id", "editor-tool-object-param-type-"+i);
+    varParamTypeLabel.setAttribute("class", "tool-type");
+    varParamTypeLabel.innerText = "type"+(i+1);
+    box.appendChild(varParamTypeLabel);
+
+    var valParam = document.createElement("input");
+    valParam.setAttribute("id", "editor-tool-object-param-"+i);
+    valParam.setAttribute("class", "tool-val");
+    valParam.innerText = "type"+(i+1);
+    box.appendChild(valParam);
+    }
   
   this.load(data);
   
@@ -162,7 +189,7 @@ Editor.prototype.setTool = function(tool) {
     case "level" : { this.tool = new ToolLevel(this); this.tool.load(); break; }
     case "zone" : { this.tool = new ToolZone(this); this.tool.load(); break; }
     case "tile" : { this.tool = new ToolTile(this); this.tool.load(); break; }
-    case "object" : { this.tool = new ToolObject(this); this.tool.load(); break; }
+    case "object" : { this.tool = new ToolObject(this); this.tool.load(); this.tool.updParamTools(); break; }
     case "warp" : { this.tool = new ToolWarp(this); this.tool.load(); break; }
     case "spawnpoint" : { this.tool = new ToolSpawnpoint(this); this.tool.load(); break; }
     case "copy" : { this.tool = new ToolCopy(this); this.tool.load(); break; }

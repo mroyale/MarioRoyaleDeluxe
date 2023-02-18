@@ -40,6 +40,7 @@ function GoombaObject(game, level, zone, pos, oid, variant) {
 GoombaObject.ASYNC = false;
 GoombaObject.ID = 0x11;
 GoombaObject.NAME = "Goomba"; // Used by editor
+GoombaObject.PARAMS = [{'name': 'Color', 'type': 'int'}]
 
 GoombaObject.ANIMATION_RATE = 10;
 GoombaObject.VARIANT_OFFSET = 0x70;   //5 rows down in the sprite sheet

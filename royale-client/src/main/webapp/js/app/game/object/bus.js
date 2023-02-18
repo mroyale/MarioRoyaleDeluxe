@@ -31,6 +31,7 @@ function BusObject(game, level, zone, pos, oid, width, movx, movy, speed) {
 BusObject.ASYNC = false;
 BusObject.ID = 0x92;
 BusObject.NAME = "Bus Platform"; // Used by editor
+BusObject.PARAMS = [{'name': "Width", 'type': "int"}, {'name': "Move X", 'type': "float"}, {'name': "Move Y", 'type': "float"}, {'name': "Speed", 'type': "float"}];
 
 BusObject.ANIMATION_RATE = 6;
 

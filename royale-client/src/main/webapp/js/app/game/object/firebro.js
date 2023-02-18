@@ -48,6 +48,7 @@ function FireHammerObject(game, level, zone, pos, oid, reverse) {
 FireHammerObject.ASYNC = false;
 FireHammerObject.ID = 0x32;
 FireHammerObject.NAME = "Fire Bro"; // Used by editor
+FireHammerObject.PARAMS = [{'name': 'Reverse', 'type': 'int'}];
 
 FireHammerObject.ANIMATION_RATE = 10;
 

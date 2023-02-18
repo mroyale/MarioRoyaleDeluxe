@@ -24,6 +24,7 @@ function TextObject(game, level, zone, pos, oid, offset, size, color, text, outl
 TextObject.ASYNC = true;
 TextObject.ID = 0xFD;
 TextObject.NAME = "Text"; // Used by editor
+TextObject.PARAMS = [{'name': "Y Offset", "type": "float"}, {'name': "Size", 'type': "float"}, {'name': "Color", 'type': "HTML color"}, {'name': "Text", 'type': "string"}, {'name': "Outline", 'type': "HTML color"}];
 
 TextObject.ANIMATION_RATE = 3;
 
