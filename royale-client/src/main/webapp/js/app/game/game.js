@@ -15,6 +15,7 @@ function Game(data) {
   data.resource.push({ "id": "mario", "src": "img/game/smb_mario.png" });  // Add the Mario spritesheet
   data.resource.push({ "id": "luigi", "src": "img/game/smb_luigi.png" });  // Add the Luigi spritesheet
   data.resource.push({ "id": "infringio", "src": "img/game/smb_infringio.png" });  // Add the Infringio spritesheet
+  data.resource.push({ "id": "wario", "src": "img/game/smb_wario.png" });  // Add the Wario spritesheet
   data.resource.push({ "id": "ui", "src": "img/game/smb_ui.png" });        // Add UI that we see at the top of the screen
   
   this.input = new Input(this, this.canvas);

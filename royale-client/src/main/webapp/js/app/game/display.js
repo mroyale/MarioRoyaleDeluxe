@@ -212,6 +212,7 @@ Display.prototype.drawObject = function() {
   var mario = this.resource.getTexture("mario");
   var luigi = this.resource.getTexture("luigi");
   var infringio = this.resource.getTexture("infringio");
+  var wario = this.resource.getTexture("wario");
   
   for(var i=0;i<sprites.length;i++) {
     var sprite = sprites[i];
@@ -233,7 +234,7 @@ Display.prototype.drawObject = function() {
     x = rx?((-1.*(Display.TEXRES*sprite.pos.x))-Display.TEXRES):(Display.TEXRES*sprite.pos.x);
     y = ry?((-1.*(Display.TEXRES*(dim.y-sprite.pos.y-1.)))-Display.TEXRES):(Display.TEXRES*(dim.y-sprite.pos.y-1.));
 
-    context.drawImage(sprite.player ? (sprite.character ? (sprite.character === 2 ? infringio : luigi) : mario) : tex, st[0], st[1], Display.TEXRES, Display.TEXRES, x, y, Display.TEXRES, Display.TEXRES);
+    context.drawImage(sprite.player ? (sprite.character ? (sprite.character === 3 ? wario : sprite.character === 2 ? infringio : luigi) : mario) : tex, st[0], st[1], Display.TEXRES, Display.TEXRES, x, y, Display.TEXRES, Display.TEXRES);
     
     if(rx || ry) { context.restore(); }
     if(rest) { context.restore(); }
@@ -333,6 +334,7 @@ Display.prototype.drawUI = function() {
   var martex = this.resource.getTexture("mario");
   var luitex = this.resource.getTexture("luigi");
   var inftex = this.resource.getTexture("infringio");
+  var wartex = this.resource.getTexture("wario");
   var uitex = this.resource.getTexture("ui");
   var ply = this.game.getPlayerInfo(this.game.pid);
 
@@ -419,8 +421,8 @@ Display.prototype.drawUI = function() {
     context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 64, 48, 48);
     context.fillText(ctxt, l-48, 100);
     context.strokeText(ctxt, l-48, 100);
-    var st = util.sprite.getSprite(app.net.character ? (app.net.character === 2 ? inftex : luitex) : martex, PLAY);
-    context.drawImage(app.net.character ? (app.net.character === 2 ? inftex : luitex) : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
+    var st = util.sprite.getSprite(app.net.character ? (app.net.character === 3 ? wartex : app.net.character === 2 ? inftex : luitex) : martex, PLAY);
+    context.drawImage(app.net.character ? (app.net.character === 3 ? wartex : app.net.character === 2 ? inftex : luitex) : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
 
     var st = util.sprite.getSprite(uitex, KILL);
     var ctxt = "×"+(this.game.kills<=9?"0"+this.game.kills:this.game.kills);
