@@ -801,7 +801,7 @@ td32.TILE_PROPERTIES = {
   },
   /* Random Warp Tile */
   0x57: {
-    NAME: "Random Warp Tile",
+    NAME: "RANDOM WARP TILE",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,

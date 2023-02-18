@@ -959,7 +959,7 @@ PlayerObject.prototype.spin = function() {
 PlayerObject.prototype.attack = function() {
   this.attackTimer = PlayerObject.ATTACK_DELAY;
   this.attackCharge -= PlayerObject.ATTACK_CHARGE;
-  var p = this.reverse?vec2.add(this.pos, PlayerObject.PROJ_OFFSET):vec2.add(this.pos, vec2.multiply(PlayerObject.PROJ_OFFSET, vec2.make(-1., 1.)));
+  var p = this.reverse?vec2.add(this.pos, PlayerObject.PROJ_OFFSET):vec2.add(vec2.add(this.pos, vec2.make(0.5, 0.)), vec2.multiply(PlayerObject.PROJ_OFFSET, vec2.make(-1., 1.)));
   this.game.createObject(FireballProj.ID, this.level, this.zone, p, [this.reverse, this.pid]);
   this.play("fireball.mp3", 1., .04);
 };
