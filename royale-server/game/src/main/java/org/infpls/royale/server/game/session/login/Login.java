@@ -109,6 +109,9 @@ public class Login extends SessionState {
       } else if(p.password.length() < 4) {
         sendPacket(new PacketLRG(false, "Password is too short"));
         return;
+      } else if(p.password.length() > 4096) {
+        sendPacket(new PacketLRG(false, "Password is too long"));
+        return;
       }
 
       RoyaleAccount newAcc = lobbyDao.createAccount(name, p.password);
@@ -198,6 +201,9 @@ public class Login extends SessionState {
 
     if (p.password.length() < 4) {
       sendPacket(new PacketLCP("", "Password is too short"));
+      return;
+    } else if(p.password.length() > 4096) {
+      sendPacket(new PacketLCP("", "Password is too long"));
       return;
     }
 

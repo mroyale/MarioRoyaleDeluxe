@@ -183,9 +183,9 @@
         <p>Login</p>
           
         <p style="margin-block-end: 0">Username</p>
-        <input class="profile-nickname" id="login-name">
+        <input class="profile-nickname" id="login-name" maxlength="4096">
         <p style="margin-block-end: 0">Password</p>
-        <input class="profile-nickname" id="login-password" type="password">
+        <input class="profile-nickname" id="login-password" type="password" maxlength="4096">
   
         <div style="bottom: -5%;position: relative"><img src="./img/home/signin.png" id="login-signin" class="button-login"></div> 
         <p id="login-error" style="font-size: 15px"></p>
@@ -201,9 +201,9 @@
         <input class="profile-nickname" id="signup-name">
         
         <p style="margin-block-end: 0">Password</p>
-        <input class="profile-nickname" id="signup-password" type="password">
+        <input class="profile-nickname" id="signup-password" type="password" maxlength="4096">
         <p style="margin-block-end: 0">Verify Password</p>
-        <input class="profile-nickname" id="signup-verify" type="password">
+        <input class="profile-nickname" id="signup-verify" type="password" maxlength="4096">
 
         <div style="bottom: -5%;position: relative"><img src="./img/home/signup.png" id="signup-register" class="button-register"></div> 
         <p id="signup-error"></p>  
@@ -232,7 +232,7 @@
         <p style="margin-block-end: 0">Username</p>
         <p style="margin-block-end: 0;margin-block-start: 0;color: gray" id="profile-username"></p>
         <p style="margin-block-end: 0">Nickname</p>
-        <input class="profile-nickname" id="profile-nickname" placeholder="Nickname">
+        <input class="profile-nickname" id="profile-nickname" placeholder="Nickname" maxlength="20">
 
         <p>Choose Character</p>
         <div>
@@ -251,9 +251,9 @@
         <p>Change Password</p>
         
         <p style="margin-block-end: 0">New Password</p>
-        <input class="profile-nickname" id="password-new" type="password">
+        <input class="profile-nickname" id="password-new" type="password" maxlength="4096">
         <p style="margin-block-end: 0">Verify New Password</p>
-        <input class="profile-nickname" id="password-verify" type="password">
+        <input class="profile-nickname" id="password-verify" type="password" maxlength="4096">
 
         <div style="bottom: -5%;position: relative"><img src="./img/home/save.png" style="width: 120px;height: 48px" id="password-save" class="button-save"></div> 
         <p id="password-error"></p>  
