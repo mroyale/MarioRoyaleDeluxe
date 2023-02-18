@@ -189,7 +189,7 @@ TroopaObject.prototype.physics = function() {
         changeDir = true;
       }
 
-      if (this.state === KoopaObject.STATE.SPIN) tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.SHELL);
+      if (this.state === TroopaObject.STATE.SPIN) tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.SHELL);
     }
   }
     
