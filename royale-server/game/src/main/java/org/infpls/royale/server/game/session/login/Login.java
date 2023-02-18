@@ -175,13 +175,13 @@ public class Login extends SessionState {
       sendPacket(new PacketLPU(p.character, p.nickname, "Invalid nickname"));
       return;
     }
-
-    if(lobbyDao.hasUserNick(name)) {
+    RoyaleAccount acc = session.getAccount();
+    
+    if(lobbyDao.hasUserNick(acc.getUsername(), name)) {
       sendPacket(new PacketLPU(p.character, p.nickname, "Name is already taken"));
       return;
     }
 
-    RoyaleAccount acc = session.getAccount();
     acc.changeCharacter(p.character);
     acc.updateName(name);
     lobbyDao.saveDatabase();

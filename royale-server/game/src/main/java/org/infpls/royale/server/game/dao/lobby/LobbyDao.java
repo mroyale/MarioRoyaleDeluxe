@@ -72,10 +72,13 @@ public class LobbyDao {
   }
 
   /* Used in profile update so that you can't have someone else's name */
-  public boolean hasUserNick(String name) {
+  public boolean hasUserNick(String username, String name) {
     for(int i=0;i<accounts.size();i++) {
       final RoyaleAccount account = accounts.get(i);
       if(account.username.equals(name) || account.nickname.equals(name)) {
+        if(account.username.equals(username)) {
+          return false;
+        }
         return true;
       }
     }
