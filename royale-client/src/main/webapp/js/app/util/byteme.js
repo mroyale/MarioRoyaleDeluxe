@@ -879,7 +879,7 @@ td32.TILE_PROPERTIES = {
               else if (r.definition === this) { cx = x + 1; }
               else { return; }
 
-              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, td.data, 50); }
+              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, parseInt(td.data), 50); }
             }
 
             break;
@@ -909,11 +909,48 @@ td32.TILE_PROPERTIES = {
               else if (r.definition === this) { cx = x + 1; }
               else { return; }
 
-              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, td.data, 0); }
+              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, parseInt(td.data), 0); }
             }
 
             break;
           }
+      }
+    }
+  },
+  /* Warp Pipe Single */
+  93: {
+    NAME: "WARP PIPE SINGLE SLOW",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Down */
+        case 0x01 : {
+          if(game.pid === pid) {
+            var ply = game.getPlayer();
+            if (parseInt(ply.pos.x) === x || ply.pos.x + 0.1 === x || ply.pos.x - 0.1 === x) ply.pipe(2, parseInt(td.data), 50);
+          }
+        }
+      }
+    }
+  },
+  94: {
+    NAME: "WARP PIPE SINGLE FAST",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Down */
+        case 0x01 : {
+          if(game.pid === pid) {
+            var ply = game.getPlayer();
+            if (parseInt(ply.pos.x) === x || ply.pos.x + 0.1 === x || ply.pos.x - 0.1 === x) ply.pipe(2, parseInt(td.data), 0);
+          }
+        }
       }
     }
   },
