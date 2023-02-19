@@ -22,6 +22,7 @@ import org.infpls.royale.server.game.session.LeaderboardAccount;
 public class LobbyDao {
   private final List<GameLobby> lobbies;
   private GameLobby jail;
+  public boolean savingDB;
 
   private String database;
   private List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
@@ -34,6 +35,7 @@ public class LobbyDao {
       Oak.log(Oak.Level.CRIT, "Failed to start jail lobby!");
     }
 
+    savingDB = false;
     boolean dbExists = true;
     try {
       System.out.println("Opening database file");
@@ -89,46 +91,49 @@ public class LobbyDao {
   public Map<String, List<LeaderboardAccount>> getLeaderboards() {
     Map<String, List<LeaderboardAccount>> leaderboards = new HashMap<>();
 
+    // Create a copy of the original ArrayList to avoid modifying it
+    ArrayList<RoyaleAccount> sortedAccounts = new ArrayList<>(accounts);
+
     // Sort the ArrayList by 'wins' property and add to the leaderboards map
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+    Collections.sort(sortedAccounts, new Comparator<RoyaleAccount>() {
         @Override
         public int compare(RoyaleAccount a1, RoyaleAccount a2) {
             return a2.getWins() - a1.getWins();
         }
     });
     List<LeaderboardAccount> winsLeaderboard = new ArrayList<>();
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-        RoyaleAccount account = accounts.get(i);
+    for (int i = 0; i < Math.min(sortedAccounts.size(), 10); i++) {
+        RoyaleAccount account = sortedAccounts.get(i);
         LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getWins());
         winsLeaderboard.add(simpleAccount);
     }
     leaderboards.put("wins", winsLeaderboard);
 
     // Sort the ArrayList by 'coins' property and add to the leaderboards map
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+    Collections.sort(sortedAccounts, new Comparator<RoyaleAccount>() {
         @Override
         public int compare(RoyaleAccount a1, RoyaleAccount a2) {
             return a2.getCoins() - a1.getCoins();
         }
     });
     List<LeaderboardAccount> coinsLeaderboard = new ArrayList<>();
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-        RoyaleAccount account = accounts.get(i);
+    for (int i = 0; i < Math.min(sortedAccounts.size(), 10); i++) {
+        RoyaleAccount account = sortedAccounts.get(i);
         LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getCoins());
         coinsLeaderboard.add(simpleAccount);
     }
     leaderboards.put("coins", coinsLeaderboard);
 
     // Sort the ArrayList by 'kills' property and add to the leaderboards map
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+    Collections.sort(sortedAccounts, new Comparator<RoyaleAccount>() {
         @Override
         public int compare(RoyaleAccount a1, RoyaleAccount a2) {
             return a2.getKills() - a1.getKills();
         }
     });
     List<LeaderboardAccount> killsLeaderboard = new ArrayList<>();
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-        RoyaleAccount account = accounts.get(i);
+    for (int i = 0; i < Math.min(sortedAccounts.size(), 10); i++) {
+        RoyaleAccount account = sortedAccounts.get(i);
         LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getKills());
         killsLeaderboard.add(simpleAccount);
     }

@@ -24,7 +24,6 @@ public class Login extends SessionState {
     this.lobbyDao = lobbyDao;
     
     sendPacket(new PacketS00('l'));
-    Filter.loadConfigs();
   }
   
   /* Packet Info [ < outgoing | > incoming ]
@@ -179,11 +178,6 @@ public class Login extends SessionState {
       return;
     }
     RoyaleAccount acc = session.getAccount();
-    
-    if(lobbyDao.hasUserNick(acc.getUsername(), name)) {
-      sendPacket(new PacketLPU(p.character, p.nickname, "Name is already taken"));
-      return;
-    }
 
     acc.changeCharacter(p.character);
     acc.updateName(name);
