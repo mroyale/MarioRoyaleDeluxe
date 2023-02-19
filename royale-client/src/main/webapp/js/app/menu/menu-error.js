@@ -14,6 +14,7 @@ MenuError.prototype.show = function(disp, msg, ex) {
   app.menu.mainMember.hideProfileMenu();
   app.menu.mainMember.hidePasswordMenu();
   app.menu.mainMember.hidePrivateMenu();
+  app.menu.mainMember.hideLeaderboards();
   app.menu.main.hideRegisterMenu();
   app.menu.main.hideLoginMenu();
   

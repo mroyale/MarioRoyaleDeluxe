@@ -292,6 +292,8 @@ KoopaObject.prototype.stomped = function(dir) {
     this.setState(KoopaObject.STATE.SPIN);
     this.dir = dir;
     this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos));
+    this.play("kick.mp3", 1., .04);
+    return;
   }
   this.play("stomp.mp3", 1., .04);
 };

@@ -377,7 +377,7 @@ img {
 
 .link-ml {
   position: absolute;
-  top: 35%;
+  top: 30%;
   left: 10px;
   display: inline-grid;
   row-gap: 6px
@@ -396,6 +396,21 @@ img {
 
 .link-profile:hover {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABNElEQVRIDdWXwQ3DIAxFfewxK/TYlTJPRshcWSPHjkBllG8BgRiTgNSDBQXLz99gohIR0Xd7u5HGTA9dPy830likgPeV3BBbJl/dCIxyP51AFPcKzGV/Eg6wj5sDMwxnfQVGIB6v/MI9iVsCh87pHMBwPbcW7p/mVrCmTtuXBHqAq+6GBVyrpsqvF1hV/RdguRjK6yYtc+VnUSzgmdxesuMNEN8SvAmMYCH8WKtSy76t4PTyAJiuF5W3ghHQDES17oKRgHlsBofniznU1IxNYIByYw2UfczgmdxGZeM2q7pgJrACRUK+xzXlvcCqaiu4+GIl590E5s9a6dMW9q02T1ssiptTDAc1a+0ck/0obg7MmUJNmvXd3xL3BF4m32PcZ72NK0CcCUoxamSm//+EMowaGfoDh99wLT2f/UgAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
+}
+
+.link-leaderboard {
+  cursor: pointer;
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background-image: url(../img/home/leaderboards.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 80px 80px
+}
+
+.link-leaderboard:hover {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABOUlEQVRIDeWXwQ2DMAxFfeyxK/TYlZiHEZiLNTh2hFTf4keJSaKUBqtSD5Yb3PxnOwaBiIi81kfwNDAVujxvwdNQZARviwQXm+/a3QzMdo9OINNtgdH2kXCCVbcEBoxnPRKc6dbAo4EHvTNgtqzmD5DSwJ4FR/FJwgbbxZEMfzf9V2BC3cGoknDXikeDa0OTXo/nN7LibECMMIBZfG8xE2nF+B/1peHSzZOEVXLj9DIez5fJTe2kusEUZgK9YCTWso8qZhLY1FWx6Rj3614cz5lWa8ZJeynKjth42rEucCZIEIeJa+tNPIVCzw0MWApvgouV2so61gTCZ5q1M06zTDenAvY61wRwbb3Gfw/MAbnS126nOAQD4dCMui3wn7zszXd9nOGRdrWh7YK28gy8PJj6/cR3aS8P6Bt+/2gJFBdAagAAAA5lWElmTU0AKgAAAAgAAAAAAAAA0lOTAAAAAElFTkSuQmCC');
 }
 
 .link-password {

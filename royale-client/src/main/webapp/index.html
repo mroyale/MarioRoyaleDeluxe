@@ -78,6 +78,7 @@
       <div id='linkMember' style="display:none">
         <div class="link-ml">
           <div class="link-profile" id="mainMember-profile"></div>
+          <div class="link-leaderboard" id="mainMember-leaderboard"></div>
           <div class="link-password" id="mainMember-password"></div>
           <div class="link-logout" id="mainMember-logout"></div>
         </div>
@@ -244,6 +245,20 @@
 
         <div style="bottom: -5%;position: relative"><img src="./img/home/save.png" style="width: 120px;height: 48px" id="profile-save" class="button-save"></div> 
         <p id="profile-error"></p>  
+      </div>
+
+      <!-- Leaderboards -->
+      <div id="leaderboard" class="container-settings" style="display:none;height:470px;">
+        <span style="position: absolute;right: 10px" id="leaderboard-close">x</span>
+        <p style="margin-block-end: 0.5em;">Leaderboards</p>
+        <span style="margin-right:20px">Select:</span>
+        <span onclick="app.menu.mainMember.setLeaderboard('wins')" id="leaderboard-winsBtn">Wins</span>
+        <span onclick="app.menu.mainMember.setLeaderboard('coins')" id="leaderboard-coinsBtn" style="margin-left:15px;">Coins</span>
+        <span onclick="app.menu.mainMember.setLeaderboard('kills')" id="leaderboard-killsBtn" style="margin-left:15px;">Kills</span>
+
+        <div id="leaderboard-wins"></div>
+        <div id="leaderboard-coins" style="display:none;"></div>
+        <div id="leaderboard-kills" style="display:none;"></div>
       </div>
 
       <!-- Change Password -->

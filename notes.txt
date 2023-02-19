@@ -10,11 +10,10 @@ Features to add, backport and whatever the hell else:
 - Spectator (urgh this was a pain to add in legacy and will be here.)
 - Hammer suit (AAAAAAAAAAAAA i don't think this will be that hard I just need the delay to be lower or something)
 - clear pipes How the fuck am I supposed to be able to add that
-- physics update
 - control as pop up window
 - changelogs as pop up window
 - private lobbies (this is painful because of uploading levels. also i need to rework this to use an automatic code system like ADASIGHA)
-- leaderboards ingame
-- flip blocks
+- crouch jumping
+- flip blocks (for smw)
 - tile animations to editor
 - sex except only player with username "terminalarch" is able to use it

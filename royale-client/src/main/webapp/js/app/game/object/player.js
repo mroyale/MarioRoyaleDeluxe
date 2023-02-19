@@ -114,10 +114,10 @@ PlayerObject.FALL_SPEED_ACCEL = 0.06;
 PlayerObject.BOUNCE_LENGTH_MIN = 1;
 PlayerObject.SPRING_LENGTH_MIN = 5;
 PlayerObject.SPRING_LENGTH_MAX = 35;
-PlayerObject.JUMP_LENGTH_MIN = 3;
-PlayerObject.JUMP_LENGTH_MAX = 18; // 7
-PlayerObject.JUMP_SPEED_INC_THRESHOLD = [0.1, 0.2, 0.25];
-PlayerObject.JUMP_DECEL = 0.005;
+PlayerObject.JUMP_LENGTH_MIN = 0.01;
+PlayerObject.JUMP_LENGTH_MAX = 20;
+PlayerObject.JUMP_SPEED_INC_THRESHOLD = [0.01, 0.02, 0.025];
+PlayerObject.JUMP_DECEL = 0.013;
 PlayerObject.BLOCK_BUMP_THRESHOLD = 0.12;
 
 PlayerObject.POWER_INDEX_SIZE = 0x20;
@@ -266,6 +266,7 @@ PlayerObject.SNAME = {
 
 let DIM0 = vec2.make(0.9,0.95);  // Temp vars
 let DIM1 = vec2.make(0.9,1.9);
+let DIM2 = vec2.make(0.9,0.75);
 PlayerObject.STATE = [
   /* Small Mario -> 0x00*/
   {NAME: PlayerObject.SNAME.STAND, ID: 0x00, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_STAND]},
@@ -280,7 +281,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x09, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_SWIM0, PlayerObject.SPRITE.S_SWIM1, PlayerObject.SPRITE.S_SWIM2]},
   /* Big Mario -> 0x20 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x20, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_STAND]},
-  {NAME: PlayerObject.SNAME.DOWN, ID: 0x21, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.B_DOWN]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x21, DIM: DIM2, SPRITE: [PlayerObject.SPRITE.B_DOWN]},
   {NAME: PlayerObject.SNAME.RUN, ID: 0x22, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_RUN2,PlayerObject.SPRITE.B_RUN1,PlayerObject.SPRITE.B_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x23, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x24, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_FALL]},
@@ -291,7 +292,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x29, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_SWIM0, PlayerObject.SPRITE.B_SWIM1, PlayerObject.SPRITE.B_SWIM2]},
   /* Fire Mario -> 0x40 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x40, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_STAND]},
-  {NAME: PlayerObject.SNAME.DOWN, ID: 0x41, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.F_DOWN]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x41, DIM: DIM2, SPRITE: [PlayerObject.SPRITE.F_DOWN]},
   {NAME: PlayerObject.SNAME.RUN, ID: 0x42, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_RUN2,PlayerObject.SPRITE.F_RUN1,PlayerObject.SPRITE.F_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x43, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x44, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_FALL]},
@@ -303,7 +304,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x50, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SWIM0, PlayerObject.SPRITE.F_SWIM1, PlayerObject.SPRITE.F_SWIM2]},
   /* Leaf Mario -> 0x60 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x60, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_STAND]},
-  {NAME: PlayerObject.SNAME.DOWN, ID: 0x61, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.L_DOWN]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x61, DIM: DIM2, SPRITE: [PlayerObject.SPRITE.L_DOWN]},
   {NAME: PlayerObject.SNAME.RUN, ID: 0x62, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_RUN2,PlayerObject.SPRITE.L_RUN1,PlayerObject.SPRITE.L_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x63, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x64, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_FALL]},
@@ -521,8 +522,16 @@ PlayerObject.prototype.control = function() {
   if(this.grounded) { this.btnBg = this.btnB; this.glideTimer = 0; }
   
   if(this.isState(PlayerObject.SNAME.DOWN) && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
-    if(this.btnD[1] !== -1) {
-      this.moveSpeed = (this.moveSpeed + (this.reverse ? PlayerObject.STUCK_SLIDE_SPEED : -PlayerObject.STUCK_SLIDE_SPEED)) * .5; // Rirp
+    if (this.btnA) {
+      if ((this.grounded || this.underWater) && !this.btnAHot) {
+          this.jumping = 0x0;
+          this.play(this.underWater ? "swim.mp3" : 0x0 < this.power ? "jump1.mp3" : "jump0.mp3", 0.7, 0.04);
+          this.btnAHot = true;
+      }
+    } else { this.btnAHot = false; }
+
+    if(!this.grounded) {
+      this.moveSpeed = PlayerObject.STUCK_SLIDE_SPEED * this.btnD[0];
     }
     this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed)-(this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
     return;
