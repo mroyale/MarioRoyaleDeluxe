@@ -123,7 +123,7 @@ function MenuAccount() {
       success: function(data) { serverResponse(data); },
     });
   }, 3000);
-  
+
   that.setLeaderboard("wins");
 };
 
@@ -307,6 +307,12 @@ MenuAccount.prototype.updateLeaderboards = function(type, values) {
     /* Type */
     td = document.createElement("td");
     td.innerText = "" + player["count"];
+    switch(player.rank) {
+      case 1 : { td.style.color = 'yellow'; break;}
+      case 2 : { td.style.color = 'silver'; break;}
+      case 3 : { td.style.color = '#CD7F32'; break;}
+      default : { td.style.color = 'white'; break;}
+    }
     tr.appendChild(td);
     tab.appendChild(tr);
   }
