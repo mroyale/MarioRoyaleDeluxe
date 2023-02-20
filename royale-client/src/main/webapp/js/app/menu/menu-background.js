@@ -12,7 +12,7 @@ function MenuDisplay() {
     this.frame = 0;
 
     //const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb"];
-    const worldList = ["world-1", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb"];
+    const worldList = ["world-1", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb", "bkg-blackout"];
     this.worldName = worldList[Math.floor(Math.random() * worldList.length)]; 
     this.loadWorld(this.worldName).then(data => {
         this.world = data;
@@ -125,6 +125,12 @@ MenuDisplay.prototype.setMusic = function() {
     
     case "bkg-nsmb" : {
       app.menu.main.menuMusic.src = pref + "title-nsmb.mp3";
+      app.menu.main.menuMusic.load();
+      break;
+    }
+
+    case "bkg-blackout" : {
+      app.menu.main.menuMusic.src = pref + "title-blackout.mp3";
       app.menu.main.menuMusic.load();
       break;
     }
