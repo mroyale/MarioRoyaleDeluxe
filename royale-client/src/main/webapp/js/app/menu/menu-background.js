@@ -213,7 +213,7 @@ MenuDisplay.prototype.draw = function() {
     context.translate(parseInt(-this.camera.pos.x*MenuDisplay.TEXRES), parseInt(-this.camera.pos.y*MenuDisplay.TEXRES));
     
     /* Draw Game */
-    if (zone.background.length) {
+    if (zone.background.length && !app.settings.disableBg) {
         for (var i=0; i<zone.background.length; i++) {
           var layer = zone.background[i];
           

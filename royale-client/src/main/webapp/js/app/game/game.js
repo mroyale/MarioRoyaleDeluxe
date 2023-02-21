@@ -897,6 +897,9 @@ Game.prototype.getPlayerInfo = function(pid) {
 
 /* Get number of players who are still alive */
 Game.prototype.getRemain = function() {
+  /* The game has issues accounting for players with 1-ups. So just count how many players are in the game */
+  return this.players.length;
+
   var rm = 0;
   for(var i=0;i<this.players.length;i++) {
     var ply = this.players[i];

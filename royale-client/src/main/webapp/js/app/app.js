@@ -12,7 +12,8 @@ function App() {
     'musicVolume': isNaN(parseInt(music)) ? Audio.MUSIC_VOLUME*100 : parseInt(music),
     'soundVolume': isNaN(parseInt(sound)) ? Audio.EFFECT_VOLUME*100 : parseInt(sound),
     'hideNames': Cookies.get("text") === '1',
-    'hideTimer': Cookies.get("timer") === '1'
+    'hideTimer': Cookies.get("timer") === '1',
+    'disableBg': Cookies.get("background") === '1'
   }
 
   this.statusUpdate = null;
@@ -25,6 +26,7 @@ function App() {
 
   var that = this;
   var tmr = document.getElementById("hideTimer");
+  var bg = document.getElementById("disableBackground");
   var mus = document.getElementById("musicSlider");
   var sfx = document.getElementById("soundSlider");
 
@@ -41,6 +43,9 @@ function App() {
 
   tmr.onclick = function() { that.toggleTimer(); };
   tmr.innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
+
+  bg.onclick = function() { that.toggleBackground(); };
+  bg.innerText = (this.settings.disableBg ? "[X]": "[ ]") + " Disable Backgrounds";
 }
 
 App.prototype.updateVolume = function(type) {
@@ -69,6 +74,12 @@ App.prototype.toggleTimer = function() {
   this.settings.hideTimer = !this.settings.hideTimer;
   Cookies.set("timer", this.settings.hideTimer?1:0, {'expires': 30});
   document.getElementById("hideTimer").innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
+};
+
+App.prototype.toggleBackground = function() {
+  this.settings.disableBg = !this.settings.disableBg;
+  Cookies.set("background", this.settings.disableBg?1:0, {'expires': 30});
+  document.getElementById("disableBackground").innerText = (this.settings.disableBg ? "[X]" : "[ ]") + " Disable Backgrounds";
 };
 
 App.prototype.init = function() {
