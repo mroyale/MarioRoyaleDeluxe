@@ -156,6 +156,12 @@ Game.prototype.getDebug = function(type) {
       out = this.debugSettings.godMode;
       break;
     }
+
+    case "powerup" : {
+      if (!(this.debugSettings.powerup)) { break; }
+      out = this.debugSettings.powerup;
+      break;
+    }
   }
 
   return out;
@@ -172,12 +178,14 @@ Game.prototype.load = function(data) {
     var godMode = document.getElementById("godMode");
     var levelID = document.getElementById("levelID");
     var zoneID = document.getElementById("zoneID");
+    var powerup = document.getElementById("powerupID")
 
     this.debugSettings = {
       'infiniteLives': infLives.checked,
       'godMode': godMode.checked,
       'initialLevel': levelID.value || null,
-      'initialZone': zoneID.value || null
+      'initialZone': zoneID.value || null,
+      'powerup': parseInt(powerup.value) || 0
     }
   }
   if (!(this instanceof Lobby) && app) {
@@ -760,6 +768,10 @@ Game.prototype.doSpawn = function() {
     this.out.push(NET010.encode(this.getDebug("level") || zon.level, zon, pos, app.net.character));
 
     this.display.camera.positionX(shor2.decode(pos).x);
+
+    if(this.getDebug("powerup") !== undefined) {
+      obj.power = this.getDebug("powerup");
+    }
 
     if (this.gameMode && this instanceof Game) {
       obj.transform(2);

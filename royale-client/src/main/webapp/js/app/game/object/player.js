@@ -582,7 +582,7 @@ PlayerObject.prototype.control = function() {
       this.btnAHot = true;
       this.crouchJump = (this.power > 0 && this.btnD[1] === -1) ? true : false;
     } else {
-      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3) {
+      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3 && !this.crouchJump) {
         this.glideTimer = 20;
         this.play("spin.mp3", .7, .04);
         this.btnAHot = true;
@@ -832,7 +832,7 @@ PlayerObject.prototype.physics = function() {
   this.grounded = grounded;
   this.pos = mov;
 
-  if(grounded) { this.crouchJump = false; }
+  if(grounded || this.power === 0) { this.crouchJump = false; }
   
   /* On Platform */
   if(platform) {
@@ -1191,7 +1191,7 @@ PlayerObject.prototype.draw = function(sprites) {
     var s = this.sprite.INDEX;
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
-        if(this.power > 0 || this.transformTarget > 0) {
+        if(this.sprite.INDEX[0].length > 1) {
           if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
           sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character}); 
          } else {
