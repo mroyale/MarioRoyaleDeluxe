@@ -234,7 +234,7 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "L_GLIDE1", ID: 0x79, INDEX: [[319, 318], [303, 302]]},
   {NAME: "L_GLIDE2", ID: 0x80, INDEX: [[317, 316], [301, 300]]},
   /* [G]eneric */
-  {NAME: "G_DEAD", ID: 0x90, INDEX: [[18, 2]]},
+  {NAME: "G_DEAD", ID: 0x90, INDEX: [[18], [2]]},
   {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0001}
 ];
 

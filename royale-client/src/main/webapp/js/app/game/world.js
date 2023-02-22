@@ -229,6 +229,18 @@ Zone.prototype.replace = function(x,y,td) {
   this.mainLayer.data[yo][x] = td;
 };
 
+Zone.prototype.flip = function(x,y,sprite) {
+  var that = this;
+  var yo = this.dimensions().y-1-y;
+  var air = [sprite, 0, 0, 0, 0]; // flip blocks are just animated air tiles when hit
+  var cur = this.mainLayer.data[yo][x];
+
+  this.mainLayer.data[yo][x] = air;
+  setTimeout(function() {
+    that.mainLayer.data[yo][x] = cur;
+  }, 5000);
+};
+
 Zone.prototype.regen = function(x,y,td) {
   var that = this;
   var yo = this.dimensions().y-1-y;

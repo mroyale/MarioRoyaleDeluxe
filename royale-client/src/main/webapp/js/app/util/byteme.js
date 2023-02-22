@@ -252,6 +252,30 @@ td32.TILE_PROPERTIES = {
     WATER: true,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
   },
+  /* Flip Block */
+  0x08: {
+    NAME: "FLIP BLOCK",
+    DATA: "Sprite ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Small bump */
+        /* Big bump */
+        /* Shell */
+        case 0x10 :
+        case 0x11 :
+        case 0x04 : {
+          if (game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x, y), type)); }
+          game.world.getZone(level, zone).flip(x, y, parseInt(td.data));
+          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+          game.world.getZone(level, zone).play(x, y, "bump.mp3", 1., 0.04);
+          break;
+        }
+      }
+    }
+  },
   /* Ice Block */
   0x0A: {
     NAME: "ICE BLOCK",
