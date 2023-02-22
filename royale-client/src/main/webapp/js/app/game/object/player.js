@@ -1191,7 +1191,7 @@ PlayerObject.prototype.draw = function(sprites) {
     var s = this.sprite.INDEX;
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
-        if(this.power > 0) {
+        if(this.power > 0 || this.transformTarget > 0) {
           if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
           sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character}); 
          } else {
