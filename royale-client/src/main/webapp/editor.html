@@ -225,7 +225,7 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Sprite Index<span class="tooltip-text">Defines the visual of the tile</span></div><div class='tool-type'>11-bit int</div>
+              <div class='tool-var tooltip'>Sprite Index<span class="tooltip-text">Defines the visual of the tile</span></div><div class='tool-type'>int</div>
               <input id='editor-tool-tile-index' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
@@ -237,11 +237,11 @@
               <input id='editor-tool-tile-depth' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Tile Definition<span class="tooltip-text">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Tile Definition<span class="tooltip-text">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>int</div>
               <select id='editor-tool-tile-def' class="tool-val"></select>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'><span id="editor-tool-data-name">Unused Extra Data</span><span class="tooltip-text">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'><span id="editor-tool-data-name">Unused Extra Data</span><span class="tooltip-text">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>any</div>
               <input id='editor-tool-tile-data' type='text' class="tool-val"/>
               <select id='editor-tool-tile-data-objid' class="tool-val"></select>
             </div>
@@ -294,7 +294,7 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Direction<span class="tooltip-text">The animation direction of the warp</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Direction<span class="tooltip-text">The animation direction of the warp</span></div><div class='tool-type'>int</div>
               <select id='editor-tool-warp-data' type='text' class="tool-val">
                 <option value="0">0 - Default/None</option>
                 <option value="1">1 - Up</option>
