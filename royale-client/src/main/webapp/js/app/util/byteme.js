@@ -442,7 +442,7 @@ td32.TILE_PROPERTIES = {
     }
   },
   /* Item Block Invisible Progressive */
-  0x1A: {
+  0x1B: {
     NAME: "ITEM BLOCK INVISIBLE PROGRESSIVE",
     DATA: "Final Powerup (0=flower,1=leaf,2=random)",
     COLLIDE: true,
@@ -461,7 +461,7 @@ td32.TILE_PROPERTIES = {
     }
   },
   /* Item Block Regen */
-  0x1B: {
+  0x1A: {
     NAME: "ITEM BLOCK REGEN",
     DATA: "Object ID",
     COLLIDE: true,
