@@ -168,18 +168,18 @@ PlayerObject.DEV_TEAM_COLOR = "rgba(255,255,0,1)";
 PlayerObject.SPRITE = {};
 PlayerObject.SPRITE_LIST = [
   /* [S]mall Mario */
-  {NAME: "S_STAND", ID: 0x00, INDEX: 0x000F},
-  {NAME: "S_RUN0", ID: 0x01, INDEX: 0x000E},
-  {NAME: "S_RUN1", ID: 0x02, INDEX: 0x000D},
-  {NAME: "S_RUN2", ID: 0x03, INDEX: 0x000C},
-  {NAME: "S_SLIDE", ID: 0x04, INDEX: 0x000B},
-  {NAME: "S_FALL", ID: 0x05, INDEX: 0x000A},
-  {NAME: "S_CLIMB0", ID: 0x06, INDEX: 0x0009},
-  {NAME: "S_CLIMB1", ID: 0x07, INDEX: 0x0008},
-  {NAME: "S_TAUNT", ID: 0x08, INDEX: 0x0003},
-  {NAME: "S_SWIM0", ID: 0x09, INDEX: 0x0007},
-  {NAME: "S_SWIM1", ID: 0x0A, INDEX: 0x0006},
-  {NAME: "S_SWIM2", ID: 0x0B, INDEX: 0x0005},
+  {NAME: "S_STAND", ID: 0x00, INDEX: [[31], [15]]},
+  {NAME: "S_RUN0", ID: 0x01, INDEX: [[30], [14]]},
+  {NAME: "S_RUN1", ID: 0x02, INDEX: [[29], [13]]},
+  {NAME: "S_RUN2", ID: 0x03, INDEX: [[28], [12]]},
+  {NAME: "S_SLIDE", ID: 0x04, INDEX: [[27], [11]]},
+  {NAME: "S_FALL", ID: 0x05, INDEX: [[26], [10]]},
+  {NAME: "S_CLIMB0", ID: 0x06, INDEX: [[25], [9]]},
+  {NAME: "S_CLIMB1", ID: 0x07, INDEX: [[24], [8]]},
+  {NAME: "S_TAUNT", ID: 0x08, INDEX: [[19], [3]]},
+  {NAME: "S_SWIM0", ID: 0x09, INDEX: [[23], [7]]},
+  {NAME: "S_SWIM1", ID: 0x0A, INDEX: [[22], [6]]},
+  {NAME: "S_SWIM2", ID: 0x0B, INDEX: [[21], [5]]},
   /* [B]ig Mario */
   {NAME: "B_STAND", ID: 0x20, INDEX: [[63, 62], [47, 46]]}, 
   {NAME: "B_DOWN", ID: 0x21, INDEX: [[55, 54], [39, 38]]},
@@ -234,8 +234,8 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "L_GLIDE1", ID: 0x79, INDEX: [[319, 318], [303, 302]]},
   {NAME: "L_GLIDE2", ID: 0x80, INDEX: [[317, 316], [301, 300]]},
   /* [G]eneric */
-  {NAME: "G_DEAD", ID: 0x90, INDEX: 0x0002},
-  {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0000}
+  {NAME: "G_DEAD", ID: 0x90, INDEX: [[18], [2]]},
+  {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0001}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -521,12 +521,13 @@ PlayerObject.prototype.autoMove = function() {
 PlayerObject.prototype.control = function() {
   if(this.grounded) { this.btnBg = this.btnB; this.glideTimer = 0; }
   
-  if(this.isState(PlayerObject.SNAME.DOWN) && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
+  if(this.isState(PlayerObject.SNAME.DOWN) && !this.crouchJump && this.grounded && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
     if (this.btnA) {
       if ((this.grounded || this.underWater) && !this.btnAHot) {
           this.jumping = 0x0;
           this.play(this.underWater ? "swim.mp3" : 0x0 < this.power ? "jump1.mp3" : "jump0.mp3", 0.7, 0.04);
           this.btnAHot = true;
+          this.crouchJump = true;
       }
     } else { this.btnAHot = false; }
 
@@ -579,8 +580,9 @@ PlayerObject.prototype.control = function() {
       this.jumping = 0;
       this.play(this.underWater ? "swim.mp3" : this.power>0?"jump1.mp3":"jump0.mp3", .7, .04);
       this.btnAHot = true;
+      this.crouchJump = (this.power > 0 && this.btnD[1] === -1) ? true : false;
     } else {
-      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3) {
+      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3 && !this.crouchJump) {
         this.glideTimer = 20;
         this.play("spin.mp3", .7, .04);
         this.btnAHot = true;
@@ -620,7 +622,7 @@ PlayerObject.prototype.control = function() {
   }
 
   if(!this.grounded && !this.underWater) {
-    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : this.setState(PlayerObject.SNAME.FALL);
+    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : this.crouchJump === true ? this.setState(PlayerObject.SNAME.DOWN) : this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
@@ -648,6 +650,7 @@ PlayerObject.prototype.physics = function() {
     this.isBounce = false;
     this.isSpring = false;
     if(this.grounded) {
+      this.crouchJump = false;
       if(this.conveyor !== -1) {
         this.pos.x += (this.conveyor === 0 ? -0.05 : 0.05);
       }
@@ -828,6 +831,8 @@ PlayerObject.prototype.physics = function() {
   this.conveyor = conveyor;
   this.grounded = grounded;
   this.pos = mov;
+
+  if(grounded || this.power === 0) { this.crouchJump = false; }
   
   /* On Platform */
   if(platform) {
@@ -1186,8 +1191,13 @@ PlayerObject.prototype.draw = function(sprites) {
     var s = this.sprite.INDEX;
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
-        if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
-        sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
+        if(this.sprite.INDEX[0].length > 1) {
+          if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
+          sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character}); 
+         } else {
+          if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
+          sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
+         }
       }
     }
   }

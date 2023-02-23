@@ -115,12 +115,14 @@ function MenuAccount() {
 
   };
   
-  $.ajax({
+  this.leaderboardInterval = setInterval(function() {
+    $.ajax({
       url: /royale/ + "leaderboards",
       type: 'GET',
       timeout: 3000,
       success: function(data) { serverResponse(data); },
-  });
+    });
+  }, 3000);
   
 
   that.setLeaderboard("wins");

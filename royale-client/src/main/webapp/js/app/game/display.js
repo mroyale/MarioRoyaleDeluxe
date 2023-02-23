@@ -65,7 +65,7 @@ Display.prototype.draw = function() {
   
   /* Draw Game */
   if (this.drawGame) {
-    if (zone.background.length) {
+    if (zone.background.length && !app.settings.disableBg) {
       for (var i=0; i<zone.background.length; i++) {
         var layer = zone.background[i];
         
@@ -321,7 +321,7 @@ Display.prototype.drawUI = function() {
   var W = this.canvas.width;
   var H = this.canvas.height;
   var COIN = [0x00F0, 0x00F1, 0x00F2, 0x00F3];
-  var PLAY = 0x000F;
+  var PLAY = 0x00;
   var SFX = [0x01, 0x04];
   var MUSIC = [0x00, 0x03];
   var TEXT = [0x02, 0x05];

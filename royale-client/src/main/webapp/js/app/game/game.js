@@ -156,6 +156,12 @@ Game.prototype.getDebug = function(type) {
       out = this.debugSettings.godMode;
       break;
     }
+
+    case "powerup" : {
+      if (!(this.debugSettings.powerup)) { break; }
+      out = this.debugSettings.powerup;
+      break;
+    }
   }
 
   return out;
@@ -172,12 +178,14 @@ Game.prototype.load = function(data) {
     var godMode = document.getElementById("godMode");
     var levelID = document.getElementById("levelID");
     var zoneID = document.getElementById("zoneID");
+    var powerup = document.getElementById("powerupID")
 
     this.debugSettings = {
       'infiniteLives': infLives.checked,
       'godMode': godMode.checked,
       'initialLevel': levelID.value || null,
-      'initialZone': zoneID.value || null
+      'initialZone': zoneID.value || null,
+      'powerup': parseInt(powerup.value) || 0
     }
   }
   if (!(this instanceof Lobby) && app) {
@@ -761,6 +769,10 @@ Game.prototype.doSpawn = function() {
 
     this.display.camera.positionX(shor2.decode(pos).x);
 
+    if(this.getDebug("powerup") !== undefined) {
+      obj.power = this.getDebug("powerup");
+    }
+
     if (this.gameMode && this instanceof Game) {
       obj.transform(2);
       obj.rate = 0x71;
@@ -897,6 +909,9 @@ Game.prototype.getPlayerInfo = function(pid) {
 
 /* Get number of players who are still alive */
 Game.prototype.getRemain = function() {
+  /* The game has issues accounting for players with 1-ups. So just count how many players are in the game */
+  return this.players.length;
+
   var rm = 0;
   for(var i=0;i<this.players.length;i++) {
     var ply = this.players[i];

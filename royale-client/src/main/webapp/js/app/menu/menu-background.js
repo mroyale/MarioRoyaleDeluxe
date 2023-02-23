@@ -12,7 +12,7 @@ function MenuDisplay() {
     this.frame = 0;
 
     //const worldList = ["world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7", "world-8", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb"];
-    const worldList = ["world-1", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb"];
+    const worldList = ["world-1", "bkg-mariokart", "bkg-smb2", "bkg-spm", "bkg-nsmb", "bkg-blackout"];
     this.worldName = worldList[Math.floor(Math.random() * worldList.length)]; 
     this.loadWorld(this.worldName).then(data => {
         this.world = data;
@@ -129,6 +129,12 @@ MenuDisplay.prototype.setMusic = function() {
       break;
     }
 
+    case "bkg-blackout" : {
+      app.menu.main.menuMusic.src = pref + "title-blackout.mp3";
+      app.menu.main.menuMusic.load();
+      break;
+    }
+
     default : {
       var music = ["title.mp3", "titlelost.mp3"];
       app.menu.main.menuMusic.src = pref + music[parseInt(Math.random() * music.length)];
@@ -207,7 +213,7 @@ MenuDisplay.prototype.draw = function() {
     context.translate(parseInt(-this.camera.pos.x*MenuDisplay.TEXRES), parseInt(-this.camera.pos.y*MenuDisplay.TEXRES));
     
     /* Draw Game */
-    if (zone.background.length) {
+    if (zone.background.length && !app.settings.disableBg) {
         for (var i=0; i<zone.background.length; i++) {
           var layer = zone.background[i];
           
