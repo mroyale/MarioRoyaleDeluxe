@@ -33,7 +33,7 @@ function PlatformObject(game, level, zone, pos, oid, width, movx, movy, speed, l
 PlatformObject.ASYNC = true;
 PlatformObject.ID = 0x91;
 PlatformObject.NAME = "Platform"; // Used by editor
-PlatformObject.PARAMS = [{'name': "Width", 'type': "int"}, {'name': "Move X", 'type': "float"}, {'name': "Move Y", 'type': "float"}, {'name': "Speed", 'type': "float"}, {'name': "Loop", 'type': "int"}, {'name': "Reverse", 'type': "int"}];
+PlatformObject.PARAMS = [{'name': "Width", 'type': "int"}, {'name': "Move X", 'type': "float"}, {'name': "Move Y", 'type': "float"}, {'name': "Speed", 'type': "float"}, {'name': "Loop", 'type': "int"}, {'name': "Delay", 'type': "int"}, {'name': "Reverse", 'type': "int"}];
 
 PlatformObject.ANIMATION_RATE = 3;
 

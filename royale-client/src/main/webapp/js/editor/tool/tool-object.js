@@ -181,6 +181,7 @@ ToolObject.prototype.load = function() {
   this.zone = this.editor.currentZone;
   this.selected = undefined;
   this.element.style.display = "block";
+  this.objct.type = parseInt(this.valType.value);
 };
 
 ToolObject.prototype.save = function() {
