@@ -11,6 +11,7 @@ function ToolWarp(editor) {
   this.valPos = document.getElementById("editor-tool-warp-pos");
   
   this.valData = document.getElementById("editor-tool-warp-data");
+  this.valTileData = document.getElementById("editor-tool-tile-data-warpid");
   
   var tmp = this;
   this.valId.onchange = function() { tmp.update(); };
@@ -68,6 +69,26 @@ ToolWarp.prototype.input = function(imp, mous, keys) {
   else if(!mous.mmb) { this.mmbx = false; }
 };
 
+ToolWarp.prototype.updParamTools = function() {
+  this.valTileData.length = 1;
+
+  var level = this.editor.world.getLevel(this.editor.getZone().level);
+  var warps = level.getWarps();
+
+  this.valTileData[0].innerText = (warps.length > 0 ? "Choose a Warp ID from this level" : "Place a warp in this level first!");
+  
+  for(var i=0;i<warps.length;i++) {
+    var id = warps[i];
+    var wrp = level.getWarp(id);
+
+    var elem = document.createElement("option");
+    elem.value = id;
+    elem.innerText = "Warp ID: " + id + " / Zone: " + wrp.zone;
+
+    this.valTileData.appendChild(elem);
+  }
+};
+
 ToolWarp.prototype.update = function() {
   try {
     var id = Math.max(0, Math.min(255, parseInt(this.valId.value)));
@@ -75,6 +96,7 @@ ToolWarp.prototype.update = function() {
     
     if(isNaN(id) || isNaN(data)) { throw "oof"; }
     
+    this.updParamTools();
     if(this.selected) { this.selected.id = id; this.selected.data = data; }
   }
   catch(ex) { return; }
@@ -88,6 +110,8 @@ ToolWarp.prototype.select = function(warp) {
   this.valId.value = warp.id;
   this.valPos.innerHTML = pos.x+","+pos.y;
   this.valData.value = warp.data;
+
+  this.updParamTools();
 };
 
 ToolWarp.prototype.move = function(x,y) {

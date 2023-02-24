@@ -1065,6 +1065,7 @@ td32.TILE_PROPERTIES = {
   /* Music Block AIR (NEW) */
   239: {
     NAME: "MUSIC BLOCK STANDARD",
+    DATA: "Music Filename",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: false,

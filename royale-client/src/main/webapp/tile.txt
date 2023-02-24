@@ -26,6 +26,10 @@ SEMISOLID STANDARD::6
 
 WATER STANDARD::7
 
+FLIP BLOCK::8
+ - Works like in Super Mario World.
+ - The extra data is the sprite ID that you want to use for the flip block. Ideally you want to set this to an animated tile. For example 24 for the question block.
+
 ICE BLOCK::10
  - Player slides around on this block.
 
