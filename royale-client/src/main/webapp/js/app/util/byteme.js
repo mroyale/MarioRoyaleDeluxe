@@ -441,6 +441,25 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Item Block Invisible Progressive */
+  0x1B: {
+    NAME: "ITEM BLOCK INVISIBLE PROGRESSIVE",
+    DATA: "Final Powerup (0=flower,1=leaf,2=random)",
+    COLLIDE: true,
+    HIDDEN: true,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      if (type === 0x10 || type === 0x11 || type === 0x04) {
+        if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
+        var ply = game.getPlayer();
+        var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
+        game.world.getZone(level, zone).replace(x,y,rep);
+        game.createObject((type === 0x10 ? 0x51 : (parseInt(td.data) === 2 ? parseInt(Math.random()*2) === 1 ? 0x52 : 0x57 : (parseInt(td.data) === 1 ? 0x57 : 0x52))), level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
+        td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+        game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
+      }
+    }
+  },
   /* Item Block Regen */
   0x1A: {
     NAME: "ITEM BLOCK REGEN",
