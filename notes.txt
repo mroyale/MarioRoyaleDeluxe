@@ -1,18 +1,18 @@
-MARIO ROYALE IS RELEASED! FEBRUARY 11TH 2023!
+MARIO ROYALE DELUXE IS RELEASED! FEBRUARY 11TH 2023!
 Release notes: Cloudflare glitch resulted in many people unable to access the site.
 
 Bugs:
 - Koopas fall too fast
 - Linking to a version number in the patch notes (i.e. https://marioroyale.com/royale/patch.html#1.0.0) breaks the container. Can't figure out why this happens but it hardly matters.
+- Softlock in 2-1 if you break the bricks because you can't jump on anything to get across
+  Note: Increasing SPRING_LENGTH_MAX doesn't solve it. Just makes you hang in the air for longer and you get stuck on the spring after landing
 
 Features to add, backport and whatever the hell else:
 - Chat (things needed: swear filter)
 - Spectator (urgh this was a pain to add in legacy and will be here.)
 - Hammer suit (AAAAAAAAAAAAA i don't think this will be that hard I just need the delay to be lower or something)
-- clear pipes How the fuck am I supposed to be able to add that
 - control as pop up window
 - changelogs as pop up window
 - private lobbies (this is painful because of uploading levels. also i need to rework this to use an automatic code system like ADASIGHA)
-- flip blocks (for smw)
 - tile animations to editor
 - sex except only player with username "terminalarch" is able to use it

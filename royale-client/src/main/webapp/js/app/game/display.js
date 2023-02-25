@@ -443,13 +443,13 @@ Display.prototype.drawUI = function() {
     if(this.game instanceof Game) {
       context.font = "24px SmbWeb";
       if (!app.settings.hideTimer) {
-        var time = this.game.getGameTimer();
+        var time = this.game.getGameTimer(this.game.touchMode);
         var w =  context.measureText(time).width;
         context.fillText(time, (W/2)-(w/2), 32);
         context.strokeText(time, (W/2)-(w/2), 32);
       }
 
-      var txt = this.game.remain + " PLAYERS REMAIN";
+      var txt = this.game.touchMode ? this.game.remain : this.game.remain + " PLAYERS REMAIN";
       w = context.measureText(txt).width;
       context.fillText(txt, W-w-8, 32);
       context.strokeText(txt, W-w-8, 32);

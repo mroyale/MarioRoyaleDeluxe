@@ -233,7 +233,8 @@ a {
   position: absolute;
   z-index: 1;
   top: -5px;
-  left: 105%
+  left: 105%;
+  margin-left: 0%;
 }
 
 .tooltip:hover .tooltip-text {
