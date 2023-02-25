@@ -295,7 +295,7 @@ Game.prototype.load = function(data) {
           switch(ext) {
             case "png" : { this.display.resource.loadTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url }); break; }
             case "gif" : { this.display.resource.loadAnimatedTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url }); break; }
-            default : { app.menu.warn.show("Failed to load resource with unknown extension: " + ext); break; }
+            default : { app.menu.warn.show("Failed to load background with url: " + layer.url + ". The URL may be missing."); break; }
           }
         }
       }
