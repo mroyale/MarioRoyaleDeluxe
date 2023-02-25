@@ -30,7 +30,7 @@ function PostObject(game, level, zone, pos, oid, movy) {
 PostObject.ASYNC = true;
 PostObject.ID = 0xB2;
 PostObject.NAME = "Goal Post"; // Used by editor
-PostObject.PARAMS = [{'name': 'Move Y', 'type': 'int'}];
+PostObject.PARAMS = [{'name': 'Move Y', 'type': 'int', 'tooltip': "How many tiles the goal post moves upwards"}];
 
 PostObject.ANIMATION_RATE = 12;
 

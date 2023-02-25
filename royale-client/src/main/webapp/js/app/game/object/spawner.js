@@ -24,7 +24,7 @@ function SpawnerObject(game, level, zone, pos, oid, type, delay, direction) {
 SpawnerObject.ASYNC = false;
 SpawnerObject.ID = 37;
 SpawnerObject.NAME = "Object Spawner"; // Used by editor
-SpawnerObject.PARAMS = [{'name': "Object Type", 'type': "int"}, {'name': "Spawn Delay", 'type': "int"}, {'name': "Direction", 'type': "int"}];
+SpawnerObject.PARAMS = [{'name': "Object Type", 'type': "int", 'tooltip': "The ID/Type of the object you want to spawn. 17 for goomba, 81 for mushroom, etc.."}, {'name': "Spawn Delay", 'type': "int", 'tooltip': "How long until the object is spawned again"}, {'name': "Direction", 'type': "int", 'tooltip': "The direction of the object spawned. 0 is left and 1 is right"}];
 
 SpawnerObject.ANIMATION_RATE = 3;
 

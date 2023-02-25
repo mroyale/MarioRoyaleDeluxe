@@ -32,7 +32,7 @@ function PlantObject(game, level, zone, pos, oid, variant) {
 PlantObject.ASYNC = false;
 PlantObject.ID = 0x16;
 PlantObject.NAME = "Piranha Plant"; // Used by editor
-PlantObject.PARAMS = [{'name': 'Variant', 'type': 'int'}];
+PlantObject.PARAMS = [{'name': 'Variant', 'type': 'int', 'tooltip': "Variant of the Piranha Plant. 0 is normal, 1 is red and moves faster like in The Lost Levels"}];
 
 PlantObject.ANIMATION_RATE = 6;
 PlantObject.VARIANT_OFFSET = 0x42; //66 sprites

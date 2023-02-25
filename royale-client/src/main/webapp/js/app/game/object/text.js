@@ -24,7 +24,7 @@ function TextObject(game, level, zone, pos, oid, offset, size, color, text, outl
 TextObject.ASYNC = true;
 TextObject.ID = 0xFD;
 TextObject.NAME = "Text"; // Used by editor
-TextObject.PARAMS = [{'name': "Y Offset", "type": "float"}, {'name': "Size", 'type': "float"}, {'name': "Color", 'type': "HTML color"}, {'name': "Text", 'type': "string"}, {'name': "Outline", 'type': "HTML color"}];
+TextObject.PARAMS = [{'name': "Y Offset", "type": "float", 'tooltip': "Vertical offset of the text"}, {'name': "Size", 'type': "float", 'tooltip': "The size of the text. 1 is equivalent to 1 tile"}, {'name': "Color", 'type': "HTML color", 'tooltip': "Color of the text, you can use hex codes and standard color names like 'black' and 'gold'. Supports opacity"}, {'name': "Text", 'type': "string", 'tooltip': "The actual text you want shown in your level. Can be whatever you want"}, {'name': "Outline", 'type': "HTML color", 'tooltip': "The color of the text outline. Default is blue. Same color rules apply as the text color rules"}];
 
 TextObject.ANIMATION_RATE = 3;
 

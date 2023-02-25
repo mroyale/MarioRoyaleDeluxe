@@ -33,7 +33,7 @@ function PlatformObject(game, level, zone, pos, oid, width, movx, movy, speed, l
 PlatformObject.ASYNC = true;
 PlatformObject.ID = 0x91;
 PlatformObject.NAME = "Platform"; // Used by editor
-PlatformObject.PARAMS = [{'name': "Width", 'type': "int"}, {'name': "Move X", 'type': "float"}, {'name': "Move Y", 'type': "float"}, {'name': "Speed", 'type': "float"}, {'name': "Loop", 'type': "int"}, {'name': "Delay", 'type': "int"}, {'name': "Reverse", 'type': "int"}];
+PlatformObject.PARAMS = [{'name': "Width", 'type': "int", 'tooltip': "How wide the platform is in tiles"}, {'name': "Move X", 'type': "float", 'tooltip': "How many tiles the platform moves horizontally"}, {'name': "Move Y", 'type': "float", 'tooltip': "How many tiles the platform moves vertically"}, {'name': "Speed", 'type': "float", 'tooltip': "The speed the platform moves with"}, {'name': "Loop", 'type': "int", 'tooltip': 'If 1, the platform returns to it\'s starting position when done'}, {'name': "Delay", 'type': "int", 'tooltip': "How long before the platform initially spawns in"}, {'name': "Reverse", 'type': "int", 'tooltip': "If 1, the platform starts at the end point instead of the start point"}];
 
 PlatformObject.ANIMATION_RATE = 3;
 

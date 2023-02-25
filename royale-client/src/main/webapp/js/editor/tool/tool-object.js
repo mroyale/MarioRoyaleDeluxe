@@ -83,14 +83,20 @@ ToolObject.prototype.updParamTools = function() {
   var pdef = GameObject.OBJECT(this.objct.type).PARAMS;
   var currParamLimit = pdef ? pdef.length : 0;
   for (var i=0;i<this.editor.objParamLimit;++i) {
-      var box = document.getElementById("editor-tool-object-param-box-"+i);
-      box.style.display = (i<currParamLimit) ? "" : "none";
-      if (i<currParamLimit) {
-          var paramNameLabel = document.getElementById("editor-tool-object-param-name-"+i);
-          paramNameLabel.innerText = pdef[i].name;
-          var paramTypeLabel = document.getElementById("editor-tool-object-param-type-"+i);
-          paramTypeLabel.innerText = pdef[i].type||"string";
+    var box = document.getElementById("editor-tool-object-param-box-"+i);
+    box.style.display = (i<currParamLimit) ? "" : "none";
+    if (i<currParamLimit) {
+      if(pdef[i].tooltip) {
+        var paramNameLabel = document.getElementById("editor-tool-object-param-name-"+i);
+        paramNameLabel.innerHTML = pdef[i].name + '<span class="tooltip-text">' + pdef[i].tooltip + '</span>';
+      } else {
+        var paramNameLabel = document.getElementById("editor-tool-object-param-name-"+i);
+        paramNameLabel.innerText = pdef[i].name;
       }
+
+      var paramTypeLabel = document.getElementById("editor-tool-object-param-type-"+i);
+      paramTypeLabel.innerText = pdef[i].type || "string";
+    }
   }
 }
 

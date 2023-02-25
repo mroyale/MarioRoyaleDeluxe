@@ -48,7 +48,7 @@ function FireHammerObject(game, level, zone, pos, oid, reverse) {
 FireHammerObject.ASYNC = false;
 FireHammerObject.ID = 0x32;
 FireHammerObject.NAME = "Fire Bro"; // Used by editor
-FireHammerObject.PARAMS = [{'name': 'Reverse', 'type': 'int'}];
+FireHammerObject.PARAMS = [{'name': 'Reverse', 'type': 'int', 'tooltip': "The direction of the Fire Bro. 0 is left and 1 is right"}];
 
 FireHammerObject.ANIMATION_RATE = 10;
 

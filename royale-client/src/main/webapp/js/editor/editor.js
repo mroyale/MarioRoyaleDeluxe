@@ -15,7 +15,10 @@ function Editor(data) {
   this.display = new EditorDisplay(this, this.container, this.canvas, data.resource);
 
   var valParams = document.getElementById("editor-tool-object-params");
-  this.objParamLimit = 7;
+  this.objParamLimit = 0;
+
+  GameObject.OBJECT_LIST.forEach((obj) => { if(obj.PARAMS) { if(obj.PARAMS.length > this.objParamLimit) { this.objParamLimit = obj.PARAMS.length; }; }; });
+
   for(var i=0; i<this.objParamLimit; ++i) {
     var box = document.createElement("div");
     box.setAttribute("id", "editor-tool-object-param-box-"+i);
@@ -24,7 +27,7 @@ function Editor(data) {
 
     var varParamNameLabel = document.createElement("div");
     varParamNameLabel.setAttribute("id", "editor-tool-object-param-name-"+i);
-    varParamNameLabel.setAttribute("class", "tool-var");
+    varParamNameLabel.setAttribute("class", "tool-var tooltip");
     varParamNameLabel.innerText = "Param"+(i+1);
     box.appendChild(varParamNameLabel);
 

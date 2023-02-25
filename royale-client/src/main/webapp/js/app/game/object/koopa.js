@@ -41,7 +41,7 @@ function KoopaObject(game, level, zone, pos, oid, fly) {
 KoopaObject.ASYNC = false;
 KoopaObject.ID = 0x12;
 KoopaObject.NAME = "Koopa Troopa Green"; // Used by editor
-KoopaObject.PARAMS = [{'name': "Fly", 'type': "int"}];
+KoopaObject.PARAMS = [{'name': "Fly", 'type': "int", 'tooltip': "Whether the koopa should have wings. 0 is no and 1 is yes"}];
 
 KoopaObject.ANIMATION_RATE = 6;
 KoopaObject.VARIANT_OFFSET = 0x20; //2 rows down in the sprite sheet
