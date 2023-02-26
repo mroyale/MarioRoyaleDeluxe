@@ -24,6 +24,11 @@ function App() {
     Cookies.remove("go_to_lobby");
   }
 
+  this.skipDisclaimer = Cookies.get("skip_disclaimer") === '1';
+  if(this.skipDisclaimer) {
+    Cookies.remove("skip_disclaimer");
+  }
+
   var that = this;
   var tmr = document.getElementById("hideTimer");
   var bg = document.getElementById("disableBackground");

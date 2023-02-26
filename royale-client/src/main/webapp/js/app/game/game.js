@@ -170,6 +170,11 @@ Game.prototype.getDebug = function(type) {
 Game.prototype.load = function(data) {
   app.menu.load.show();
 
+  document.getElementById("settings-returnMain").style.display = "";
+  if(this instanceof Game) {
+    document.getElementById("settings-returnLobby").style.display = "";
+  }
+
   if (this instanceof Lobby && app.net.prefLobby) { document.getElementById("worlds").style.display = ""; }
   else if (app.net.prefLobby) {
     document.getElementById("worlds").style.display = "none";

@@ -179,6 +179,11 @@ public class Login extends SessionState {
     }
     RoyaleAccount acc = session.getAccount();
 
+    if(lobbyDao.hasUserNick(acc.getUsername(), name)) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Name is already taken"));
+      return;
+    }
+
     acc.changeCharacter(p.character);
     acc.updateName(name);
     lobbyDao.saveDatabase();

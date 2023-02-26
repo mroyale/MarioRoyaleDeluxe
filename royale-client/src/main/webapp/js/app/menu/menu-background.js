@@ -33,7 +33,7 @@ function MenuDisplay() {
         var that = this;
         this.frameReq = setInterval(() => {that.draw();}, 1000 / 60) // 60FPS
         
-        if(app.goToLobby) { document.getElementById("next").click(); /* Skip disclaimer if we're returning to the lobby */ }
+        if(app.goToLobby || app.skipDisclaimer) { document.getElementById("next").click(); /* Skip disclaimer if we're returning to the lobby */ }
         else {
           document.getElementById("next").style.display = ""; // Done loading
         }
