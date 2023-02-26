@@ -706,11 +706,11 @@ Game.prototype.doStep = function() {
   var zone = this.getZone();
   if(ply && !ply.dead) {
     switch (zone.camera) {
-      case 0 : { if(!this.cameraLockedX) { this.display.camera.position(vec2.make(Math.max(13.8, ply.pos.x), zone.dimensions().y * .5)); } break; } // Horizontal Scrolling
+      case 0 : { if(!this.cameraLockedX) { this.display.camera.position(vec2.make(Math.max(14, ply.pos.x), zone.dimensions().y * .5)); } break; } // Horizontal Scrolling
       case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); if(!this.cameraLockedY) { this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); } break; } // Vertical Scrolling (horizontal is always centered)
       case 2 : {
         if(!this.cameraLockedX) {
-          this.display.camera.positionX(Math.max(13.8, ply.pos.x));
+          this.display.camera.positionX(Math.max(14, ply.pos.x));
         }
         if(!this.cameraLockedY) {
           this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y));

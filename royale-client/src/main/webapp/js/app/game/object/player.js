@@ -118,6 +118,7 @@ PlayerObject.JUMP_LENGTH_MIN = 0.01;
 PlayerObject.JUMP_LENGTH_MAX = 30;
 PlayerObject.JUMP_SPEED_INC_THRESHOLD = [0.01, 0.02, 0.025];
 PlayerObject.JUMP_DECEL = 0.013;
+PlayerObject.SPRING_DECEL = 0.003;
 PlayerObject.BLOCK_BUMP_THRESHOLD = 0.12;
 
 PlayerObject.POWER_INDEX_SIZE = 0x20;
@@ -642,7 +643,7 @@ PlayerObject.prototype.control = function() {
 
 PlayerObject.prototype.physics = function() {
   if(this.jumping !== -1) {
-    this.fallSpeed = this.underWater ? PlayerObject.WATER_FALL_SPEED : PlayerObject.FALL_SPEED_MAX - (this.jumping*PlayerObject.JUMP_DECEL);
+    this.fallSpeed = this.underWater ? PlayerObject.WATER_FALL_SPEED : PlayerObject.FALL_SPEED_MAX - (this.jumping*(this.isSpring?PlayerObject.SPRING_DECEL:PlayerObject.JUMP_DECEL));
     this.jumping++;
     this.grounded = false;
   }
