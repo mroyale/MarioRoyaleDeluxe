@@ -1219,7 +1219,7 @@ PlayerObject.prototype.draw = function(sprites) {
 
 PlayerObject.prototype.write = function(texts) {
   if(this.arrowFade > 0.) {
-    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT});
+    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT, noOutline: true});
   }
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
     var ply = this.game.getPlayerInfo(this.pid)

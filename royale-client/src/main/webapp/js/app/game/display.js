@@ -249,7 +249,7 @@ Display.prototype.drawObject = function() {
     context.strokeStyle = txt.outline ? txt.outline : "blue";
     context.font = (txt.size*Display.TEXRES) + "px SmbWeb";
     context.textAlign = "center";
-    context.strokeText(txt.text, x, y);
+    if(!noOutline) { context.strokeText(txt.text, x, y); }
     context.fillText(txt.text, x, y);
   }
 
