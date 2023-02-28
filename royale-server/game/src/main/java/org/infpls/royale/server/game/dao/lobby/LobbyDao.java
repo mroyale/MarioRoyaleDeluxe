@@ -65,7 +65,7 @@ public class LobbyDao {
   public RoyaleAccount findAccount(String username) {
     for(int i=0;i<accounts.size();i++) {
       final RoyaleAccount account = accounts.get(i);
-      if (account.username.equals(username)) {
+      if (account.username.equals(username) || account.nickname.equals(username)) {
         return account;
       }
     }
