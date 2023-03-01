@@ -26,7 +26,7 @@ AudioInstance.prototype.create = function(gain, shift, volume) {
   this.source = this.context.createBufferSource();      // Creates source
   this.source.buffer = this.data.buffer;                // Set source audio
   this.source.onended = function() { parent.playing = false; };
-  this.source.playbackRate.value = shift;
+  this.source.playbackRate.value = 1.+shift;
   this.gain = this.context.createGain();
   this.gain.gain.value = gain;
   this.source.connect(this.gain);                       // Source -> Gain
