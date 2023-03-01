@@ -17,7 +17,7 @@ public final class RoyaleSession {
   private final WebSocketSession webSocket;
   private final DaoContainer dao;
   
-  private String name, team;
+  public String name, team;
   private boolean priv;
   private final String sid;
   private final SessionThread sessionThread;

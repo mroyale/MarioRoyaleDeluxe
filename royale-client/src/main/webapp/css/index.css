@@ -4,7 +4,8 @@ body {
   user-select: none;
   touch-action: none;
   margin: 0;
-  padding: 0}
+  padding: 0
+}
 
 .background-a {
   image-rendering: pixelated;
@@ -16,7 +17,8 @@ body {
   background-attachment: fixed;
   background-size: cover;
   -webkit-animation: scroll 150s linear infinite;
-  animation: scroll 150s linear infinite}
+  animation: scroll 150s linear infinite
+}
 
 .background-b {
   image-rendering: pixelated;
@@ -28,7 +30,8 @@ body {
   background-attachment: fixed;
   background-size: cover;
   -webkit-animation: scroll 150s linear infinite;
-  animation: scroll 150s linear infinite}
+  animation: scroll 150s linear infinite
+}
 
 .background-c {
   background: #000}
@@ -38,7 +41,8 @@ img {
   -khtml-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
-  user-select: none}
+  user-select: none
+}
 
 .container-center {
   font-family: SmbWeb;
@@ -49,30 +53,69 @@ img {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  white-space: nowrap}
+  white-space: nowrap
+}
 
 .title {
-  font-size: 64px}
+  font-size: 64px
+}
 
 @media only screen and (max-width: 769px) {
   .title {
     font-size: 28px;
-    text-align: center}}
+    text-align: center
+  }
+}
+
+.container-devConsole {
+  font-family: SmbWeb;
+  color: #FFFFFF;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  background: black;
+
+  position: absolute;
+  top: 25%;
+  left: 0%;
+  white-space: nowrap;
+}
+
+.devConsole-name-input {
+  font-family: SmbWeb;
+  color: white;
+  text-align: center;
+
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed #FFFFFF;
+}
+
+.devConsole-select {
+  cursor: pointer;
+  margin-left: 6px;
+  display: inline-block;
+}
 
 .container-launch {
-  font-size: 32px}
+  font-size: 32px
+}
 
 @media only screen and (max-width: 769px) {
   .container-launch {
-    font-size: 16px}}
+    font-size: 16px
+  }
+}
 
 .container-go {
   font-size: 32px;
-  text-align: center}
+  text-align: center
+}
 
 @media only screen and (max-width: 769px) {
   .container-go {
-    font-size: 16px}}
+    font-size: 16px
+  }
+}
 
 .launch {
   cursor: pointer;

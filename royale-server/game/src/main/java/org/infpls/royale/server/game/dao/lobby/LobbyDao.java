@@ -190,8 +190,8 @@ public class LobbyDao {
     }
   }
 
-  public GameLobby createLobby(boolean priv, String code) throws IOException {
-    GameLobby lobby = new OfficialLobby(priv, code);
+  public GameLobby createLobby(boolean priv, String mode) throws IOException {
+    GameLobby lobby = new OfficialLobby(priv, mode);
     lobbies.add(lobby);
     lobby.start();
     return lobby;

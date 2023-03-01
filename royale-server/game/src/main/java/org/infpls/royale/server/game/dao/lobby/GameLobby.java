@@ -29,7 +29,7 @@ public abstract class GameLobby {
   protected final List<RoyaleSession> players, loading;
   
   private final GameLoop loop; /* Seperate timer thread to trigger game steps */
-  protected RoyaleCore game; /* The actual game object */
+  public RoyaleCore game; /* The actual game object */
   
   protected final String gameFile;
   
@@ -235,6 +235,18 @@ public abstract class GameLobby {
   /* Send a packet to a specific player */
   public void sendPacket(final Packet p, final RoyaleSession player) {
     player.sendPacket(p);
+  }
+
+  /* Get controller of session by PID */
+  public Controller getController(final int pid) {
+    for(int i=0;i<players.size();i++) {
+      final RoyaleSession session = players.get(i);
+      final Controller player = game.getController(session);
+      if(player.pid == pid) {
+        return player;
+      }
+    }
+    return null;
   }
   
   public void pushInput(final RoyaleSession session, final ByteBuffer data) { inputs.push(new InputData(session, data)); }

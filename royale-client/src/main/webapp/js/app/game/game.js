@@ -72,6 +72,7 @@ function Game(data) {
   this.rate = 0x00;            // This is an anti cheat value that's disguised slightly.
   this.gameOverTimer = 0;
   this.gameOver = false;
+  this.isDev = false;
   
   /* Set inital camera position */
   var dim = this.getZone().dimensions();
@@ -359,6 +360,7 @@ Game.prototype.updatePlayerList = function(packet) {
   if(this.pid === undefined) { return; }
   
   this.updateTeam();
+  if (this.isDev) { app.menu.game.updatePlayerList(this.players); }
 };
 
 /* G13 */
@@ -380,6 +382,11 @@ Game.prototype.updateTeam = function() {
     if(ply.id !== this.pid) {
       var obj = this.getGhost(ply.id);
       if(obj) { obj.name = ply.name; }
+    } else {
+      this.isDev = ply.isDev;
+      if(this.isDev) {
+        document.getElementById("devConsole").style.display = "";
+      }
     }
   }
 };

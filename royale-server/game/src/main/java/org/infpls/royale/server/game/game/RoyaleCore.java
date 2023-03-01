@@ -58,7 +58,11 @@ public abstract class RoyaleCore {
     final List<PacketG12.NamePair> players = new ArrayList();
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
-      players.add(new PacketG12.NamePair(c.pid, c.getName(), c.getTeam(), c.isDev()));
+      if(c.session.getAccount() != null) {
+        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev()));
+      } else {
+        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev()));
+      }
     }
     send(new PacketG12(players));
   }
@@ -86,7 +90,26 @@ public abstract class RoyaleCore {
     final List<PacketG12.NamePair> players = new ArrayList();
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
-      players.add(new PacketG12.NamePair(c.pid, c.getName(), c.getTeam(), c.isDev()));
+      if(c.session.getAccount() != null) {
+        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev()));
+      } else {
+        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev()));
+      }
+    }
+    send(new PacketG12(players));
+  }
+
+  /* Regenerate Player List */
+  public void regenList() {
+    // Regenerate player list
+    final List<PacketG12.NamePair> players = new ArrayList();
+    for(int i=0;i<controllers.size();i++) {
+      final Controller c = controllers.get(i);
+      if(c.session.getAccount() != null) {
+        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev()));
+      } else {
+        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev()));
+      }
     }
     send(new PacketG12(players));
   }
@@ -99,7 +122,7 @@ public abstract class RoyaleCore {
     controller.destroy();
   }
   
-  private Controller getController(RoyaleSession session) {
+  public Controller getController(RoyaleSession session) {
     for(int i=0;i<controllers.size();i++) {
       final Controller controller = controllers.get(i);
       if(controller.session == session) {

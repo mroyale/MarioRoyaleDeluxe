@@ -307,6 +307,23 @@
         <span id='return-lobby' class='launch' onclick='Cookies.set("go_to_lobby", "1");location.reload();'>Return to
           Lobby</span>
       </div>
+
+      <!-- Dev Console -->
+      <div id='devConsole' class='container-devConsole' style='display: none;'>
+        <div class='devConsole-select' id="devConsole-showHide">DEV&gt;</div>
+        <div id="devConsole-main" style="display: none;">
+          <div class='devConsole-select' id="devConsole-kick">kick</div>
+          <div class='devConsole-select' id="devConsole-ban">ban</div>
+          <div class='devConsole-select' id="devConsole-rename">rename</div> | <div class='devConsole-select'
+            id="devConsole-forceStart">Force Start</div>
+          <div class="name" id="devConsole-renameForm" style="display: none;">
+            <input id="devConsole-renameField" type="text" class="devConsole-name-input" placeholder="new name"
+              autocomplete="off" data-lpignore="true" />
+            <div class='devConsole-select' id="devConsole-renameDone">ok</div><br>
+          </div>
+          <span id="devConsole-playerList"></span>
+        </div>
+      </div>
       
       <!-- Game -->
       <div id='game' class='fullscreen' oncontextmenu="return false">

@@ -33,7 +33,7 @@ function MenuBar() {
   this.btnBg.onclick = function() { app.menu.tool.set("bg"); };
   
   this.btnSave.onclick = function() { app.save(); };
-  this.btnAbout.onclick = function() { alert("Mario Royale Editor\n\nEditor created by: InfernoPlus\nUpdated by: terminalarch, Nightcat, gyorokpeter, et al.\nLast Updated: " + document.lastModified) }; // Oof
+  this.btnAbout.onclick = function() { alert("Mario Royale Editor\n\nEditor created by: InfernoPlus\nUpdated by: terminalarch, Nightcat, clippy, gyorokpeter, et al.\nLast Updated: " + document.lastModified) }; // Oof
 }
 
 MenuBar.prototype.show = function() {
