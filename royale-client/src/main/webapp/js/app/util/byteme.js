@@ -826,7 +826,7 @@ td32.TILE_PROPERTIES = {
   },
   /* End of Level Warp */
   0x56: {
-    NAME: "LEVEL END WARP",
+    NAME: "WARP LEVEL END",
     DATA: "Target Level ID",
     COLLIDE: false,
     HIDDEN: false,
@@ -844,7 +844,7 @@ td32.TILE_PROPERTIES = {
   },
   /* Random Warp Tile */
   0x57: {
-    NAME: "RANDOM WARP TILE",
+    NAME: "WARP TILE RANDOM",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
