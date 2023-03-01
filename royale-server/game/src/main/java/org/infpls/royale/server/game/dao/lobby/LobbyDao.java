@@ -172,9 +172,10 @@ public class LobbyDao {
     try {
       // Create new file
       Gson gson = new GsonBuilder().create();
-      File file = new File("/var/lib/tomcat9/webapps/database.json");
+      String path = "/var/lib/tomcat9/webapps/";
+      File file = new File(path + "database.json");
 
-      FileWriter fw = new FileWriter("/var/lib/tomcat9/webapps/database.json");
+      FileWriter fw = new FileWriter(path + "database.json");
       BufferedWriter bw = new BufferedWriter(fw);
 
       // Write in file
