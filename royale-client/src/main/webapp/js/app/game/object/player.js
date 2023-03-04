@@ -1229,7 +1229,7 @@ PlayerObject.prototype.write = function(texts) {
     }
     var ply = this.game.getPlayerInfo(this.pid)
     var dev = ply ? ply.isDev : false;
-    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.INDEX[0].length > 1?2.:1.)), PlayerObject.TEAM_OFFSET), size: PlayerObject.TEAM_SIZE, color: dev ? PlayerObject.DEV_TEAM_COLOR : PlayerObject.TEAM_COLOR, text: this.name, 'outline': dev ? "#FFF" : null});
+    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.INDEX instanceof Array?2.:1.)), PlayerObject.TEAM_OFFSET), size: PlayerObject.TEAM_SIZE, color: dev ? PlayerObject.DEV_TEAM_COLOR : PlayerObject.TEAM_COLOR, text: this.name, 'outline': dev ? "#FFF" : null});
   }
 };
 
