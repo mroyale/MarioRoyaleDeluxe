@@ -8,7 +8,7 @@ function MenuAccount() {
   this.linkMemberElement = document.getElementById("linkMember");
   this.winElement = document.getElementById("win");
 
-  this.controlBtn = document.getElementById("mainMember-controls");
+  this.controlsBtn = document.getElementById("mainMember-controls");
   this.changelogBtn = document.getElementById("mainMember-changelog");
   this.settingsBtn = document.getElementById("mainMember-settings");
 
@@ -20,6 +20,9 @@ function MenuAccount() {
 
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
+
+  this.controlsMenu = document.getElementById("controls");
+  this.controlsCloseBtn = document.getElementById("controls-close");
 
   this.playMenu = document.getElementById("playMember");
   this.playCloseBtn = document.getElementById("playMember-close");
@@ -69,6 +72,7 @@ function MenuAccount() {
   this.padLoop = undefined;
   
   this.settingsCloseBtn.onclick = function() { that.hideSettingsMenu(); };
+  this.controlsCloseBtn.onclick = function() { that.hideControlsMenu(); };
   this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
@@ -80,7 +84,7 @@ function MenuAccount() {
   this.passwordSaveBtn.onclick = function() { that.savePassword(); };
 
   this.playBtn.onclick = function() { that.showPlayMenu(); };
-  this.controlBtn.onclick = function() { window.open("control.html"); };
+  this.controlsBtn.onclick = function() { that.showControlsMenu(); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.showSettingsMenu(); };
   this.profileBtn.onclick = function() { that.showProfileMenu(); };
@@ -115,20 +119,31 @@ function MenuAccount() {
 
   };
   
-  this.leaderboardInterval = setInterval(function() {
-    $.ajax({
-      url: /royale/ + "leaderboards",
-      type: 'GET',
-      timeout: 3000,
-      success: function(data) { serverResponse(data); },
-    });
-  }, 3000);
+  $.ajax({
+    url: /royale/ + "leaderboards",
+    type: 'GET',
+    timeout: 3000,
+    success: function(data) { serverResponse(data); },
+  });
   
 
   that.setLeaderboard("wins");
 };
 
 /* Menus */
+
+/* Controls Menu */
+MenuAccount.prototype.showControlsMenu = function() {
+  if (!app.ingame()) {
+    this.darkBackground.style.display = "";
+  }
+  this.controlsMenu.style.display = "";
+};
+
+MenuAccount.prototype.hideControlsMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.controlsMenu.style.display = "none";
+};
 
 /* Settings Menu */
 MenuAccount.prototype.showSettingsMenu = function() {
@@ -398,7 +413,6 @@ MenuAccount.prototype.show = function(stats) {
   app.menu.background("a");
   this.winElement.style.display = "block";
   if(stats) { this.winElement.innerHTML = "Wins×" + (stats.wins) + "</span> <span class='kill'>Deaths×" + (stats.deaths) + "</span> <span class='kill'>Kills×" + (stats.kills) + "</span> <span class='kill'>Coins×" + (stats.coins) + "</span>"; }
-  this.startPad();
   this.linkMemberElement.style.display = "block";
   this.linkElement.style.display = "block";
   this.element.style.display = "block";

@@ -32,7 +32,7 @@ function Input(game, container) {
 
 Input.INPUTS = ["up","down","left","right","a","b"];
 Input.K_DEFAULT = [38, 40, 37, 39, 88, 90];
-Input.G_DEFAULT = [0, 1, 2, 3, 4, 5];
+Input.G_DEFAULT = [12, 13, 14, 15, 0, 2];
 
 Input.prototype.load = function() {
   this.assignK = {};

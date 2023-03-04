@@ -48,7 +48,7 @@ public class Login extends SessionState {
         case "llo" : { accountLogout(gson.fromJson(data, PacketLOR.class)); break; }
         case "lpu" : { accountUpdate(gson.fromJson(data, PacketLPU.class)); break; }
         case "lcp" : { accountPassword(gson.fromJson(data, PacketLCP.class)); break; }
-        case "lsc" : { /* This doesn't do anything. This is to keep the websocket alive. */ break; }
+        case "lsc" : { sendPacket(new PacketLSC(lobbyDao.getLeaderboards())); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
@@ -231,7 +231,6 @@ public class Login extends SessionState {
     /* Gamemode */
     String[] GAMEMODES = new String[] { "vanilla", "pvp" };
     int mode = p.mode;
-    System.err.println("Login.login :: Gamemode is " + mode);
     if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
     
     /* Login */

@@ -640,7 +640,8 @@ Game.prototype.doInput = function(imp) {
     {pos: vec2.make(W-48, 40), dim: vec2.make(36, 36), click: function() { tmp.audio.muteMusic = !tmp.audio.muteMusic; tmp.audio.saveSettings(); }},
     {pos: vec2.make(W-92, 40), dim: vec2.make(36, 36), click: function() { tmp.audio.muteSound = !tmp.audio.muteSound; tmp.audio.saveSettings(); }},
     {pos: vec2.make(W-136, 40), dim: vec2.make(36, 36), click: function() { tmp.disableText = !tmp.disableText; Cookies.set("text", tmp.disableText?1:0, {expires: 30}); }},
-    {pos: vec2.make(W-180, 40), dim: vec2.make(36, 36), click: function() { var stg = document.getElementById("settings"); stg.style.display = (stg.style.display === "" ? "none": ""); }}
+    {pos: vec2.make(W-180, 40), dim: vec2.make(36, 36), click: function() { var stg = document.getElementById("settings"); stg.style.display = (stg.style.display === "" ? "none": ""); }},
+    {pos: vec2.make(W-224, 40), dim: vec2.make(36, 36), click: function() { var ctl = document.getElementById("controls"); ctl.style.display = (ctl.style.display === "" ? "none" : ""); }}
   ];
   for(var i=0;i<imp.mouse.length;i++) {
     var m = imp.mouse[i];
@@ -663,6 +664,14 @@ Game.prototype.doInput = function(imp) {
   var u = keys[inp.assignK.up] || pad.button(inp.assignG.up);
   
   if(mous.spin && this.getZone().camera === 2 /* Free-Roam only */) { this.display.camera.zoom(mous.spin); } // Mouse wheel -> Camera zoom
+  
+  if(document.getElementById("controls").style.display === "") {
+    dir[1] = 0;
+    dir[0] = 0;
+    a = false;
+    b = false;
+    u = false;
+  }
   
   obj.input(dir, a, b, u);
   

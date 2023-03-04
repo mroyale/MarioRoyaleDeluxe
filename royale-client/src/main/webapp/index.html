@@ -8,6 +8,7 @@
         <link rel='icon' href='img/home/icon.png'>
         <link rel='stylesheet' type='text/css' href='css/queries.css'>
         <link rel='stylesheet' type='text/css' href='css/index.css'>
+        <link rel='stylesheet' type='text/css' href='css/control.css'>
 
         <meta name="keywords" content="MRoyale, Mario, Mario Royale, Mario Royale Deluxe, Deluxe, Royale, Super Mario, Super Mario Bros., Super Mario Bros. Royale, Super Mario Royale" />
         <meta name="description" content="Mario Royale Deluxe is a competitive online battle where up to 75 players compete for glory!" />
@@ -281,9 +282,56 @@
         <p id="password-error"></p>  
       </div>
 
+      <!-- Controls -->
+      <div id="controls" class="container-password" style="display:none;height:430px;">
+        <span style="position: absolute;right: 10px;top: 4px;" id="controls-close">x</span>
+        <p>Controls</p>
+
+        <div class="container">
+          <div class="t" id="k-title" style="color: rgb(255, 215, 0);">Keyboard</div>
+          <div class="a">
+            <div><span class="n">🢁</span><button class="i" onclick="controlApp.setK('up')">Set</button><span class="v" id="key-up">0x57</span></div>
+            <div><span class="n">🢃</span><button class="i" onclick="controlApp.setK('down')">Set</button><span class="v" id="key-down">0x53</span></div>
+            <div><span class="n">🢀</span><button class="i" onclick="controlApp.setK('left')">Set</button><span class="v" id="key-left">0x41</span></div>
+            <div><span class="n">🢂</span><button class="i" onclick="controlApp.setK('right')">Set</button><span class="v" id="key-right">0x44</span></div>
+            <div><span class="n">A</span><button class="i" onclick="controlApp.setK('a')">Set</button><span class="v" id="key-a">0x20</span></div>
+            <div><span class="n">B</span><button class="i" onclick="controlApp.setK('b')">Set</button><span class="v" id="key-b">0x10</span></div>
+          </div>
+          <button class="i" onclick="controlApp.reset('K')">Reset</button>
+        </div>
+
+        <div class="container">
+          <div class="t" id="g-title" style="color: rgb(255, 215, 0);">Gamepad</div>
+          <div class="a">
+            <div><span class="n">🢁</span><button class="i" onclick="controlApp.setG('up')">Set</button><span class="v" id="pad-up">0x0</span></div>
+            <div><span class="n">🢃</span><button class="i" onclick="controlApp.setG('down')">Set</button><span class="v" id="pad-down">0x1</span></div>
+            <div><span class="n">🢀</span><button class="i" onclick="controlApp.setG('left')">Set</button><span class="v" id="pad-left">0x2</span></div>
+            <div><span class="n">🢂</span><button class="i" onclick="controlApp.setG('right')">Set</button><span class="v" id="pad-right">0x3</span></div>
+            <div><span class="n">A</span><button class="i" onclick="controlApp.setG('a')">Set</button><span class="v" id="pad-a">0x4</span></div>
+            <div><span class="n">B</span><button class="i" onclick="controlApp.setG('b')">Set</button><span class="v" id="pad-b">0x5</span></div>
+          </div>
+          <button class="i" onclick="controlApp.reset('G')">Reset</button>
+        </div>
+
+        <div class="t" style="padding-top: 12px">Test</div>
+        <div class="a">
+          <div>
+            <div>Gamepad <span class="i" id="test-pad-id" style="display: inline-block;max-width:415px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Awaiting input...</span></div>
+            <div class="tooltip">Analog<span class="tooltip-text" style="font-size: 11px;margin-left: -105%;top:-75px;">Analog input is detected when the axis exceeds -0.25 or 0.25</span> <span class="i" id="test-analog">0, 0</span></div>
+            <div class="s"></div>
+            <span class="n" id="test-up" style="color: rgb(255, 255, 255);">🢁</span>
+            <span class="n" id="test-down" style="color: rgb(255, 255, 255);">🢃</span>
+            <span class="n" id="test-left" style="color: rgb(255, 255, 255);">🢀</span>
+            <span class="n" id="test-right" style="color: rgb(255, 255, 255);">🢂</span>
+            <span class="n" id="test-a" style="color: rgb(255, 255, 255);">A</span>
+            <span class="n" id="test-b" style="color: rgb(255, 255, 255);">B</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Settings -->
       <div id="settings" class="container-password" style="display:none;height:420px">
-        <span style="position: absolute;right: 10px" id="settingsClose">x</span>
+        <span style="position: absolute;right: 10px;" id="settingsClose">x</span>
         <p>Settings</p>
         <div>Music Volume</div>
         <input type="range" min="0" max="100" value="50" class="slider" id="musicSlider" style="width: 80%">
@@ -336,6 +384,9 @@
       <script src='js/lib/jquery/jquery-3.1.1.min.js'></script>
       <script src='js/lib/cookie/js.cookie.min.js'></script>
       <script src="js/lib/jsgif/jsgif.js"></script>
+
+      <!-- Controls -->
+      <script src='js/control/app.js'></script>
       
       <!-- Util -->
       <script src='js/app/util/util.js'></script>

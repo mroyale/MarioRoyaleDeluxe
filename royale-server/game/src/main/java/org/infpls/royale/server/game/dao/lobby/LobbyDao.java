@@ -180,7 +180,6 @@ public class LobbyDao {
 
       // Write in file
       bw.write(gson.toJson(accounts));
-      System.out.println("Saved database " + gson.toJson(accounts));
 
       // Close connection
       bw.flush();

@@ -483,7 +483,7 @@ Display.prototype.drawUI = function() {
     var st = util.sprite.getSprite(uitex, OPT);
     context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-180, 40, 36, 36);
 
-    if(this.game.input.pad.connected()) {
+    if(!this.game.touchMode) {
       var st = util.sprite.getSprite(uitex, PAD);
       context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-224, 40, 36, 36);
     }
