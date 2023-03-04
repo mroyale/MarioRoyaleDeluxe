@@ -14,6 +14,7 @@ File.prototype.open = function (e) {
   var file = e.target.files[0];
   var tmp = this; // Fucking javascript ugh...
   this.lastFileName = file.name;
+  document.title = "Editor - " + this.lastFileName;
   if (!file) {
     return;
   }

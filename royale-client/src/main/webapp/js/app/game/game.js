@@ -207,14 +207,12 @@ Game.prototype.load = function(data) {
   this.world.levels.forEach(lvl => lvl.zones.forEach(zn => {
     if (zn.music) {
       musicList.push(zn.music);
-      musicList.push(zn.music ? zn.music.replace(".mp3", "_fast.mp3") : "");
     }
 
     /* @TODO: There is definitely a better way of doing this, but the function is run only once so it should be OK */
     zn.mainLayer.data.forEach(row => row.forEach(tile => {
       if (tile[3] === 239 /* Music Block */) { if (tile[4] /* Extra Data */) {
         musicList.push(tile[4]);
-        musicList.push(tile[4] ? tile[4].replace(".mp3", "_fast.mp3") : "");
       }
     }
     }));
