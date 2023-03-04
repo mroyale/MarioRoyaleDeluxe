@@ -223,7 +223,7 @@ SpinyObject.prototype.disable = function() {
 
 SpinyObject.prototype.damage = function(p) {
   if(!this.dead) {
-    if(this.variant === 1 && !p instanceof FireballProj) { return; }
+    if(this.variant === 1 && p instanceof FireballProj) { return; }
     this.bonk();
     this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0x01));
   }
