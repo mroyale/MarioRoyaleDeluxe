@@ -278,7 +278,7 @@ SpinyObject.prototype.draw = function(sprites) {
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
         var sp = s[!mod?i:(s.length-1-i)][j];
-        switch(0) {
+        switch(this.variant) {
           case 1 : { sp += SpinyObject.VARIANT_OFFSET; break; }
           default : { break; }
         }
@@ -288,7 +288,7 @@ SpinyObject.prototype.draw = function(sprites) {
   }
   else {
     var sp = this.sprite.INDEX;
-    switch(0) {
+    switch(this.variant) {
       case 1 : { sp += SpinyObject.VARIANT_OFFSET; break; }
       default : { break; }
     }
