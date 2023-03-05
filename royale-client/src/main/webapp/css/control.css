@@ -119,5 +119,5 @@ button:hover {
   margin-left: 8px;
   font-size: 8px;
   display: inline-block;
-  min-width: 45px;
+  width: 45px;
 }
