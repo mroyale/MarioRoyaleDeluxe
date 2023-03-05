@@ -18,7 +18,6 @@ function ToolCopy(editor) {
   
   this.copyData = undefined;
   this.dim = vec2.make(2,2);
-  this.overwrite = undefined;
 }
 
 ToolCopy.prototype.input = function(imp, mous, keys) {
@@ -72,7 +71,6 @@ ToolCopy.prototype.update = function() {
     if(isNaN(w) || isNaN(h)) { throw "oof"; }
     
     this.dim = vec2.make(w, h);
-    this.overwrite = isNaN(over)?undefined:over;
   }
   catch(ex) { return; }
 };

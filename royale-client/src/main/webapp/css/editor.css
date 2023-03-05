@@ -79,12 +79,13 @@ a {
 }
 
 .panel-left {
-    overflow: auto
+  overflow: auto;
+  background: #000;
 }
 
 .panel-right {
-    width: 250px;
-    float: right
+  width: 250px;
+  float: right
 }
 
 .panel-top {

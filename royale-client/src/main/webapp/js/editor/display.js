@@ -245,8 +245,6 @@ EditorDisplay.prototype.drawMapTool = function(data, depth) {
       var st;
       var ind = td.index;
 
-      if (ind === 30) { continue; } // Do not render tile 30
-
       if (ind in TILE_ANIMATION_FILTERED) {
         var anim = TILE_ANIMATION_FILTERED[ind];
         var delay = anim.delay;
@@ -261,7 +259,7 @@ EditorDisplay.prototype.drawMapTool = function(data, depth) {
       if(adj > 0) {
         bmp = Math.sin((1.-((adj-2)/8.))*Math.PI)*0.22;
       }
-      context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, Display.TEXRES*j, Display.TEXRES*(i-bmp), Display.TEXRES, Display.TEXRES);
+      if(ind !== 30) { context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, Display.TEXRES*j, Display.TEXRES*(i-bmp), Display.TEXRES, Display.TEXRES); }
 
       if (td.definition.NAME.includes("ITEM") || td.definition.NAME.includes("OBJECT")) {
         var obj = GameObject.OBJECT(parseInt(td.data) || 81);
