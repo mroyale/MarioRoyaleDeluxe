@@ -83,6 +83,7 @@ ToolZone.prototype.resize = function() {
   if (!newWidth || newWidth <= 0) return alert("Width must be greater than 0");
   var newHeight = parseInt(this.valHeight.value);
   if (!newHeight || newHeight <= 0) return alert("Height must be greater than 0");
+  var oldHeight = this.zone.layers[0].data.length;
   
   for (var layer of this.zone.layers) {
     var oldData = layer.data;
@@ -96,6 +97,28 @@ ToolZone.prototype.resize = function() {
       }
       layer.data = newData;
     }
+
+  var obj = this.zone.obj;
+  var wrp = this.zone.warp;
+  var spn = this.zone.spawnpoint;
+
+  for(var i=0;i<obj.length;i++) {
+    var pos = shor2.decode(obj[i].pos);
+    pos.y = pos.y + (newHeight-oldHeight);
+    obj[i].pos = shor2.encode(pos.x, pos.y);
+  }
+
+  for(var i=0;i<wrp.length;i++) {
+    var pos = shor2.decode(wrp[i].pos);
+    pos.y = pos.y + (newHeight-oldHeight);
+    wrp[i].pos = shor2.encode(pos.x, pos.y);
+  }
+
+  for (var i=0;i<spn.length;i++) {
+    var pos = shor2.decode(spn[i].pos);
+    pos.y = pos.y + (newHeight-oldHeight);
+    spn[i].pos = shor2.encode(pos.x, pos.y);
+  }
 
   this.editor.dirty = true;
 };
