@@ -297,6 +297,8 @@ function ControlApp() {
   for(var i=0;i<INPUTS.length;i++) {
     this.test[INPUTS[i]] = document.getElementById("test-" + INPUTS[i]);
   }
+
+  this.testColor = "gold";
   
   this.load();
 };
@@ -437,7 +439,7 @@ ControlApp.prototype.draw = function() {
   for(var i=0;i<INPUTS.length;i++) {
     var ktest = this.keys[this.assignK[INPUTS[i]]];
     if(this.pad) { var gtest = this.pad.buttons[this.assignG[INPUTS[i]]].pressed; }
-    this.test[INPUTS[i]].style.color = ktest||gtest?"#80FF80":"#FFFFFF";
+    this.test[INPUTS[i]].style.color = ktest||gtest?this.testColor:"#FFFFFF";
   }
   
   for(var i=0;i<INPUTS.length;i++) {
@@ -448,10 +450,10 @@ ControlApp.prototype.draw = function() {
     this.elementG[INPUTS[i]].innerHTML = "0x" + this.assignG[INPUTS[i]].toString(16).toUpperCase();
   }
   
-  if(this.analog.x > 0.25) { this.test.right.style.color = "#80FF80"; }
-  if(this.analog.x < -0.25) { this.test.left.style.color = "#80FF80"; }
-  if(this.analog.y > 0.25) { this.test.down.style.color = "#80FF80"; }
-  if(this.analog.y < -0.25) { this.test.up.style.color = "#80FF80"; }
+  if(this.analog.x > 0.25) { this.test.right.style.color = this.testColor; }
+  if(this.analog.x < -0.25) { this.test.left.style.color = this.testColor; }
+  if(this.analog.y > 0.25) { this.test.down.style.color = this.testColor; }
+  if(this.analog.y < -0.25) { this.test.up.style.color = this.testColor; }
 };
 
 /* Round analog axes down to two decimal places
