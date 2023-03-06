@@ -698,6 +698,9 @@ PlayerObject.prototype.physics = function() {
     else if(tile.definition.SLOPE) {
       slopes.push(tile);
     }
+    else if(tile.definition.BARRIER && squar.intersection(tile.pos, tdim, this.pos, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
+      hit.push(tile);
+    }
     else if(tile.definition.COLLIDE) {
       if(tile.definition.HIDDEN) { hit.push(tile); continue; }
 
@@ -711,10 +714,6 @@ PlayerObject.prototype.physics = function() {
         if(Math.abs(this.moveSpeed) > 0.01  && this.grounded && this.pos.y <= tile.pos.y) { psh.push(tile); }
         hit.push(tile);
       }
-    }
-
-    if(tile.definition.BARRIER && squar.intersection(tile.pos, tdim, this.pos, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
-      hit.push(tile);
     }
 
     if(tile.definition.WATER && squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
