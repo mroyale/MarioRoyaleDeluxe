@@ -276,6 +276,15 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Player Barrier */
+  0x09 : {
+    NAME: "PLAYER BARRIER",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: false,
+    BARRIER: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
   /* Ice Block */
   0x0A: {
     NAME: "ICE BLOCK",
@@ -979,6 +988,7 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Warp Single Fast */
   94: {
     NAME: "WARP PIPE SINGLE FAST",
     DATA: "Target Warp ID",

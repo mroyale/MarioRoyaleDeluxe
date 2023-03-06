@@ -713,7 +713,11 @@ PlayerObject.prototype.physics = function() {
       }
     }
 
-    if (tile.definition.WATER && squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
+    if(tile.definition.BARRIER && squar.intersection(tile.pos, tdim, this.pos, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
+      hit.push(tile);
+    }
+
+    if(tile.definition.WATER && squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
       underwater = true;
     }
   }

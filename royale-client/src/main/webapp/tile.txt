@@ -30,6 +30,9 @@ FLIP BLOCK::8
  - Works like in Super Mario World.
  - The extra data is the sprite ID that you want to use for the flip block. Ideally you want to set this to an animated tile. For example 24 for the question block.
 
+PLAYER BARRIER::9
+ - Player treats this as a solid tile, but enemies treat it as air.
+
 ICE BLOCK::10
  - Player slides around on this block.
 
@@ -104,10 +107,23 @@ RANDOM WARP TILE::87
  - When touched it warps you to a random warp in the level. No extra data.
 
 WARP PIPE LEFT SLOW::89
- - No delay. Extra data value correponds to the id of the warp point you want it to go to.
+ - Delay before warping. Extra data value correponds to the id of the warp point you want it to go to.
 
 WARP PIPE LEFT FAST::90
  - Reeee. Extra data value correponds to the id of the warp point you want it to go to.
+
+WARP PIPE UP SLOW::91
+ - Delay before warping. Extra data value correponds to the id of the warp point you want it to go to.
+
+WARP PIPE UP FAST::92
+ - Reeee. Extra data value correponds to the id of the warp point you want it to go to.
+
+WARP PIPE SINGLE SLOW::93
+ - Few second delay. Extra data value correponds to the id of the warp point you want it to go to.
+ - You only need one of these tiles to warp, that's why it's called the single warp pipe
+
+WARP PIPE SINGLE FAST::94
+ - No delay. Extra data value correponds to the id of the warp point you want it to go to.
 
 FLAGPOLE::160
  - When touched mario slides down and then walks right.
