@@ -698,7 +698,7 @@ PlayerObject.prototype.physics = function() {
     else if(tile.definition.SLOPE) {
       slopes.push(tile);
     }
-    else if(tile.definition.BARRIER && squar.intersection(tile.pos, tdim, this.pos, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
+    else if(tile.definition.BARRIER && (squar.intersection(tile.pos, tdim, this.pos, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim))) {
       hit.push(tile);
     }
     else if(tile.definition.COLLIDE) {
