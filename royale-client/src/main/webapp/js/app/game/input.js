@@ -14,8 +14,8 @@ function Input(game, container) {
   this.container.onmouseup = function(event) { that.mouse.event(event, false); };
   this.container.addEventListener("mousewheel", function(event) { that.mouse.wheel(event); }, false); // IE9, Chrome, Safari, Opera
   this.container.addEventListener("DOMMouseScroll", function(event) { that.mouse.wheel(event); }, false); // Firefox
-  document.onkeyup = function(event) { that.keyboard.event(event, false); };
-  document.onkeydown = function(event) { that.keyboard.event(event, true); };
+  document.onkeyup = function(event) { that.keyboard.event(event, false); controlApp.keyEvent(event, false); };
+  document.onkeydown = function(event) { that.keyboard.event(event, true); controlApp.keyEvent(event, true); };
 
   this.touchEvt = function(event) { app.game.input.touch.event(event); };
   
