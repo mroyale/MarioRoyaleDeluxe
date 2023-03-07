@@ -1227,9 +1227,6 @@ PlayerObject.prototype.write = function(texts) {
     texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT, noOutline: true});
   }
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
-    if(this.sprite.INDEX[0].length == undefined) {
-      return;
-    }
     var ply = this.game.getPlayerInfo(this.pid)
     var dev = ply ? ply.isDev : false;
     texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.INDEX instanceof Array?2.:1.)), PlayerObject.TEAM_OFFSET), size: PlayerObject.TEAM_SIZE, color: dev ? PlayerObject.DEV_TEAM_COLOR : PlayerObject.TEAM_COLOR, text: this.name, 'outline': dev ? "#FFF" : null});
