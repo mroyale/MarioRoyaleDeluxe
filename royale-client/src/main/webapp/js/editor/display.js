@@ -309,6 +309,19 @@ EditorDisplay.prototype.drawObjectTool = function() {
       var st = util.sprite.getSprite(tex, cls.SPRITE[0].INDEX);
       context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
     }
+
+    if((obj.type == 145 || obj.type == 146) && this.game.showLines) {
+      const startX = pos.x;
+      const startY = (zone.dimensions().y-pos.y);
+      const endX = parseInt(obj.param[1]||0);
+      const endY = -(parseInt(obj.param[2]||0));
+      context.strokeStyle = 'white';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(startX*Display.TEXRES, startY*Display.TEXRES);
+      context.lineTo((startX*Display.TEXRES)+endX*Display.TEXRES, ((startY)*Display.TEXRES)+endY*Display.TEXRES);
+      context.stroke();
+    }
   }
 };
 

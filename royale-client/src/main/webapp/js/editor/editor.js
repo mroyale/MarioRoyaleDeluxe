@@ -53,6 +53,7 @@ function Editor(data) {
   
   this.showRef = false;
   this.showGrid = true;
+  this.showLines = true;
   this.offsetRef = vec2.make(0, 0);
   this.reference = undefined;
   this.refDepth = false;
@@ -222,6 +223,7 @@ Editor.prototype.doInput = function() {
   if (document.activeElement.tagName === 'INPUT') { return; }
   if(keys[82] && !this.inx82) { this.showRef = !this.showRef; this.inx82 = true; } this.inx82 = keys[82]; // R -> Toggle Ref
   if(keys[71] && !this.inx71) { this.showGrid = !this.showGrid; this.inx71 = true; } this.inx71 = keys[71]; // G -> Toggle Grid
+  if(keys[76] && !this.inx76) { this.showLines = !this.showLines; this.inx76 = true; } this.inx76 = keys[76]; // L -> Toggle Lines
 };
 
 /* Step game world */
