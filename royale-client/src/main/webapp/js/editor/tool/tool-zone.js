@@ -223,12 +223,13 @@ ToolZone.prototype.save = function() {
     var i = parseInt(this.valId.value);
     var x = parseInt(this.valInitialX.value);
     var y = parseInt(this.valInitialY.value);
-    if(isNaN(i) || isNaN(x) || isNaN(y)) { throw "oof"; }
+    var c = parseInt(this.valCamera.value);
+    if(isNaN(i) || isNaN(x) || isNaN(y) || isNaN(c)) { throw "oof"; }
     this.zone.id = i;
     this.zone.initial = shor2.encode(x, y);
     this.zone.color = this.valColor.value;
     this.zone.music = this.valMusic.value;
-    this.zone.camera = this.valCamera.value;
+    this.zone.camera = parseInt(this.valCamera.value);
   }
   catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); }
   

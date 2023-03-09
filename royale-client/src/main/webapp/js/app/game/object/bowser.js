@@ -45,8 +45,7 @@ BowserObject.HEALTH = 5;
 
 BowserObject.BONK_TIME = 90;
 BowserObject.BONK_IMP = vec2.make(0.25, 0.4);
-BowserObject.BONK_DECEL = 0.925;
-BowserObject.BONK_FALL_SPEED = 0.25;
+BowserObject.BONK_DECEL = 1.20;
 
 BowserObject.MOVE_SPEED_MAX = 0.0475;
 BowserObject.JUMP_DELAY = 90;        // Time between jumps
@@ -84,7 +83,7 @@ BowserObject.STATE_LIST = [
   {NAME: "PREPARE", ID: 0x01, SPRITE: [BowserObject.SPRITE.PREPARE]},
   {NAME: "ATTACK", ID: 0x02, SPRITE: [BowserObject.SPRITE.ATTACK]},
   {NAME: "HURT", ID: 0x03, SPRITE: [BowserObject.SPRITE.HURT0, BowserObject.SPRITE.HURT1]},
-  {NAME: "BONK", ID: 0x51, SPRITE: []}
+  {NAME: "BONK", ID: 0x51, SPRITE: [BowserObject.SPRITE.HURT0, BowserObject.SPRITE.HURT1]}
 ];
 
 /* Makes states easily referenceable by either ID or NAME. For sanity. */
@@ -98,19 +97,19 @@ for(var i=0;i<BowserObject.STATE_LIST.length;i++) {
 BowserObject.prototype.update = function(event) { /* ASYNC */ };
 
 BowserObject.prototype.step = function() {
+  /* Anim */
+  this.anim++;
+  this.sprite = this.state.SPRITE[parseInt(this.anim/BowserObject.ANIMATION_RATE) % this.state.SPRITE.length];
+  
   /* Bonked */
   if(this.state === BowserObject.STATE.BONK) {
     if(this.bonkTimer++ > BowserObject.BONK_TIME || this.pos.y+this.dim.y < 0) { this.destroy(); return; }
     
-    this.pos = vec2.add(this.pos, vec2.make(this.moveSpeed, this.fallSpeed));
+    this.pos = vec2.add(this.pos, vec2.make(0, this.fallSpeed));
     this.moveSpeed *= BowserObject.BONK_DECEL;
-    this.fallSpeed = Math.max(this.fallSpeed - BowserObject.FALL_SPEED_ACCEL, -BowserObject.BONK_FALL_SPEED);
+    this.fallSpeed = BowserObject.FALL_SPEED_MAX - (this.bonkTimer*BowserObject.JUMP_DECEL);
     return;
   }
-
-  /* Anim */
-  this.anim++;
-  this.sprite = this.state.SPRITE[parseInt(this.anim/BowserObject.ANIMATION_RATE) % this.state.SPRITE.length];
   
   /* Normal Gameplay */
   this.control();
@@ -233,6 +232,7 @@ BowserObject.prototype.damage = function(p) {
 BowserObject.prototype.bonk = function() {
   if(this.dead) { return; }
   this.setState(BowserObject.STATE.BONK);
+  this.pos.y -= 1;
   this.moveSpeed = BowserObject.BONK_IMP.x;
   this.fallSpeed = BowserObject.BONK_IMP.y;
   this.dead = true;
@@ -252,7 +252,8 @@ BowserObject.prototype.setState = function(STATE) {
 
 BowserObject.prototype.draw = function(sprites) {
   var mod;
-  mod = 0x00;
+  if(this.state === BowserObject.STATE.BONK) { mod = 0x03; }
+  else { mod = 0x00; }
   
   if(this.sprite.INDEX instanceof Array) {
     var s = this.sprite.INDEX;

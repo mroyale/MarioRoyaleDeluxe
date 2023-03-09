@@ -59,7 +59,10 @@ KoopaObject.PLAYER_IMMUNE_TIME = 12;  // Player is immune to damage for this man
 KoopaObject.MOVE_SPEED_MAX = 0.0375;
 KoopaObject.SHELL_MOVE_SPEED_MAX = 0.175;
 
-KoopaObject.FALL_SPEED_MAX = 0.3;
+KoopaObject.JUMP_SPEED_ACCEL = 0.1;
+KoopaObject.JUMP_SPEED_MAX = 0.3;
+
+KoopaObject.FALL_SPEED_MAX = 0.125;
 KoopaObject.FALL_SPEED_ACCEL = 0.1;
 
 KoopaObject.JUMP_LENGTH_MAX = 40;
@@ -166,19 +169,19 @@ KoopaObject.prototype.control = function() {
 
 KoopaObject.prototype.physics = function() {
   if(this.jump !== -1) {
-    this.fallSpeed = KoopaObject.FALL_SPEED_MAX - (this.jump*KoopaObject.JUMP_DECEL);
+    this.fallSpeed = KoopaObject.JUMP_SPEED_MAX - (this.jump*KoopaObject.JUMP_DECEL);
     this.jump++;
     this.grounded = false;
   }
   else {
     if(this.grounded) { this.fallSpeed = 0; }
-    this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.FALL_SPEED_ACCEL, -KoopaObject.FALL_SPEED_MAX);
+    this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.JUMP_SPEED_ACCEL, -KoopaObject.JUMP_SPEED_MAX);
   }
   
   if(this.grounded) {
     this.fallSpeed = 0;
   }
-  this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.FALL_SPEED_ACCEL, -KoopaObject.FALL_SPEED_MAX);
+  this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.FALL_SPEED_ACCEL, Math.max(-0.2, -KoopaObject.JUMP_SPEED_MAX));
   
   var movx = vec2.add(this.pos, vec2.make(this.moveSpeed, 0.));
   var movy = vec2.add(this.pos, vec2.make(this.moveSpeed, this.fallSpeed));
