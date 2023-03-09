@@ -315,7 +315,7 @@ EditorDisplay.prototype.drawObjectTool = function() {
       const startY = (zone.dimensions().y-pos.y);
       const endX = parseInt(obj.param[1]||0);
       const endY = -(parseInt(obj.param[2]||0));
-      context.strokeStyle = 'white';
+      context.strokeStyle = 'gold';
       context.lineWidth = 1;
       context.beginPath();
       context.moveTo(startX*Display.TEXRES, startY*Display.TEXRES);
