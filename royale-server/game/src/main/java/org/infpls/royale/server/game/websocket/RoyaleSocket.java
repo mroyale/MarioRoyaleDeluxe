@@ -8,6 +8,7 @@ import org.infpls.royale.server.game.dao.DaoContainer;
 import org.infpls.royale.server.game.session.RoyaleSession;
 import org.infpls.royale.server.util.Oak;
 
+import javax.servlet.http.HttpServletRequest;
 
 public class RoyaleSocket extends TextWebSocketHandler {
   

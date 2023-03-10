@@ -170,7 +170,7 @@ PlantObject.prototype.setState = function(STATE) {
 
 PlantObject.prototype.draw = function(sprites) {
   var mod;
-  if(this.state === PlantObject.STATE.BONK) { mod = 0x03; }
+  if(this.state === PlantObject.STATE.BONK || this.direction) { mod = 0x03; }
   else { mod = 0x00; }
   
   if(this.sprite.INDEX instanceof Array) {
