@@ -7,6 +7,8 @@ import org.infpls.royale.server.game.dao.user.UserDao;
 import org.infpls.royale.server.game.dao.lobby.LobbyDao;
 import org.infpls.royale.server.util.*;
 
+import org.infpls.royale.server.util.Filter;
+
 @Component
 public class DaoContainer {
   
@@ -18,6 +20,8 @@ public class DaoContainer {
     //Oak.open();                           // Starts logging
     userDao = new UserDao();
     lobbyDao = new LobbyDao();
+
+    Filter.loadConfigs();
   }
 
   @PreDestroy

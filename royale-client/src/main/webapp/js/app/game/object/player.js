@@ -29,6 +29,7 @@ function PlayerObject(game, level, zone, pos, pid, character) {
   this.grounded = false;
   this.underWater = false; // false: no, true: yes
   this.icePhysics = false; // false: no, true: yes
+  this.conveyor = -1; // -1: nothing, 0: left, 1: right
   
   /* Var */
   this.name = undefined;     // If this is set for whatever reason, it will display a name tag over this player.
@@ -97,6 +98,7 @@ PlayerObject.WATER_SPEED_MAX = 0.250;
 PlayerObject.RUN_SPEED_MAX = 0.465;
 PlayerObject.STAR_SPEED_MAX = 0.485;
 PlayerObject.MOVE_SPEED_MAX = 0.250;
+PlayerObject.AUTO_SPEED_MAX = 0.150;
 PlayerObject.MOVE_SPEED_ACCEL = 0.013;
 PlayerObject.MOVE_ICE_ACCEL = 0.0065;
 PlayerObject.MOVE_SPEED_DECEL = 0.0180;
@@ -112,10 +114,11 @@ PlayerObject.FALL_SPEED_ACCEL = 0.06;
 PlayerObject.BOUNCE_LENGTH_MIN = 1;
 PlayerObject.SPRING_LENGTH_MIN = 5;
 PlayerObject.SPRING_LENGTH_MAX = 35;
-PlayerObject.JUMP_LENGTH_MIN = 3;
-PlayerObject.JUMP_LENGTH_MAX = 18; // 7
-PlayerObject.JUMP_SPEED_INC_THRESHOLD = [0.1, 0.2, 0.25];
-PlayerObject.JUMP_DECEL = 0.005;
+PlayerObject.JUMP_LENGTH_MIN = 0.01;
+PlayerObject.JUMP_LENGTH_MAX = 30;
+PlayerObject.JUMP_SPEED_INC_THRESHOLD = [0.01, 0.02, 0.025];
+PlayerObject.JUMP_DECEL = 0.013;
+PlayerObject.SPRING_DECEL = 0.003;
 PlayerObject.BLOCK_BUMP_THRESHOLD = 0.12;
 
 PlayerObject.POWER_INDEX_SIZE = 0x20;
@@ -166,18 +169,18 @@ PlayerObject.DEV_TEAM_COLOR = "rgba(255,255,0,1)";
 PlayerObject.SPRITE = {};
 PlayerObject.SPRITE_LIST = [
   /* [S]mall Mario */
-  {NAME: "S_STAND", ID: 0x00, INDEX: 0x000F},
-  {NAME: "S_RUN0", ID: 0x01, INDEX: 0x000E},
-  {NAME: "S_RUN1", ID: 0x02, INDEX: 0x000D},
-  {NAME: "S_RUN2", ID: 0x03, INDEX: 0x000C},
-  {NAME: "S_SLIDE", ID: 0x04, INDEX: 0x000B},
-  {NAME: "S_FALL", ID: 0x05, INDEX: 0x000A},
-  {NAME: "S_CLIMB0", ID: 0x06, INDEX: 0x0009},
-  {NAME: "S_CLIMB1", ID: 0x07, INDEX: 0x0008},
-  {NAME: "S_TAUNT", ID: 0x08, INDEX: 0x0003},
-  {NAME: "S_SWIM0", ID: 0x09, INDEX: 0x0007},
-  {NAME: "S_SWIM1", ID: 0x0A, INDEX: 0x0006},
-  {NAME: "S_SWIM2", ID: 0x0B, INDEX: 0x0005},
+  {NAME: "S_STAND", ID: 0x00, INDEX: [[31], [15]]},
+  {NAME: "S_RUN0", ID: 0x01, INDEX: [[30], [14]]},
+  {NAME: "S_RUN1", ID: 0x02, INDEX: [[29], [13]]},
+  {NAME: "S_RUN2", ID: 0x03, INDEX: [[28], [12]]},
+  {NAME: "S_SLIDE", ID: 0x04, INDEX: [[27], [11]]},
+  {NAME: "S_FALL", ID: 0x05, INDEX: [[26], [10]]},
+  {NAME: "S_CLIMB0", ID: 0x06, INDEX: [[25], [9]]},
+  {NAME: "S_CLIMB1", ID: 0x07, INDEX: [[24], [8]]},
+  {NAME: "S_TAUNT", ID: 0x08, INDEX: [[19], [3]]},
+  {NAME: "S_SWIM0", ID: 0x09, INDEX: [[23], [7]]},
+  {NAME: "S_SWIM1", ID: 0x0A, INDEX: [[22], [6]]},
+  {NAME: "S_SWIM2", ID: 0x0B, INDEX: [[21], [5]]},
   /* [B]ig Mario */
   {NAME: "B_STAND", ID: 0x20, INDEX: [[63, 62], [47, 46]]}, 
   {NAME: "B_DOWN", ID: 0x21, INDEX: [[55, 54], [39, 38]]},
@@ -232,8 +235,8 @@ PlayerObject.SPRITE_LIST = [
   {NAME: "L_GLIDE1", ID: 0x79, INDEX: [[319, 318], [303, 302]]},
   {NAME: "L_GLIDE2", ID: 0x80, INDEX: [[317, 316], [301, 300]]},
   /* [G]eneric */
-  {NAME: "G_DEAD", ID: 0x90, INDEX: 0x0002},
-  {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0000}
+  {NAME: "G_DEAD", ID: 0x90, INDEX: [[18], [2]]},
+  {NAME: "G_HIDE", ID: 0x9A, INDEX: 0x0001}
 ];
 
 /* Makes sprites easily referenceable by NAME. For sanity. */
@@ -264,6 +267,7 @@ PlayerObject.SNAME = {
 
 let DIM0 = vec2.make(0.9,0.95);  // Temp vars
 let DIM1 = vec2.make(0.9,1.9);
+let DIM2 = vec2.make(0.9,0.75);
 PlayerObject.STATE = [
   /* Small Mario -> 0x00*/
   {NAME: PlayerObject.SNAME.STAND, ID: 0x00, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_STAND]},
@@ -278,7 +282,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x09, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.S_SWIM0, PlayerObject.SPRITE.S_SWIM1, PlayerObject.SPRITE.S_SWIM2]},
   /* Big Mario -> 0x20 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x20, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_STAND]},
-  {NAME: PlayerObject.SNAME.DOWN, ID: 0x21, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.B_DOWN]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x21, DIM: DIM2, SPRITE: [PlayerObject.SPRITE.B_DOWN]},
   {NAME: PlayerObject.SNAME.RUN, ID: 0x22, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_RUN2,PlayerObject.SPRITE.B_RUN1,PlayerObject.SPRITE.B_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x23, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x24, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_FALL]},
@@ -289,7 +293,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x29, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.B_SWIM0, PlayerObject.SPRITE.B_SWIM1, PlayerObject.SPRITE.B_SWIM2]},
   /* Fire Mario -> 0x40 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x40, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_STAND]},
-  {NAME: PlayerObject.SNAME.DOWN, ID: 0x41, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.F_DOWN]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x41, DIM: DIM2, SPRITE: [PlayerObject.SPRITE.F_DOWN]},
   {NAME: PlayerObject.SNAME.RUN, ID: 0x42, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_RUN2,PlayerObject.SPRITE.F_RUN1,PlayerObject.SPRITE.F_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x43, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x44, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_FALL]},
@@ -301,7 +305,7 @@ PlayerObject.STATE = [
   {NAME: PlayerObject.SNAME.SWIM, ID: 0x50, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.F_SWIM0, PlayerObject.SPRITE.F_SWIM1, PlayerObject.SPRITE.F_SWIM2]},
   /* Leaf Mario -> 0x60 */
   {NAME: PlayerObject.SNAME.STAND, ID: 0x60, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_STAND]},
-  {NAME: PlayerObject.SNAME.DOWN, ID: 0x61, DIM: DIM0, SPRITE: [PlayerObject.SPRITE.L_DOWN]},
+  {NAME: PlayerObject.SNAME.DOWN, ID: 0x61, DIM: DIM2, SPRITE: [PlayerObject.SPRITE.L_DOWN]},
   {NAME: PlayerObject.SNAME.RUN, ID: 0x62, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_RUN2,PlayerObject.SPRITE.L_RUN1,PlayerObject.SPRITE.L_RUN0]},
   {NAME: PlayerObject.SNAME.SLIDE, ID: 0x63, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_SLIDE]},
   {NAME: PlayerObject.SNAME.FALL, ID: 0x64, DIM: DIM1, SPRITE: [PlayerObject.SPRITE.L_FALL]},
@@ -385,8 +389,10 @@ PlayerObject.prototype.step = function() {
     }
     
     var flag = this.game.getFlag(this.level, this.zone);
-    if(flag.pos.y - PlayerObject.POLE_SLIDE_SPEED >= this.pos.y) { flag.pos.y -= PlayerObject.POLE_SLIDE_SPEED; }
-    else { flag.pos.y = this.pos.y; this.poleWait = false; }
+    if(flag !== undefined) {
+      if(flag.pos.y - PlayerObject.POLE_SLIDE_SPEED >= this.pos.y) { flag.pos.y -= PlayerObject.POLE_SLIDE_SPEED; }
+      else { flag.pos.y = this.pos.y; this.poleWait = false; }
+    }
     
     return;
   }
@@ -464,7 +470,8 @@ PlayerObject.prototype.step = function() {
         case 4 : { this.pos.x += ((PlayerObject.PIPE_TIME-1)*PlayerObject.PIPE_SPEED); this.setState(PlayerObject.SNAME.RUN); this.reverse = true; break; }
         default : { return; }
       };
-      this.game.cameraLocked = false;
+      this.game.cameraLockedX = false;
+      this.game.cameraLockedY = false;
       this.pipeTimer = PlayerObject.PIPE_TIME;
       this.pipeDir = this.pipeExt;
       this.pipeDelay = this.pipeDelayLength;
@@ -517,9 +524,18 @@ PlayerObject.prototype.autoMove = function() {
 PlayerObject.prototype.control = function() {
   if(this.grounded) { this.btnBg = this.btnB; this.glideTimer = 0; }
   
-  if(this.isState(PlayerObject.SNAME.DOWN) && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
-    if(this.btnD[1] !== -1) {
-      this.moveSpeed = (this.moveSpeed + (this.reverse ? PlayerObject.STUCK_SLIDE_SPEED : -PlayerObject.STUCK_SLIDE_SPEED)) * .5; // Rirp
+  if(this.isState(PlayerObject.SNAME.DOWN) && !this.crouchJump && this.grounded && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
+    if (this.btnA) {
+      if ((this.grounded || this.underWater) && !this.btnAHot) {
+          this.jumping = 0x0;
+          this.play(this.underWater ? "swim.mp3" : 0x0 < this.power ? "jump1.mp3" : "jump0.mp3", 0.7, 0.04);
+          this.btnAHot = true;
+          this.crouchJump = true;
+      }
+    } else { this.btnAHot = false; }
+
+    if(!this.grounded) {
+      this.moveSpeed = PlayerObject.STUCK_SLIDE_SPEED * this.btnD[0];
     }
     this.moveSpeed = Math.sign(this.moveSpeed) * Math.max(Math.abs(this.moveSpeed)-(this.icePhysics ? PlayerObject.MOVE_ICE_DECEL : PlayerObject.MOVE_SPEED_DECEL), 0);
     return;
@@ -533,7 +549,7 @@ PlayerObject.prototype.control = function() {
       if (!this.skidEffect && this.grounded) { this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos)); this.skidEffect = true; }
     }
     else {
-      this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):PlayerObject.MOVE_SPEED_MAX);
+      this.moveSpeed = this.btnD[0] * Math.min(Math.abs(this.moveSpeed) + (this.icePhysics ? PlayerObject.MOVE_ICE_ACCEL : PlayerObject.MOVE_SPEED_ACCEL), this.underWater ? PlayerObject.WATER_SPEED_MAX : this.btnBg?(this.starTimer > 0 ? PlayerObject.STAR_SPEED_MAX : PlayerObject.RUN_SPEED_MAX):this.autoTarget?PlayerObject.AUTO_SPEED_MAX:PlayerObject.MOVE_SPEED_MAX);
       if (this.grounded /* We need to check for this. Otherwise the water animation is bugged for some reason. */) {
         this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.setState(PlayerObject.SNAME.RUN);
       }
@@ -567,8 +583,9 @@ PlayerObject.prototype.control = function() {
       this.jumping = 0;
       this.play(this.underWater ? "swim.mp3" : this.power>0?"jump1.mp3":"jump0.mp3", .7, .04);
       this.btnAHot = true;
+      this.crouchJump = (this.power > 0 && this.btnD[1] === -1) ? true : false;
     } else {
-      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3) {
+      if (this.glideTimer === 0 && !this.btnAHot && !this.spring && !this.isSpring && !this.isBounce && this.power === 3 && !this.crouchJump) {
         this.glideTimer = 20;
         this.play("spin.mp3", .7, .04);
         this.btnAHot = true;
@@ -608,7 +625,7 @@ PlayerObject.prototype.control = function() {
   }
 
   if(!this.grounded && !this.underWater) {
-    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : this.setState(PlayerObject.SNAME.FALL);
+    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : this.crouchJump === true ? this.setState(PlayerObject.SNAME.DOWN) : this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
@@ -628,7 +645,7 @@ PlayerObject.prototype.control = function() {
 
 PlayerObject.prototype.physics = function() {
   if(this.jumping !== -1) {
-    this.fallSpeed = this.underWater ? PlayerObject.WATER_FALL_SPEED : PlayerObject.FALL_SPEED_MAX - (this.jumping*PlayerObject.JUMP_DECEL);
+    this.fallSpeed = this.underWater ? PlayerObject.WATER_FALL_SPEED : PlayerObject.FALL_SPEED_MAX - (this.jumping*(this.isSpring?PlayerObject.SPRING_DECEL:PlayerObject.JUMP_DECEL));
     this.jumping++;
     this.grounded = false;
   }
@@ -636,6 +653,10 @@ PlayerObject.prototype.physics = function() {
     this.isBounce = false;
     this.isSpring = false;
     if(this.grounded) {
+      this.crouchJump = false;
+      if(this.conveyor !== -1) {
+        this.pos.x += (this.conveyor === 0 ? -0.05 : 0.05);
+      }
       this.fallSpeed = 0;
     }
     this.fallSpeed = Math.max(this.fallSpeed + (this.underWater?-PlayerObject.WATER_FALL_ACCEL:-PlayerObject.FALL_SPEED_ACCEL), this.glideTimer ? -0.2 : -PlayerObject.FALL_SPEED_MAX);
@@ -653,6 +674,7 @@ PlayerObject.prototype.physics = function() {
   var grounded = false;
   var underwater = false;
   var ice = false;
+  var conveyor = -1; // -1: none, 0: left, 1: right // Needs to be a variable otherwise speed fluctuates
 
   var hit = [];
   var on = [];              // Tiles we are directly standing on
@@ -676,6 +698,9 @@ PlayerObject.prototype.physics = function() {
     else if(tile.definition.SLOPE) {
       slopes.push(tile);
     }
+    else if(tile.definition.BARRIER && (squar.intersection(tile.pos, tdim, this.pos, this.dim) || squar.intersection(tile.pos, tdim, this.pos, this.dim))) {
+      hit.push(tile);
+    }
     else if(tile.definition.COLLIDE) {
       if(tile.definition.HIDDEN) { hit.push(tile); continue; }
 
@@ -691,7 +716,7 @@ PlayerObject.prototype.physics = function() {
       }
     }
 
-    if (tile.definition.WATER && squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
+    if(tile.definition.WATER && squar.intersection(tile.pos, tdim, this.pos, this.dim)) {
       underwater = true;
     }
   }
@@ -744,6 +769,7 @@ PlayerObject.prototype.physics = function() {
       if(this.fallSpeed > PlayerObject.BLOCK_BUMP_THRESHOLD) { bmp.push(tile); }
       if(this.fallSpeed < 0 && this.pos.y >= tile.pos.y) {
         if (tile.definition.ICE) { ice = true; }
+        if (tile.definition.CONVEYOR !== undefined) { conveyor = tile.definition.CONVEYOR; }
         on.push(tile);
       }
     }
@@ -808,8 +834,11 @@ PlayerObject.prototype.physics = function() {
   }
   
   this.icePhysics = ice;
+  this.conveyor = conveyor;
   this.grounded = grounded;
   this.pos = mov;
+
+  if(grounded || this.power === 0) { this.crouchJump = false; }
   
   /* On Platform */
   if(platform) {
@@ -950,7 +979,7 @@ PlayerObject.prototype.spin = function() {
 PlayerObject.prototype.attack = function() {
   this.attackTimer = PlayerObject.ATTACK_DELAY;
   this.attackCharge -= PlayerObject.ATTACK_CHARGE;
-  var p = this.reverse?vec2.add(this.pos, PlayerObject.PROJ_OFFSET):vec2.add(this.pos, vec2.multiply(PlayerObject.PROJ_OFFSET, vec2.make(-1., 1.)));
+  var p = this.reverse?vec2.add(this.pos, PlayerObject.PROJ_OFFSET):vec2.add(vec2.add(this.pos, vec2.make(0.5, 0.)), vec2.multiply(PlayerObject.PROJ_OFFSET, vec2.make(-1., 1.)));
   this.game.createObject(FireballProj.ID, this.level, this.zone, p, [this.reverse, this.pid]);
   this.play("fireball.mp3", 1., .04);
 };
@@ -1024,13 +1053,19 @@ PlayerObject.prototype.transform = function(to) {
 PlayerObject.prototype.warp = function(wid) {
   var wrp = this.game.world.getLevel(this.level).getWarp(wid);
   if(!wrp) { return; } /* Error */
+
+  if(this.zone !== wrp.zone) {
+    /* Unlock camera when warping zones */
+    this.game.cameraLockedX = false;
+    this.game.cameraLockedY = false;
+  }
     
   this.level = wrp.level;
   this.zone = wrp.zone;
   this.pos = wrp.pos;
 
   /* Horizontal directions direct you 3 tiles away from the warp. This is a shotty fix. */
-  switch (this.pipeExt) {
+  switch(this.pipeExt) {
     case 3 : {
       this.pos.x += 2.50;
       break;
@@ -1162,8 +1197,13 @@ PlayerObject.prototype.draw = function(sprites) {
     var s = this.sprite.INDEX;
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
-        if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
-        sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
+        if(this.sprite.INDEX[0].length > 1) {
+          if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
+          sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.add(this.reverse ? PlayerObject.OFFSET_32X_RIGHT : PlayerObject.OFFSET_32X_LEFT, PlayerObject.DIM_OFFSET)), vec2.make(this.reverse?j:-j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character}); 
+         } else {
+          if(mod === 0x02) { sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(j,i)), reverse: this.reverse, index: s[i][j], mode: 0x00, player: true, character: this.character}); }
+          sprites.push({pos: vec2.add(vec2.add(this.pos, PlayerObject.DIM_OFFSET), vec2.make(j,i)), reverse: this.reverse, index: s[i][j], mode: mod, player: true, character: this.character});
+         }
       }
     }
   }
@@ -1184,7 +1224,7 @@ PlayerObject.prototype.draw = function(sprites) {
 
 PlayerObject.prototype.write = function(texts) {
   if(this.arrowFade > 0.) {
-    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT});
+    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.dim.y)), PlayerObject.TEXT_OFFSET), size: PlayerObject.TEXT_SIZE, color: "rgba(255,255,255,"+this.arrowFade+")", text: PlayerObject.ARROW_TEXT, noOutline: true});
   }
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
     var ply = this.game.getPlayerInfo(this.pid)

@@ -118,7 +118,6 @@ function Zone(game, level, data) {
   this.initial = data.initial; // shor2 starting point for this zone.
   this.color = data.color; // HTML color of the sky for this zone.
   this.music = data.music?data.music:"";
-  this.fastMusic = this.music ? this.music.replace(".mp3", "_fast.mp3") : "";
   this.musicBlock = null; // Used when we touch a music block
   this.camera = parseInt(data.camera) || 0; // The camera mode: 0: horizontal, 1: vertical, 2: both
   
@@ -227,6 +226,18 @@ Zone.prototype.bump = function(x,y) {
 Zone.prototype.replace = function(x,y,td) {
   var yo = this.dimensions().y-1-y;
   this.mainLayer.data[yo][x] = td;
+};
+
+Zone.prototype.flip = function(x,y,sprite) {
+  var that = this;
+  var yo = this.dimensions().y-1-y;
+  var air = [sprite, 0, 0, 0, 0]; // flip blocks are just animated air tiles when hit
+  var cur = this.mainLayer.data[yo][x];
+
+  this.mainLayer.data[yo][x] = air;
+  setTimeout(function() {
+    that.mainLayer.data[yo][x] = cur;
+  }, 5000);
 };
 
 Zone.prototype.regen = function(x,y,td) {

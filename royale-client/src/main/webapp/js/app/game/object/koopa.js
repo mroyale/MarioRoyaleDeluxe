@@ -41,6 +41,7 @@ function KoopaObject(game, level, zone, pos, oid, fly) {
 KoopaObject.ASYNC = false;
 KoopaObject.ID = 0x12;
 KoopaObject.NAME = "Koopa Troopa Green"; // Used by editor
+KoopaObject.PARAMS = [{'name': "Fly", 'type': "int", 'tooltip': "Whether the koopa should have wings. 0 is no and 1 is yes"}];
 
 KoopaObject.ANIMATION_RATE = 6;
 KoopaObject.VARIANT_OFFSET = 0x20; //2 rows down in the sprite sheet
@@ -58,7 +59,10 @@ KoopaObject.PLAYER_IMMUNE_TIME = 12;  // Player is immune to damage for this man
 KoopaObject.MOVE_SPEED_MAX = 0.0375;
 KoopaObject.SHELL_MOVE_SPEED_MAX = 0.175;
 
-KoopaObject.FALL_SPEED_MAX = 0.3;
+KoopaObject.JUMP_SPEED_ACCEL = 0.1;
+KoopaObject.JUMP_SPEED_MAX = 0.3;
+
+KoopaObject.FALL_SPEED_MAX = 0.125;
 KoopaObject.FALL_SPEED_ACCEL = 0.1;
 
 KoopaObject.JUMP_LENGTH_MAX = 40;
@@ -165,19 +169,19 @@ KoopaObject.prototype.control = function() {
 
 KoopaObject.prototype.physics = function() {
   if(this.jump !== -1) {
-    this.fallSpeed = KoopaObject.FALL_SPEED_MAX - (this.jump*KoopaObject.JUMP_DECEL);
+    this.fallSpeed = KoopaObject.JUMP_SPEED_MAX - (this.jump*KoopaObject.JUMP_DECEL);
     this.jump++;
     this.grounded = false;
   }
   else {
     if(this.grounded) { this.fallSpeed = 0; }
-    this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.FALL_SPEED_ACCEL, -KoopaObject.FALL_SPEED_MAX);
+    this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.JUMP_SPEED_ACCEL, -KoopaObject.JUMP_SPEED_MAX);
   }
   
   if(this.grounded) {
     this.fallSpeed = 0;
   }
-  this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.FALL_SPEED_ACCEL, -KoopaObject.FALL_SPEED_MAX);
+  this.fallSpeed = Math.max(this.fallSpeed - KoopaObject.FALL_SPEED_ACCEL, Math.max(-0.2, -KoopaObject.JUMP_SPEED_MAX));
   
   var movx = vec2.add(this.pos, vec2.make(this.moveSpeed, 0.));
   var movy = vec2.add(this.pos, vec2.make(this.moveSpeed, this.fallSpeed));
@@ -291,6 +295,8 @@ KoopaObject.prototype.stomped = function(dir) {
     this.setState(KoopaObject.STATE.SPIN);
     this.dir = dir;
     this.game.world.getZone(this.level, this.zone).effects.push(new DustEffect(this.pos));
+    this.play("kick.mp3", 1., .04);
+    return;
   }
   this.play("stomp.mp3", 1., .04);
 };

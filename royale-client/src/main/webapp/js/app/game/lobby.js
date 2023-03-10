@@ -6,11 +6,14 @@
 function Lobby(data) {
   Game.call(this, data);
 
+  var pref = "audio/lobby/";
+
   if (app.menu.main) {
-    app.menu.main.menuMusic.src = "audio/music/lobby.mp3";
+    var music = ["lobby-smb3w1.mp3", "lobby-smb3w4.mp3", "lobby-yi.mp3", "lobby-special.mp3"];
+    app.menu.main.menuMusic.src = pref + music[parseInt(Math.random() * music.length)];
     app.menu.main.menuMusic.play();
   }
-  
+
   this.lobbyTimer = 90;
 };
 

@@ -48,6 +48,7 @@ function HammerObject(game, level, zone, pos, oid, reverse) {
 HammerObject.ASYNC = false;
 HammerObject.ID = 0x31;
 HammerObject.NAME = "Hammer Bro"; // Used by editor
+HammerObject.PARAMS = [{'name': 'Reverse', 'type': 'int', 'tooltip': "The direction the Hammer Bro is moving. 0 is left and 1 is right."}];
 
 HammerObject.ANIMATION_RATE = 12;
 

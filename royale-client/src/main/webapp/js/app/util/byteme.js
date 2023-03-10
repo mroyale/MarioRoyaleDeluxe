@@ -150,7 +150,9 @@ td32.TILE_PROPERTIES = {
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {
       switch(type) {
         /* Small bump */
-        case 0x10 : {
+        /* Shell */
+        case 0x10 :
+        case 0x04 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
           break;
@@ -179,7 +181,9 @@ td32.TILE_PROPERTIES = {
           break;
         }
         /* Big bump */
-        case 0x11 : {
+        /* Shell */
+        case 0x11 :
+        case 0x04 : {
           if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
           td32.GEN_FUNC.BREAK(game, pid, td, level, zone, x, y, type);
           break;
@@ -246,6 +250,39 @@ td32.TILE_PROPERTIES = {
     HIDDEN: false,
     ASYNC: false,
     WATER: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
+  /* Flip Block */
+  0x08: {
+    NAME: "FLIP BLOCK",
+    DATA: "Sprite ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Small bump */
+        /* Big bump */
+        /* Shell */
+        case 0x10 :
+        case 0x11 :
+        case 0x04 : {
+          if (game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x, y), type)); }
+          game.world.getZone(level, zone).flip(x, y, parseInt(td.data));
+          td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+          game.world.getZone(level, zone).play(x, y, "bump.mp3", 1., 0.04);
+          break;
+        }
+      }
+    }
+  },
+  /* Player Barrier */
+  0x09 : {
+    NAME: "PLAYER BARRIER",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: false,
+    BARRIER: true,
     TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
   },
   /* Ice Block */
@@ -345,6 +382,24 @@ td32.TILE_PROPERTIES = {
         }
     }
   },
+  /* Conveyor Block Left */
+  14: {
+    NAME: "CONVEYOR BLOCK LEFT",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    CONVEYOR: 0x00,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
+  /* Conveyor Block Right */
+  15: {
+    NAME: "CONVEYOR BLOCK RIGHT",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: false,
+    CONVEYOR: 0x01,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {}
+  },
   /* Item Block Normal */
   0x11: {
     NAME: "ITEM BLOCK STANDARD",
@@ -392,6 +447,25 @@ td32.TILE_PROPERTIES = {
           game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
           break;
         }
+      }
+    }
+  },
+  /* Item Block Invisible Progressive */
+  0x1B: {
+    NAME: "ITEM BLOCK INVISIBLE PROGRESSIVE",
+    DATA: "Final Powerup (0=flower,1=leaf,2=random)",
+    COLLIDE: true,
+    HIDDEN: true,
+    ASYNC: false,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      if (type === 0x10 || type === 0x11 || type === 0x04) {
+        if(game.pid === pid) { game.out.push(NET030.encode(level, zone, shor2.encode(x,y), type)); }
+        var ply = game.getPlayer();
+        var rep = [27, 0, 1, 1, 0] // Replacement td32 data for tile.
+        game.world.getZone(level, zone).replace(x,y,rep);
+        game.createObject((type === 0x10 ? 0x51 : (parseInt(td.data) === 2 ? parseInt(Math.random()*2) === 1 ? 0x52 : 0x57 : (parseInt(td.data) === 1 ? 0x57 : 0x52))), level, zone, vec2.make(x,y), [shor2.encode(x,y)]);
+        td32.GEN_FUNC.BUMP(game, pid, td, level, zone, x, y, type);
+        game.world.getZone(level, zone).play(x,y,"item.mp3",1.,0.04);
       }
     }
   },
@@ -578,9 +652,9 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
-  /* Lock Camera Scroll */
+  /* Lock Camera Scroll X */
   30: {
-    NAME: "LOCK CAMERA SCROLL",
+    NAME: "LOCK X AXIS SCROLL",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
@@ -588,7 +662,9 @@ td32.TILE_PROPERTIES = {
       switch (type) {
         /* Touch */
         case 0x00 : {
-          game.cameraLocked = true;
+          if(game.pid === pid) {
+            game.cameraLockedX = true;
+          }
           break;
         }
       }
@@ -596,7 +672,7 @@ td32.TILE_PROPERTIES = {
   },
   /* Unlock Camera Scroll */
   31: {
-    NAME: "UNLOCK CAMERA SCROLL",
+    NAME: "UNLOCK X AXIS SCROLL",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
@@ -604,7 +680,45 @@ td32.TILE_PROPERTIES = {
       switch (type) {
         /* Touch */
         case 0x00 : {
-          game.cameraLocked = false;
+          if(game.pid === pid) {
+            game.cameraLockedX = false;
+          }
+          break;
+        }
+      }
+    }
+  },
+  /* Lock Y Scroll */
+  32: {
+    NAME: "LOCK Y AXIS SCROLL",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Touch */
+        case 0x00 : {
+          if(game.pid === pid) {
+            game.cameraLockedY = true;
+          }
+          break;
+        }
+      }
+    }
+  },
+  /* Unlock Y Scroll */
+  33: {
+    NAME: "UNLOCK Y AXIS SCROLL",
+    COLLIDE: false,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Touch */
+        case 0x00 : {
+          if(game.pid === pid) {
+            game.cameraLockedY = false;
+          }
           break;
         }
       }
@@ -623,7 +737,7 @@ td32.TILE_PROPERTIES = {
         case 0x00 : {
           if(game.pid === pid) {
             game.getPlayer().warp(parseInt(td.data));
-            game.cameraLocked = false;
+            game.cameraLockedX = false;
           }
         }
       }
@@ -721,7 +835,7 @@ td32.TILE_PROPERTIES = {
   },
   /* End of Level Warp */
   0x56: {
-    NAME: "LEVEL END WARP",
+    NAME: "WARP LEVEL END",
     DATA: "Target Level ID",
     COLLIDE: false,
     HIDDEN: false,
@@ -739,7 +853,7 @@ td32.TILE_PROPERTIES = {
   },
   /* Random Warp Tile */
   0x57: {
-    NAME: "Random Warp Tile",
+    NAME: "WARP TILE RANDOM",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: true,
@@ -752,7 +866,7 @@ td32.TILE_PROPERTIES = {
           if(game.pid === pid) {
             var warps = this.game.world.getLevel(level).getWarps();
             game.getPlayer().warp(warps[Math.floor(Math.random() * warps.length)]);
-            game.cameraLocked = false;
+            game.cameraLockedX = false;
           }
           break;
         }
@@ -795,6 +909,104 @@ td32.TILE_PROPERTIES = {
       }
     }
   },
+  /* Warp Pipe Up Slow */
+  91: {
+    NAME: "WARP PIPE UP SLOW",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function (game, pid, td, level, zone, x, y, type) {
+      switch (type) {
+          /* Small+Big Bump */
+          case 0x10:
+          case 0x11: {
+            if (game.pid === pid) {
+              var ply = game.getPlayer();
+              var l = game.world.getZone(level, zone).getTile(vec2.make(x - 1, y));
+              var r = game.world.getZone(level, zone).getTile(vec2.make(x + 1, y));
+
+              var cx;
+              if (l.definition === this) { cx = x; }
+              else if (r.definition === this) { cx = x + 1; }
+              else { return; }
+
+              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, parseInt(td.data), 50); }
+            }
+
+            break;
+          }
+      }
+    }
+  },
+  /* Warp Pipe Up Fast */
+  92: {
+    NAME: "WARP PIPE UP FAST",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function (game, pid, td, level, zone, x, y, type) {
+      switch (type) {
+          /* Small+Big Bump */
+          case 0x10:
+          case 0x11: {
+            if (game.pid === pid) {
+              var ply = game.getPlayer();
+              var l = game.world.getZone(level, zone).getTile(vec2.make(x - 1, y));
+              var r = game.world.getZone(level, zone).getTile(vec2.make(x + 1, y));
+
+              var cx;
+              if (l.definition === this) { cx = x; }
+              else if (r.definition === this) { cx = x + 1; }
+              else { return; }
+
+              if (Math.abs((ply.pos.x + (ply.dim.x * .5)) - cx) <= 0.45 && ply.btnU) { ply.pipe(1, parseInt(td.data), 0); }
+            }
+
+            break;
+          }
+      }
+    }
+  },
+  /* Warp Pipe Single */
+  93: {
+    NAME: "WARP PIPE SINGLE SLOW",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Down */
+        case 0x01 : {
+          if(game.pid === pid) {
+            var ply = game.getPlayer();
+            if (parseInt(ply.pos.x) === x || ply.pos.x + 0.1 === x || ply.pos.x - 0.1 === x) ply.pipe(2, parseInt(td.data), 50);
+          }
+        }
+      }
+    }
+  },
+  /* Warp Single Fast */
+  94: {
+    NAME: "WARP PIPE SINGLE FAST",
+    DATA: "Target Warp ID",
+    COLLIDE: true,
+    HIDDEN: false,
+    ASYNC: true,
+    TRIGGER: function(game, pid, td, level, zone, x, y, type) {
+      switch(type) {
+        /* Down */
+        case 0x01 : {
+          if(game.pid === pid) {
+            var ply = game.getPlayer();
+            if (parseInt(ply.pos.x) === x || ply.pos.x + 0.1 === x || ply.pos.x - 0.1 === x) ply.pipe(2, parseInt(td.data), 0);
+          }
+        }
+      }
+    }
+  },
   /* Flagpole */
   0xA0: {
     NAME: "FLAGPOLE",
@@ -825,7 +1037,7 @@ td32.TILE_PROPERTIES = {
         case 0x00 : {
           if(game.pid === pid) {
             var ply = game.getPlayer();
-            if(ply.pos.x >= x && ply.pos.x <= x+1. && ply.btnU) { ply.vine(vec2.make(x,y), parseInt(td.data)); game.cameraLocked = false; }
+            if(ply.pos.x >= x && ply.pos.x <= x+1. && ply.btnU) { ply.vine(vec2.make(x,y), parseInt(td.data)); }
           }
         }
       }
@@ -863,6 +1075,7 @@ td32.TILE_PROPERTIES = {
   /* Music Block AIR (NEW) */
   239: {
     NAME: "MUSIC BLOCK STANDARD",
+    DATA: "Music Filename",
     COLLIDE: false,
     HIDDEN: false,
     ASYNC: false,

@@ -3,12 +3,15 @@
 /* global GameObject */
 /* global NET011, NET020 */
 
-function PlantObject(game, level, zone, pos, oid, variant) {
-  GameObject.call(this, game, level, zone, vec2.add(pos, vec2.make(.6,0.)));
+function PlantObject(game, level, zone, pos, oid, variant, direction, isStatic, offset) {
+  GameObject.call(this, game, level, zone, vec2.add(pos, vec2.make(parseInt(offset) === 1 ? .1 : .6,0.)));
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
   
+  this.static = isNaN(parseInt(isStatic))?0:parseInt(isStatic);
   this.variant = isNaN(parseInt(variant))?0:parseInt(variant);
+  this.direction = isNaN(parseInt(direction)) ? 0x0 : parseInt(direction);
+  if(this.direction) { this.pos = vec2.add(this.pos, vec2.make(0,1.25)); }
   this.setState(PlantObject.STATE.IDLE);
   
   /* Animation */
@@ -21,7 +24,7 @@ function PlantObject(game, level, zone, pos, oid, variant) {
   this.loc = [vec2.copy(this.pos), vec2.add(this.pos, vec2.make(0., -1.5))];
   this.dim = vec2.make(.8, .8);
   this.moveSpeed = 0;  // These are only used during a bonk.
-  this.fallSpeed = 0; 
+  this.fallSpeed = 0;
   
   /* Control */
   this.dir = 0;
@@ -32,10 +35,11 @@ function PlantObject(game, level, zone, pos, oid, variant) {
 PlantObject.ASYNC = false;
 PlantObject.ID = 0x16;
 PlantObject.NAME = "Piranha Plant"; // Used by editor
+PlantObject.PARAMS = [{'name': 'Variant', 'type': 'int', 'tooltip': "Variant of the Piranha Plant. 0 is normal, 1 is red and moves faster like in The Lost Levels"}, {'name': "Direction", 'type': "int", 'tooltip': "If set to 1, the Piranha Plant is flipped upside down"}, {'name': "Static", 'type': "int", 'tooltip': "If 1, the Piranha Plant won't move"}, {'name': "No Offset", 'type': "int", 'tooltip': "By default, plants are offset by half a tile to fit in pipes. Set this to 1 to prevent that"}];
 
 PlantObject.ANIMATION_RATE = 6;
 PlantObject.VARIANT_OFFSET = 0x42; //66 sprites
-PlantObject.SOFFSET = vec2.make(-.1, 0.);
+PlantObject.SOFFSET = [vec2.make(-.1, 0), vec2.make(-0.1, -0.75)];
 
 PlantObject.BONK_TIME = 90;
 PlantObject.BONK_IMP = vec2.make(0.25, 0.4);
@@ -113,13 +117,13 @@ PlantObject.prototype.physics = function() {
   var dest = this.loc[this.dir?0:1];
   var dist = vec2.distance(this.pos, dest);
   
-  if(dist <= (this.variant ? PlantObject.TRAVEL_SPEED_FAST : PlantObject.TRAVEL_SPEED)) {
+  if(dist <= (this.static ? 0 : (this.variant ? PlantObject.TRAVEL_SPEED_FAST : PlantObject.TRAVEL_SPEED))) {
     this.pos = dest;
     this.dir = !this.dir;
     this.waitTimer = PlantObject.WAIT_TIME;
   }
   else {
-    this.pos = vec2.add(this.pos, vec2.scale(vec2.normalize(vec2.subtract(dest, this.pos)), (this.variant ? PlantObject.TRAVEL_SPEED_FAST : PlantObject.TRAVEL_SPEED)));
+    this.pos = vec2.add(this.pos, vec2.scale(vec2.normalize(vec2.subtract(dest, this.pos)), (this.static ? 0 : (this.variant ? PlantObject.TRAVEL_SPEED_FAST : PlantObject.TRAVEL_SPEED))));
   }
 };
 
@@ -178,7 +182,7 @@ PlantObject.prototype.draw = function(sprites) {
           case 1 : { sp += PlantObject.VARIANT_OFFSET; break; }
           default : { break; }
         }
-        sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.make(j,i)), PlantObject.SOFFSET), reverse: false, index: sp, mode: mod});
+        sprites.push({pos: vec2.add(vec2.add(this.pos, vec2.make(j,i)), PlantObject.SOFFSET[this.direction]), reverse: false, index: sp, mode: mod});
       }
     }
   }
@@ -188,7 +192,7 @@ PlantObject.prototype.draw = function(sprites) {
       case 1 : { sp += PlantObject.VARIANT_OFFSET; break; }
       default : { break; }
     }
-    sprites.push({pos: vec2.add(this.pos, PlantObject.SOFFSET), reverse: false, index: sp, mode: mod});
+    sprites.push({pos: vec2.add(this.pos, PlantObject.SOFFSET[this.direction]), reverse: false, index: sp, mode: mod});
   }
 };
 

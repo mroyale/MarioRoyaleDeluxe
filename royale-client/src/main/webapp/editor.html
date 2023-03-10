@@ -225,7 +225,7 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Sprite Index<span class="tooltip-text">Defines the visual of the tile</span></div><div class='tool-type'>11-bit int</div>
+              <div class='tool-var tooltip'>Sprite Index<span class="tooltip-text">Defines the visual of the tile</span></div><div class='tool-type'>int</div>
               <input id='editor-tool-tile-index' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
@@ -237,13 +237,16 @@
               <input id='editor-tool-tile-depth' type='text' class="tool-val"/>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Tile Definition<span class="tooltip-text">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Tile Definition<span class="tooltip-text">Defines the physical/interactive properties of a tile. Solid ground is 1, ? Block is 17, etc.</span></div><div class='tool-type'>int</div>
               <select id='editor-tool-tile-def' class="tool-val"></select>
             </div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'><span id="editor-tool-data-name">Unused Extra Data</span><span class="tooltip-text">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'><span id="editor-tool-data-name">Unused Extra Data</span><span class="tooltip-text">Some blocks need extra data to function. For example, a ? Block needs the extra data 81 to put a Mushroom in it. See doc for more info: <a href='./tile.txt' style="text-decoration:underline;">tile.txt</a></span></div><div class='tool-type'>any</div>
               <input id='editor-tool-tile-data' type='text' class="tool-val"/>
               <select id='editor-tool-tile-data-objid' class="tool-val"></select>
+              <select id='editor-tool-tile-data-warpid' class="tool-val" style="width: 200px;margin: 2px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
+                <option value="" disabled selected>Choose Warp ID</option>
+              </select>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
@@ -257,7 +260,6 @@
           <div id='editor-tool-object' class='tool-container' style='display: none'>
             <div class='tool-box'>
               <div class='tool-var tooltip'>Type<span class="tooltip-text">The type of object</span></div><div class='tool-type'>byte</div>
-              <!--<input id='editor-tool-object-type' type='text' class="tool-val"/>-->
               <select id='editor-tool-object-type' class="tool-val"></select>
             </div>
             <div class='tool-box'>
@@ -274,12 +276,13 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Params<span class="tooltip-text">The parameters of the object</span></div><div class='tool-type'>string[]</div>
-              <input id='editor-tool-object-param' type='text' class="tool-val"/>
+              <div class='tool-box' id='editor-tool-object-params'></div>
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
               <div class="tool-val-im">Left-click selects, middle-click creates new, arrow/WASD keys to move, delete to delete.</div>
+              <div class="tool-val-im" style="font-weight:bold;">All delays are in frames. This means 60 frames is 1 second and so on.</div>
+              <div class="tool-val-im">You can hover over object parameters to learn how to use them properly</div>
               <div class="tool-val-im">See doc for more info: <a href='./object.txt' target="_blank">object.txt</a></div>
             </div>
           </div>
@@ -296,7 +299,7 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class='tool-var tooltip'>Direction<span class="tooltip-text">The animation direction of the warp</span></div><div class='tool-type'>byte</div>
+              <div class='tool-var tooltip'>Direction<span class="tooltip-text">The animation direction of the warp</span></div><div class='tool-type'>int</div>
               <select id='editor-tool-warp-data' type='text' class="tool-val">
                 <option value="0">0 - Default/None</option>
                 <option value="1">1 - Up</option>
@@ -307,7 +310,7 @@
             </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
-              <div class="tool-val-im">Left-click selects, middle-click creates new, arrow/WASD keys to move, delete to delete.</div>
+              <div class="tool-val-im">Left-click selects, middle-click creates new, arrow/WASD keys to move, delete (DEL) to delete.</div>
               <div class="tool-val-im">For tiles that have a warp, the extra data of that tile should match the ID of the warp point you want to use.</div>
               <div class="tool-val-im">Example: A warp pipe with extra data 32 will warp to the warp point in that level with the ID of 32.</div>
               <div class="tool-val-im">Also, warp pipes can only point to warps in the same level, so you can’t have level warps warp you to another level.</div>
@@ -326,7 +329,7 @@
             <div class='tool-box'>
               <div class="tool-val-im"><b>This feature is for PvP! You need to change the gamemode to PvP in the World tool to use this.</b></div>
               <div class="tool-val-im">Upon entering a PvP world, the game will cycle through spawnpoints and pick one for each player. This is to make sure players are spread out in the PvP mode.</div>
-              <div class="tool-val-im">Arrow/WASD keys to move, middle-click to create, right-click to delete.</div>
+              <div class="tool-val-im">Arrow/WASD keys to move, middle-click to create, delete (DEL) to delete.</div>
             </div>
           </div>
           
@@ -345,14 +348,9 @@
               <div class='tool-var tooltip'>Height<span class="tooltip-text">The height of the copy area</span></div><div class='tool-type'>int</div>
               <input id='editor-tool-copy-height' type='text' class="tool-val"/>
             </div>
-            <div class='tool-box'>
-              <div class='tool-var tooltip'>Overwrite<span class="tooltip-text">The tile data to overwrite the copy area with</span></div><div class='tool-type'>td32</div>
-              <input id='editor-tool-copy-over' type='text' class="tool-val"/>
-            </div>
             <div class='tool-div'></div>
             <div class='tool-box'>
               <div class="tool-val-im">Middle-click to copy an area, left-click to paste.</div>
-              <div class="tool-val-im">Default td32 value for air is 30 so you should generally set overwrite to 30.</div>
             </div>
           </div>
           
@@ -446,6 +444,7 @@
           <!-- Always Visible -->
           <div class='tool-box'>
             <div class="tool-val-im">Press G to toggle the grid.</div>
+            <div class="tool-val-im">Press L to toggle the line visualization.</div>
           </div>
         </div>
       </div>
@@ -503,6 +502,7 @@
       <script src='js/app/game/object/bus.js'></script>
       <script src='js/app/game/object/spring.js'></script>
       <script src='js/app/game/object/flag.js'></script>
+      <script src='js/app/game/object/post.js'></script>
       <script src='js/app/game/object/fire.js'></script>
       <script src='js/app/game/object/blast.js'></script>
       <script src='js/app/game/object/launcher.js'></script>

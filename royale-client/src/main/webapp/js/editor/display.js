@@ -245,8 +245,6 @@ EditorDisplay.prototype.drawMapTool = function(data, depth) {
       var st;
       var ind = td.index;
 
-      if (ind === 30) { continue; } // Do not render tile 30
-
       if (ind in TILE_ANIMATION_FILTERED) {
         var anim = TILE_ANIMATION_FILTERED[ind];
         var delay = anim.delay;
@@ -261,7 +259,7 @@ EditorDisplay.prototype.drawMapTool = function(data, depth) {
       if(adj > 0) {
         bmp = Math.sin((1.-((adj-2)/8.))*Math.PI)*0.22;
       }
-      context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, Display.TEXRES*j, Display.TEXRES*(i-bmp), Display.TEXRES, Display.TEXRES);
+      if(ind !== 30) { context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, Display.TEXRES*j, Display.TEXRES*(i-bmp), Display.TEXRES, Display.TEXRES); }
 
       if (td.definition.NAME.includes("ITEM") || td.definition.NAME.includes("OBJECT")) {
         var obj = GameObject.OBJECT(parseInt(td.data) || 81);
@@ -310,6 +308,19 @@ EditorDisplay.prototype.drawObjectTool = function() {
     if(cls && cls.SPRITE && cls.SPRITE[0]) {
       var st = util.sprite.getSprite(tex, cls.SPRITE[0].INDEX);
       context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, pos.x*Display.TEXRES,(zone.dimensions().y-pos.y-1)*Display.TEXRES, Display.TEXRES, Display.TEXRES);
+    }
+
+    if((obj.type == 145 || obj.type == 146) && this.game.showLines) {
+      const startX = pos.x;
+      const startY = (zone.dimensions().y-pos.y);
+      const endX = parseInt(obj.param[1]||0);
+      const endY = -(parseInt(obj.param[2]||0));
+      context.strokeStyle = 'gold';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(startX*Display.TEXRES, startY*Display.TEXRES);
+      context.lineTo((startX*Display.TEXRES)+endX*Display.TEXRES, ((startY)*Display.TEXRES)+endY*Display.TEXRES);
+      context.stroke();
     }
   }
 };

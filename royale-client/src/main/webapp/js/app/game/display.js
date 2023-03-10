@@ -65,7 +65,7 @@ Display.prototype.draw = function() {
   
   /* Draw Game */
   if (this.drawGame) {
-    if (zone.background.length) {
+    if (zone.background.length && !app.settings.disableBg) {
       for (var i=0; i<zone.background.length; i++) {
         var layer = zone.background[i];
         
@@ -212,6 +212,7 @@ Display.prototype.drawObject = function() {
   var mario = this.resource.getTexture("mario");
   var luigi = this.resource.getTexture("luigi");
   var infringio = this.resource.getTexture("infringio");
+  var wario = this.resource.getTexture("wario");
   
   for(var i=0;i<sprites.length;i++) {
     var sprite = sprites[i];
@@ -233,7 +234,7 @@ Display.prototype.drawObject = function() {
     x = rx?((-1.*(Display.TEXRES*sprite.pos.x))-Display.TEXRES):(Display.TEXRES*sprite.pos.x);
     y = ry?((-1.*(Display.TEXRES*(dim.y-sprite.pos.y-1.)))-Display.TEXRES):(Display.TEXRES*(dim.y-sprite.pos.y-1.));
 
-    context.drawImage(sprite.player ? (sprite.character ? (sprite.character === 2 ? infringio : luigi) : mario) : tex, st[0], st[1], Display.TEXRES, Display.TEXRES, x, y, Display.TEXRES, Display.TEXRES);
+    context.drawImage(sprite.player ? (sprite.character ? (sprite.character === 3 ? wario : sprite.character === 2 ? infringio : luigi) : mario) : tex, st[0], st[1], Display.TEXRES, Display.TEXRES, x, y, Display.TEXRES, Display.TEXRES);
     
     if(rx || ry) { context.restore(); }
     if(rest) { context.restore(); }
@@ -248,7 +249,7 @@ Display.prototype.drawObject = function() {
     context.strokeStyle = txt.outline ? txt.outline : "blue";
     context.font = (txt.size*Display.TEXRES) + "px SmbWeb";
     context.textAlign = "center";
-    context.strokeText(txt.text, x, y);
+    if(!txt.noOutline) { context.strokeText(txt.text, x, y); }
     context.fillText(txt.text, x, y);
   }
 
@@ -261,7 +262,7 @@ Display.prototype.drawObject = function() {
     context.strokeStyle = "blue";
     context.font = (txt.size*Display.TEXRES) + "px SmbWeb";
     context.textAlign = "center";
-    context.strokeText(txt.text, x, y);
+    if(!txt.noOutline) { context.strokeText(txt.text, x, y); }
     context.fillText(txt.text, x, y);
   }
 
@@ -320,7 +321,7 @@ Display.prototype.drawUI = function() {
   var W = this.canvas.width;
   var H = this.canvas.height;
   var COIN = [0x00F0, 0x00F1, 0x00F2, 0x00F3];
-  var PLAY = 0x000F;
+  var PLAY = 0x00;
   var SFX = [0x01, 0x04];
   var MUSIC = [0x00, 0x03];
   var TEXT = [0x02, 0x05];
@@ -333,6 +334,7 @@ Display.prototype.drawUI = function() {
   var martex = this.resource.getTexture("mario");
   var luitex = this.resource.getTexture("luigi");
   var inftex = this.resource.getTexture("infringio");
+  var wartex = this.resource.getTexture("wario");
   var uitex = this.resource.getTexture("ui");
   var ply = this.game.getPlayerInfo(this.game.pid);
 
@@ -419,8 +421,8 @@ Display.prototype.drawUI = function() {
     context.drawImage(tex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 64, 48, 48);
     context.fillText(ctxt, l-48, 100);
     context.strokeText(ctxt, l-48, 100);
-    var st = util.sprite.getSprite(app.net.character ? (app.net.character === 2 ? inftex : luitex) : martex, PLAY);
-    context.drawImage(app.net.character ? (app.net.character === 2 ? inftex : luitex) : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
+    var st = util.sprite.getSprite(app.net.character ? (app.net.character === 3 ? wartex : app.net.character === 2 ? inftex : luitex) : martex, PLAY);
+    context.drawImage(app.net.character ? (app.net.character === 3 ? wartex : app.net.character === 2 ? inftex : luitex) : martex, st[0], st[1], Display.TEXRES, Display.TEXRES, 8, 6, 48, 48);
 
     var st = util.sprite.getSprite(uitex, KILL);
     var ctxt = "×"+(this.game.kills<=9?"0"+this.game.kills:this.game.kills);
@@ -441,13 +443,13 @@ Display.prototype.drawUI = function() {
     if(this.game instanceof Game) {
       context.font = "24px SmbWeb";
       if (!app.settings.hideTimer) {
-        var time = this.game.getGameTimer();
+        var time = this.game.getGameTimer(this.game.touchMode);
         var w =  context.measureText(time).width;
         context.fillText(time, (W/2)-(w/2), 32);
         context.strokeText(time, (W/2)-(w/2), 32);
       }
 
-      var txt = this.game.remain + " PLAYERS REMAIN";
+      var txt = this.game.touchMode ? this.game.remain : this.game.remain + " PLAYERS REMAIN";
       w = context.measureText(txt).width;
       context.fillText(txt, W-w-8, 32);
       context.strokeText(txt, W-w-8, 32);
@@ -481,7 +483,7 @@ Display.prototype.drawUI = function() {
     var st = util.sprite.getSprite(uitex, OPT);
     context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-180, 40, 36, 36);
 
-    if(this.game.input.pad.connected()) {
+    if(!this.game.touchMode) {
       var st = util.sprite.getSprite(uitex, PAD);
       context.drawImage(uitex, st[0], st[1], Display.TEXRES, Display.TEXRES, W-224, 40, 36, 36);
     }

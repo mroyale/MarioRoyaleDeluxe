@@ -12,11 +12,17 @@ function ToolObject(editor) {
   this.valType = document.getElementById("editor-tool-object-type");
   this.valPos = document.getElementById("editor-tool-object-pos");
   this.valPosVec = document.getElementById("editor-tool-object-pos-vec");
-  this.valParam = document.getElementById("editor-tool-object-param");
+  
+  var that = this;
+  for(var i=0; i<this.editor.objParamLimit; ++i) {
+    var valParam = document.getElementById("editor-tool-object-param-"+i);
+    valParam.onchange = function() {
+        that.update();
+    };
+  }
   
   var tmp = this;
   this.valType.onchange = function() { tmp.update(); };
-  this.valParam.onchange = function() { tmp.update(); };
   
   this.moveTimer = 0;
   this.mmbx = false;
@@ -73,15 +79,44 @@ ToolObject.prototype.input = function(imp, mous, keys) {
   else if(!mous.mmb) { this.mmbx = false; }
 };
 
+ToolObject.prototype.updParamTools = function() {
+  var pdef = GameObject.OBJECT(this.objct.type).PARAMS;
+  var currParamLimit = pdef ? pdef.length : 0;
+  for (var i=0;i<this.editor.objParamLimit;++i) {
+    var box = document.getElementById("editor-tool-object-param-box-"+i);
+    box.style.display = (i<currParamLimit) ? "" : "none";
+    if (i<currParamLimit) {
+      if(pdef[i].tooltip) {
+        var paramNameLabel = document.getElementById("editor-tool-object-param-name-"+i);
+        paramNameLabel.innerHTML = pdef[i].name + '<span class="tooltip-text">' + pdef[i].tooltip + '</span>';
+      } else {
+        var paramNameLabel = document.getElementById("editor-tool-object-param-name-"+i);
+        paramNameLabel.innerText = pdef[i].name;
+      }
+
+      var paramTypeLabel = document.getElementById("editor-tool-object-param-type-"+i);
+      paramTypeLabel.innerText = pdef[i].type || "string";
+    }
+  }
+}
+
 ToolObject.prototype.update = function() {
   try {
     var type = Math.max(0, Math.min(65535, parseInt(this.valType.value)));
-    var param = this.valParam.value.trim().split(",");
     
-    if(isNaN(type) || param === undefined) { throw "oof"; }
+    var params = [];
+    for (var i=0;i<this.editor.objParamLimit;++i) {
+      var param = document.getElementById("editor-tool-object-param-"+i).value;
+      if (param === "") param = undefined;
+      params.push(param);
+    }
+    while (0<params.length && params[params.length-1] === undefined) params.pop();
+    if (isNaN(type) || params === undefined) { throw "oof"; }
     
-    if(this.selected) { this.selected.type = type; this.selected.param = param; }
-    this.objct.type = type; this.objct.param = param;
+    if(this.selected) { this.selected.type = type; this.selected.param = params; }
+    this.objct.type = type; this.objct.param = params;
+
+    this.updParamTools();
     
     var cls = GameObject.OBJECT(type);
     if(cls && cls.NAME) { this.valName.innerHTML = cls.NAME; }
@@ -98,7 +133,14 @@ ToolObject.prototype.select = function(object) {
   this.valPos.innerHTML = object.pos;
   var pos = shor2.decode(object.pos);
   this.valPosVec.innerHTML = pos.x + "," + pos.y;
-  this.valParam.value = object.param;
+  
+  for (var i=0;i<this.editor.objParamLimit;++i) {
+    var param = object.param[i];
+    if (param === undefined) param = "";
+    document.getElementById("editor-tool-object-param-"+i).value = param;
+  }
+
+  this.updParamTools();
   
   var cls = GameObject.OBJECT(object.type);
   if(cls && cls.NAME) { this.valName.innerHTML = cls.NAME; }
@@ -145,6 +187,7 @@ ToolObject.prototype.load = function() {
   this.zone = this.editor.currentZone;
   this.selected = undefined;
   this.element.style.display = "block";
+  this.objct.type = parseInt(this.valType.value);
 };
 
 ToolObject.prototype.save = function() {
@@ -156,5 +199,9 @@ ToolObject.prototype.destroy = function() {
   this.save();
   
   this.valType.onchange = undefined;
-  this.valParam.onchange = undefined;
+
+  for (var i=0; i<this.editor.objParamLimit; ++i) {
+    var valParam = document.getElementById("editor-tool-object-param-"+i);
+    valParam.onchange = undefined;
+  }
 };

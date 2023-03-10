@@ -21,6 +21,7 @@ function LauncherObject(game, level, zone, pos, oid, delay, direction) {
 LauncherObject.ASYNC = true;
 LauncherObject.ID = 0x23;
 LauncherObject.NAME = "Bullet Bill Blaster"; // Used by editor
+LauncherObject.PARAMS = [{'name': "Delay", 'type': "int", 'tooltip': "How long until another bullet is fired"}, {'name': "Direction", 'type': "int", 'tooltip': "The direction of the bullet fired. 0 is left and 1 is right"}];
 
 LauncherObject.ANIMATION_RATE = 3;
 

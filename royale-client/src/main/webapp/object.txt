@@ -84,6 +84,11 @@ FLAG::177
  - No params.
  - Always place one of these at the top of the flagpole. See my levels for examples.
 
+GOAL POST::178
+[movy]
+ - Dictates how many tiles the goal post can move up
+ - Based on the Super Mario World goal post. Vertical hitbox corresponds to how many tiles it can move up.
+
 FIREBAR::33
 [start,size]
  - 0 or 1, start position. Just offsets it a bit.
@@ -167,8 +172,9 @@ CHECKMARK::254
  - No params. Don't use this.
 
 TEXT::253
-[offset,size,color,text]
+[offset,size,color,text,outline]
  - float, vertical offset for text position
  - float 1.0 = the size of 1 tile
  - HTML color code, #FFF for white
  - string, just a text string after this
+ - HTML color code aswell, default is blue

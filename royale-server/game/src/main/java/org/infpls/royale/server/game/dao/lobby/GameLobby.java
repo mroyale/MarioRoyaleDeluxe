@@ -12,7 +12,8 @@ import org.infpls.royale.server.util.*;
 public abstract class GameLobby {
   private final static String LOBBY_FILE = "lobby";
   private final static String[] GAME_FILES = new String[]{ "world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
-  private final static String[] GAME_FILES_PVP = new String[]{ "pvp-maker", "pvp-smb2", "pvp-mariokart", "pvp-spm", "pvp-nsmb" };
+  
+  private final static String[] GAME_FILES_PVP = new String[]{ "pvp-maker", "pvp-smb2", "pvp-mariokart", "pvp-spm", "pvp-nsmb", "pvp-blackout" };
   
   private final static int MIN_PLAYERS = 1;          // Min players needed to vote start
   private final static int MIN_PLAYERS_PVP = 2;      // Min players to vote start in PVP
@@ -28,7 +29,7 @@ public abstract class GameLobby {
   protected final List<RoyaleSession> players, loading;
   
   private final GameLoop loop; /* Seperate timer thread to trigger game steps */
-  protected RoyaleCore game; /* The actual game object */
+  public RoyaleCore game; /* The actual game object */
   
   protected final String gameFile;
   
@@ -234,6 +235,18 @@ public abstract class GameLobby {
   /* Send a packet to a specific player */
   public void sendPacket(final Packet p, final RoyaleSession player) {
     player.sendPacket(p);
+  }
+
+  /* Get controller of session by PID */
+  public Controller getController(final int pid) {
+    for(int i=0;i<players.size();i++) {
+      final RoyaleSession session = players.get(i);
+      final Controller player = game.getController(session);
+      if(player.pid == pid) {
+        return player;
+      }
+    }
+    return null;
   }
   
   public void pushInput(final RoyaleSession session, final ByteBuffer data) { inputs.push(new InputData(session, data)); }

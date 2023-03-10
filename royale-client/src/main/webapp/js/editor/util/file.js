@@ -14,6 +14,7 @@ File.prototype.open = function (e) {
   var file = e.target.files[0];
   var tmp = this; // Fucking javascript ugh...
   this.lastFileName = file.name;
+  document.title = "Editor - " + this.lastFileName;
   if (!file) {
     return;
   }
@@ -45,6 +46,10 @@ File.prototype.parse = function (raw) {
 };
 
 File.prototype.save = function (data) {
+  /* Indent the output. This is so that world changes on GitHub show exactly what is changed and not the entire file */
+  data = JSON.parse(data);
+  data = JSON.stringify(data, null, 2);
+
   var type = "TEXT";
   var filename = this.lastFileName;
   app.editor.dirty = false;

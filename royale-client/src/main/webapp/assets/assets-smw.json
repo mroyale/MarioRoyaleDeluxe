@@ -1,0 +1,11 @@
+{
+	"tileAnim":[
+		{"name": "MysteryBox", "startTile": 23, "tiles":[23, 24, 25, 26], "delay": 8},
+		{"name": "FlipBlock", "startTile": 57, "tiles":[56, 57, 58, 59], "delay": 8},
+		{"name": "Vine", "startTile": 32, "tiles":[32, 65], "delay": 12},
+		{"name": "CheckpointBL", "startTile": 152, "tiles":[152, 154, 156, 158], "delay": 8},
+		{"name": "CheckpointBR", "startTile": 153, "tiles":[153, 155, 157, 159], "delay": 8},
+		{"name": "CheckpointTL", "startTile": 119, "tiles":[119, 121, 123, 125], "delay": 8},
+		{"name": "CheckpointTR", "startTile": 120, "tiles":[120, 122, 124, 126], "delay": 8}
+	]
+}

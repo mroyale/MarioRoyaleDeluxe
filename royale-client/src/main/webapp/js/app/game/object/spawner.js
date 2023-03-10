@@ -3,7 +3,7 @@
 /* global GameObject, BulletObject */
 /* global NET011, NET020 */
 
-function SpawnerObject(game, level, zone, pos, oid, type, delay, direction) {
+function SpawnerObject(game, level, zone, pos, oid, type, delay, direction, params, spawns) {
   GameObject.call(this, game, level, zone, pos);
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
@@ -15,7 +15,11 @@ function SpawnerObject(game, level, zone, pos, oid, type, delay, direction) {
   this.fireTimer = 0;
   this.delay = isNaN(parseInt(delay))?SpawnerObject.FIRE_DELAY_DEFAULT:parseInt(delay);
   this.direction = isNaN(parseInt(direction)) ? 0 : parseInt(direction);
-  
+  this.params = params === undefined ? [] : params.split(",");
+
+  this.spawns = 0;
+  this.maxSpawns = parseInt(spawns) || 0; // Maximum number of spawns
+
   this.disable();
 }
 
@@ -24,6 +28,7 @@ function SpawnerObject(game, level, zone, pos, oid, type, delay, direction) {
 SpawnerObject.ASYNC = false;
 SpawnerObject.ID = 37;
 SpawnerObject.NAME = "Object Spawner"; // Used by editor
+SpawnerObject.PARAMS = [{'name': "Object Type", 'type': "int", 'tooltip': "The ID/Type of the object you want to spawn. 17 for goomba, 81 for mushroom, etc.."}, {'name': "Spawn Delay", 'type': "int", 'tooltip': "How long until the object is spawned again"}, {'name': "Direction", 'type': "int", 'tooltip': "The direction of the object spawned. 0 is left and 1 is right. Not all objects may use this"}, {'name': "Object Parameters", 'type': "any", 'tooltip': "The parameters of the object itself. You must insert these in order and separate by comma. (e.g: 2,3,1)"}, {'name': "Maximum Spawns", 'type': "int", 'tooltip': "Maximum number of objects the spawner creates. When this number is passed the spawner deletes itself. Leave at 0 for infinite"}];
 
 SpawnerObject.ANIMATION_RATE = 3;
 
@@ -84,7 +89,15 @@ SpawnerObject.prototype.sound = GameObject.prototype.sound;
 
 SpawnerObject.prototype.fire = function () {
     this.fireTimer = 0;
-    var obj = this.game.createObject(this.objectType, this.level, this.zone, vec2.copy(this.pos), [this.game.world.getZone(this.level, this.zone).maxOid += 1]);
+
+    if(this.maxSpawns /* If max spawns is 0 then infinitely spawn */) {
+      if(++this.spawns > this.maxSpawns) { this.destroy(); return; }
+    }
+    
+    var pgen = [this.game.world.getZone(this.level, this.zone).maxOid += 1];
+    for(var i=0;i<this.params.length;i++) { pgen.push(this.params[i]); }
+
+    var obj = this.game.createObject(this.objectType, this.level, this.zone, vec2.copy(this.pos), pgen);
     obj.enable && obj.enable();
     
     if (this.direction) {
@@ -92,7 +105,6 @@ SpawnerObject.prototype.fire = function () {
         if (obj.direction) obj.direction = this.direction;
     };
 
-    //this.disable();
     this.proxHit = false;
 };
 

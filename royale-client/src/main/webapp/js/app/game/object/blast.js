@@ -32,6 +32,7 @@ function BlastObject(game, level, zone, pos, oid, delay, impulse) {
 BlastObject.ASYNC = true;
 BlastObject.ID = 0x22;
 BlastObject.NAME = "Podoboo"; // Used by editor
+BlastObject.PARAMS = [{'name': 'Delay', 'type': "int", 'tooltip': "How long until the podoboo jumps again"}, {'name': "Impulse", 'type': "float", 'tooltip': "The force the podoboo jumps with"}];
 
 BlastObject.ANIMATION_RATE = 6;
 

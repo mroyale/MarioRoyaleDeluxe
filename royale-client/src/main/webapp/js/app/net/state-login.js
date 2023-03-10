@@ -14,6 +14,7 @@ StateLogin.prototype.handlePacket = function(packet) {
     case "llo" : { this.handleLogout(packet); return true; }
     case "lpu" : { this.handleUpdate(packet); return true; }
     case "lcp" : { this.handlePassword(packet); return true; }
+    case "lsc" : { this.updateLeaderboards(packet); return true; }
     default : { return false; }
   }
 };
@@ -106,7 +107,15 @@ StateLogin.prototype.handlePassword = function(p) {
   }
 
   app.menu.mainMember.hidePasswordMenu();
-}
+};
+
+// LSC
+StateLogin.prototype.updateLeaderboards = function(p) {
+  var that = app.menu.mainMember;
+  that.updateLeaderboards("wins", p.leaderboards.wins);
+  that.updateLeaderboards("coins", p.leaderboards.coins);
+  that.updateLeaderboards("kills", p.leaderboards.kills);
+};
 
 StateLogin.prototype.send = function(data) {
   app.net.send(data);

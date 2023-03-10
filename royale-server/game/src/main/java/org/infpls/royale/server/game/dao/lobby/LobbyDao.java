@@ -22,6 +22,7 @@ import org.infpls.royale.server.game.session.LeaderboardAccount;
 public class LobbyDao {
   private final List<GameLobby> lobbies;
   private GameLobby jail;
+  public boolean savingDB;
 
   private String database;
   private List<RoyaleAccount> accounts; /* List of all accounts present in the Mario Royale Deluxe database */
@@ -34,6 +35,7 @@ public class LobbyDao {
       Oak.log(Oak.Level.CRIT, "Failed to start jail lobby!");
     }
 
+    savingDB = false;
     boolean dbExists = true;
     try {
       System.out.println("Opening database file");
@@ -63,7 +65,7 @@ public class LobbyDao {
   public RoyaleAccount findAccount(String username) {
     for(int i=0;i<accounts.size();i++) {
       final RoyaleAccount account = accounts.get(i);
-      if (account.username.equals(username)) {
+      if (account.username.equals(username) || account.nickname.equals(username)) {
         return account;
       }
     }
@@ -71,69 +73,67 @@ public class LobbyDao {
     return null;
   }
 
-  /*public List<LeaderboardAccount> getLeaderboards() {
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
-      @Override
-      public int compare(RoyaleAccount a1, RoyaleAccount a2) {
-          return a2.getCoins() - a1.getCoins();
+  /* Used in profile update so that you can't have someone else's name */
+  public boolean hasUserNick(String username, String name) {
+    for(int i=0;i<accounts.size();i++) {
+      final RoyaleAccount account = accounts.get(i);
+      if(account.username.equals(name) || account.nickname.equals(name)) {
+        if(account.username.equals(username)) {
+          return false;
+        }
+        return true;
       }
-  });
-
-    // Create a list of simpler objects containing only specific fields, limited to top 10
-    List<LeaderboardAccount> top = new ArrayList<>();
-    
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-      RoyaleAccount account = accounts.get(i);
-      LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getCoins());
-      top.add(simpleAccount);
     }
 
-    return top;
-  }*/
+    return false;
+  }
 
   public Map<String, List<LeaderboardAccount>> getLeaderboards() {
     Map<String, List<LeaderboardAccount>> leaderboards = new HashMap<>();
 
+    // Create a copy of the original ArrayList to avoid modifying it
+    ArrayList<RoyaleAccount> sortedAccounts = new ArrayList<>(accounts);
+
     // Sort the ArrayList by 'wins' property and add to the leaderboards map
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+    Collections.sort(sortedAccounts, new Comparator<RoyaleAccount>() {
         @Override
         public int compare(RoyaleAccount a1, RoyaleAccount a2) {
             return a2.getWins() - a1.getWins();
         }
     });
     List<LeaderboardAccount> winsLeaderboard = new ArrayList<>();
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-        RoyaleAccount account = accounts.get(i);
+    for (int i = 0; i < Math.min(sortedAccounts.size(), 10); i++) {
+        RoyaleAccount account = sortedAccounts.get(i);
         LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getWins());
         winsLeaderboard.add(simpleAccount);
     }
     leaderboards.put("wins", winsLeaderboard);
 
     // Sort the ArrayList by 'coins' property and add to the leaderboards map
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+    Collections.sort(sortedAccounts, new Comparator<RoyaleAccount>() {
         @Override
         public int compare(RoyaleAccount a1, RoyaleAccount a2) {
             return a2.getCoins() - a1.getCoins();
         }
     });
     List<LeaderboardAccount> coinsLeaderboard = new ArrayList<>();
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-        RoyaleAccount account = accounts.get(i);
+    for (int i = 0; i < Math.min(sortedAccounts.size(), 10); i++) {
+        RoyaleAccount account = sortedAccounts.get(i);
         LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getCoins());
         coinsLeaderboard.add(simpleAccount);
     }
     leaderboards.put("coins", coinsLeaderboard);
 
     // Sort the ArrayList by 'kills' property and add to the leaderboards map
-    Collections.sort(accounts, new Comparator<RoyaleAccount>() {
+    Collections.sort(sortedAccounts, new Comparator<RoyaleAccount>() {
         @Override
         public int compare(RoyaleAccount a1, RoyaleAccount a2) {
             return a2.getKills() - a1.getKills();
         }
     });
     List<LeaderboardAccount> killsLeaderboard = new ArrayList<>();
-    for (int i = 0; i < Math.min(accounts.size(), 10); i++) {
-        RoyaleAccount account = accounts.get(i);
+    for (int i = 0; i < Math.min(sortedAccounts.size(), 10); i++) {
+        RoyaleAccount account = sortedAccounts.get(i);
         LeaderboardAccount simpleAccount = new LeaderboardAccount(i + 1, account.getNickname(), account.getKills());
         killsLeaderboard.add(simpleAccount);
     }
@@ -172,14 +172,14 @@ public class LobbyDao {
     try {
       // Create new file
       Gson gson = new GsonBuilder().create();
-      File file = new File("/var/lib/tomcat9/webapps/database.json");
+      String path = "/var/lib/tomcat9/webapps/";
+      File file = new File(path + "database.json");
 
-      FileWriter fw = new FileWriter("/var/lib/tomcat9/webapps/database.json");
+      FileWriter fw = new FileWriter(path + "database.json");
       BufferedWriter bw = new BufferedWriter(fw);
 
       // Write in file
       bw.write(gson.toJson(accounts));
-      System.out.println("Saved database " + gson.toJson(accounts));
 
       // Close connection
       bw.flush();
@@ -190,8 +190,8 @@ public class LobbyDao {
     }
   }
 
-  public GameLobby createLobby(boolean priv, String code) throws IOException {
-    GameLobby lobby = new OfficialLobby(priv, code);
+  public GameLobby createLobby(boolean priv, String mode) throws IOException {
+    GameLobby lobby = new OfficialLobby(priv, mode);
     lobbies.add(lobby);
     lobby.start();
     return lobby;

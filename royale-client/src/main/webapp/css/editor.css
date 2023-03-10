@@ -79,12 +79,13 @@ a {
 }
 
 .panel-left {
-    overflow: auto
+  overflow: auto;
+  background: #000;
 }
 
 .panel-right {
-    width: 250px;
-    float: right
+  width: 250px;
+  float: right
 }
 
 .panel-top {
@@ -233,7 +234,8 @@ a {
   position: absolute;
   z-index: 1;
   top: -5px;
-  left: 105%
+  left: 105%;
+  margin-left: 0%;
 }
 
 .tooltip:hover .tooltip-text {

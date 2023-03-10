@@ -9,6 +9,7 @@ import org.infpls.royale.server.game.session.Packet;
 import org.infpls.royale.server.game.session.PacketS00;
 import org.infpls.royale.server.game.session.RoyaleSession;
 import org.infpls.royale.server.game.session.SessionState;
+import org.infpls.royale.server.game.game.Controller;
 import org.infpls.royale.server.util.Oak;
 
 public class Game extends SessionState {
@@ -34,6 +35,8 @@ public class Game extends SessionState {
     < g13 game start countdown timer update
     = g21 ping
     > g50 vote ready
+    > gbn kick/ban player (dev only)
+    > gnm rename player (dev only)
     > gfs force start (dev only)
   */
   
@@ -50,6 +53,8 @@ public class Game extends SessionState {
         case "g03" : { clientReady(gson.fromJson(data, PacketG03.class)); break; }
         case "g21" : { ping(gson.fromJson(data, PacketG21.class)); break; }
         case "g50" : { voteReady(gson.fromJson(data, PacketG50.class)); break; }
+        case "gbn" : { banPlayer(gson.fromJson(data, PacketGBN.class)); break; }
+        case "gnm" : { renamePlayer(gson.fromJson(data, PacketGNM.class)); break; }
         case "gfs" : { forceStart(gson.fromJson(data, PacketGFS.class)); break; }
         
         /* Input Type Packets nxx */
@@ -80,6 +85,32 @@ public class Game extends SessionState {
   private void voteReady(PacketG50 p) throws IOException {
     lobby.pushEvent(new SessionEvent(session, SessionEvent.Type.VOTE));
   };
+
+  private void banPlayer(PacketGBN p) throws IOException {
+    if(session.getAccount() != null) {
+      if(!session.isDev()) { return; }
+
+      Controller controller = lobby.getController(p.pid);
+      if(p.ban) {
+        controller.strike((p.ban?"Banned":"Kicked") + " by developer " + session.getAccount().getUsername());
+      }
+      controller.session.close((p.ban?"Banned":"Kicked") + " by developer " + session.getAccount().getUsername());
+    }
+  };
+
+  private void renamePlayer(PacketGNM p) throws IOException {
+    if(session.getAccount() != null) {
+      if(!session.isDev()) { return; }
+
+      Controller controller = lobby.getController(p.pid);
+      if(controller.session.getAccount() != null) {
+        controller.session.getAccount().updateName(p.name);
+      }
+      controller.session.name = p.name;
+
+      lobby.game.regenList();
+    }
+  }
 
   private void forceStart(PacketGFS p) throws IOException {
     lobby.pushEvent(new SessionEvent(session, SessionEvent.Type.START));

@@ -17,6 +17,9 @@ function MenuMain() {
   this.settingsMenu = document.getElementById("settings");
   this.settingsCloseBtn = document.getElementById("settingsClose");
 
+  this.controlsMenu = document.getElementById("controls");
+  this.controlsCloseBtn = document.getElementById("controls-close");
+
   this.darkBackground = document.getElementById("dark-bg");
 
   this.playMenu = document.getElementById("play");
@@ -63,12 +66,13 @@ function MenuMain() {
   this.padLoop = undefined;
   
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; }
+  this.controlsCloseBtn.onclick = function() { that.hideControlsMenu(); };
 
   this.launchBtn.onclick = function() { that.showPlayMenu(); };
   this.playGo.onclick = function() { that.launch(false); };
   this.playPriv.onclick = function() { that.launch(true); };
   this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
-  this.controlBtn.onclick = function() { window.open("control.html"); };
+  this.controlBtn.onclick = function() { that.showControlsMenu(); };
   this.changelogBtn.onclick = function() { window.open("patch.html"); };
   this.settingsBtn.onclick = function() { that.showSettingsMenu(); };
   this.loginBtn.onclick = function() { that.showLoginMenu(); };
@@ -108,6 +112,17 @@ MenuMain.prototype.changeGamemode = function(mode) {
     case 0 : { that.playVanilla.src = "img/home/vanilla-selected.png"; that.playPVP.src = "img/home/pvp.png"; break; }
     case 1 : { that.playVanilla.src = "img/home/vanilla.png"; that.playPVP.src = "img/home/pvp-selected.png"; break; }
   }
+};
+
+/* Controls Menu */
+MenuMain.prototype.showControlsMenu = function() {
+  this.darkBackground.style.display = "";
+  this.controlsMenu.style.display = "";
+};
+
+MenuMain.prototype.hideControlsMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.controlsMenu.style.display = "none";
 };
 
 /* Settings Menu */
@@ -215,7 +230,6 @@ MenuMain.prototype.show = function() {
   app.menu.background("a");
   this.winElement.style.display = "block";
   this.winElement.innerHTML = "Login to track statistics and play as other characters!";
-  this.startPad();
   this.linkElement.style.display = "block";
   this.element.style.display = "block";
 

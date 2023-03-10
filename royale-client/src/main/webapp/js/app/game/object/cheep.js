@@ -30,6 +30,7 @@ function CheepObject(game, level, zone, pos, oid, variant) {
 CheepObject.ASYNC = false;
 CheepObject.ID = 0x26;
 CheepObject.NAME = "Cheep Cheep"; // Used by editor
+CheepObject.PARAMS = [{'name': 'Variant', 'type': "int", 'tooltip': "The color of the cheep cheep. 0 is green, 1 is red and moves faster"}];
 
 CheepObject.ANIMATION_RATE = 12;
 CheepObject.VARIANT_OFFSET = 2;

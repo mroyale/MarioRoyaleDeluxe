@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import org.infpls.royale.server.game.dao.lobby.LobbyDao;
 import org.infpls.royale.server.game.session.*;
 
+import org.infpls.royale.server.util.Filter;
+
 public class Login extends SessionState {
   
   private final LobbyDao lobbyDao;
@@ -46,7 +48,7 @@ public class Login extends SessionState {
         case "llo" : { accountLogout(gson.fromJson(data, PacketLOR.class)); break; }
         case "lpu" : { accountUpdate(gson.fromJson(data, PacketLPU.class)); break; }
         case "lcp" : { accountPassword(gson.fromJson(data, PacketLCP.class)); break; }
-        case "lsc" : { /* This doesn't do anything. This is to keep the websocket alive. */ break; }
+        case "lsc" : { sendPacket(new PacketLSC(lobbyDao.getLeaderboards())); break; }
         default : { close("Invalid data: " + p.getType()); break; }
       }
     } catch(IOException | NullPointerException | JsonParseException ex) {
@@ -91,6 +93,12 @@ public class Login extends SessionState {
         return;
       }
 
+      ArrayList<String> swearWords = Filter.badWordsFound(name);
+      if(swearWords.size() > 0) {
+        sendPacket(new PacketLRG(false, "Invalid username"));
+        return;
+      }
+
       if(name.length() < 4) {
         sendPacket(new PacketLRG(false, "Username is too short"));
         return;
@@ -99,6 +107,9 @@ public class Login extends SessionState {
         return;
       } else if(p.password.length() < 4) {
         sendPacket(new PacketLRG(false, "Password is too short"));
+        return;
+      } else if(p.password.length() > 4096) {
+        sendPacket(new PacketLRG(false, "Password is too long"));
         return;
       }
 
@@ -143,23 +154,41 @@ public class Login extends SessionState {
       sendPacket(new PacketLPU(p.character, p.nickname, "You must provide a nickname"));
       return;
     }
+
+    String name = p.nickname.trim().toUpperCase();
     
-    if (p.nickname.length() < 4) {
+    if (name.length() < 4) {
       sendPacket(new PacketLPU(p.character, p.nickname, "Nickname is too short"));
       return;
     }
 
-    if (p.nickname.length() > 20) {
+    if (name.length() > 20) {
       sendPacket(new PacketLPU(p.character, p.nickname, "Nickname is too long"));
       return;
     }
 
+    ArrayList<String> swearWords = Filter.badWordsFound(p.nickname);
+    if(swearWords.size() > 0) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Invalid nickname"));
+      return;
+    }
+
+    if(!(p.nickname.matches("[a-zA-Z0-9 ]*"))) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Invalid nickname"));
+      return;
+    }
     RoyaleAccount acc = session.getAccount();
+
+    if(lobbyDao.hasUserNick(acc.getUsername(), name)) {
+      sendPacket(new PacketLPU(p.character, p.nickname, "Name is already taken"));
+      return;
+    }
+
     acc.changeCharacter(p.character);
-    acc.updateName(p.nickname.toUpperCase());
+    acc.updateName(name);
     lobbyDao.saveDatabase();
 
-    sendPacket(new PacketLPU(p.character, p.nickname.toUpperCase()));
+    sendPacket(new PacketLPU(p.character, name));
   }
   
   /* Change the account password */
@@ -172,6 +201,9 @@ public class Login extends SessionState {
     if (p.password.length() < 4) {
       sendPacket(new PacketLCP("", "Password is too short"));
       return;
+    } else if(p.password.length() > 4096) {
+      sendPacket(new PacketLCP("", "Password is too long"));
+      return;
     }
 
     acc.updatePassword(hashedPassword);
@@ -183,8 +215,10 @@ public class Login extends SessionState {
   private void login(final PacketL00 p) throws IOException {
     /* Username */
     String name = p.name==null?"Infringio":p.name.trim();
+    ArrayList<String> swearWords = Filter.badWordsFound(name);
     if(name.length() > 20) { name = name.substring(0, 20); }
     else if(name.length() < 1 || !(name.matches("[a-zA-Z0-9 ]*"))) { name = "Infringio"; }
+    if(swearWords.size() > 0) { name = "Infringio"; }
     
     /* Team */
     String team = p.team==null?"":p.team.trim().toLowerCase();
@@ -197,7 +231,6 @@ public class Login extends SessionState {
     /* Gamemode */
     String[] GAMEMODES = new String[] { "vanilla", "pvp" };
     int mode = p.mode;
-    System.err.println("Login.login :: Gamemode is " + mode);
     if(mode < 0 || mode >= GAMEMODES.length) { mode = 0; }
     
     /* Login */
@@ -207,7 +240,7 @@ public class Login extends SessionState {
     sendPacket(new PacketL01(session.getSessionId(), session.getUser(), session.getTeam(), session.getPrivate(), session.getMode()));
     
     /* Choose Lobby */
-    final GameLobby lobby = lobbyDao.findLobby(session.getPrivate(), session.getMode());
+    final GameLobby lobby = session.banned?lobbyDao.getJail():lobbyDao.findLobby(session.getPrivate(), session.getMode());
     
     /* Join Lobby */
     session.join(lobby);

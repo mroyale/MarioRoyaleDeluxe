@@ -34,7 +34,8 @@ const levelSelectors = [
     {name: 'PVP :: Super Mario Bros. 2', worldId: 'pvp-smb2'},
     {name: 'PVP :: Mario Maker Beta', worldId: 'pvp-maker'},
     {name: 'PVP :: Super Paper Mario', worldId: 'pvp-spm'},
-    {name: 'PVP :: New Super Mario Bros.', worldId: 'pvp-nsmb'}
+    {name: 'PVP :: New Super Mario Bros.', worldId: 'pvp-nsmb'},
+    {name: 'PVP :: Blackout', worldId: 'pvp-blackout'}
 ];
 
 /* Editor */
@@ -47,6 +48,7 @@ const mapsheets = [
     {name: 'Maker 2014 (PVP)', url: "img/game/maker_map.png"},
     {name: 'Super Paper Mario (PVP)', url: "img/game/spm_map.png"},
     {name: 'New Super Mario Bros. (PVP)', url: "img/game/nsmb_map.png"},
+    {name: 'Blackout', url: "img/game/blackout_map.png"},
     {name: 'Lobby', url: "https://raw.githubusercontent.com/RayTheMaymay/hostingthings/main/lobby.png"},
     {name: 'Custom', url: "custom"}
 ];
@@ -64,6 +66,7 @@ const assetsurl = [
     {name: "Maker 2014 (PVP)", url: "assets-maker.json"},
     {name: "Super Paper Mario (PVP)", url: "assets-spm.json"},
     {name: "New Super Mario Bros. (PVP)", url: "assets-nsmb.json"},
+    {name: "Blackout", url: "assets-blackout.json"},
     {name: "No Animations", url: "assets-noanim.json"},
     {name: "Custom", url: "custom"},
 ];
@@ -73,6 +76,7 @@ const musicPaths = [
     {name: "Mario Kart", url: "mariokart/music"},
     {name: "Mario Bros.", url: "mariobros/music"},
     {name: "Super Mario Bros. 2", url: "smb2/music"},
+    {name: "Super Mario World", url: "smw/music"},
     {name: "Maker 2014", url: "maker/music"},
     {name: "Super Paper Mario", url: "spm/music"},
     {name: "New Super Mario Bros.", url: "nsmb/music"},
@@ -86,6 +90,7 @@ const soundPaths = [
     {name: "Maker 2014", url: "maker/sfx"},
     {name: "Super Paper Mario", url: "spm/sfx"},
     {name: "New Super Mario Bros.", url: "nsmb/sfx"},
+    {name: "Blackout", url: "blackoutring/sfx"},
 ]
 
 /* Functions */

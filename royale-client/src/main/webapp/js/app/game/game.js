@@ -15,6 +15,7 @@ function Game(data) {
   data.resource.push({ "id": "mario", "src": "img/game/smb_mario.png" });  // Add the Mario spritesheet
   data.resource.push({ "id": "luigi", "src": "img/game/smb_luigi.png" });  // Add the Luigi spritesheet
   data.resource.push({ "id": "infringio", "src": "img/game/smb_infringio.png" });  // Add the Infringio spritesheet
+  data.resource.push({ "id": "wario", "src": "img/game/smb_wario.png" });  // Add the Wario spritesheet
   data.resource.push({ "id": "ui", "src": "img/game/smb_ui.png" });        // Add UI that we see at the top of the screen
   
   this.input = new Input(this, this.canvas);
@@ -71,11 +72,13 @@ function Game(data) {
   this.rate = 0x00;            // This is an anti cheat value that's disguised slightly.
   this.gameOverTimer = 0;
   this.gameOver = false;
+  this.isDev = false;
   
   /* Set inital camera position */
   var dim = this.getZone().dimensions();
   this.display.camera.position(vec2.scale(dim, .5));
-  this.cameraLocked = false;    // Don't update camera position if this is true
+  this.cameraLockedX = false;    // Don't update camera X position if this is true
+  this.cameraLockedY = false;    // Don't update camera Y position if this is true
   
   /* Level Warp */
   this.levelWarpTimer = 0;      // How long to show level name/lives screen.
@@ -154,6 +157,12 @@ Game.prototype.getDebug = function(type) {
       out = this.debugSettings.godMode;
       break;
     }
+
+    case "powerup" : {
+      if (!(this.debugSettings.powerup)) { break; }
+      out = this.debugSettings.powerup;
+      break;
+    }
   }
 
   return out;
@@ -161,6 +170,11 @@ Game.prototype.getDebug = function(type) {
 
 Game.prototype.load = function(data) {
   app.menu.load.show();
+
+  document.getElementById("settings-returnMain").style.display = "";
+  if(this instanceof Game) {
+    document.getElementById("settings-returnLobby").style.display = "";
+  }
 
   if (this instanceof Lobby && app.net.prefLobby) { document.getElementById("worlds").style.display = ""; }
   else if (app.net.prefLobby) {
@@ -170,12 +184,14 @@ Game.prototype.load = function(data) {
     var godMode = document.getElementById("godMode");
     var levelID = document.getElementById("levelID");
     var zoneID = document.getElementById("zoneID");
+    var powerup = document.getElementById("powerupID")
 
     this.debugSettings = {
       'infiniteLives': infLives.checked,
       'godMode': godMode.checked,
       'initialLevel': levelID.value || null,
-      'initialZone': zoneID.value || null
+      'initialZone': zoneID.value || null,
+      'powerup': parseInt(powerup.value) || 0
     }
   }
   if (!(this instanceof Lobby) && app) {
@@ -191,14 +207,12 @@ Game.prototype.load = function(data) {
   this.world.levels.forEach(lvl => lvl.zones.forEach(zn => {
     if (zn.music) {
       musicList.push(zn.music);
-      musicList.push(zn.music ? zn.music.replace(".mp3", "_fast.mp3") : "");
     }
 
     /* @TODO: There is definitely a better way of doing this, but the function is run only once so it should be OK */
     zn.mainLayer.data.forEach(row => row.forEach(tile => {
       if (tile[3] === 239 /* Music Block */) { if (tile[4] /* Extra Data */) {
         musicList.push(tile[4]);
-        musicList.push(tile[4] ? tile[4].replace(".mp3", "_fast.mp3") : "");
       }
     }
     }));
@@ -285,7 +299,7 @@ Game.prototype.load = function(data) {
           switch(ext) {
             case "png" : { this.display.resource.loadTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url }); break; }
             case "gif" : { this.display.resource.loadAnimatedTexture({ 'id': 'bg' + layer.z + lvl.id + zn.id, 'src': layer.url }); break; }
-            default : { app.menu.warn.show("Failed to load resource with unknown extension: " + ext); break; }
+            default : { app.menu.warn.show("Failed to load background with url: " + layer.url + ". The URL may be missing."); break; }
           }
         }
       }
@@ -344,6 +358,7 @@ Game.prototype.updatePlayerList = function(packet) {
   if(this.pid === undefined) { return; }
   
   this.updateTeam();
+  if (this.isDev) { app.menu.game.updatePlayerList(this.players); }
 };
 
 /* G13 */
@@ -365,6 +380,11 @@ Game.prototype.updateTeam = function() {
     if(ply.id !== this.pid) {
       var obj = this.getGhost(ply.id);
       if(obj) { obj.name = ply.name; }
+    } else {
+      this.isDev = ply.isDev;
+      if(this.isDev) {
+        document.getElementById("devConsole").style.display = "";
+      }
     }
   }
 };
@@ -620,7 +640,8 @@ Game.prototype.doInput = function(imp) {
     {pos: vec2.make(W-48, 40), dim: vec2.make(36, 36), click: function() { tmp.audio.muteMusic = !tmp.audio.muteMusic; tmp.audio.saveSettings(); }},
     {pos: vec2.make(W-92, 40), dim: vec2.make(36, 36), click: function() { tmp.audio.muteSound = !tmp.audio.muteSound; tmp.audio.saveSettings(); }},
     {pos: vec2.make(W-136, 40), dim: vec2.make(36, 36), click: function() { tmp.disableText = !tmp.disableText; Cookies.set("text", tmp.disableText?1:0, {expires: 30}); }},
-    {pos: vec2.make(W-180, 40), dim: vec2.make(36, 36), click: function() { var stg = document.getElementById("settings"); stg.style.display = (stg.style.display === "" ? "none": ""); }}
+    {pos: vec2.make(W-180, 40), dim: vec2.make(36, 36), click: function() { var stg = document.getElementById("settings"); stg.style.display = (stg.style.display === "" ? "none": ""); }},
+    {pos: vec2.make(W-224, 40), dim: vec2.make(36, 36), click: function() { var ctl = document.getElementById("controls"); ctl.style.display = (ctl.style.display === "" ? "none" : ""); }}
   ];
   for(var i=0;i<imp.mouse.length;i++) {
     var m = imp.mouse[i];
@@ -644,6 +665,14 @@ Game.prototype.doInput = function(imp) {
   
   if(mous.spin && this.getZone().camera === 2 /* Free-Roam only */) { this.display.camera.zoom(mous.spin); } // Mouse wheel -> Camera zoom
   
+  if(document.getElementById("controls").style.display === "") {
+    dir[1] = 0;
+    dir[0] = 0;
+    a = false;
+    b = false;
+    u = false;
+  }
+  
   obj.input(dir, a, b, u);
   
 };
@@ -664,7 +693,8 @@ Game.prototype.doStep = function() {
       ply.show();
       ply.invuln();
       this.levelWarpId = undefined;
-      this.cameraLocked = false;
+      this.cameraLockedX = false;
+      this.cameraLockedY = false;
       ply.moveSpeed = 0;
       ply.fallSpeed = 0;
     }
@@ -688,11 +718,19 @@ Game.prototype.doStep = function() {
   
   /* Update Camera Position */
   var zone = this.getZone();
-  if(ply && !ply.dead && !this.cameraLocked) {
+  if(ply && !ply.dead) {
     switch (zone.camera) {
-      case 0 : { this.display.camera.position(vec2.make(Math.max(13.8, ply.pos.x), zone.dimensions().y * .5)); break; } // Horizontal Scrolling
-      case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); break; } // Vertical Scrolling (horizontal is always centered)
-      case 2 : { this.display.camera.position(vec2.make(Math.max(13.8, ply.pos.x), Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y))); break; } // Free Roam (horizontal and vertical)
+      case 0 : { if(!this.cameraLockedX) { this.display.camera.position(vec2.make(Math.max(14, ply.pos.x), zone.dimensions().y * .5)); } break; } // Horizontal Scrolling
+      case 1 : { this.display.camera.positionX(zone.dimensions().x*.5); if(!this.cameraLockedY) { this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y)); } break; } // Vertical Scrolling (horizontal is always centered)
+      case 2 : {
+        if(!this.cameraLockedX) {
+          this.display.camera.positionX(Math.max(14, ply.pos.x));
+        }
+        if(!this.cameraLockedY) {
+          this.display.camera.positionY(Math.min(zone.dimensions().y-7, -ply.pos.y + zone.dimensions().y));
+        }
+        break;
+      } // Free Roam (horizontal and vertical)
     }
   }
   
@@ -749,6 +787,10 @@ Game.prototype.doSpawn = function() {
     this.out.push(NET010.encode(this.getDebug("level") || zon.level, zon, pos, app.net.character));
 
     this.display.camera.positionX(shor2.decode(pos).x);
+
+    if(this.getDebug("powerup") !== undefined) {
+      obj.power = this.getDebug("powerup");
+    }
 
     if (this.gameMode && this instanceof Game) {
       obj.transform(2);
@@ -886,6 +928,9 @@ Game.prototype.getPlayerInfo = function(pid) {
 
 /* Get number of players who are still alive */
 Game.prototype.getRemain = function() {
+  /* The game has issues accounting for players with 1-ups. So just count how many players are in the game */
+  return this.players.length;
+
   var rm = 0;
   for(var i=0;i<this.players.length;i++) {
     var ply = this.players[i];

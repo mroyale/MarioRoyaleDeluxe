@@ -4,6 +4,6 @@ import org.infpls.royale.server.game.session.Packet;
 
 public class PacketGFS extends Packet {
   public PacketGFS() {
-    super("gfc");
+    super("gfs");
   }
 }

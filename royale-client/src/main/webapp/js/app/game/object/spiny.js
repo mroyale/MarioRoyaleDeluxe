@@ -3,11 +3,12 @@
 /* global GameObject */
 /* global NET011, NET020 */
 
-function SpinyObject(game, level, zone, pos, oid) {
+function SpinyObject(game, level, zone, pos, oid, variant) {
   GameObject.call(this, game, level, zone, pos);
   
   this.oid = oid; // Unique Object ID, is the shor2 of the spawn location
   
+  this.variant = isNaN(parseInt(variant))?0:parseInt(variant);
   this.setState(SpinyObject.STATE.RUN);
   
   /* Animation */
@@ -39,9 +40,10 @@ function SpinyObject(game, level, zone, pos, oid) {
 SpinyObject.ASYNC = false;
 SpinyObject.ID = 0x17;
 SpinyObject.NAME = "Spiny"; // Used by editor
+SpinyObject.PARAMS = [{'name': "Variant", 'type': "int", 'tooltip': "Variant of the spiny. 0 is normal and 1 is the 'Metal Spiny' and acts like the one from Mario Forever"}]
 
 SpinyObject.ANIMATION_RATE = 10;
-SpinyObject.VARIANT_OFFSET = 0x70;   //5 rows down in the sprite sheet
+SpinyObject.VARIANT_OFFSET = 0x10;   //1 row down in the sprite sheet
 
 SpinyObject.ENABLE_FADE_TIME = 15;
 SpinyObject.ENABLE_DIST = 26;          // Distance to player needed for proximity to trigger and the enemy to be enabled
@@ -219,7 +221,13 @@ SpinyObject.prototype.disable = function() {
   this.disabled = true;
 };
 
-SpinyObject.prototype.damage = function(p) { if(!this.dead) { this.bonk(); this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0x01)); } };
+SpinyObject.prototype.damage = function(p) {
+  if(!this.dead) {
+    if(this.variant === 1 && p instanceof FireballProj) { return; }
+    this.bonk();
+    this.game.out.push(NET020.encode(this.level, this.zone, this.oid, 0x01));
+  }
+};
 
 /* 'Bonked' is the type of death where an enemy flips upside down and falls off screen */
 /* Generally triggred by shells, fireballs, etc */
@@ -270,7 +278,7 @@ SpinyObject.prototype.draw = function(sprites) {
     for(var i=0;i<s.length;i++) {
       for(var j=0;j<s[i].length;j++) {
         var sp = s[!mod?i:(s.length-1-i)][j];
-        switch(0) {
+        switch(this.variant) {
           case 1 : { sp += SpinyObject.VARIANT_OFFSET; break; }
           default : { break; }
         }
@@ -280,7 +288,7 @@ SpinyObject.prototype.draw = function(sprites) {
   }
   else {
     var sp = this.sprite.INDEX;
-    switch(0) {
+    switch(this.variant) {
       case 1 : { sp += SpinyObject.VARIANT_OFFSET; break; }
       default : { break; }
     }

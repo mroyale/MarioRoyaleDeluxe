@@ -4,7 +4,7 @@
     --toolbar-border: #1B1C24 !important
   }
   html, body {
-    background: #44454D;
+    background: #1C1E1F;
     color: #FFF
   }
   .toolbar-button-top:hover, .list-zone:hover {
@@ -14,7 +14,14 @@
     background: #57585E !important
   }
   .tool-button {
-    color: #000
+    background: #1C1E1F !important;
+    color: white;
+  }
+  .tool-val {
+    display: block;
+    background: #1C1E1F;
+    color: white;
+    border: 1px solid white;
   }
 }
 

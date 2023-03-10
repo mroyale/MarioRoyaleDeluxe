@@ -16,6 +16,7 @@ function ToolTile(editor) {
   this.valDef = document.getElementById("editor-tool-tile-def");
   this.valData = document.getElementById("editor-tool-tile-data");
   this.valDataObj = document.getElementById("editor-tool-tile-data-objid");
+  this.valDataWarp = document.getElementById("editor-tool-tile-data-warpid");
   this.valDataName = document.getElementById("editor-tool-data-name");
   
   var tmp = this;
@@ -25,9 +26,32 @@ function ToolTile(editor) {
   this.valDef.onchange = function() { tmp.update(); };
   this.valData.onchange = function() { tmp.update(); };
   this.valDataObj.onchange = function() { tmp.valData.value = tmp.valDataObj.value; tmp.update(); }
+  this.valDataWarp.onchange = function() { tmp.valData.value = tmp.valDataWarp.value; tmp.update(); }
   
   this.brush = td32.encode(30, 0, 0, 0, 0);
+  this.valDataWarp[0].innerText = (this.editor.world.getLevel(this.editor.getZone().level).getWarps().length > 0 ? "Choose a Warp ID from this level" : "Place a warp in this level first!");
+  this.updWarpOptions();
 }
+
+ToolTile.prototype.updWarpOptions = function() {
+  this.valDataWarp.length = 1;
+
+  var level = this.editor.world.getLevel(this.editor.getZone().level);
+  var warps = level.getWarps();
+
+  this.valDataWarp[0].innerText = (warps.length > 0 ? "Choose a Warp ID from this level" : "Place a warp in this level first!");
+  
+  for(var i=0;i<warps.length;i++) {
+    var id = warps[i];
+    var wrp = level.getWarp(id);
+
+    var elem = document.createElement("option");
+    elem.value = id;
+    elem.innerText = "Warp ID: " + id + " / Zone: " + wrp.zone;
+
+    this.valDataWarp.appendChild(elem);
+  }
+};
 
 ToolTile.prototype.input = function(imp, mous, keys) {
   
@@ -88,12 +112,26 @@ ToolTile.prototype.setBrush = function(brush) {
   this.valData.value = td[4];
 
   if(type.DATA) {
-    this.valData.style.display = (type.DATA.includes("Object") ? "none" : "");
-    this.valDataObj.style.display = (type.DATA.includes("Object") ? "" : "none");
+    this.valData.style.display = "";
+    this.valDataObj.style.display = "none";
+    this.valDataWarp.style.display = "none";
+
+    if(type.DATA.includes("Object")) {
+      this.valData.style.display = "none";
+      this.valDataObj.style.display = "";
+    }
+    
+    if(type.DATA.includes("Warp")) {
+      this.valData.style.display = "none";
+      this.valDataWarp.style.display = "";
+    }
+
     this.valDataObj.value = td[4];
+    this.valDataWarp.value = td[4];
   } else {
     this.valData.style.display = "";
     this.valDataObj.style.display = "none";
+    this.valDataWarp.style.display = "none";
   }
   
   this.valRaw.innerHTML = this.brush;

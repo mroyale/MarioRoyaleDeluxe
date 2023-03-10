@@ -36,6 +36,7 @@ function FishObject(game, level, zone, pos, oid, delay, impulse) {
 FishObject.ASYNC = false;
 FishObject.ID = 0x15;
 FishObject.NAME = "Flying Fish"; // Used by editor
+FishObject.PARAMS = [{'name': 'Delay', 'type': 'int', 'tooltip': "How long until the fish flies again"}, {'name': 'Impulse', 'type': 'float', 'tooltip': "The force the fish with which jumps with"}];
 
 FishObject.ANIMATION_RATE = 6;
 

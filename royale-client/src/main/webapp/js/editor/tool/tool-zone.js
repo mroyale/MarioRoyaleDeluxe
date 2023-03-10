@@ -83,6 +83,7 @@ ToolZone.prototype.resize = function() {
   if (!newWidth || newWidth <= 0) return alert("Width must be greater than 0");
   var newHeight = parseInt(this.valHeight.value);
   if (!newHeight || newHeight <= 0) return alert("Height must be greater than 0");
+  var oldHeight = this.zone.layers[0].data.length;
   
   for (var layer of this.zone.layers) {
     var oldData = layer.data;
@@ -96,6 +97,28 @@ ToolZone.prototype.resize = function() {
       }
       layer.data = newData;
     }
+
+  var obj = this.zone.obj;
+  var wrp = this.zone.warp;
+  var spn = this.zone.spawnpoint;
+
+  for(var i=0;i<obj.length;i++) {
+    var pos = shor2.decode(obj[i].pos);
+    pos.y = pos.y + (newHeight-oldHeight);
+    obj[i].pos = shor2.encode(pos.x, pos.y);
+  }
+
+  for(var i=0;i<wrp.length;i++) {
+    var pos = shor2.decode(wrp[i].pos);
+    pos.y = pos.y + (newHeight-oldHeight);
+    wrp[i].pos = shor2.encode(pos.x, pos.y);
+  }
+
+  for (var i=0;i<spn.length;i++) {
+    var pos = shor2.decode(spn[i].pos);
+    pos.y = pos.y + (newHeight-oldHeight);
+    spn[i].pos = shor2.encode(pos.x, pos.y);
+  }
 
   this.editor.dirty = true;
 };
@@ -200,12 +223,13 @@ ToolZone.prototype.save = function() {
     var i = parseInt(this.valId.value);
     var x = parseInt(this.valInitialX.value);
     var y = parseInt(this.valInitialY.value);
-    if(isNaN(i) || isNaN(x) || isNaN(y)) { throw "oof"; }
+    var c = parseInt(this.valCamera.value);
+    if(isNaN(i) || isNaN(x) || isNaN(y) || isNaN(c)) { throw "oof"; }
     this.zone.id = i;
     this.zone.initial = shor2.encode(x, y);
     this.zone.color = this.valColor.value;
     this.zone.music = this.valMusic.value;
-    this.zone.camera = this.valCamera.value;
+    this.zone.camera = parseInt(this.valCamera.value);
   }
   catch(ex) { app.menu.warn.show("Failed to parse value. Changes not applied."); }
   
