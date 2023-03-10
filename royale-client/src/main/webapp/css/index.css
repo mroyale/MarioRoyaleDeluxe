@@ -352,7 +352,7 @@ body, img {
   row-gap: 6px
 }
 
-.link-profile, .link-password, .link-logout, .link-discord {
+.link-profile, .link-password, .link-logout, .link-discord, .link-editor {
   cursor: pointer;
   display: inline-block;
   width: 80px;
@@ -388,6 +388,13 @@ body, img {
 }
 .link-discord:hover {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABkElEQVRIx+2XLXbDMAzH/8kLMNxgoGHhBn2NsPgI3XG6I7is1zBM4GBgYArNMrB8OIn88fqalEykz5asnyU7spoAQFfxHgfK+2eTZF3FeyXbI7noKt5n46A4m2Oo9zcAQGrPMcHBBH86i/KbUoa3b7ZLsLbfzFYY3ewCpfxma6P1WdspMrrxptNnN/m9MxpMORtvvVQ8GJVUOZjg3k16wfbiERiKWIrZJgTPQtAQ0GVjdOOFp3t/tq7LmuJFkobSHFNcXDqjG0iVPx4xExxKtlCy3QB8Ol+6M/KSaGtCzJ9TcTZzNnRAN/pDA4BFRKzp8aKw6Aida0xGrIH2ujUqSuO08elIm5gzzsu/3/Y67JxwTOnGdb5zTn3QW80WcCqatW69Lq5yCSC3HBWlmeaiC0bNUHyYzUaiSmZezvB82FDsc7mGul69LXiArC9NVGukl0AqUm/EI2QRZR0BJzLjWuN9jx9pAGPX/Dd7L2j2hka7kFg0Zc+Sye8gyeXEetebuZco2SIBgMuJHfqn7evHJL+K0uCg/PlWrgAAAABJRU5ErkJggg==')
+}
+
+.link-editor {
+  background-image: url(../img/home/editor.png)
+}
+.link-editor:hover {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABRklEQVRIDb3Xyw3CMAwGYB85sgJHVmIeRuhcrNEjIwT9hj9y0rR1HuQQtZUqf36kQYiIyPt1CzMXTEWX+yXMXCgywusiYcp6XrW7Ccx2j04giXsEo+0jccIatwQD46xHwkncPdgLsgrv+/G9HhhoDPSo3JQ98Jpj+fPRF9IEPyS8RILCOZY/7+E9cBfeCzfjTTDa92s34F18ET2d4ga0bW+GT/AkIQvyvgsu4cu3A4TZjc0p2ArrN2x2NwEL8h5jGQLbg0NBti+bO5MpHr+1FVuUB0gS2OCsdFMtEq2BT1FT+SFaA7tR88tWrJTJeSquQYvfLDF7rYJ/53AyUxus5t4DowpWPQRFgl4Y+DB0D0Z1rNA9M0ebk7ilivnC4a50QHnSSdwSPLytJsk4rg38vOrgMfx/L3RAkAlbMesKU/8/sQ2zrkA/jAJqVF3rNx0AAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
 .link-w {
