@@ -427,75 +427,56 @@ img {
   row-gap: 6px
 }
 
-.link-profile {
+.link-profile, .link-leaderboard, .link-password, .link-logout, .link-discord, .link-editor {
   cursor: pointer;
   display: inline-block;
   width: 80px;
   height: 80px;
-  background-image: url(../img/home/profile.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 80px 80px
 }
 
+.link-profile {
+  background-image: url(../img/home/profile.png)
+}
 .link-profile:hover {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABNElEQVRIDdWXwQ3DIAxFfewxK/TYlTJPRshcWSPHjkBllG8BgRiTgNSDBQXLz99gohIR0Xd7u5HGTA9dPy830likgPeV3BBbJl/dCIxyP51AFPcKzGV/Eg6wj5sDMwxnfQVGIB6v/MI9iVsCh87pHMBwPbcW7p/mVrCmTtuXBHqAq+6GBVyrpsqvF1hV/RdguRjK6yYtc+VnUSzgmdxesuMNEN8SvAmMYCH8WKtSy76t4PTyAJiuF5W3ghHQDES17oKRgHlsBofniznU1IxNYIByYw2UfczgmdxGZeM2q7pgJrACRUK+xzXlvcCqaiu4+GIl590E5s9a6dMW9q02T1ssiptTDAc1a+0ck/0obg7MmUJNmvXd3xL3BF4m32PcZ72NK0CcCUoxamSm//+EMowaGfoDh99wLT2f/UgAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
 .link-leaderboard {
-  cursor: pointer;
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  background-image: url(../img/home/leaderboards.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 80px 80px
+  background-image: url(../img/home/leaderboards.png)
 }
-
 .link-leaderboard:hover {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABOUlEQVRIDeWXwQ2DMAxFfeyxK/TYlZiHEZiLNTh2hFTf4keJSaKUBqtSD5Yb3PxnOwaBiIi81kfwNDAVujxvwdNQZARviwQXm+/a3QzMdo9OINNtgdH2kXCCVbcEBoxnPRKc6dbAo4EHvTNgtqzmD5DSwJ4FR/FJwgbbxZEMfzf9V2BC3cGoknDXikeDa0OTXo/nN7LibECMMIBZfG8xE2nF+B/1peHSzZOEVXLj9DIez5fJTe2kusEUZgK9YCTWso8qZhLY1FWx6Rj3614cz5lWa8ZJeynKjth42rEucCZIEIeJa+tNPIVCzw0MWApvgouV2so61gTCZ5q1M06zTDenAvY61wRwbb3Gfw/MAbnS126nOAQD4dCMui3wn7zszXd9nOGRdrWh7YK28gy8PJj6/cR3aS8P6Bt+/2gJFBdAagAAAA5lWElmTU0AKgAAAAgAAAAAAAAA0lOTAAAAAElFTkSuQmCC');
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAVUExURe/OIZQpCOeUAOeEEOdaAM4AAAAAAAhi1EsAAAAHdFJOU////////wAaSwNGAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAm0lEQVQ4T62SRxLEIAwEJazl/0/2oEAwwT5sH6zSNMkUlOkAJB/ACE5bLtVE3g4gDb1aAanpxMsNOPSOUaNRvJ10SiIoNXlqOeuX2UuNj7HRFpdamLT8gKAqsxYMaDroZ2P50Mn6uPNYvPw20Iq+6RZ7HWfXuNZutqU9ureELluX4FG/abyLNX40v82R/zzFaw8sRmxhyn7KFZxv20gHCIt1iL0AAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
 .link-password {
-  cursor: pointer;
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  background-image: url(../img/home/password.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 80px 80px
+  background-image: url(../img/home/password.png)
 }
-
 .link-password:hover {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABT0lEQVRIDb2XTRKDIAyFs+zSK3TZK3kej+C5vIbLHoHOY3gWYlBQZJEJv+9LAtKpiIh8l7fraWB66Px5uZ6GJDfwOovrYtPgq5uAWe7WASS6R2CUvSWcYK9rgQHjWbcEJ7o58F0gsjvUeAJMKL0ZQGuwhun+FkRLcA5ijl8BQ0iL6T4zw7h5Ua+AKVriTSgeqWrwKG6NDSJxX7dzL2EVWIvm+joYC14MjiEUisfYDo+PPwZrjHuLwBSA16/a0VyAmOd8Co6FQxtCycXSa5iVDjIaL7tco7hF/uYvUyxyNh+vZfs0Yy48EjfmdlWhDn0xGBsMgDVmnimB9FVgA66PoAgKnWpwBo7Mi6GXwQpeDb0FDvBL0BzY+vVJvltsDFZT3kTXOmMugCgBLXyia4EBqcmkJqhNdweeBn/Vcd2fNlRAEAlL0cuD6f8/sQy9PKA/OCdkZJB94eoAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
 .link-logout {
-  cursor: pointer;
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  background-image: url(../img/home/logout.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 80px 80px
+  background-image: url(../img/home/logout.png)
 }
-
 .link-logout:hover {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABRklEQVRIDcWXwQ3CMAxFfeTIChxZqfMwQudiDY6MUPTTfOTg2EpoCAfLqIT/7G+3FSIi8rxftpkBZoKu19M2M9DkG/xYZZsSt3NytwDT7tEFFLoRGLaPhBOcdGtgwDjrkeBC1wOPBhq9VjBt6skGphe3BxwKadFV0saGO9ILRsecv5dRIM+5xX4LdgUz9C9gFEU33AJbO9YC1dktO0yfCz93gZf9cWrAGWqufyxcUchhMIrJBRXCERTfHQITGuU8b1PUITAqz91ymbz8PVh1ZWap4AbgWd7c8SLbXfYODTh3Xr3+c7CeJd3xoLg+rGMFCZ3huV4wRFsCSxda3wNOG0wbG/IYsHr+QrA13C2vdcyXvfsjzqkzF7oROLSqE4omCE66NTAO0crRXb91Dfh2TvcY7rNfBxwQVEIrZmUw0/8n2jArA/oCwx1lWE/YS40AAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
 .link-discord {
-  cursor: pointer;
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url(../img/home/discord.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 64px 64px
+  background-image: url(../img/home/discord.png)
+}
+.link-discord:hover {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABkElEQVRIx+2XLXbDMAzH/8kLMNxgoGHhBn2NsPgI3XG6I7is1zBM4GBgYArNMrB8OIn88fqalEykz5asnyU7spoAQFfxHgfK+2eTZF3FeyXbI7noKt5n46A4m2Oo9zcAQGrPMcHBBH86i/KbUoa3b7ZLsLbfzFYY3ewCpfxma6P1WdspMrrxptNnN/m9MxpMORtvvVQ8GJVUOZjg3k16wfbiERiKWIrZJgTPQtAQ0GVjdOOFp3t/tq7LmuJFkobSHFNcXDqjG0iVPx4xExxKtlCy3QB8Ol+6M/KSaGtCzJ9TcTZzNnRAN/pDA4BFRKzp8aKw6Aida0xGrIH2ujUqSuO08elIm5gzzsu/3/Y67JxwTOnGdb5zTn3QW80WcCqatW69Lq5yCSC3HBWlmeaiC0bNUHyYzUaiSmZezvB82FDsc7mGul69LXiArC9NVGukl0AqUm/EI2QRZR0BJzLjWuN9jx9pAGPX/Dd7L2j2hka7kFg0Zc+Sye8gyeXEetebuZco2SIBgMuJHfqn7evHJL+K0uCg/PlWrgAAAABJRU5ErkJggg==')
+}
+
+.link-editor {
+  background-image: url(../img/home/editor.png)
+}
+.link-editor:hover {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABRklEQVRIDb3Xyw3CMAwGYB85sgJHVmIeRuhcrNEjIwT9hj9y0rR1HuQQtZUqf36kQYiIyPt1CzMXTEWX+yXMXCgywusiYcp6XrW7Ccx2j04giXsEo+0jccIatwQD46xHwkncPdgLsgrv+/G9HhhoDPSo3JQ98Jpj+fPRF9IEPyS8RILCOZY/7+E9cBfeCzfjTTDa92s34F18ET2d4ga0bW+GT/AkIQvyvgsu4cu3A4TZjc0p2ArrN2x2NwEL8h5jGQLbg0NBti+bO5MpHr+1FVuUB0gS2OCsdFMtEq2BT1FT+SFaA7tR88tWrJTJeSquQYvfLDF7rYJ/53AyUxus5t4DowpWPQRFgl4Y+DB0D0Z1rNA9M0ebk7ilivnC4a50QHnSSdwSPLytJsk4rg38vOrgMfx/L3RAkAlbMesKU/8/sQ2zrkA/jAJqVF3rNx0AAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==')
 }
 
 .link-l {
