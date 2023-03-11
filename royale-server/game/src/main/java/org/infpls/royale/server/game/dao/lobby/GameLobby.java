@@ -11,7 +11,7 @@ import org.infpls.royale.server.util.*;
 
 public abstract class GameLobby {
   private final static String LOBBY_FILE = "lobby";
-  private final static String[] GAME_FILES = new String[]{ "world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8" };
+  private final static String[] GAME_FILES = new String[]{ "world-1","world-2","world-3","world-4","world-5","world-6","world-7","world-8","world-lost" };
   
   private final static String[] GAME_FILES_PVP = new String[]{ "pvp-maker", "pvp-smb2", "pvp-mariokart", "pvp-spm", "pvp-nsmb", "pvp-blackout" };
   
