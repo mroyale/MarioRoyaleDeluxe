@@ -30,6 +30,7 @@ const levelSelectors = [
     {name: 'SMB :: World 6', worldId: 'world-6' },
     {name: 'SMB :: World 7', worldId: 'world-7' },
     {name: 'SMB :: World 8', worldId: 'world-8' },
+    {name: 'TLL :: World 1', worldId: 'world-lost'},
     {name: 'PVP :: Mario Kart', worldId: 'pvp-mariokart'},
     {name: 'PVP :: Super Mario Bros. 2', worldId: 'pvp-smb2'},
     {name: 'PVP :: Mario Maker Beta', worldId: 'pvp-maker'},
