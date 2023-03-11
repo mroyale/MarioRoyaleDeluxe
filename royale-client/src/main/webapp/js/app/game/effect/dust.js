@@ -16,7 +16,7 @@ function DustEffect(pos) {
       
       sp: vec2.make(0.,0.),   // Sprite Position
       ss: vec2.make(1.,1.),   // Sprite Size
-      so: vec2.make(0.,0.)    // Sprite Offset
+      so: vec2.make(0.,0.)    // Sprite Offset [ NOTE: This is actually unused ]
     }
   ];
 };

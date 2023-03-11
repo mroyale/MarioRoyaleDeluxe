@@ -3,11 +3,12 @@
 /* global Effect */
 /* global util, vec2 */
 
-/* We call this upon transforming into the super leaf */
-function TransformEffect(pos) {
+/* This isn't actually exploding but I don't know what else to call it */
+/* Used when a koopa hits a solid block while in a shell */
+function ExplodeEffect(pos) {
   Effect.call(this, pos);
   
-  this.life = TransformEffect.LIFE_TIME;
+  this.life = ExplodeEffect.LIFE_TIME;
   this.sprite = 0;
   this.anim = 0;
   
@@ -16,26 +17,26 @@ function TransformEffect(pos) {
       pos: vec2.add(this.pos, vec2.make(0.,0.)),
       
       sp: vec2.make(0.,0.),   // Sprite Position
-      ss: vec2.make(1.,1.),   // Sprite Size
+      ss: vec2.make(2.,2.),   // Sprite Size [ 32x32 ]
       so: vec2.make(0.,0.)    // Sprite Offset [ NOTE: This is actually unused ]
     }
   ];
 };
 
-TransformEffect.SPRITE = [0x002, 0x003, 0x004, 0x005];
+ExplodeEffect.SPRITE = [0x006, 0x008, 0x00A, 0x00C, 0x00E];
 
-TransformEffect.ANIMATION_RATE = 6;
-TransformEffect.LIFE_TIME = 8;
+ExplodeEffect.ANIMATION_RATE = 2;
+ExplodeEffect.LIFE_TIME = 8;
 
-TransformEffect.prototype.step = function() {
+ExplodeEffect.prototype.step = function() {
   Effect.prototype.step.call(this);
   
-  this.sprite = TransformEffect.SPRITE[parseInt(this.anim++/TransformEffect.ANIMATION_RATE) % TransformEffect.SPRITE.length];
+  this.sprite = ExplodeEffect.SPRITE[parseInt(this.anim++/ExplodeEffect.ANIMATION_RATE) % ExplodeEffect.SPRITE.length];
 };
 
-TransformEffect.prototype.destroy = Effect.prototype.destroy;
+ExplodeEffect.prototype.destroy = Effect.prototype.destroy;
 
-TransformEffect.prototype.draw = function(fxs) {
+ExplodeEffect.prototype.draw = function(fxs) {
   for(var i=0;i<this.bits.length;i++) {
     var bit = this.bits[i];
     

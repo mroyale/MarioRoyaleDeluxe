@@ -1,6 +1,7 @@
 "use strict";
 /* global util, vec2, squar */
 /* global GameObject, PlayerObject */
+/* global ExplodeEffect */
 /* global NET011, NET020 */
 
 function KoopaObject(game, level, zone, pos, oid, fly) {
@@ -213,7 +214,12 @@ KoopaObject.prototype.physics = function() {
         changeDir = true;
       }
 
-      if (this.state === KoopaObject.STATE.SPIN) tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.SHELL);
+      if (this.state === KoopaObject.STATE.SPIN) {
+        tile.definition.TRIGGER(this.game, this.pid, tile, this.level, this.zone, tile.pos.x, tile.pos.y, td32.TRIGGER.TYPE.SHELL);
+        var pos = !this.dir ? vec2.add(this.pos, vec2.make(0,0.6)) : vec2.add(this.pos, vec2.make(-1,0.6));
+        this.game.world.getZone(this.level, this.zone).effects.push(new ExplodeEffect(pos));
+        this.game.world.getZone(this.level, this.zone).play(this.pos.x, this.pos.y, "bump.mp3", 1., 0.04);
+      }
     }
   }
     
