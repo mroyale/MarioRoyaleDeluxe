@@ -8,6 +8,5 @@ Features to add, backport and whatever the hell else:
 - Chat (things needed: swear filter)
 - Spectator (urgh this was a pain to add in legacy and will be here.)
 - Hammer suit (AAAAAAAAAAAAA i don't think this will be that hard I just need the hammer delay to be lower or something)
-- changelogs as pop up window
 - private lobbies (this is painful because of uploading levels. also i need to rework this to use an automatic code system like ADASIGHA)
 - tile animations to editor

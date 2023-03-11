@@ -174,7 +174,7 @@ img {
 }
 
 .launch-changelog:hover {
-  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF8AAAAeCAYAAABKSMI8AAACLklEQVRoBe2aTW7DIBCFWXaZK3TZ8/UKOULO1Wtk2SO4eqhfNB7A2BEmUjtIaAzvzY8fGEdyUkopfX+9L9HnaiDds/C3j7cl+lwNtNkf4t9vaYk+SYPrJZ80K/E5emIRxi/CStst8XUExQKMXQDEz9rWxJfgnP0h/ljxV9q2xA/Rx4teaBriTxC59SMmxA/x/+eL/cjOT+lz8Z1zjPnWWPNwsHAtxtwWB0zW8y1m8VoOfLFbvtbf8vDdg1tuvt4rvhLWGoWA1cYUBgcrrseO+CuO5xMb28rhhRDPN3x9jZYHp+YvHrjPl8d7xLeBdW27LwyMAo+OKbjnT9xWfovXOPnmf1+E4tLw643h+djyA5O1eYrrZ8T3QZSk1SgEvDeGh63xwWQ97jFqFY+ma+ZlPdYbE0eWWNYHHMzmWl2PFl8JbSF+TGFYj1tfbs7O1fg1XHP2Rj1nC/Pc3phY4tHt/YEX9hnxSSCrgLI0sFePqYMbrtWouRH1E4OcPhc1FHaP+ARHUGtJyNwZ4yP5qQOrenr+LRzfFq4c/n7JCybfZt8rPgWQDEvgs8d781MHlvp6/jXc+tZw5YBDPmvBmvaI+M0gW6sb2GOBCv1C/I1j4eyNE+KH+O1H8+zd98r4sfNj58fO55st3xmLt/MrH9E/knulbe3YgcBixCKMO5pW2tbEl9jxAX2c4H7zPrQtxL9elnv0aRroSUhaDR6JsPP+rynd8/81eRzCzvu/poT/AaE7g6QLbE8JAAAAAElFTkSuQmCC')
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF8AAAAeCAYAAABKSMI8AAABxklEQVRo3u1aO3KDMBDd9VCotEtKSrcpfYS0LjlC6OAY0JEjUOYaKWlTuqQ0JZ1SOGIIrCTQIDkz2Tfj8UhPq5XeSstHIADAvU0kMILi9HLD6N4mskk7ViMw7m0iI1W4vg2sSCj0RwAAOEzrxCUBcUlYHA+gtD1QDT/eBavlCVNtoykxfN5YeE+gtI3mjTj3+8OobS/0aYcRBiw+i/8/EbkYxVm+qOvq6henK1P2FLfFnmqv43V9muY3b2fy71X8OMtBynJRj/j4VxxV7uqKtKe4LfZUe4qnfFDC6sZnm//WAESuwiMWi8jrVp3JXsoSpCxH8RQedYWzf4p3md98fCb/QdLOGoe6FbgFtj6mPBU8XSD2wtz/1gB4u+AiFsZJqxVlsl/jw+YfsXBalWvn+LS7nTjLx9/ewdlzxZrG5zr+4Hc7XV0BIr1q59veB0z+bSmLSgtU2qD6n+6etf695Hw1QF3+V5yv8lr/Ot5mT/HToNnsN+1+dZjC73QCoj+CeD3xEy6/XmDxGSw+i88ILj4foPsDH6D/AfAB+hNgPkD/+ZDnmqoyB2FvjNqqJ9z6LGTaxKxMYDRpBwgAUJ8FfygbGNnXgN9ACSVsyEsJfgAAAABJRU5ErkJggg==')
 }
 
 .launch-editor {
@@ -666,6 +666,49 @@ img {
 
 ::placeholder {
   text-shadow: 0 0 whitesmoke
+}
+
+h1, h2 {
+  margin: 0
+}
+h1 {
+  font-size: 16px
+}
+h2 {
+  font-size: 12px
+}
+#changelog-container {
+  height: 350px;
+  overflow-y: scroll;
+  margin-right: 5.4px;
+  text-align: left;
+  margin-left: 10px;
+  scrollbar-color: gold #842f03;
+  line-height: 1.4;
+}
+#changelog-container::-webkit-scrollbar {
+  background: none
+}
+#changelog-container::-webkit-scrollbar-thumb {
+  background: gold
+}
+#changelog-container p {
+  font-size: 10px
+}
+
+#changelog .note {
+  color: #60ff1c;
+  font-size: 10px;
+  font-style: italic;
+  margin-left: 3px;
+  text-shadow: 2px 0 0 #007000, -2px 0 0 #007000, 0 2px 0 #007000, 0 -2px 0 #007000, 1px 1px #007000, -1px -1px 0 #007000, 1px -1px 0 #007000, -1px 1px 0 #007000
+}
+.past-patches {
+  color: #f7f697;
+  cursor: pointer;
+  position: absolute;
+  right: 13px;
+  bottom: 6px
 }
 
 @keyframes spin {

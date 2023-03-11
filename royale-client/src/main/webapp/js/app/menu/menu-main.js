@@ -20,6 +20,9 @@ function MenuMain() {
   this.controlsMenu = document.getElementById("controls");
   this.controlsCloseBtn = document.getElementById("controls-close");
 
+  this.changelogMenu = document.getElementById("changelog");
+  this.changelogCloseBtn = document.getElementById("changelog-close");
+
   this.darkBackground = document.getElementById("dark-bg");
 
   this.playMenu = document.getElementById("play");
@@ -67,13 +70,14 @@ function MenuMain() {
   
   this.settingsCloseBtn.onclick = function() { that.settingsMenu.style.display = "none"; }
   this.controlsCloseBtn.onclick = function() { that.hideControlsMenu(); };
+  this.changelogCloseBtn.onclick = function() { that.hideChangelogMenu(); };
 
   this.launchBtn.onclick = function() { that.showPlayMenu(); };
   this.playGo.onclick = function() { that.launch(false); };
   this.playPriv.onclick = function() { that.launch(true); };
   this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.controlBtn.onclick = function() { that.showControlsMenu(); };
-  this.changelogBtn.onclick = function() { window.open("patch.html"); };
+  this.changelogBtn.onclick = function() { that.showChangelogMenu(); };
   this.settingsBtn.onclick = function() { that.showSettingsMenu(); };
   this.loginBtn.onclick = function() { that.showLoginMenu(); };
   this.loginCloseBtn.onclick = function() { that.hideLoginMenu(); };
@@ -124,6 +128,18 @@ MenuMain.prototype.hideControlsMenu = function() {
   this.darkBackground.style.display = "none";
   this.controlsMenu.style.display = "none";
 };
+
+/* Changelog Menu */
+MenuMain.prototype.showChangelogMenu = function() {
+  this.darkBackground.style.display = "";
+  this.changelogMenu.style.display = "";
+};
+
+MenuMain.prototype.hideChangelogMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.changelogMenu.style.display = "none";
+};
+
 
 /* Settings Menu */
 MenuMain.prototype.showSettingsMenu = function() {
