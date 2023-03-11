@@ -20,7 +20,7 @@ public class AccountController {
     final Gson gson = new GsonBuilder().create();
     final RoyaleAccount acc = dao.getLobbyDao().findAccount(name.toUpperCase());
     if (acc == null) {
-        return new ResponseEntity(gson.toJson(new Account("Profile not found.")), HttpStatus.OK);
+        return new ResponseEntity(gson.toJson(new Account("Profile not found.")), HttpStatus.NOT_FOUND);
     }
 
     final Account account = new Account(acc.getNickname(), acc.getWins(), acc.getCoins(), acc.getDeaths(), acc.getKills(), acc.getCharacter());
