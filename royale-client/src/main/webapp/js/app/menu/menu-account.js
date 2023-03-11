@@ -24,6 +24,9 @@ function MenuAccount() {
   this.controlsMenu = document.getElementById("controls");
   this.controlsCloseBtn = document.getElementById("controls-close");
 
+  this.changelogMenu = document.getElementById("changelog");
+  this.changelogCloseBtn = document.getElementById("changelog-close");
+
   this.playMenu = document.getElementById("playMember");
   this.playCloseBtn = document.getElementById("playMember-close");
   this.playGo = document.getElementById("playMember-go");
@@ -73,6 +76,7 @@ function MenuAccount() {
   
   this.settingsCloseBtn.onclick = function() { that.hideSettingsMenu(); };
   this.controlsCloseBtn.onclick = function() { that.hideControlsMenu(); };
+  this.changelogCloseBtn.onclick = function() { that.hideChangelogMenu(); };
   this.playCloseBtn.onclick = function() { that.hidePlayMenu(); };
   this.profileCloseBtn.onclick = function() { that.hideProfileMenu(); };
   this.passwordCloseBtn.onclick = function() { that.hidePasswordMenu(); };
@@ -85,7 +89,7 @@ function MenuAccount() {
 
   this.playBtn.onclick = function() { that.showPlayMenu(); };
   this.controlsBtn.onclick = function() { that.showControlsMenu(); };
-  this.changelogBtn.onclick = function() { window.open("patch.html"); };
+  this.changelogBtn.onclick = function() { that.showChangelogMenu(); };
   this.settingsBtn.onclick = function() { that.showSettingsMenu(); };
   this.profileBtn.onclick = function() { that.showProfileMenu(); };
   this.leaderboardBtn.onclick = function() { that.showLeaderboards(); };
@@ -143,6 +147,17 @@ MenuAccount.prototype.showControlsMenu = function() {
 MenuAccount.prototype.hideControlsMenu = function() {
   this.darkBackground.style.display = "none";
   this.controlsMenu.style.display = "none";
+};
+
+/* Changelog Menu */
+MenuAccount.prototype.showChangelogMenu = function() {
+  this.darkBackground.style.display = "";
+  this.changelogMenu.style.display = "";
+};
+
+MenuAccount.prototype.hideChangelogMenu = function() {
+  this.darkBackground.style.display = "none";
+  this.changelogMenu.style.display = "none";
 };
 
 /* Settings Menu */
