@@ -44,13 +44,16 @@ function App() {
   Audio.MUSIC_VOLUME = this.settings.musicVolume/100;
   Audio.EFFECT_VOLUME = this.settings.soundVolume/100;
 
+  document.getElementById("mus_vol").innerHTML=parseInt(mus.value);
+  document.getElementById("sfx_vol").innerHTML=parseInt(sfx.value);
+
   this.menu.main.menuMusic.volume = mus.value === 0 ? 0 : Audio.MUSIC_VOLUME;
 
   tmr.onclick = function() { that.toggleTimer(); };
-  tmr.innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
+  tmr.innerText = (this.settings.hideTimer ? "[*]" : "[ ]") + " Hide In-Game Timer";
 
   bg.onclick = function() { that.toggleBackground(); };
-  bg.innerText = (this.settings.disableBg ? "[X]": "[ ]") + " Disable Backgrounds";
+  bg.innerText = (this.settings.disableBg ? "[*]": "[ ]") + " Disable Backgrounds";
 }
 
 App.prototype.updateVolume = function(type) {
@@ -63,6 +66,7 @@ App.prototype.updateVolume = function(type) {
       Audio.MUSIC_VOLUME = parseInt(mus.value)/100;
       this.menu.main.menuMusic.volume = parseInt(mus.value)/100;
       this.settings.musicVolume = parseInt(mus.value);
+      document.getElementById("mus_vol").innerHTML=parseInt(mus.value);
       break;
     }
 
@@ -70,6 +74,7 @@ App.prototype.updateVolume = function(type) {
       Cookies.set("sfx", sfx.value, {'expires': 30});
       Audio.EFFECT_VOLUME = parseInt(sfx.value)/100;
       this.settings.soundVolume = parseInt(sfx.value);
+      document.getElementById("sfx_vol").innerHTML=parseInt(sfx.value);
       break;
     }
   }
@@ -78,13 +83,13 @@ App.prototype.updateVolume = function(type) {
 App.prototype.toggleTimer = function() {
   this.settings.hideTimer = !this.settings.hideTimer;
   Cookies.set("timer", this.settings.hideTimer?1:0, {'expires': 30});
-  document.getElementById("hideTimer").innerText = (this.settings.hideTimer ? "[X]" : "[ ]") + " Hide In-Game Timer";
+  document.getElementById("hideTimer").innerText = (this.settings.hideTimer ? "[*]" : "[ ]") + " Hide In-Game Timer";
 };
 
 App.prototype.toggleBackground = function() {
   this.settings.disableBg = !this.settings.disableBg;
   Cookies.set("background", this.settings.disableBg?1:0, {'expires': 30});
-  document.getElementById("disableBackground").innerText = (this.settings.disableBg ? "[X]" : "[ ]") + " Disable Backgrounds";
+  document.getElementById("disableBackground").innerText = (this.settings.disableBg ? "[*]" : "[ ]") + " Disable Backgrounds";
 };
 
 App.prototype.init = function() {

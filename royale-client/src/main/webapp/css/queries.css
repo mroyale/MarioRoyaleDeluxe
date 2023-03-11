@@ -49,25 +49,31 @@
 }
 
 .slider {
-  -webkit-appearance: none;
   appearance: none;
-  width: 100%;
-  height: 10px;
-  background: #FFD700
+  width: 35%;
+  height: 7px
 }
 
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
   appearance: none;
+  background: url('../img/home/mushroom.png');
+  background-size: cover;
   width: 20px;
   height: 20px;
-  background: #FFD700;
-  cursor: pointer
+  cursor: pointer;
+  transform: translateY(-5px)
 }
 
 .slider::-moz-range-thumb {
+  border: none;
+  background: url('../img/home/mushroom.png');
+  background-size: cover;
   width: 20px;
   height: 20px;
-  background: #FFD700;
-  cursor: pointer
+  cursor: pointer;
+  transform: translateY(1px)
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 7px
 }

@@ -711,6 +711,12 @@ h2 {
   bottom: 6px
 }
 
+#mus_vol, #sfx_vol {
+  color: #fff;
+  display: inline-block;
+  width: 50px
+}
+
 @keyframes spin {
     0% {
         box-shadow: 
