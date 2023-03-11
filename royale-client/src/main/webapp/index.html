@@ -68,7 +68,8 @@
       <!-- Links -->
       <div id='link'>
         <div class="link-r">
-          <a class="link-discord" href="https://discord.gg/pNQJhKSkCd"></a>
+          <div class="link-editor" onclick="window.open('/royale/editor.html')"></div>
+          <div class="link-discord" onclick="window.open('https://discord.gg/pNQJhKSkCd')"></div>
         </div>
         <div class="link-w">
           <div id='win' class="win" style="display: none"></div>
@@ -185,7 +186,7 @@
         <p>Login</p>
           
         <p style="margin-block-end: 0">Username</p>
-        <input class="profile-nickname" id="login-name" maxlength="4096">
+        <input class="profile-nickname" id="login-name" maxlength="20">
         <p style="margin-block-end: 0">Password</p>
         <input class="profile-nickname" id="login-password" type="password" maxlength="4096">
   
@@ -200,7 +201,7 @@
 
         <p style="margin-block-end: 0;">Username</p>
         <p style="margin-block-start: -0.5em;margin-block-end: 0;color: orange">(PERMANENT)</p>
-        <input class="profile-nickname" id="signup-name">
+        <input class="profile-nickname" id="signup-name" maxlength="20">
         
         <p style="margin-block-end: 0">Password</p>
         <input class="profile-nickname" id="signup-password" type="password" maxlength="4096">
@@ -319,12 +320,12 @@
             <div>Gamepad <span class="i" id="test-pad-id" style="display: inline-block;max-width:415px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Awaiting input...</span></div>
             <div class="tooltip">Analog<span class="tooltip-text" style="font-size: 11px;margin-left: -105%;top:-75px;">Analog input is detected when the axis exceeds -0.25 or 0.25</span> <span class="i" id="test-analog">0, 0</span></div>
             <div class="s"></div>
-            <span class="n" id="test-up" style="color: rgb(255, 255, 255);">🢁</span>
-            <span class="n" id="test-down" style="color: rgb(255, 255, 255);">🢃</span>
-            <span class="n" id="test-left" style="color: rgb(255, 255, 255);">🢀</span>
-            <span class="n" id="test-right" style="color: rgb(255, 255, 255);">🢂</span>
-            <span class="n" id="test-a" style="color: rgb(255, 255, 255);">A</span>
-            <span class="n" id="test-b" style="color: rgb(255, 255, 255);">B</span>
+            <span class="n" id="test-up">🢁</span>
+            <span class="n" id="test-down">🢃</span>
+            <span class="n" id="test-left">🢀</span>
+            <span class="n" id="test-right">🢂</span>
+            <span class="n" id="test-a">A</span>
+            <span class="n" id="test-b">B</span>
           </div>
         </div>
       </div>
