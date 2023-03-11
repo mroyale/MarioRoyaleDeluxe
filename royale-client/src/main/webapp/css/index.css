@@ -20,6 +20,14 @@ body {
   animation: scroll 150s linear infinite
 }
 
+/*Revert to bkga if rendering surface is too thin
+  Despite being deprecated, device-width is used instead of width
+  so it only triggers on mobile devices, not thin browser windows*/
+  @media (max-device-width: 1033px) {
+    #menu-canvas {display: none}
+    .background-a {background-image: url(../img/home/bkga.png)}
+  }
+
 .background-b {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
