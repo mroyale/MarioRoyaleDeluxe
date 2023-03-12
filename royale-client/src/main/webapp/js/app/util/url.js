@@ -118,3 +118,13 @@ function hexToRgb(hex) {
       b: parseInt(result[3], 16)
     } : null;
 }
+
+function gzipToText(input) {
+    try {
+        var stringValue = atob(input.trim());
+        var charArray = stringValue.split('').map(function(x){return x.charCodeAt(0);});
+        return pako.inflate(charArray, { to: "string" });
+    } catch (error) {
+        throw new Error("Value is not a valid GZIP compressed text.");
+    }
+}
