@@ -625,7 +625,7 @@ PlayerObject.prototype.control = function() {
   }
 
   if(!this.grounded && !this.underWater) {
-    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : this.crouchJump === true ? this.setState(PlayerObject.SNAME.DOWN) : this.setState(PlayerObject.SNAME.FALL);
+    this.spinTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.ATTACK) : this.glideTimer > 0 && this.power === 3 ? this.setState(PlayerObject.SNAME.GLIDE) : (this.crouchJump === true || this.collisionTest(this.pos, this.dim)) ? this.setState(PlayerObject.SNAME.DOWN) : this.setState(PlayerObject.SNAME.FALL);
   }
   
   if(this.btnB && !this.btnBde && this.power === 2 && !this.isState(PlayerObject.SNAME.DOWN) && !this.isState(PlayerObject.SNAME.SLIDE) && !this.isState(PlayerObject.SNAME.TAUNT) && this.attackTimer < 1 && this.attackCharge >= PlayerObject.ATTACK_CHARGE) {
